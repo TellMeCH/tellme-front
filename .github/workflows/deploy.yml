@@ -15,6 +15,9 @@ jobs:
     name: Deploy to Cloudflare
     environment:
       name: ${{ github.ref_name }}
+    env:
+      REACT_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      REACT_APP_BACKEND_URL: ${{ secrets.BACKEND_URL }}
 
     runs-on: ubuntu-latest
     steps:
