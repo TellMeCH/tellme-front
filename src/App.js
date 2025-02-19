@@ -1,18 +1,20 @@
+// App.js
 import React, { useState, useEffect } from 'react';
-import Login from './Login';
+import FirebaseUI from './FirebaseUI'; // the new component
+// import Login from './Login'; // if you want to remove the old email/password form
 
 function App() {
   const [token, setToken] = useState(null);
   const [data, setData] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
-  // This function is passed to <Login /> to store the token upon success
+  // This function is passed to <FirebaseUI /> to store the token upon success
   const handleLoginSuccess = (newToken) => {
     setToken(newToken);
   };
 
+  // If we have a token, fetch data from the backend
   useEffect(() => {
-    // If we have a token, fetch data from the backend
     if (token) {
       const fetchData = async () => {
         setFetchError(null);
@@ -44,26 +46,29 @@ function App() {
   }, [token]);
 
   return (
-      <div style={{textAlign: 'center', marginTop: '50px'}}>
-        <h1>Welcome to tellme</h1>
-        <h2>Making the right call to know your customers.</h2>
+    <div style={{ textAlign: 'center', marginTop: '50px' }}>
+      <h1>Welcome to tellme</h1>
+      <h2>Making the right call to know your customers.</h2>
 
-        {!token ? (
-            <Login onLoginSuccess={handleLoginSuccess}/>
-        ) : (
-            <div>
-              <h2>You are logged in!</h2>
-              {fetchError && <p style={{color: 'red'}}>Error fetching data: {fetchError}</p>}
-              {data ? (
-                  <pre style={{textAlign: 'left', display: 'inline-block'}}>
+      {!token ? (
+        // Show the FirebaseUI login
+        <FirebaseUI onLoginSuccess={handleLoginSuccess} />
+      ) : (
+        <div>
+          <h2>You are logged in!</h2>
+          {fetchError && (
+            <p style={{ color: 'red' }}>Error fetching data: {fetchError}</p>
+          )}
+          {data ? (
+            <pre style={{ textAlign: 'left', display: 'inline-block' }}>
               {JSON.stringify(data, null, 2)}
             </pre>
-              ) : (
-                  <p>Loading data...</p>
-              )}
-            </div>
-        )}
-      </div>
+          ) : (
+            <p>Loading data...</p>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 
