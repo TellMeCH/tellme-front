@@ -31,6 +31,7 @@ function FirebaseUI({ onLoginSuccess }) {
       signInOptions: [
         firebase.auth.EmailAuthProvider.PROVIDER_ID,
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        'microsoft.com',
       ],
       // Where to redirect after a successful sign in (if using signInSuccessUrl):
       // signInSuccessUrl: '/some-url',
