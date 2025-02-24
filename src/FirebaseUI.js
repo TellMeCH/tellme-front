@@ -13,6 +13,7 @@ function FirebaseUI({ onLoginSuccess }) {
         signInSuccessWithAuthResult: async (authResult) => {
           // The user is signed in. Grab the token.
           const token = await authResult.user.getIdToken();
+          console.log('Token obtained');
           // Pass the token back to the parent
           onLoginSuccess(token);
 
@@ -29,7 +30,13 @@ function FirebaseUI({ onLoginSuccess }) {
 
       // Your array of sign-in options. For Google only:
       signInOptions: [
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        {
+          provider: firebase.auth.EmailAuthProvider.PROVIDER_ID,
+          disableSignUp: {
+            status: true,
+            adminEmail: 'support@tell-me.ch'
+          }
+        },
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         'microsoft.com',
       ],
