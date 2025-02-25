@@ -1,0 +1,34 @@
+name: Deployment
+
+on:
+  pull_request:
+    branches:
+      - main
+      - staging
+    types: [closed]
+
+env:
+  TELLME_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
+
+jobs:
+  deploy:
+    name: Deploy to Cloudflare
+    environment:
+      name: ${{ github.ref_name }}
+    env:
+      REACT_APP_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
+      REACT_APP_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install
+        run: npm install --legacy-peer-deps
+      - name: Build
+        run: NODE_OPTIONS="--max-old-space-size=8192" npm run build
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy ./build --project-name=tellme-front
