@@ -47,7 +47,7 @@ function App() {
 
   return (
     <div style={{ textAlign: 'center', marginTop: '50px' }}>
-      <h1>Welcome to tellme</h1>
+      <h1>Welcome to tell<span style={{color: "#B6393A"}}>me</span></h1>
       <h2>Making the right call to know your customers.</h2>
 
       {!token ? (
