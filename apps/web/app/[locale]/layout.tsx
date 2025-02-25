@@ -1,7 +1,8 @@
 import { notFound } from 'next/navigation';
-import { unstable_setRequestLocale } from 'next-intl/server';
+import { setRequestLocale } from 'next-intl/server';
 import { ReactElement, ReactNode } from 'react';
-import { constants, Locale } from '../../constants';
+import { Locale } from '@tellme/web/shared/utils/i18n';
+import { constants } from '../../constants';
 import { Providers } from './providers';
 
 export const metadata = {
@@ -10,19 +11,21 @@ export const metadata = {
 
 export interface RootLayoutProps {
   children: ReactNode;
-  params: { locale: Locale };
+  params: Promise<{ locale: Locale }>;
 }
 
 const locales = constants.locales;
 
 export const generateStaticParams = (): Array<{ locale: Locale }> => locales.map((locale) => ({ locale }));
 
-export default function RootLayout({ children, params: { locale } }: RootLayoutProps): ReactElement {
+export default async function RootLayout({ children, params }: RootLayoutProps): Promise<ReactElement> {
+  const { locale } = await params;
+
   if (!locales.includes(locale)) {
     notFound();
   }
 
-  unstable_setRequestLocale(locale);
+  setRequestLocale(locale);
 
   return (
     <html lang={locale}>

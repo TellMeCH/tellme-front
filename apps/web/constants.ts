@@ -1,4 +1,4 @@
-export type Locale = 'en';
+import type { Locale } from '@tellme/web/shared/utils/i18n';
 
 interface Constants {
   defaultLocale: Locale;

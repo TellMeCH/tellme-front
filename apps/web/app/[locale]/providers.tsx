@@ -1,7 +1,7 @@
 import { NextIntlClientProvider, useMessages } from 'next-intl';
-import { ReactElement } from 'react';
+import { ReactElement, PropsWithChildren } from 'react';
 
-export function Providers({ children }: { children: React.ReactNode }): ReactElement {
+export function Providers({ children }: PropsWithChildren): ReactElement {
   const messages = useMessages();
 
   return <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>;
