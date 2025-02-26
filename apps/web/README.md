@@ -28,12 +28,9 @@ The following tasks are included by default:
 To run this application locally, follow these steps:
 
 ```sh
-# 1. Navigate to Nx workspace directory containing this app
-cd <path-to-nx-workspace>
-
-# 2. Install dependencies
+# 1. Install dependencies in Nx workspace directory
 npm install
 
-# 3. Start the local development server
+# 2. Start the local development server
 npx nx dev web
 ```
