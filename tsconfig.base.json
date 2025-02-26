@@ -1,0 +1,33 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "jsx": "react-native",
+    "allowJs": true,
+    "noEmit": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitAny": true,
+    "strictPropertyInitialization": false,
+    "strictNullChecks": true,
+    "rootDir": ".",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "importHelpers": true,
+    "target": "es2015",
+    "module": "esnext",
+    "lib": ["es2020", "dom"],
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
+      "@tellme/web/shared/data-access/store": ["libs/web/shared/data-access/store/src/index.ts"],
+      "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
+      "@tellme/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"]
+    }
+  },
+  "exclude": ["node_modules", "tmp"]
+}
