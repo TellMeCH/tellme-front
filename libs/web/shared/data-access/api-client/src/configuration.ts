@@ -1,15 +1,4 @@
-import { appEnv } from '@tellme/web/shared/utils/app-env';
-
 export const configuration = {
-  // TODO: Add development, production url, when API will be ready
-  apiURL: appEnv.select({
-    development: '',
-    production: '',
-  }),
-  auth: {
-    refreshTokenRoute: '/auth/refresh',
-    // TODO: Add routes, when confirmation functionality will be ready
-    unauthorizedRoutes: ['/login', '/register', '/auth/forgot-password', '/auth/restore-password', '/auth/token/check'],
-    logoutRoute: '/auth/logout',
-  },
+  // TODO: Add development, staging, production url, when the work with the API will be started
+  apiURL: '',
 };
