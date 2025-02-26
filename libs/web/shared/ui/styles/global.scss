@@ -3,3 +3,16 @@
 @tailwind utilities;
 
 @import 'fonts';
+@import 'variables';
+
+:root {
+  --background-primary: #f3f5f7;
+  --background-secondary: #ffffff;
+  --brand-primary: ##569ee2;
+  --brand-light: #f3d9fa;
+
+  --text-primary: #141415;
+  --text-primary-inverse: #ffffff;
+  --text-secondary: #56575d;
+  --text-secondary-inverse: #888991;
+}
