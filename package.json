@@ -7,7 +7,8 @@
     "format": "npx prettier --write . && npm run lint -- --fix",
     "prepare": "husky install",
     "deps:sync": "npx syncpack fix-mismatches",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "test": "nx run-many -t test --exclude web"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +43,7 @@
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "16.1.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.12",
     "@types/node": "18.16.9",
     "@types/react": "19.0.0",
