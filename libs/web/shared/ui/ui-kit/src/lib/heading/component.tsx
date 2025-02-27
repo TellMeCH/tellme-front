@@ -5,11 +5,10 @@ import styles from './component.module.scss';
 interface HeadingProps extends PropsWithChildren {
   level?: 1 | 2 | 3 | 4 | 5;
   className?: string;
-  asHtmlTag?: 'p';
 }
 
-export const Heading: React.FC<HeadingProps> = ({ level = 1, className, children, asHtmlTag }) => {
-  const Component = (asHtmlTag ?? `h${level}`) as keyof React.JSX.IntrinsicElements;
+export const Heading: React.FC<HeadingProps> = ({ level = 1, className, children }) => {
+  const Component = `h${level}` as keyof React.JSX.IntrinsicElements;
 
   return <Component className={clsx(styles.heading, styles[`heading_${level}`], className)}>{children}</Component>;
 };
