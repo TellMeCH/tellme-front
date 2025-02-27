@@ -103,6 +103,12 @@ Check [the generators docs](https://github.com/RonasIT/nx-generators/blob/main/R
 
 - `npx nx g next-app` - generate new Next app
 
+### Running apps
+
+- `npm run build:web` - build the web app
+- `npm run start:web` - build and start the web app like after deployment
+- `npm run run:web` - run the web app in debugging mode
+
 ### Running tasks
 
 To execute tasks with Nx use the following syntax: `npx nx <target> <project> <...options>`.\

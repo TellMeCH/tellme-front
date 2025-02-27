@@ -8,7 +8,10 @@
     "prepare": "husky install",
     "deps:sync": "npx syncpack fix-mismatches",
     "postinstall": "patch-package",
-    "test": "nx run-many -t test --exclude web"
+    "test": "nx run-many -t test --exclude web",
+    "build:web": "npx nx build web --skip-nx-cache",
+    "start:web": "npx nx start web --skip-nx-cache",
+    "dev:web": "npx nx dev web --skip-nx-cache"
   },
   "private": true,
   "dependencies": {
