@@ -1,16 +1,22 @@
-import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
-import LogoSVG from '../assets/logo.svg';
+import LogoFullSVG from '../assets/logo-full.svg';
+import LogoShortSVG from '../assets/logo-short.svg';
+
+export type LogoType = 'full' | 'short';
 
 export interface LogoProps {
   width?: number;
   height?: number;
+  type?: LogoType;
 }
 
-export function Logo({ width = 206, height = 44 }: LogoProps): ReactElement {
+export function Logo({ width, height, type = 'full' }: LogoProps): ReactElement {
   const t = useTranslations('web-shared.UI_KIT.LOGO');
 
-  return <Image src={LogoSVG as unknown as StaticImport} alt={t('TEXT_ALT_LOGO')} width={width} height={height} />;
+  const isShort = type === 'short';
+  const logoSrc = isShort ? LogoShortSVG : LogoFullSVG;
+
+  return <Image src={logoSrc} alt={t('TEXT_ALT_LOGO')} width={width ?? (isShort ? 44 : 206)} height={height ?? 44} />;
 }

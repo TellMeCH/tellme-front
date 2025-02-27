@@ -1,7 +1,7 @@
 import { Button } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
-import { Heading, Logo } from '@tellme/web/shared/ui/ui-kit';
+import { Heading, Icon, Logo } from '@tellme/web/shared/ui/ui-kit';
 
 export default function Index(): ReactElement {
   const t = useTranslations('web-shared.HOME_PAGE');
@@ -12,6 +12,8 @@ export default function Index(): ReactElement {
         Heading example
       </Heading>
       <Logo />
+      <Logo type='short' />
+      <Icon name='facebook' theme='tertiary' />
       <div className='text-center'>{t('HOME_PAGE_TEXT')}</div>
       <Button color='primary'>HeroUI Button</Button>
     </div>
