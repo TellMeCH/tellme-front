@@ -103,6 +103,12 @@ Check [the generators docs](https://github.com/RonasIT/nx-generators/blob/main/R
 
 - `npx nx g next-app` - generate new Next app
 
+### Running apps
+
+- `npm run build:web` - build the web app
+- `npm run start:web` - build and start the web app like after deployment
+- `npm run run:web` - run the web app in debugging mode
+
 ### Running tasks
 
 To execute tasks with Nx use the following syntax: `npx nx <target> <project> <...options>`.\
@@ -147,3 +153,45 @@ You can execute these commands for the whole project manually:
 
 - `npm run lint` - run necessary code checks
 - `npm run format` - run code autoformat
+
+## Tests
+
+To create a test add a file `component.spec.tsx` near a component for testing.
+The structure of the file should be the following. It's allowed to use several nested `describe`.
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import '@testing-library/jest-dom';
+
+describe('Feature name', () => {
+  // Optional
+  beforeAll(() => {
+    // Set up mocks and make other preparations actual for all test cases
+  });
+
+  // Optional
+  beforeEach(() => {
+    // Actions before each test case
+  });
+
+  // Optional
+  afterAll(() => {
+    // Set up mocks and make other preparations actual for all test cases
+  });
+
+  // Optional
+  afterEach(() => {
+    // Actions after each test case
+  });
+
+  // Test cases
+  it('should do something', () => {
+    // Actions with elements and results check
+  });
+});
+```
+
+Fixtures and test helpers should be in the lib `web/shared/data-access/tests-data`.
+
+To run tests use the command `npm run test` in the root of the repository.
