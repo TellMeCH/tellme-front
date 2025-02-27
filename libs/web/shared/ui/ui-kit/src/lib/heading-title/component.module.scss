@@ -1,0 +1,9 @@
+@import '@tellme/web/shared/ui/variables';
+
+.heading {$self: &; font-weight: 700;
+  &_1 {font-size: $text-h1;}
+  &_2 {font-size: $text-h2;}
+  &_3 {font-size: $text-h3;}
+  &_4 {font-size: $text-h4;}
+  &_5 {font-size: $text-h5;}
+}

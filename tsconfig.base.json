@@ -26,6 +26,8 @@
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
       "@tellme/web/shared/data-access/store": ["libs/web/shared/data-access/store/src/index.ts"],
       "@tellme/web/shared/ui/styles/global": ["libs/web/shared/ui/styles/global.scss"],
+      "@tellme/web/shared/ui/variables": ["libs/web/shared/ui/styles/_variables.scss"],
+      "@tellme/web/shared/ui/ui-kit": ["libs/web/shared/ui/ui-kit/src/index.ts"],
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
       "@tellme/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"]
     }

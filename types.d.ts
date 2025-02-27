@@ -2,3 +2,12 @@
 // Issue: https://github.com/gustavopch/tsc-files/issues/20
 // TODO: Uncomment the line below if you have an Expo app
 // import 'node_modules/@nx/expo/typings/svg.d.ts';
+declare module '*.scss' {
+  const content: Record<string, string>;
+  export default content;
+}
+declare module '*.svg' {
+  const content: any;
+  export const ReactComponent: any;
+  export default content;
+}
