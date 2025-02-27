@@ -5,7 +5,7 @@
 @import 'fonts';
 @import 'variables';
 
-html, body {padding: 0; margin: 0; font-size: $text-base; color: $text-primary; font-family: $font;
+html, body {padding: 0; margin: 0; font-size: $text-default; color: $text-primary; font-family: $font;
   min-width: 360px;
 }
 fieldset {margin: 0; padding: 0; outline: none; border: none;}
