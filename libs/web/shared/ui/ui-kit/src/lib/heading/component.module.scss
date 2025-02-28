@@ -1,6 +1,6 @@
 @import '@tellme/web/shared/ui/variables';
 
-.heading {$self: &; font-weight: 700;
+.heading {$self: &; font-weight: 700; font-family: $font-bold;
   &_1 {font-size: $text-h1;}
   &_2 {font-size: $text-h2;}
   &_3 {font-size: $text-h3;}
