@@ -4,6 +4,7 @@ import { ReactElement, ReactNode } from 'react';
 import { Locale } from '@tellme/web/shared/utils/i18n';
 import { constants } from '../../constants';
 import { Providers } from './providers';
+import '@tellme/web/shared/ui/styles/global';
 
 export const metadata = {
   title: 'Tellme',
