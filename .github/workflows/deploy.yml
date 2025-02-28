@@ -22,13 +22,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - name: Install
         run: npm install --legacy-peer-deps
+
       - name: Build
         run: NODE_OPTIONS="--max-old-space-size=8192" npm run build:web
+
+      - name: Remove Cache
+        run: rm -rf ./apps/web/.next/cache
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./apps/web/.next/!(cache) --project-name=tellme-front
+          command: pages deploy ./apps/web/.next/ --project-name=tellme-front
