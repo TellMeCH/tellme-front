@@ -15,6 +15,7 @@ export default function Index(): ReactElement {
       <Logo type='short' />
       <Icon name='facebook' theme='tertiary' />
       <div className='text-center'>{t('HOME_PAGE_TEXT')}</div>
+      <a href='/home'>sfdasdsa</a>
       <Button color='primary'>HeroUI Button</Button>
     </div>
   );
