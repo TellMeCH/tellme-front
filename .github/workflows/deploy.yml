@@ -26,9 +26,12 @@ jobs:
       - name: Install
         run: npm install --legacy-peer-deps
 
+      - name: Build
+        run: npx nx run web:build:worker
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command:  DEPLOY_ENV=${{ env.TELLME_ENV }} npx nx run web:deploy:worker
+          command:  wrangler deploy ./apps/web/.open-next/worker.js --env=${{ env.TELLME_ENV }}
