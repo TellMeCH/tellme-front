@@ -21,7 +21,8 @@
     "next-intl": "^3.26.5",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "react-redux": "^9.1.2"
+    "react-redux": "^9.1.2",
+    "wrangler": "^3.111.0"
   },
   "devDependencies": {
     "@babel/core": "^7.14.5",
