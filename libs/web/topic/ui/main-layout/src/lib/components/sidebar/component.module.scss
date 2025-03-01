@@ -1,0 +1,10 @@
+@import '@tellme/web/shared/ui/variables';
+
+.sidebarcheckbox {display: none;
+}
+
+.sidebar {--h-screen: 100dvh; --width: 284px;
+  &__inner {display: flex; flex-flow: column; padding: 20px 16px 2.5rem 16px;
+    min-height: calc(var(--h-screen, 100vh));
+  }
+}
