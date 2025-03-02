@@ -2,6 +2,7 @@
 
 import { Avatar } from '@heroui/react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { Logo } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
@@ -14,23 +15,23 @@ export interface SidebarProps {
 
 //TODO: Add logout function
 export function Sidebar({ className }: SidebarProps): ReactElement {
-  // const t = useTranslations('account.SIDEBAR');
+  const t = useTranslations('topic.SIDEBAR');
 
   const sidebarItems: SidebarItemsProps['items'] = [
     {
       href: navigationConfig.routes.private.dashboard,
       iconName: 'menu',
-      title: 'Dashboard',
+      title: t('LINK_DASHBOARD'),
     },
     {
       href: navigationConfig.routes.private.topicAnalysis,
       iconName: 'chart',
-      title: 'Topic Analysis',
+      title: t('LINK_TOPIC_ANALYSIS'),
     },
     {
       href: navigationConfig.routes.private.topics,
       iconName: 'label',
-      title: 'Topics',
+      title: t('LINK_TOPICS'),
     },
   ];
 
@@ -40,19 +41,20 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
         'flex flex-col justify-between min-h-full w-full max-w-[260px] bg-background-secondary py-10 px-2',
         className,
       )}>
-      <div className='flex flex-col gap-16 '>
+      <nav className='flex flex-col gap-16 '>
         <Logo className='px-8' />
         <SidebarItems items={sidebarItems} />
-      </div>
+      </nav>
       <div>
+        {/* TODO: Add real user data */}
         <div className='flex flex-row gap-2 items-center px-8 mb-3'>
           <Avatar size='sm' />
           <p>ronasit@gmail.com</p>
         </div>
         <SidebarItem
           iconName='logout'
-          title={'logout'}
-          onPress={() => console.log('1')} />
+          title={t('BUTTON_LOGOUT')}
+          onPress={() => alert('Under construction')} />
       </div>
     </div>
   );
