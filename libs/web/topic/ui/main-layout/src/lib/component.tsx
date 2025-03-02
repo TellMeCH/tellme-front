@@ -1,5 +1,4 @@
 import { ReactElement, ReactNode } from 'react';
-import styles from './component.module.scss';
 import { Sidebar } from './components/sidebar/component';
 
 interface MainLayoutProps {
@@ -7,11 +6,10 @@ interface MainLayoutProps {
 }
 
 export function MainLayout({ children }: MainLayoutProps): ReactElement {
-  // TODO: Implement component
   return (
-    <div className={styles.layout}>
+    <div className='flex flex-row min-h-screen'>
       <Sidebar />
-      <main className={styles.layout__main}>{children}</main>
+      <main className='flex-1 overflow-hidden'>{children}</main>
     </div>
   );
 }

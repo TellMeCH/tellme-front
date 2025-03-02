@@ -6,7 +6,7 @@
 @import 'variables';
 
 html, body {padding: 0; margin: 0; font-size: $text-default; color: $text-primary; font-family: $font;
-  min-width: 360px;
+  min-width: 360px; background-color: $background-primary;
 }
 fieldset {margin: 0; padding: 0; outline: none; border: none;}
 figure {margin: 0; padding: 0;}

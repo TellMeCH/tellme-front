@@ -1,12 +1,12 @@
 'use client';
 
+import { Avatar } from '@heroui/react';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
-import { Fragment, type ReactElement } from 'react';
+import { type ReactElement } from 'react';
+import { Logo } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
+import { SidebarItem } from '../sidebar-item/component';
 import { SidebarItems, type SidebarItemsProps } from '../sidebar-items/component';
-import styles from './component.module.scss';
-import { sidebarConfig } from './config';
 
 export interface SidebarProps {
   className?: string;
@@ -15,9 +15,8 @@ export interface SidebarProps {
 //TODO: Add logout function
 export function Sidebar({ className }: SidebarProps): ReactElement {
   // const t = useTranslations('account.SIDEBAR');
-  const router = useRouter();
 
-  const topItems: SidebarItemsProps['items'] = [
+  const sidebarItems: SidebarItemsProps['items'] = [
     {
       href: navigationConfig.routes.private.dashboard,
       iconName: 'menu',
@@ -36,17 +35,25 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
   ];
 
   return (
-    <Fragment>
-      <input
-        id={sidebarConfig.toggleId}
-        type='checkbox'
-        className={styles.sidebarcheckbox} />
-      <div className={clsx(styles.sidebar, className)}>
-        <div className={styles.sidebar__inner}>
-          <SidebarItems items={topItems} />
-          {/*<SidebarItem iconName='logout' title={t('BUTTON_LOG_OUT')} className='mt-auto' />*/}
-        </div>
+    <div
+      className={clsx(
+        'flex flex-col justify-between min-h-full w-full max-w-[260px] bg-background-secondary py-10 px-2',
+        className,
+      )}>
+      <div className='flex flex-col gap-16 '>
+        <Logo className='px-8' />
+        <SidebarItems items={sidebarItems} />
       </div>
-    </Fragment>
+      <div>
+        <div className='flex flex-row gap-2 items-center px-8 mb-3'>
+          <Avatar size='sm' />
+          <p>ronasit@gmail.com</p>
+        </div>
+        <SidebarItem
+          iconName='logout'
+          title={'logout'}
+          onPress={() => console.log('1')} />
+      </div>
+    </div>
   );
 }

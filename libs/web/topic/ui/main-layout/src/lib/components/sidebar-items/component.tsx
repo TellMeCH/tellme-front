@@ -1,13 +1,15 @@
+import clsx from 'clsx';
 import { SidebarItem, type SidebarItemProps } from '../sidebar-item/component';
 import type { ReactElement } from 'react';
 
 export interface SidebarItemsProps {
   items: Array<SidebarItemProps>;
+  className?: string;
 }
 
-export function SidebarItems({ items }: SidebarItemsProps): ReactElement {
+export function SidebarItems({ items, className }: SidebarItemsProps): ReactElement {
   return (
-    <div className='flex flex-col lg:gap-y-1'>
+    <div className={clsx('flex flex-col', className)}>
       {items.map((item) => (
         <SidebarItem key={item.title} {...item} />
       ))}
