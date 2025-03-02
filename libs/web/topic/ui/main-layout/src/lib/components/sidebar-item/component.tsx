@@ -24,9 +24,10 @@ export function SidebarItem({ href, onPress, iconName, title, className }: Sideb
   const labelRef = useRef<HTMLLabelElement>(null);
   const isActive = !!href && pathname.startsWith(href);
 
-  const baseClass = 'flex items-center relative rounded-md transition-colors  cursor-pointer';
-  const activeClass = 'bg-brand-primary';
-  const hoverClass = 'hover:bg-brand-secondary hover:text-brand-primary';
+  const basePressableClass = 'absolute inset-0 z-10';
+  const baseClass = 'flex items-center relative rounded-xl cursor-pointer py-3 px-8 my-1 transition-colors';
+  const activeClass = 'bg-background-primary font-bold';
+  const hoverClass = 'hover:bg-background-primary';
 
   const handlePress = (): void => {
     if (!href && onPress) {
@@ -45,11 +46,11 @@ export function SidebarItem({ href, onPress, iconName, title, className }: Sideb
       {!!href && <Link
         href={href}
         onClick={handlePress}
-        className='absolute inset-0 z-10 w-max' />}
+        className={basePressableClass} />}
       {onPress && <button
         onClick={handlePress}
         type='button'
-        className='absolute inset-0 z-10' />}
+        className={basePressableClass} />}
     </div>
   );
 }
