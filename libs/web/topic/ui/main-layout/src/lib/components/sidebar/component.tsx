@@ -42,7 +42,7 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
         className,
       )}>
       <nav className='flex flex-col gap-16 '>
-        <Logo className='px-8' />
+        <Logo className='mx-8 flex-1' />
         <SidebarItems items={sidebarItems} />
       </nav>
       <div>
