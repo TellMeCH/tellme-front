@@ -25,6 +25,8 @@ jobs:
 
       - name: Install
         run: npm install --legacy-peer-deps
+        env:
+          NODE_ENV: development
 
       - name: Build
         run: npx nx run web:build:worker
