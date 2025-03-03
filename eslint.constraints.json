@@ -32,6 +32,10 @@
     "onlyDependOnLibsWithTags": ["app:web", "app:shared"]
   },
   {
+    "sourceTag": "scope:topic",
+    "onlyDependOnLibsWithTags": ["scope:topic", "scope:shared"]
+  },
+  {
     "sourceTag": "scope:account",
     "onlyDependOnLibsWithTags": ["scope:account", "scope:shared"]
   }
