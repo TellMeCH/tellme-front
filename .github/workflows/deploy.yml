@@ -36,4 +36,4 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command:  wrangler deploy ./apps/web/.open-next/worker.js --env=${{ env.TELLME_ENV }}
+          command: deploy ./apps/web/.open-next/worker.js --env=${{ env.TELLME_ENV }}
