@@ -1,11 +1,11 @@
 import { ReactElement, ReactNode } from 'react';
 import { Sidebar } from './components/sidebar/component';
 
-interface MainLayoutProps {
+interface LayoutProps {
   children: ReactNode;
 }
 
-export function MainLayout({ children }: MainLayoutProps): ReactElement {
+export function Layout({ children }: LayoutProps): ReactElement {
   return (
     <div className='flex flex-row h-screen'>
       <Sidebar />

@@ -1,7 +1,7 @@
 // TODO: Add more routes as needed
 export const navigationConfig = {
   routes: {
-    shared: {
+    public: {
       root: '/',
     },
     private: {

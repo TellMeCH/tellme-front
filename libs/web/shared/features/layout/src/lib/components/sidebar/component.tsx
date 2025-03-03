@@ -17,11 +17,11 @@ export interface SidebarProps {
 
 //TODO: Add logout function
 export function Sidebar({ className }: SidebarProps): ReactElement {
-  const t = useTranslations('web-shared.SIDEBAR');
+  const t = useTranslations('web-shared.LAYOUT.SIDEBAR');
   const showUnderDevelopment = useShowUnderDevelopment();
   const { email, avatar } = userMock;
 
-  const sidebarItems: SidebarItemsProps['items'] = [
+  const sidebarItems: SidebarItemsProps['itemsProps'] = [
     {
       href: navigationConfig.routes.private.dashboard,
       iconName: 'menu',
@@ -47,7 +47,7 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
       )}>
       <nav className='flex flex-col gap-16 '>
         <Logo className='mx-8 flex-1' />
-        <SidebarItems items={sidebarItems} />
+        <SidebarItems itemsProps={sidebarItems} />
       </nav>
       <div>
         {/* TODO: Add real user data */}
