@@ -13,7 +13,6 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale,
     messages: {
       'web-shared': (await import(`../../../i18n/web/shared/${locale}.json`)).default,
-      topic: (await import(`../../../i18n/web/topic/${locale}.json`)).default,
     },
   };
 });

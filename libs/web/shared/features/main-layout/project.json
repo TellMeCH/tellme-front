@@ -1,0 +1,9 @@
+{
+  "name": "web-shared-features-main-layout",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/shared/features/main-layout/src",
+  "projectType": "library",
+  "tags": ["app:web", "type:features", "scope:shared"],
+  "// targets": "to see all targets run: nx show project web-shared-features-main-layout --web",
+  "targets": {}
+}

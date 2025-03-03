@@ -14,8 +14,8 @@ export type SidebarItemProps = {
       onPress?: null;
     }
   | {
-      onPress: () => void;
       href?: null;
+      onPress: () => void;
     }
 );
 

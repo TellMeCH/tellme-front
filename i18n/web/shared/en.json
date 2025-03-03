@@ -14,5 +14,11 @@
   },
   "TOAST_MESSAGE": {
     "TEXT_UNDER_DEVELOPMENT": "This function is under development"
+  },
+  "SIDEBAR": {
+    "LINK_DASHBOARD": "Dashboard",
+    "LINK_TOPICS": "Topics",
+    "LINK_TOPIC_ANALYSIS": "Topic Analysis",
+    "BUTTON_LOGOUT": "Logout"
   }
 }

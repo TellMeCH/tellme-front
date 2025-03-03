@@ -9,6 +9,7 @@ import { Logo } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 import { SidebarItem } from '../sidebar-item/component';
 import { SidebarItems, type SidebarItemsProps } from '../sidebar-items/component';
+import { userMock } from './mocks/user';
 
 export interface SidebarProps {
   className?: string;
@@ -16,8 +17,9 @@ export interface SidebarProps {
 
 //TODO: Add logout function
 export function Sidebar({ className }: SidebarProps): ReactElement {
-  const t = useTranslations('topic.SIDEBAR');
+  const t = useTranslations('web-shared.SIDEBAR');
   const showUnderDevelopment = useShowUnderDevelopment();
+  const { email, avatar } = userMock;
 
   const sidebarItems: SidebarItemsProps['items'] = [
     {
@@ -50,8 +52,11 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
       <div>
         {/* TODO: Add real user data */}
         <div className='flex flex-row gap-2 items-center px-8 mb-3'>
-          <Avatar size='sm' />
-          <p>ronasit@gmail.com</p>
+          <Avatar
+            size='sm'
+            src={avatar.link}
+            name={email.charAt(0).toUpperCase()} />
+          <p>{email}</p>
         </div>
         <SidebarItem
           iconName='logout'

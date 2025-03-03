@@ -1,20 +1,20 @@
 import { ToastType } from './enums';
-import { showToast } from './utils/show-toast';
+import { showToast, ToastOptions } from './utils/show-toast';
 
 export class ToastService {
-  public static showSuccess(content: string): void {
-    showToast(content, { type: ToastType.SUCCESS });
+  public static showSuccess(content: string, options: ToastOptions = {}): void {
+    showToast(content, { type: ToastType.SUCCESS, ...options });
   }
 
-  public static showError(content: string): void {
-    showToast(content, { type: ToastType.ERROR });
+  public static showError(content: string, options: ToastOptions = {}): void {
+    showToast(content, { type: ToastType.ERROR, ...options });
   }
 
-  public static showWarning(content: string): void {
-    showToast(content, { type: ToastType.WARNING });
+  public static showWarning(content: string, options: ToastOptions = {}): void {
+    showToast(content, { type: ToastType.WARNING, ...options });
   }
 
-  public static showInfo(content: string): void {
-    showToast(content, { type: ToastType.INFO });
+  public static showInfo(content: string, options: ToastOptions = {}): void {
+    showToast(content, { type: ToastType.INFO, ...options });
   }
 }
