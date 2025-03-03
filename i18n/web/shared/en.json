@@ -6,5 +6,10 @@
     "LOGO": {
       "TEXT_ALT_LOGO": "Logo"
     }
+  },
+  "UNDER_CONSTRUCTION": {
+    "TEXT_TITLE": "Under construction",
+    "TEXT_DESCRIPTION": "We are working hard to bring this feature to life",
+    "BUTTON_BACK": "Go back"
   }
 }

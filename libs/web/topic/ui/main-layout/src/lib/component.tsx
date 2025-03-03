@@ -9,7 +9,7 @@ export function MainLayout({ children }: MainLayoutProps): ReactElement {
   return (
     <div className='flex flex-row min-h-screen'>
       <Sidebar />
-      <main className='flex-1 overflow-hidden'>{children}</main>
+      <main className='flex-1 overflow-hidden p-4'>{children}</main>
     </div>
   );
 }

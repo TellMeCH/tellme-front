@@ -28,6 +28,7 @@
       "@tellme/web/shared/data-access/tests-data": ["libs/web/shared/data-access/tests-data/src/index.ts"],
       "@tellme/web/shared/ui/styles/global": ["libs/web/shared/ui/styles/global.scss"],
       "@tellme/web/shared/ui/ui-kit": ["libs/web/shared/ui/ui-kit/src/index.ts"],
+      "@tellme/web/shared/ui/under-construction": ["libs/web/shared/ui/under-construction/src/index.ts"],
       "@tellme/web/shared/ui/variables": ["libs/web/shared/ui/styles/_variables.scss"],
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
       "@tellme/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"],
