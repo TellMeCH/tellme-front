@@ -34,7 +34,9 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
         <meta name='robots' content={process.env.NEXT_PUBLIC_APP_ENV === 'production' ? 'index' : 'noindex'} />
       </head>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <div className='bg-brand-background w-full min-h-screen'>{children}</div>
+        </Providers>
       </body>
     </html>
   );

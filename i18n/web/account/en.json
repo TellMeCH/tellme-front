@@ -1,0 +1,13 @@
+{
+  "LOGIN": {
+    "TEXT_TITLE": "Welcome to tell",
+    "TEXT_ME": "me",
+    "TEXT_DESCRIPTION": "The right call to get to know your customers",
+    "BUTTON_GOOGLE": "Sign with Google",
+    "BUTTON_MICROSOFT": "Sign with Microsoft",
+    "TEXT_OR": "or",
+    "TEXT_EMAIL": "Email",
+    "TEXT_PASSWORD": "Password",
+    "BUTTON_SIGN_IN": "Sign in"
+  }
+}
