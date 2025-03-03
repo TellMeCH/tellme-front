@@ -4,6 +4,7 @@ import { Avatar } from '@heroui/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
+import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Logo } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 import { SidebarItem } from '../sidebar-item/component';
@@ -16,6 +17,7 @@ export interface SidebarProps {
 //TODO: Add logout function
 export function Sidebar({ className }: SidebarProps): ReactElement {
   const t = useTranslations('topic.SIDEBAR');
+  const showUnderDevelopment = useShowUnderDevelopment();
 
   const sidebarItems: SidebarItemsProps['items'] = [
     {
@@ -54,7 +56,7 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
         <SidebarItem
           iconName='logout'
           title={t('BUTTON_LOGOUT')}
-          onPress={() => alert('Under construction')} />
+          onPress={showUnderDevelopment} />
       </div>
     </div>
   );

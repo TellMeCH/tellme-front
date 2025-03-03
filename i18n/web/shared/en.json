@@ -11,5 +11,8 @@
     "TEXT_TITLE": "Under construction",
     "TEXT_DESCRIPTION": "We are working hard to bring this feature to life",
     "BUTTON_BACK": "Go back"
+  },
+  "TOAST_MESSAGE": {
+    "TEXT_UNDER_DEVELOPMENT": "This function is under development"
   }
 }
