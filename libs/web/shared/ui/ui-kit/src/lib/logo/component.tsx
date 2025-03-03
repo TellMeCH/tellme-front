@@ -10,13 +10,22 @@ export interface LogoProps {
   width?: number;
   height?: number;
   type?: LogoType;
+  className?: string;
 }
 
-export function Logo({ width, height, type = 'full' }: LogoProps): ReactElement {
+export function Logo({ width, height, type = 'full', className }: LogoProps): ReactElement {
   const t = useTranslations('web-shared.UI_KIT.LOGO');
 
   const isShort = type === 'short';
   const logoSrc = isShort ? LogoShortSVG : LogoFullSVG;
 
-  return <Image src={logoSrc} alt={t('TEXT_ALT_LOGO')} width={width ?? (isShort ? 44 : 206)} height={height ?? 44} />;
+  return (
+    <Image
+      src={logoSrc}
+      alt={t('TEXT_ALT_LOGO')}
+      width={width ?? (isShort ? 44 : 206)}
+      height={height ?? 44}
+      className={className}
+    />
+  );
 }
