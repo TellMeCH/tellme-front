@@ -4,6 +4,31 @@
   "sourceRoot": "apps/web",
   "projectType": "application",
   "tags": ["app:web", "type:app"],
-  "// targets": "to see all targets run: nx show project web --web",
-  "targets": {}
+  "targets": {
+    "build:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build web --skip-nx-cache && cd ./apps/web && opennextjs-cloudflare -s"
+      }
+    },
+    "dev:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "wrangler dev ./.open-next/worker.js --port 8771",
+        "cwd": "apps/web"
+      }
+    },
+    "preview:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx run web:build:worker && npx nx run web:dev:worker"
+      }
+    },
+    "deploy:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx run web:build:worker && wrangler deploy ./apps/web/.open-next/worker.js --env=${DEPLOY_ENV}"
+      }
+    }
+  }
 }

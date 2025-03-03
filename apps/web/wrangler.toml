@@ -1,0 +1,31 @@
+name = "tellme-front"
+main = ".open-next/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Static assets for SSR app
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+# Staging Environment (test.tell-me.ch)
+[env.staging]
+name = "tellme-front-staging"
+routes = ["https://test.tell-me.ch/*"]
+vars = { ENVIRONMENT = "staging" }
+
+# KV Cache for Staging
+[[env.staging.kv_namespaces]]
+binding = "tellme_front_cache_staging"
+id = "fa72ebe6dcac43bfaf23e07a0d17f5eb"
+
+# Production Environment (app.tell-me.ch)
+[env.main]
+name = "tellme-front-main"
+routes = ["https://app.tell-me.ch/*"]
+vars = { ENVIRONMENT = "main" }
+
+# KV Cache for Staging
+[[env.main.kv_namespaces]]
+binding = "tellme_front_cache_main"
+id = "6b7195e5eb6a4307ac6301e2a62321ad"
