@@ -22,7 +22,6 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "typeRoots": ["./node_modules/@types", "./node_modules/@opennextjs"],
     "paths": {
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
       "@tellme/web/shared/data-access/store": ["libs/web/shared/data-access/store/src/index.ts"],
