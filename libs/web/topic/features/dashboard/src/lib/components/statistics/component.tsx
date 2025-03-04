@@ -40,21 +40,23 @@ export function DashboardStatistics(): ReactElement {
           <div
             key={title}
             className='w-full h-[120px] flex flex-col justify-between items-center bg-background-secondary rounded-2xl  pt-5 pb-6 px-8'>
-            <div className='w-full flex flex-row justify-between items-start'>
-              <span className='text-xs leading-[18px]'>{title.toUpperCase()}</span>
-              {change !== undefined && (
+            <div className='w-full flex flex-row justify-between items-start gap-2'>
+              <p className='text-xs leading-[18px]'>{title.toUpperCase()}</p>
+              {!!change && (
                 <p
                   className={clsx(
-                    'px-2 py-1 rounded-lg text-xs font-medium',
-                    change > 0 ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100',
+                    'px-3 pt-1 pb-[2px] rounded-2xl font-medium leading-5 bg-background-primary',
+                    change > 0 ? 'text-brand-success' : 'text-brand-secondary',
                   )}>
                   {change > 0 ? `+${Math.round(change)}%` : `${Math.round(change)}%`}
                 </p>
               )}
             </div>
-            <div className='w-full flex flex-row justify-between items-end'>
+            <div className='w-full flex flex-row justify-between items-end gap-2'>
               <p className={clsx('w-min', styles.statistics__value)}>{value}</p>
-              <p className='text-text-secondary'>{date.toFormat(DateTimeFormat.MONTH_YEAR).toUpperCase()}</p>
+              <p className='text-text-secondary whitespace-nowrap'>
+                {date.toFormat(DateTimeFormat.MONTH_YEAR).toUpperCase()}
+              </p>
             </div>
           </div>
         ))}
