@@ -9,7 +9,9 @@ export function DashboardHeader(): ReactElement {
 
   return (
     <div className='flex flex-row justify-between items-center bg-background-secondary rounded-2xl py-4 px-8'>
-      <Heading level={3}>{organisationName.toUpperCase()}</Heading>
+      <Heading className='uppercase' level={3}>
+        {organisationName}
+      </Heading>
       <div className='flex flex-row items-center gap-4'>
         <p className='underline'>{`${formatDate(firstDate, DateTimeFormat.MONTH_ONLY)}-${formatDate(secondDate, DateTimeFormat.MONTH_YEAR)}`}</p>
         <Icon name='calendar' />
