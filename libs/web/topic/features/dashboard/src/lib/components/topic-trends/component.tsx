@@ -5,10 +5,10 @@ import { statisticsMock } from '../../mocks/statistics';
 
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
-  const { firstDate, secondDate, averageDuration, count, averageSentiment, mostPopularTopic } = statisticsMock;
+  const { firstDate, secondDate } = statisticsMock.general;
 
   return (
-    <div className='flex-1 bg-background-secondary rounded-2xl py-6 px-9'>
+    <div className='flex flex-col flex-1 bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
       <div className='flex flex-row justify-between items-start'>
         <p className='uppercase font-bold'>{t('TEXT_TOPIC_TRENDS')}</p>
         <div className='flex flex-row gap-4 items-center'>
@@ -21,6 +21,18 @@ export function DashboardTopicTrends(): ReactElement {
             {formatDate(firstDate, DateTimeFormat.MONTH_ONLY)}
           </p>
         </div>
+      </div>
+      <div>
+        {statisticsMock.topics.map((topic) => (
+          <div key={topic.name} className='flex flex-row mt-4 mb-[30px]'>
+            <div className='flex flex-col max-w-80 gap-2'>
+              <p className='text-xl'>{topic.name}</p>
+              <p className='text-sm'>{topic.description}</p>
+            </div>
+            <div />
+            <div />
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { statisticsMock } from '../../mocks/statistics';
 
 // TODO: Possibly move to topic/ui
 export function DashboardHeader(): ReactElement {
-  const { organisationName, firstDate, secondDate } = statisticsMock;
+  const { organisationName, firstDate, secondDate } = statisticsMock.general;
 
   return (
     <div className='flex flex-row justify-between items-center bg-background-secondary rounded-2xl py-4 px-8'>

@@ -5,7 +5,7 @@ import { StatisticsItem, StatisticsItemProps } from '../statistics-item/componen
 
 export function DashboardStatistics(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.STATISTICS');
-  const { secondDate, averageDuration, count, averageSentiment, mostPopularTopic } = statisticsMock;
+  const { secondDate, averageDuration, count, averageSentiment, mostPopularTopic } = statisticsMock.general;
 
   const statisticsItems: Array<StatisticsItemProps> = [
     { title: t('TEXT_CALL_COUNT'), change: count.change, value: count.secondMeasurement, date: secondDate },
