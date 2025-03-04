@@ -7,7 +7,7 @@ export const statisticsMock = {
   averageSentiment: {
     firstMeasurement: 0.5,
     secondMeasurement: 0.6,
-    change: 20.0,
+    change: -20.0,
   },
   averageDuration: {
     firstMeasurement: 35.3,

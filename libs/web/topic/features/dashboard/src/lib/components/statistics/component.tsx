@@ -1,27 +1,29 @@
+import clsx from 'clsx';
 import { Fragment, type ReactElement } from 'react';
 import { Heading, Icon } from '@tellme/web/shared/ui/ui-kit';
 import { formatDate, DateTimeFormat } from '@tellme/web/shared/utils/dates';
 import { statisticsMock } from '../../mocks/statistics';
+import styles from './component.module.scss';
 
 export function DashboardStatistics(): ReactElement {
   const { organisationName, firstDate, secondDate, averageDuration, count, averageSentiment, mostPopularTopic } =
     statisticsMock;
 
   const statistics = [
-    { title: 'Call Count', change: count.change, value: count.secondMeasurement, date: 'Oct 2025' },
+    { title: 'Call Count', change: count.change, value: count.secondMeasurement, date: secondDate },
     {
       title: 'Customer engagement',
       change: averageSentiment.change,
       value: averageSentiment.secondMeasurement,
-      date: 'Oct 2025',
+      date: secondDate,
     },
     {
       title: 'Call duration',
       change: averageDuration.change,
       value: averageDuration.secondMeasurement,
-      date: 'Oct 2025',
+      date: secondDate,
     },
-    { title: 'Most popular topic', value: mostPopularTopic.secondMeasurement, date: 'Oct 2025' },
+    { title: 'Most popular topic', value: mostPopularTopic.secondMeasurement, date: secondDate },
   ];
 
   return (
@@ -37,11 +39,23 @@ export function DashboardStatistics(): ReactElement {
         {statistics.map(({ title, value, change, date }) => (
           <div
             key={title}
-            className='flex flex-row justify-between items-center bg-background-secondary rounded-2xl py-4 px-8'>
-            <p>{title}</p>
-            <p>{value}</p>
-            <p>{change}</p>
-            <p>{date}</p>
+            className='w-full h-[120px] flex flex-col justify-between items-center bg-background-secondary rounded-2xl  pt-5 pb-6 px-8'>
+            <div className='w-full flex flex-row justify-between items-start'>
+              <span className='text-xs leading-[18px]'>{title.toUpperCase()}</span>
+              {change !== undefined && (
+                <p
+                  className={clsx(
+                    'px-2 py-1 rounded-lg text-xs font-medium',
+                    change > 0 ? 'text-green-600 bg-green-100' : 'text-red-600 bg-red-100',
+                  )}>
+                  {change > 0 ? `+${Math.round(change)}%` : `${Math.round(change)}%`}
+                </p>
+              )}
+            </div>
+            <div className='w-full flex flex-row justify-between items-end'>
+              <p className={clsx('w-min', styles.statistics__value)}>{value}</p>
+              <p className='text-text-secondary'>{date.toFormat(DateTimeFormat.MONTH_YEAR).toUpperCase()}</p>
+            </div>
           </div>
         ))}
       </div>
