@@ -3,7 +3,6 @@
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
-import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { DividerWithText, Heading, Logo } from '@tellme/web/shared/ui/ui-kit';
 import styles from './component.module.scss';
 import { GoogleButton, MicrosoftButton } from './components';
@@ -11,7 +10,6 @@ import { LoginFormSchema } from './forms';
 
 export function Login(): ReactElement {
   const t = useTranslations('account.LOGIN');
-  const showUnderDevelopment = useShowUnderDevelopment();
 
   const formSchema = new LoginFormSchema();
   /*const form = useForm({
