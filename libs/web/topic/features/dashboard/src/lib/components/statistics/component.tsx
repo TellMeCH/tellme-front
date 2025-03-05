@@ -1,7 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { statisticsMock } from '../../mocks/statistics';
-import { StatisticsItem, StatisticsItemProps } from '../statistics-item/component';
+import { StatisticsItem, StatisticsItemProps } from '../statistics-item';
 
 export function DashboardStatistics(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.STATISTICS');
