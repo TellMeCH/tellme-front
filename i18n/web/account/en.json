@@ -1,7 +1,6 @@
 {
   "LOGIN": {
-    "TEXT_TITLE": "Welcome to tell",
-    "TEXT_ME": "me",
+    "TEXT_TITLE": "Welcome to tell<highlight>me</highlight>",
     "TEXT_DESCRIPTION": "The right call to get to know your customers",
     "BUTTON_GOOGLE": "Sign with Google",
     "BUTTON_MICROSOFT": "Sign with Microsoft",
