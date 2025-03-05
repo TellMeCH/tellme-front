@@ -1,13 +1,11 @@
 'use client';
 
 import { ReactElement } from 'react';
-import { Control, FieldValues, Path, useController } from 'react-hook-form';
+import { FieldValues, useController } from 'react-hook-form';
+import { FormControlProps } from '@tellme/web/shared/utils/form';
 import { TextInput, TextInputProps } from '../text-input/component';
 
-export interface FormTextInputProps<T extends FieldValues> extends TextInputProps {
-  name: Path<T>;
-  control: Control<T>;
-}
+export type FormTextInputProps<T extends FieldValues> = FormControlProps<T> & TextInputProps;
 
 export function FormTextInput<T extends FieldValues>({
   name,

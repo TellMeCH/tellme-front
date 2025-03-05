@@ -34,8 +34,9 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
           <Logo />
         </div>
         <Heading level={1} className={clsx(styles.login__title, 'mb-2')}>
-          {t('TEXT_TITLE')}
-          <span className='text-brand-secondary'>{t('TEXT_ME')}</span>
+          {t.rich('TEXT_TITLE', {
+            highlight: (chunks) => <span className='text-brand-secondary'>{chunks}</span>,
+          })}
         </Heading>
         <p className='mb-6'>{t('TEXT_DESCRIPTION')}</p>
         <div className='flex flex-col gap-6 mb-6'>

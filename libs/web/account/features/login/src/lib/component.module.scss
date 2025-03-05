@@ -1,5 +1,5 @@
 @import '@tellme/web/shared/ui/variables';
 
 .login {
-  &__title {font-size: $text-h3;}
+  &__title {font-size: $text-h3 !important;}
 }
