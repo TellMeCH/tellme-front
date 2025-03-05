@@ -16,11 +16,11 @@ export function StatisticsItem({ title, value, change, date }: StatisticsItemPro
     <div className='w-full h-[120px] flex flex-col justify-between items-center bg-background-secondary rounded-2xl pt-5 pb-6 px-8'>
       <div className='w-full flex flex-row justify-between items-start gap-2'>
         <p className='text-xs leading-[18px] uppercase'>{title}</p>
-        {!!change && (
+        {(change || change === 0) && (
           <p
             className={clsx(
-              'px-3 py-1 rounded-2xl font-medium leading-5 bg-background-primary whitespace-nowrap',
-              change > 0 ? 'text-brand-success' : 'text-brand-secondary',
+              'text-center min-w-[60px] px-3 py-1 rounded-2xl font-medium leading-5 bg-background-primary whitespace-nowrap',
+              change !== 0 && (change > 0 ? 'text-brand-success' : 'text-brand-secondary'),
             )}>
             {change > 0 ? `+${Math.round(change)}%` : `${Math.round(change)}%`}
           </p>

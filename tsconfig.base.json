@@ -36,7 +36,8 @@
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
       "@tellme/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"],
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
-      "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"]
+      "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"],
+      "@tellme/web/topic/ui/dashboard-header": ["libs/web/topic/ui/dashboard-header/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
