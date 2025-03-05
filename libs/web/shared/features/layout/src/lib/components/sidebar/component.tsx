@@ -51,12 +51,12 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
       </nav>
       <div>
         {/* TODO: Add real user data */}
-        <div className='flex flex-row gap-2 items-center px-8 mb-3'>
+        <div className='flex flex-row gap-2 items-center px-7 mb-3'>
           <Avatar
             size='sm'
             src={avatar.link}
             name={email.charAt(0).toUpperCase()} />
-          <p>{email}</p>
+          <p className='px-1'>{email}</p>
         </div>
         <SidebarItem
           iconName='logout'

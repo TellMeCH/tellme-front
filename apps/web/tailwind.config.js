@@ -19,6 +19,7 @@ module.exports = {
         'brand-primary-transparent-hover': '#3391fe',
         'brand-secondary': '#b6393a',
         'brand-danger': '#db4e5c',
+        'brand-success': '#099232',
         'text-primary': '#181818',
         'text-secondary': '#7e858a',
         'text-tertiary': '#edf0f3',
