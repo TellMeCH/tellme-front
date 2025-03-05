@@ -12,10 +12,12 @@ export class LoginFormSchema implements BaseFormSchema<LoginFormSchema> {
     };
   }
 
-  public static get validationSchema(): Yup.ObjectSchema<FormValues<LoginFormSchema>> {
+  public static validationSchema(
+    t: (key: string) => string | undefined,
+  ): Yup.ObjectSchema<FormValues<LoginFormSchema>> {
     return Yup.object().shape({
-      email: Yup.string().required().email(),
-      password: Yup.string().required(),
+      email: Yup.string().required(t('TEXT_REQUIRED_EMAIL')).email(t('TEXT_INVALID_EMAIL')),
+      password: Yup.string().required(t('TEXT_REQUIRED_PASSWORD')),
     });
   }
 

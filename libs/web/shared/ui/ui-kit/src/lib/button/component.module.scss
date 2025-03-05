@@ -24,11 +24,11 @@
 
     &_solid {
       &[data-hover='true'] {background-color: var(--hover-color);}
-      &[data-pressed='true'] {background-color: var(--pressed-color);}
       &[data-focus='true'] {background-color: var(--hover-color);}
+      &[data-pressed='true'] {background-color: var(--pressed-color);}
 
       &_primary {background-color: $brand-primary; color: $white; --hover-color: #{$brand-primary-hover};
-        --pressed-color: #{$brand-primary-pressed}; --focus-shadow: #{rgba($brand-secondary, .5)};
+        --pressed-color: #{$brand-primary-pressed}; --focus-shadow: #{rgba($brand-primary, 0.5)};
       }
       &_disabled {background-color: $background-tertiary; color: $text-secondary;}
       &.button_icon {

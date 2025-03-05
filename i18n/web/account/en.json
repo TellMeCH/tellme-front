@@ -8,6 +8,9 @@
     "TEXT_OR": "or",
     "TEXT_EMAIL": "Email",
     "TEXT_PASSWORD": "Password",
-    "BUTTON_SIGN_IN": "Sign in"
+    "BUTTON_SIGN_IN": "Sign in",
+    "TEXT_REQUIRED_EMAIL": "Email is required",
+    "TEXT_INVALID_EMAIL": "Email is invalid",
+    "TEXT_REQUIRED_PASSWORD": "Password is required"
   }
 }

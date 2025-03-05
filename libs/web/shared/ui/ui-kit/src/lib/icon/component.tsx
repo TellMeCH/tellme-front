@@ -4,7 +4,6 @@ import styles from './component.module.scss';
 
 export type IconTheme = 'primary' | 'secondary' | 'tertiary' | 'success' | 'danger';
 
-// TODO add all icons + colors
 export type IconName =
   | 'calendar'
   | 'logout'
@@ -21,7 +20,8 @@ export type IconName =
   | 'microsoft'
   | 'facebook'
   | 'twitter'
-  | 'instagram';
+  | 'instagram'
+  | 'eye_closed';
 
 export interface IconProps {
   name: IconName;

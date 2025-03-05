@@ -4,7 +4,9 @@
 
 @import 'fonts';
 @import 'variables';
+@import 'forms';
 
+* {box-sizing: border-box;}
 html, body {height: 100%; padding: 0; margin: 0; font-size: $text-default; color: $text-primary; 
   font-family: $font; min-width: 360px; background-color: $background-primary;
 }
@@ -18,3 +20,4 @@ input {$self: &; font-size: inherit; font-family: inherit;
   &[type='number']::-webkit-inner-spin-button {-webkit-appearance: none; margin: 0;}
   &[type="search"]::-webkit-search-cancel-button {display: none;}
 }
+
