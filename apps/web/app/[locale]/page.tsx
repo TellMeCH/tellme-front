@@ -1,14 +1,14 @@
-import Link from 'next/link';
-import { useTranslations } from 'next-intl';
+'use client';
+
+import { useRouter } from 'next/navigation';
 import { ReactElement } from 'react';
+import { Login } from '@tellme/web/account/features/login';
+import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 
-export default function Index(): ReactElement {
-  const t = useTranslations('web-shared.HOME_PAGE');
+export default function LoginPage(): ReactElement {
+  const router = useRouter();
 
-  return (
-    <div className='w-[400px] flex flex-col gap-4'>
-      <div className='text-center'>{t('HOME_PAGE_TEXT')}</div>
-      <Link href='/dashboard'>Link to Dashboard</Link>
-    </div>
-  );
+  const navigateToDashboard = (): void => router.replace(navigationConfig.routes.private.dashboard);
+
+  return <Login onSuccess={navigateToDashboard} />;
 }

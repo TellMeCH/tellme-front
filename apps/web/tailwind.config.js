@@ -20,6 +20,7 @@ module.exports = {
         'brand-secondary': '#b6393a',
         'brand-danger': '#db4e5c',
         'brand-success': '#099232',
+        'brand-background': '#f2f1ef',
         'text-primary': '#181818',
         'text-secondary': '#7e858a',
         'text-tertiary': '#edf0f3',
@@ -37,5 +38,15 @@ module.exports = {
     },
   },
   darkMode: 'class',
-  plugins: [heroui()],
+  plugins: [
+    heroui({
+      themes: {
+        light: {
+          colors: {
+            danger: '#db4e5c',
+          },
+        },
+      },
+    }),
+  ],
 };
