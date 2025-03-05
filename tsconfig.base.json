@@ -12,7 +12,7 @@
     "rootDir": ".",
     "sourceMap": true,
     "declaration": false,
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -23,6 +23,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@tellme/web/account/features/login": ["libs/web/account/features/login/src/index.ts"],
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
       "@tellme/web/shared/data-access/store": ["libs/web/shared/data-access/store/src/index.ts"],
       "@tellme/web/shared/data-access/tests-data": ["libs/web/shared/data-access/tests-data/src/index.ts"],

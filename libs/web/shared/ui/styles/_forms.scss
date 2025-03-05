@@ -1,0 +1,31 @@
+@import 'variables';
+
+.form {$self: &;
+  &__group {position: relative; width: 100%;
+    &__inner {position: relative;}
+    &__message {margin-top: 0.25rem; color: $status-danger; font-size: $text-small;}
+    &_password {
+      #{$self}__control {padding-right: 50px;}
+    }
+  }
+  &__control {padding: 12px 16px; border-radius: $radius-small; outline: 0 none; border: 1px solid transparent;
+    font-size: $text-default; background-color: $background-primary; width: 100%;
+    transition: all 0.3s; box-sizing: border-box; height: 48px;
+    &::placeholder {color: $text-secondary; font-size: $text-default;}
+    &:focus-within, &[data-hover="true"] {border-color: $brand-primary !important;}
+    &:disabled {background-color: $background-secondary; opacity: .4; border: none;}
+
+    &_big {height: 52px; font-size: $text-h5;}
+
+    &__password {position: absolute; top: 50%; right: 12px; transform: translateY(-50%); border: none;
+      background: none; cursor: pointer; z-index: 2;
+    }
+  }
+  &__label {font-size: $text-small; display: block;
+    &_disabled {color: $text-tertiary;}
+  }
+  &__accessory {position: absolute; top: 50%; transform: translateY(-50%);
+    &_left {left: 16px;}
+    &_right {right: 16px;}
+  }
+}
