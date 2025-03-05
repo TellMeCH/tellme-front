@@ -1,3 +1,2 @@
-export * from './header/component';
-export * from './topic-trends/component';
+export * from './topic-trends';
 export * from './statistics';
