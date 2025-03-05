@@ -6,10 +6,12 @@ import { isEmpty } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, DividerWithText, FormTextInput, Heading, Icon, Logo } from '@tellme/web/shared/ui/ui-kit';
+import { Button, DividerWithText, FormMessage, FormTextInput, Heading, Icon, Logo } from '@tellme/web/shared/ui/ui-kit';
+import { FormValues } from '@tellme/web/shared/utils/form';
 import styles from './component.module.scss';
 import { GoogleButton, MicrosoftButton } from './components';
 import { LoginFormSchema } from './forms';
+import { useLogin } from './hooks';
 
 interface LoginProps {
   onSuccess: () => void;
@@ -24,8 +26,12 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
     resolver: yupResolver(LoginFormSchema.validationSchema(t)),
   });
 
-  // TODO: implement login with email and password
-  const submit = (): void => onSuccess();
+  const { loginByEmail, isLoading, error } = useLogin();
+
+  const submit = async (values: FormValues<LoginFormSchema>): Promise<void> => {
+    await loginByEmail(values.email, values.password);
+    onSuccess();
+  };
 
   return (
     <div className='flex justify-center items-center w-full min-h-screen'>
@@ -62,9 +68,11 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
             type='password'
             autoComplete='current-password'
           />
+          {!!error && <FormMessage message={error} />}
           <Button
             type='submit'
             isDisabled={!isEmpty(form.formState.errors)}
+            isLoading={isLoading}
             fullWidth>
             {t('BUTTON_SIGN_IN')}
           </Button>
