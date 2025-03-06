@@ -1,10 +1,9 @@
 @import '@tellme/web/shared/ui/variables';
 
-.icon {width: 24px; height: 24px; display: inline-block; vertical-align: top; background-image: url('../assets/icons-sprite.svg'); background-position: var(--bg-position);
+.icon {width: 24px; height: 24px; display: inline-block; vertical-align: top;
+  background-image: url('../assets/icons-sprite.svg'); background-position: var(--bg-position);
   &_mask {mask-image: url('../assets/icons-sprite.svg'); mask-position: var(--bg-position); background: var(--bg-color);}
-  vertical-align: top;
 
-  //TODO: add all icons + colors
   &_primary {background: $text-primary;}
   &_secondary {background-color: $text-secondary;}
   &_tertiary {background-color: $text-tertiary;}
@@ -18,7 +17,9 @@
   &_menu {--bg-position: 189px -22px;}
   &_mail {--bg-position: 128px -22px;}
   &_lock {--bg-position: 67px -22px;}
-  &_eye {--bg-position: 433px -98px;}
+  &_eye {--bg-position: 433px -98px;
+    &_closed {--bg-position: -294px -402px;}
+  }
   &_arrow_up {--bg-position: 372px -98px;}
   &_pen {--bg-position: 312px -98px;}
   &_trash {--bg-position: 250px -98px;}
