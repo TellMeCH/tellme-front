@@ -25,6 +25,7 @@ module.exports = {
         'text-secondary': '#7e858a',
         'text-tertiary': '#edf0f3',
         'text-foreground': '#ffffff',
+        'text-control': '#b1b1b1',
         'background-primary': '#f3f5f7',
         'background-secondary': '#ffffff',
         'background-tertiary': '#f1f2f4',

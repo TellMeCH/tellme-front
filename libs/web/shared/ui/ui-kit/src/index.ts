@@ -7,3 +7,4 @@ export * from './lib/divider-with-text/component';
 export * from './lib/text-input/component';
 export * from './lib/form-message/component';
 export * from './lib/form-text-input/component';
+export * from './lib/circular-progress/component';

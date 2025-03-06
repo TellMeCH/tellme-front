@@ -1,10 +1,7 @@
-'use client';
-
 import { Progress } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
-import { PieChart, Pie, Cell } from 'recharts';
-import { Heading } from '@tellme/web/shared/ui/ui-kit';
+import { CircularProgress, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { statisticsMock } from '../../mocks/statistics';
 import styles from './component.module.scss';
@@ -12,9 +9,6 @@ import styles from './component.module.scss';
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
   const { firstDate, secondDate } = statisticsMock.general;
-  const value = 2;
-  const maxValue = 4;
-  const data = [{ value }, { value: maxValue - value }];
 
   return (
     <div className='flex flex-col flex-1 bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
@@ -72,48 +66,14 @@ export function DashboardTopicTrends(): ReactElement {
             </div>
             <div className='flex flex-col flex-1 max-w-80'>
               <p className='text-text-secondary mb-2'>Frequency</p>
-              <PieChart width={82} height={82}>
-                <Pie
-                  data={data}
-                  startAngle={-25}
-                  endAngle={205}
-                  innerRadius={25}
-                  outerRadius={41}
-                  fill='#E3E9F3'
-                  dataKey='value'
-                  strokeLinecap='round'
-                  paddingAngle={-16}
-                  cornerRadius={16}
-                  stroke='none'>
-                  <Cell fill='#E3E9F3' />
-                  <Cell fill={'red'} />
-                </Pie>
-                <text
-                  x='50%'
-                  y='50%'
-                  textAnchor='middle'
-                  dominantBaseline='middle'
-                  fontSize={16}
-                  fontWeight='bold'>
-                  {value}
-                </text>
-                <text
-                  x='10%'
-                  y='85%'
-                  textAnchor='middle'
-                  dominantBaseline='middle'
-                  fontSize={16}>
-                  {value}
-                </text>
-                <text
-                  x='90%'
-                  y='85%'
-                  textAnchor='middle'
-                  dominantBaseline='middle'
-                  fontSize={16}>
-                  {value}
-                </text>
-              </PieChart>
+              <div className='flex flex-row gap-[68px]'>
+                <CircularProgress value={1} />
+                <CircularProgress
+                  value={3}
+                  trackColorClassName='text-control-secondary-transparent'
+                  indicatorColorClassName='text-control-secondary'
+                />
+              </div>
             </div>
           </div>
         ))}
