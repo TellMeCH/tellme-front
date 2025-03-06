@@ -8,8 +8,10 @@
     },
     "TOPIC_TRENDS": {
       "TEXT_TOPIC_TRENDS": "Topic trends",
-      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
-      "TEXT_FREQUENCY": "Frequency"
+      "ITEM": {
+        "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
+        "TEXT_FREQUENCY": "Frequency"
+      }
     }
   }
 }

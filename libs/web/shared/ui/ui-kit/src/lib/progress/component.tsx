@@ -28,11 +28,11 @@ const BaseProgress = extendVariants(HeroUIProgress, {
   },
 });
 
-interface LabeledProgressProps extends ProgressProps {
+interface AppProgressProps extends ProgressProps {
   value: number;
 }
 
-export const LabeledProgress = forwardRef<HTMLDivElement, LabeledProgressProps>((props, ref): ReactElement => {
+export const AppProgress = forwardRef<HTMLDivElement, AppProgressProps>((props, ref): ReactElement => {
   return (
     <span ref={ref} className='flex flex-row items-center gap-2'>
       <BaseProgress {...props} />
@@ -41,6 +41,6 @@ export const LabeledProgress = forwardRef<HTMLDivElement, LabeledProgressProps>(
   );
 });
 
-LabeledProgress.displayName = 'LabeledProgress';
+AppProgress.displayName = ' AppProgress';
 
-export default LabeledProgress;
+export default AppProgress;
