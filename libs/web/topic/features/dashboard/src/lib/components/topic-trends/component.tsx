@@ -39,14 +39,14 @@ export function DashboardTopicTrends(): ReactElement {
               <p className='text-sm'>{description}</p>
             </div>
             <div className='flex flex-col flex-1 max-w-80'>
-              <p className='text-text-secondary mb-[22px]'>Frequency</p>
+              <p className='text-text-secondary mb-[22px]'>{t('TEXT_FREQUENCY')}</p>
               <div className='flex flex-col gap-1'>
                 <LabeledProgress value={averageDuration.secondMeasurement} />
                 <LabeledProgress value={averageDuration.firstMeasurement} color='secondary' />
               </div>
             </div>
             <div className='flex flex-col flex-1 max-w-80'>
-              <p className='text-text-secondary mb-2'>Customer engagement</p>
+              <p className='text-text-secondary mb-2'>{t('TEXT_CUSTOMER_ENGAGEMENT')}</p>
               <div className='flex flex-row gap-[68px]'>
                 <CircularProgress value={averageSentiment.secondMeasurement} />
                 <CircularProgress
