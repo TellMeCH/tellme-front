@@ -6,12 +6,12 @@ import { isEmpty } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { useLogin } from '@tellme/web/shared/data-access/firebase-auth';
 import { Button, DividerWithText, FormMessage, FormTextInput, Heading, Icon, Logo } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import styles from './component.module.scss';
 import { GoogleButton, MicrosoftButton } from './components';
 import { LoginFormSchema } from './forms';
-import { useLogin } from './hooks';
 
 interface LoginProps {
   onSuccess: () => void;

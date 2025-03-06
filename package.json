@@ -52,7 +52,7 @@
     "@nx/react": "20.4.6",
     "@nx/workspace": "20.4.6",
     "@opennextjs/cloudflare": "^0.5.8",
-    "@ronas-it/nx-generators": "^0.12.2",
+    "@ronas-it/nx-generators": "^0.13.2",
     "@stylistic/eslint-plugin": "^2.12.1",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
@@ -94,15 +94,15 @@
     "typescript-eslint": "^8.19.0"
   },
   "optionalDependencies": {
-    "@ast-grep/napi-win32-x64-msvc": "0.34.4",
-    "@ast-grep/napi-darwin-x64": "0.34.4",
-    "@ast-grep/napi-linux-x64-gnu": "0.34.4",
-    "@ast-grep/napi-win32-ia32-msvc": "0.34.4",
     "@ast-grep/napi-darwin-arm64": "0.34.4",
-    "@ast-grep/napi-win32-arm64-msvc": "0.34.4",
+    "@ast-grep/napi-darwin-x64": "0.34.4",
     "@ast-grep/napi-linux-arm64-gnu": "0.34.4",
     "@ast-grep/napi-linux-arm64-musl": "0.34.4",
-    "@ast-grep/napi-linux-x64-musl": "0.34.4"
+    "@ast-grep/napi-linux-x64-gnu": "0.34.4",
+    "@ast-grep/napi-linux-x64-musl": "0.34.4",
+    "@ast-grep/napi-win32-arm64-msvc": "0.34.4",
+    "@ast-grep/napi-win32-ia32-msvc": "0.34.4",
+    "@ast-grep/napi-win32-x64-msvc": "0.34.4"
   },
   "workspaces": [
     "apps/*"
