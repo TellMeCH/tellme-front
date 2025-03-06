@@ -8,7 +8,7 @@ export function Dashboard(): ReactElement {
   const { firstDate, secondDate, organisationName } = statisticsMock.general;
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='min-h-full flex flex-col gap-2'>
       <Header
         title={organisationName}
         titleClassName='uppercase'

@@ -1,11 +1,13 @@
-import { Progress } from '@heroui/react';
+'use client';
+
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
-import { CircularProgress, Heading } from '@tellme/web/shared/ui/ui-kit';
+import { CircularProgress, Heading, LabeledProgress } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { statisticsMock } from '../../mocks/statistics';
 import styles from './component.module.scss';
 
+//NOTE: Values are hardcoded in this component, because we still
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
   const { firstDate, secondDate } = statisticsMock.general;
@@ -28,48 +30,25 @@ export function DashboardTopicTrends(): ReactElement {
         </div>
       </div>
       <div>
-        {statisticsMock.topics.map((topic) => (
-          <div key={topic.name} className='flex flex-row mt-4 mb-[30px] gap-[60px]'>
+        {statisticsMock.topics.map(({ name, description, averageDuration, averageSentiment }) => (
+          <div key={name} className='flex flex-row mt-4 mb-[30px] gap-[60px]'>
             <div className='flex flex-col max-w-80 gap-2'>
-              <p className='text-xl'>{topic.name}</p>
-              <p className='text-sm'>{topic.description}</p>
+              <p className='text-xl'>{name}</p>
+              <p className='text-sm'>{description}</p>
             </div>
             <div className='flex flex-col flex-1 max-w-80'>
               <p className='text-text-secondary mb-[22px]'>Frequency</p>
               <div className='flex flex-col gap-1'>
-                {/* NOTE: Values from api example aren't normalized, so using completely made up values */}
-                <span className='flex flex-row items-center gap-2'>
-                  <Progress
-                    aria-label='First progress'
-                    classNames={{
-                      base: 'h-2',
-                      track: 'bg-control-primary-transparent',
-                      indicator: 'bg-control-primary',
-                    }}
-                    value={70}
-                  />
-                  35
-                </span>
-                <span className='flex flex-row items-center gap-2'>
-                  <Progress
-                    aria-label='Second progress'
-                    classNames={{
-                      base: 'h-2',
-                      track: 'bg-control-secondary-transparent',
-                      indicator: 'bg-control-secondary',
-                    }}
-                    value={60}
-                  />
-                  25
-                </span>
+                <LabeledProgress value={averageDuration.secondMeasurement} />
+                <LabeledProgress value={averageDuration.firstMeasurement} color='secondary' />
               </div>
             </div>
             <div className='flex flex-col flex-1 max-w-80'>
-              <p className='text-text-secondary mb-2'>Frequency</p>
+              <p className='text-text-secondary mb-2'>Customer engagement</p>
               <div className='flex flex-row gap-[68px]'>
-                <CircularProgress value={1} />
+                <CircularProgress value={averageSentiment.secondMeasurement} />
                 <CircularProgress
-                  value={3}
+                  value={averageSentiment.firstMeasurement}
                   trackColorClassName='text-control-secondary-transparent'
                   indicatorColorClassName='text-control-secondary'
                 />

@@ -31,19 +31,12 @@ export const statisticsMock = {
       description:
         'Customers frequently contact the call center to inquire about restock dates and availability of specific clothing items.',
       averageSentiment: {
-        firstMeasurement: 0.7,
-        secondMeasurement: 0.65,
-        change: -7.14,
+        firstMeasurement: 2,
+        secondMeasurement: 3,
       },
       averageDuration: {
-        firstMeasurement: 38.0,
-        secondMeasurement: 40.0,
-        change: 5.26,
-      },
-      count: {
-        firstMeasurement: 8,
-        secondMeasurement: 9,
-        change: 12.5,
+        firstMeasurement: 50,
+        secondMeasurement: 60,
       },
     },
     {
@@ -51,19 +44,12 @@ export const statisticsMock = {
       description:
         'Customers frequently contact the call center to inquire about restock dates and availability of specific clothing items.',
       averageSentiment: {
-        firstMeasurement: 0.5,
-        secondMeasurement: 0.55,
-        change: 10.0,
+        firstMeasurement: 1,
+        secondMeasurement: 5,
       },
       averageDuration: {
-        firstMeasurement: 45.1,
-        secondMeasurement: 45.1,
-        change: 0,
-      },
-      count: {
-        firstMeasurement: 10,
-        secondMeasurement: 10,
-        change: 0,
+        firstMeasurement: 20,
+        secondMeasurement: 80,
       },
     },
   ],
