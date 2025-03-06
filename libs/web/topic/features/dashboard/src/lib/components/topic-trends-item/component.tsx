@@ -17,7 +17,7 @@ export function TopicTrendsItem({
   averageDuration,
   averageSentiment,
 }: TopicTrendsItemProps): ReactElement {
-  const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS.ITEM');
+  const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS_ITEM');
 
   return (
     <div className='flex flex-row h-[140px] pt-4 gap-[60px] border-b border-text-tertiary last:border-none'>

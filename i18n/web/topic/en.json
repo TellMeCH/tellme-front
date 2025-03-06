@@ -7,11 +7,11 @@
       "TEXT_MOST_POPULAR_TOPIC": "Most popular topic"
     },
     "TOPIC_TRENDS": {
-      "TEXT_TOPIC_TRENDS": "Topic trends",
-      "ITEM": {
-        "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
-        "TEXT_FREQUENCY": "Frequency"
-      }
+      "TEXT_TOPIC_TRENDS": "Topic trends"
+    },
+    "TOPIC_TRENDS_ITEM": {
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
+      "TEXT_FREQUENCY": "Frequency"
     }
   }
 }
