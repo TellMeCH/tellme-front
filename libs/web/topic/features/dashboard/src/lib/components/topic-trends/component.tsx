@@ -49,11 +49,7 @@ export function DashboardTopicTrends(): ReactElement {
               <p className='text-text-secondary mb-2'>{t('TEXT_CUSTOMER_ENGAGEMENT')}</p>
               <div className='flex flex-row gap-[68px]'>
                 <CircularProgress value={averageSentiment.secondMeasurement} />
-                <CircularProgress
-                  value={averageSentiment.firstMeasurement}
-                  trackColorClassName='text-control-secondary-transparent'
-                  indicatorColorClassName='text-control-secondary'
-                />
+                <CircularProgress value={averageSentiment.firstMeasurement} color='secondary' />
               </div>
             </div>
           </div>

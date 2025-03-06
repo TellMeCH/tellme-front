@@ -7,16 +7,27 @@ import { PieChart, Pie, Cell } from 'recharts';
 interface CircularProgressProps {
   value: number;
   limitValues?: { min: number; max: number };
-  trackColorClassName?: string;
-  indicatorColorClassName?: string;
+  color?: 'primary' | 'secondary';
 }
+
+const colorVariants: Record<string, { track: string; indicator: string }> = {
+  primary: {
+    track: 'text-control-primary-transparent',
+    indicator: 'text-control-primary',
+  },
+  secondary: {
+    track: 'text-control-secondary-transparent',
+    indicator: 'text-control-secondary',
+  },
+};
 
 export function CircularProgress({
   value,
   limitValues = { min: 1, max: 5 },
-  trackColorClassName = 'text-control-primary-transparent',
-  indicatorColorClassName = 'text-control-primary',
+  color = 'primary',
 }: CircularProgressProps): ReactElement {
+  const { track, indicator } = colorVariants[color];
+
   const { min, max } = limitValues;
   const minFillPercentage = 0.1;
 
@@ -39,8 +50,8 @@ export function CircularProgress({
         paddingAngle={value === max ? 0 : -20}
         cornerRadius={16}
         stroke='none'>
-        <Cell fill='currentColor' className={clsx('outline-none', trackColorClassName)} />
-        <Cell fill='currentColor' className={clsx('outline-none', indicatorColorClassName)} />
+        <Cell fill='currentColor' className={clsx('outline-none', track)} />
+        <Cell fill='currentColor' className={clsx('outline-none', indicator)} />
       </Pie>
       <text
         x='10%'
