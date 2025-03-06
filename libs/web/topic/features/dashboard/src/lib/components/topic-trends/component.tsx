@@ -31,7 +31,9 @@ export function DashboardTopicTrends(): ReactElement {
       </div>
       <div>
         {statisticsMock.topics.map(({ name, description, averageDuration, averageSentiment }) => (
-          <div key={name} className='flex flex-row mt-4 mb-[30px] gap-[60px]'>
+          <div
+            key={name}
+            className='flex flex-row h-[140px] pt-4 gap-[60px] border-b  border-text-tertiary last:border-none'>
             <div className='flex flex-col max-w-80 gap-2'>
               <p className='text-xl'>{name}</p>
               <p className='text-sm'>{description}</p>
