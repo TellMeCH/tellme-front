@@ -1,4 +1,7 @@
+'use client';
+
 import { type ReactElement } from 'react';
+import { topicApi } from '@tellme/web/shared/data-access/api';
 import { Header, Icon } from '@tellme/web/shared/ui/ui-kit';
 import { formatDateRange } from '@tellme/web/shared/utils/dates';
 import { DashboardStatistics } from './components';
@@ -6,6 +9,7 @@ import { statisticsMock } from './mocks/statistics';
 
 export function Dashboard(): ReactElement {
   const { firstDate, secondDate, organisationName } = statisticsMock;
+  const { data } = topicApi.useGetQuery(1);
 
   return (
     <div className='flex flex-col gap-2'>

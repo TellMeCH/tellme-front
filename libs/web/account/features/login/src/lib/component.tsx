@@ -26,11 +26,10 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
     resolver: yupResolver(LoginFormSchema.validationSchema(t)),
   });
 
-  const { loginByEmail, isLoading, error } = useLogin();
+  const { loginByEmail, isLoading, error } = useLogin(onSuccess);
 
   const submit = async (values: FormValues<LoginFormSchema>): Promise<void> => {
     await loginByEmail(values.email, values.password);
-    onSuccess();
   };
 
   return (

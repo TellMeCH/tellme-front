@@ -20,6 +20,7 @@
     "@ronas-it/axios-api-client": "^0.1.0",
     "@ronas-it/rtkq-entity-api": "^0.4.3",
     "autoprefixer": "^10.4.20",
+    "class-transformer": "^0.5.1",
     "clsx": "^2.1.1",
     "firebase": "^11.4.0",
     "framer-motion": "^12.4.7",

@@ -2,7 +2,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { firebaseAuth } from '../firebase-auth';
 
-export function useLogin(): typeof result {
+export function useLogin(onSuccess: () => void): typeof result {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -12,7 +12,9 @@ export function useLogin(): typeof result {
       setIsLoading(true);
       const response = await signInWithEmailAndPassword(firebaseAuth, email, password);
       const token = await response.user.getIdToken();
+      onSuccess();
     } catch (error: any) {
+      console.log(error);
       setError(error.message);
     } finally {
       setIsLoading(false);
