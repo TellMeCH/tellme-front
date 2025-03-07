@@ -2,10 +2,10 @@
 
 import { User } from '@heroui/react';
 import clsx from 'clsx';
+import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
-import { firebaseAuth } from '@tellme/web/shared/data-access/auth';
-import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
+import { firebaseAuth, useLogout } from '@tellme/web/shared/data-access/auth';
 import { Logo } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 import { SidebarItem } from '../sidebar-item/component';
@@ -15,10 +15,13 @@ export interface SidebarProps {
   className?: string;
 }
 
-//TODO: Add logout function
 export function Sidebar({ className }: SidebarProps): ReactElement {
   const t = useTranslations('web-shared.LAYOUT.SIDEBAR');
-  const showUnderDevelopment = useShowUnderDevelopment();
+  const router = useRouter();
+
+  const navigateToLogin = (): void => router.replace(navigationConfig.routes.public.root);
+
+  const { logout } = useLogout(navigateToLogin);
   const email = firebaseAuth.currentUser?.email || '';
 
   const sidebarItems: SidebarItemsProps['itemsProps'] = [
@@ -69,7 +72,7 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
         <SidebarItem
           iconName='logout'
           title={t('BUTTON_LOGOUT')}
-          onPress={showUnderDevelopment} />
+          onPress={logout} />
       </div>
     </div>
   );
