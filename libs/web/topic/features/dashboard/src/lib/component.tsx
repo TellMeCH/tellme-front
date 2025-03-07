@@ -4,16 +4,16 @@ import { type ReactElement } from 'react';
 import { topicApi } from '@tellme/web/shared/data-access/api';
 import { Header, Icon } from '@tellme/web/shared/ui/ui-kit';
 import { formatDateRange } from '@tellme/web/shared/utils/dates';
-import { DashboardStatistics } from './components';
+import { DashboardStatistics, DashboardTopicTrends } from './components';
 import { statisticsMock } from './mocks/statistics';
 
 export function Dashboard(): ReactElement {
-  const { firstDate, secondDate, organisationName } = statisticsMock;
+  const { firstDate, secondDate, organisationName } = statisticsMock.general;
 
   const { data } = topicApi.useGetQuery(1);
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='min-h-full flex flex-col gap-2'>
       <Header
         title={organisationName}
         titleClassName='uppercase'
@@ -25,6 +25,7 @@ export function Dashboard(): ReactElement {
         }
       />
       <DashboardStatistics />
+      <DashboardTopicTrends />
     </div>
   );
 }
