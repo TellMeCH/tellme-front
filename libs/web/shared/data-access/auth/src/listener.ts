@@ -4,11 +4,11 @@ import { storeActions } from '@ronas-it/rtkq-entity-api';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import { firebaseAuth } from './firebase-auth';
 
-export const firebaseAuthListenerMiddleware = createListenerMiddleware();
+export const authListenerMiddleware = createListenerMiddleware();
 
-firebaseAuthListenerMiddleware.startListening({
+authListenerMiddleware.startListening({
   actionCreator: storeActions.init,
-  effect: async (_, { dispatch, getState }) => {
+  effect: async () => {
     apiService.useInterceptors({
       request: [
         [

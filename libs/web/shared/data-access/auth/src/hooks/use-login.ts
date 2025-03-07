@@ -1,5 +1,9 @@
+'use client';
+
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
+import { CookieService } from '@tellme/web/shared/data-access/cookies';
+import { authConfig } from '../config';
 import { firebaseAuth } from '../firebase-auth';
 
 export function useLogin(onSuccess: () => void): typeof result {
@@ -10,11 +14,11 @@ export function useLogin(onSuccess: () => void): typeof result {
     try {
       setError('');
       setIsLoading(true);
-      const response = await signInWithEmailAndPassword(firebaseAuth, email, password);
-      const token = await response.user.getIdToken();
+      await signInWithEmailAndPassword(firebaseAuth, email, password);
+
+      CookieService.set({ isAuthenticated: 'true' }, { expires: new Date(Date.now() + authConfig.authCookieTtl) });
       onSuccess();
     } catch (error: any) {
-      console.log(error);
       setError(error.message);
     } finally {
       setIsLoading(false);
