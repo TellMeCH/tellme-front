@@ -5,7 +5,8 @@ import clsx from 'clsx';
 import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
-import { firebaseAuth, useLogout } from '@tellme/web/shared/data-access/auth';
+import { useSelector } from 'react-redux';
+import { authSelectors, useLogout } from '@tellme/web/shared/data-access/auth';
 import { Logo } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 import { SidebarItem } from '../sidebar-item/component';
@@ -22,7 +23,7 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
   const navigateToLogin = (): void => router.replace(navigationConfig.routes.public.root);
 
   const { logout } = useLogout(navigateToLogin);
-  const email = firebaseAuth.currentUser?.email || '';
+  const profile = useSelector(authSelectors.profile);
 
   const sidebarItems: SidebarItemsProps['itemsProps'] = [
     {
@@ -55,13 +56,13 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
       <div className='sticky'>
         <div className='flex flex-row gap-2 items-center px-7 mb-3 overflow-hidden text-ellipsis'>
           <User
-            name={email}
+            name={profile?.email}
             classNames={{
               name: 'text-base',
             }}
             avatarProps={{
               size: 'sm',
-              name: email.charAt(0),
+              name: profile?.email?.charAt(0),
               classNames: {
                 base: 'bg-background-primary',
                 name: 'text-text-secondary uppercase text-xl font-bold',
