@@ -22,7 +22,7 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
 
   const navigateToLogin = (): void => router.replace(navigationConfig.routes.public.root);
 
-  const { logout } = useLogout(navigateToLogin);
+  const { logout, isLoading: isLoggingOut } = useLogout(navigateToLogin);
   const profile = useSelector(authSelectors.profile);
 
   const sidebarItems: SidebarItemsProps['itemsProps'] = [
@@ -55,25 +55,29 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
       </nav>
       <div className='sticky'>
         <div className='flex flex-row gap-2 items-center px-7 mb-3 overflow-hidden text-ellipsis'>
-          <User
-            name={profile?.email}
-            classNames={{
-              name: 'text-base',
-            }}
-            avatarProps={{
-              size: 'sm',
-              name: profile?.email?.charAt(0),
-              classNames: {
-                base: 'bg-background-primary',
-                name: 'text-text-secondary uppercase text-xl font-bold',
-              },
-            }}
-          />
+          {profile && (
+            <User
+              name={profile.email}
+              classNames={{
+                name: 'text-base',
+              }}
+              avatarProps={{
+                size: 'sm',
+                name: profile.email?.charAt(0),
+                classNames: {
+                  base: 'bg-background-primary',
+                  name: 'text-text-secondary uppercase text-xl font-bold',
+                },
+              }}
+            />
+          )}
         </div>
         <SidebarItem
           iconName='logout'
           title={t('BUTTON_LOGOUT')}
-          onPress={logout} />
+          onPress={logout}
+          isDisabled={isLoggingOut || !profile}
+        />
       </div>
     </div>
   );
