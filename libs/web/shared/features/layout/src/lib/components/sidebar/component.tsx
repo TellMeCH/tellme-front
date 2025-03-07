@@ -49,7 +49,7 @@ export function Sidebar({ className }: SidebarProps): ReactElement {
         <Logo className='mx-8 flex-1' />
         <SidebarItems itemsProps={sidebarItems} />
       </nav>
-      <div>
+      <div className='sticky'>
         {/* TODO: Add real user data */}
         <div className='flex flex-row gap-2 items-center px-7 mb-3'>
           <Avatar
