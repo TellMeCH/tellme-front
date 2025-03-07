@@ -3,7 +3,6 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { useState } from 'react';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
-import { authConfig } from '../config';
 import { firebaseAuth } from '../firebase-auth';
 
 export function useLogin(onSuccess: () => void): typeof result {
@@ -16,7 +15,7 @@ export function useLogin(onSuccess: () => void): typeof result {
       setIsLoading(true);
       await signInWithEmailAndPassword(firebaseAuth, email, password);
 
-      CookieService.set({ isAuthenticated: 'true' }, { expires: new Date(Date.now() + authConfig.authCookieTtl) });
+      CookieService.set({ isAuthenticated: 'true' });
       onSuccess();
     } catch (error: any) {
       setError(error.message);
