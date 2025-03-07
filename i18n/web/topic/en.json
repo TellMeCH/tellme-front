@@ -5,6 +5,13 @@
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
       "TEXT_CALL_DURATION": "Call duration",
       "TEXT_MOST_POPULAR_TOPIC": "Most popular topic"
+    },
+    "TOPIC_TRENDS": {
+      "TEXT_TOPIC_TRENDS": "Topic trends"
+    },
+    "TOPIC_TRENDS_ITEM": {
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
+      "TEXT_FREQUENCY": "Frequency"
     }
   }
 }
