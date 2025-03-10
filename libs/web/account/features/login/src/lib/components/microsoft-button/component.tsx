@@ -1,11 +1,20 @@
 import { ReactElement } from 'react';
-import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
-import { SocialProvider } from '../../enums';
+import { SocialProviderName, useLogin } from '@tellme/web/shared/data-access/auth';
 import { SocialButton } from '../social-button';
 
-export function MicrosoftButton(): ReactElement {
-  // TODO: implement login with Microsoft
-  const showUnderDevelopment = useShowUnderDevelopment();
+interface MicrosoftButtonProps {
+  onSuccess: () => void;
+}
 
-  return <SocialButton provider={SocialProvider.MICROSOFT} onPress={showUnderDevelopment} />;
+export function MicrosoftButton({ onSuccess }: MicrosoftButtonProps): ReactElement {
+  const { loginBySocial, isLoading } = useLogin(onSuccess);
+
+  const loginByMicrosoft = (): void => {
+    loginBySocial(SocialProviderName.MICROSOFT);
+  };
+
+  return <SocialButton
+    providerName={SocialProviderName.MICROSOFT}
+    onPress={loginByMicrosoft}
+    isLoading={isLoading} />;
 }

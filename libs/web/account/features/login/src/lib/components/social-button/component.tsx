@@ -1,15 +1,15 @@
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
+import { SocialProviderName } from '@tellme/web/shared/data-access/auth';
 import { Button, Icon } from '@tellme/web/shared/ui/ui-kit';
-import { SocialProvider } from '../../enums';
 
 interface SocialButtonProps {
-  provider: SocialProvider;
+  providerName: SocialProviderName;
   onPress: () => void;
   isLoading?: boolean;
 }
 
-export function SocialButton({ provider, onPress, isLoading }: SocialButtonProps): ReactElement {
+export function SocialButton({ providerName, onPress, isLoading }: SocialButtonProps): ReactElement {
   const t = useTranslations('account.LOGIN');
 
   return (
@@ -18,8 +18,8 @@ export function SocialButton({ provider, onPress, isLoading }: SocialButtonProps
       isLoading={isLoading}
       variant='bordered'
       fullWidth
-      startContent={<Icon name={provider} />}>
-      <span className='text-text-primary font-medium'>{t(`BUTTON_${provider.toUpperCase()}`)}</span>
+      startContent={<Icon name={providerName} />}>
+      <span className='text-text-primary font-medium'>{t(`BUTTON_${providerName.toUpperCase()}`)}</span>
     </Button>
   );
 }
