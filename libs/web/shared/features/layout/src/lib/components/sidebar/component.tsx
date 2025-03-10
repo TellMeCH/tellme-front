@@ -2,7 +2,6 @@
 
 import { User } from '@heroui/react';
 import clsx from 'clsx';
-import { useRouter } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
@@ -14,15 +13,13 @@ import { SidebarItems, type SidebarItemsProps } from '../sidebar-items/component
 
 export interface SidebarProps {
   className?: string;
+  onLogoutSuccess: () => void;
 }
 
-export function Sidebar({ className }: SidebarProps): ReactElement {
+export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElement {
   const t = useTranslations('web-shared.LAYOUT.SIDEBAR');
-  const router = useRouter();
 
-  const navigateToLogin = (): void => router.replace(navigationConfig.routes.public.root);
-
-  const { logout, isLoading: isLoggingOut } = useLogout(navigateToLogin);
+  const { logout, isLoading: isLoggingOut } = useLogout(onLogoutSuccess);
   const profile = useSelector(authSelectors.profile);
 
   const sidebarItems: SidebarItemsProps['itemsProps'] = [
