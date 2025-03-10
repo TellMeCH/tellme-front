@@ -11,6 +11,8 @@
     "BUTTON_SIGN_IN": "Sign in",
     "TEXT_REQUIRED_EMAIL": "Email is required",
     "TEXT_INVALID_EMAIL": "Email is invalid",
-    "TEXT_REQUIRED_PASSWORD": "Password is required"
+    "TEXT_REQUIRED_PASSWORD": "Password is required",
+    "TEXT_INVALID_CREDENTIALS": "Email or password is incorrect",
+    "TEXT_INTERNAL_ERROR": "Something went wrong, please, try to log in later"
   }
 }

@@ -80,7 +80,13 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
           <FormCheckbox name='shouldRemember' control={form.control}>
             {t('TEXT_REMEMBER_ME')}
           </FormCheckbox>
-          {!!error && <FormMessage message={error} />}
+          {!!error && (
+            <FormMessage
+              message={
+                error.includes('auth/invalid-credential') ? t('TEXT_INVALID_CREDENTIALS') : t('TEXT_INTERNAL_ERROR')
+              }
+            />
+          )}
           <Button
             type='submit'
             isDisabled={!isEmpty(form.formState.errors)}
