@@ -1,9 +1,4 @@
-'use client';
-
 import { type ReactElement } from 'react';
-import { useSelector } from 'react-redux';
-import { topicApi } from '@tellme/web/shared/data-access/api';
-import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header, Icon } from '@tellme/web/shared/ui/ui-kit';
 import { formatDateRange } from '@tellme/web/shared/utils/dates';
 import { DashboardStatistics, DashboardTopicTrends } from './components';
@@ -11,8 +6,6 @@ import { statisticsMock } from './mocks/statistics';
 
 export function Dashboard(): ReactElement {
   const { firstDate, secondDate, organisationName } = statisticsMock.general;
-  const profile = useSelector(authSelectors.profile);
-  topicApi.useGetQuery(1, { skip: !profile });
 
   return (
     <div className='min-h-full flex flex-col gap-2'>

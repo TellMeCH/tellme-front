@@ -1,3 +1,4 @@
 export const configuration = {
-  apiURL: `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/v1`,
+  // TODO: Add development, staging, production url, when the work with the API will be started
+  apiURL: '',
 };
