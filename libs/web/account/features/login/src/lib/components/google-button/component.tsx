@@ -1,11 +1,17 @@
 import { ReactElement } from 'react';
-import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
+import { useLogin } from '@tellme/web/shared/data-access/auth';
 import { SocialProvider } from '../../enums';
 import { SocialButton } from '../social-button';
 
-export function GoogleButton(): ReactElement {
-  // TODO: implement login with Google
-  const showUnderDevelopment = useShowUnderDevelopment();
+interface GoogleButtonProps {
+  onSuccess: () => void;
+}
 
-  return <SocialButton provider={SocialProvider.GOOGLE} onPress={showUnderDevelopment} />;
+export function GoogleButton({ onSuccess }: GoogleButtonProps): ReactElement {
+  const { loginByGoogle, isLoading } = useLogin(onSuccess);
+
+  return <SocialButton
+    provider={SocialProvider.GOOGLE}
+    onPress={loginByGoogle}
+    isLoading={isLoading} />;
 }

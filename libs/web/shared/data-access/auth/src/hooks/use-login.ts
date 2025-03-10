@@ -1,10 +1,13 @@
 'use client';
 
 import {
-  signInWithEmailAndPassword,
-  setPersistence,
   browserLocalPersistence,
   browserSessionPersistence,
+  GoogleAuthProvider,
+  setPersistence,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  UserCredential,
 } from 'firebase/auth';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
@@ -13,22 +16,22 @@ import { CookieService } from '@tellme/web/shared/data-access/cookies';
 import { firebaseAuth } from '../firebase-auth';
 import { authActions } from '../slice';
 
-export function useLogin(onSuccess: () => void): typeof result {
+const googleProvider = new GoogleAuthProvider();
+
+export function useLogin(onSuccess: () => void) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const dispatch = useDispatch();
 
-  const loginByEmail = async (email: string, password: string, shouldRemember: boolean): Promise<void> => {
+  const executeLogin = async (login: () => Promise<UserCredential>, shouldRemember: boolean = true): Promise<void> => {
     try {
       setError('');
       setIsLoading(true);
 
-      const persistence = shouldRemember ? browserLocalPersistence : browserSessionPersistence;
-      await setPersistence(firebaseAuth, persistence);
-      const response = await signInWithEmailAndPassword(firebaseAuth, email, password);
+      const response = await login();
 
       dispatch(authActions.setProfile(response.user));
-      const expirationDate = DateTime.local().plus({ day: 14 }).toJSDate();
+      const expirationDate = DateTime.local().plus({ days: 14 }).toJSDate();
       CookieService.set({ isAuthenticated: 'true' }, { expires: shouldRemember ? expirationDate : undefined });
       onSuccess();
     } catch (error: any) {
@@ -38,7 +41,24 @@ export function useLogin(onSuccess: () => void): typeof result {
     }
   };
 
-  const result = { isLoading, error, loginByEmail };
+  const loginByEmail = async (email: string, password: string, shouldRemember: boolean): Promise<void> => {
+    const login = async (): Promise<UserCredential> => {
+      const persistence = shouldRemember ? browserLocalPersistence : browserSessionPersistence;
+      await setPersistence(firebaseAuth, persistence);
 
-  return result;
+      return await signInWithEmailAndPassword(firebaseAuth, email, password);
+    };
+
+    await executeLogin(login, shouldRemember);
+  };
+
+  const loginByGoogle = async (): Promise<void> => {
+    const login = async (): Promise<UserCredential> => {
+      return await signInWithPopup(firebaseAuth, googleProvider);
+    };
+
+    await executeLogin(login);
+  };
+
+  return { isLoading, error, loginByEmail, loginByGoogle };
 }

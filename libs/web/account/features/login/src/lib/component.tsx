@@ -54,7 +54,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
         </Heading>
         <p className='mb-6'>{t('TEXT_DESCRIPTION')}</p>
         <div className='flex flex-col gap-6 mb-6'>
-          <GoogleButton />
+          <GoogleButton onSuccess={onSuccess} />
           <MicrosoftButton />
           <DividerWithText text={t('TEXT_OR')} />
         </div>
