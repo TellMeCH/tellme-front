@@ -51,7 +51,7 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
         <SidebarItems itemsProps={sidebarItems} />
       </nav>
       <div className='sticky'>
-        <div className='flex flex-row gap-2 items-center px-7 mb-3 overflow-hidden text-ellipsis'>
+        <div className='px-7 mb-3 break-all'>
           {profile && (
             <User
               name={profile.email}

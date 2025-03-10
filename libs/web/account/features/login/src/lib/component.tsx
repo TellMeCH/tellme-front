@@ -37,8 +37,8 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
 
   const { loginByEmail, isLoading, error } = useLogin(onSuccess);
 
-  const submit = async (values: FormValues<LoginFormSchema>): Promise<void> => {
-    await loginByEmail(values.email, values.password, values.shouldRemember);
+  const submit = (values: FormValues<LoginFormSchema>): void => {
+    loginByEmail(values.email, values.password, values.shouldRemember);
   };
 
   return (
