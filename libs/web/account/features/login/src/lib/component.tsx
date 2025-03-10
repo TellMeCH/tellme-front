@@ -7,7 +7,16 @@ import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
 import { useLogin } from '@tellme/web/shared/data-access/auth';
-import { Button, DividerWithText, FormMessage, FormTextInput, Heading, Icon, Logo } from '@tellme/web/shared/ui/ui-kit';
+import {
+  Button,
+  DividerWithText,
+  FormCheckbox,
+  FormMessage,
+  FormTextInput,
+  Heading,
+  Icon,
+  Logo,
+} from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import styles from './component.module.scss';
 import { GoogleButton, MicrosoftButton } from './components';
@@ -29,7 +38,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
   const { loginByEmail, isLoading, error } = useLogin(onSuccess);
 
   const submit = async (values: FormValues<LoginFormSchema>): Promise<void> => {
-    await loginByEmail(values.email, values.password);
+    await loginByEmail(values.email, values.password, values.shouldRemember);
   };
 
   return (
@@ -68,6 +77,9 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
             type='password'
             autoComplete='current-password'
           />
+          <FormCheckbox name='shouldRemember' control={form.control}>
+            {t('TEXT_REMEMBER_ME')}
+          </FormCheckbox>
           {!!error && <FormMessage message={error} />}
           <Button
             type='submit'

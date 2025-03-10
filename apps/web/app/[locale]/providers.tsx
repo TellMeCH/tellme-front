@@ -18,12 +18,10 @@ export function App({ children }: PropsWithChildren): ReactNode {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(firebaseAuth, (profile) => {
-      console.log(profile);
       dispatch(authActions.setProfile(profile));
     });
 
     return () => {
-      console.log('unsubscribe');
       unsubscribe();
     };
   }, [firebaseAuth]);
