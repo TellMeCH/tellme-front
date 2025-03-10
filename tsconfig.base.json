@@ -39,6 +39,7 @@
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
       "@tellme/web/topic/features/analysis": ["libs/web/topic/features/analysis/src/index.ts"],
       "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"],
+      "@tellme/web/topic/ui/date-time-filter": ["libs/web/topic/ui/date-time-filter/src/index.ts"],
       "@tellme/web/topic/ui/select": ["libs/web/topic/ui/select/src/index.ts"]
     }
   },
