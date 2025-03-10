@@ -1,0 +1,10 @@
+@import '@tellme/web/shared/ui/variables';
+
+.checkbox {padding: 0; margin: 0;
+  &_wrapper {border-radius: $radius-xs!important; width: 16px; height: 16px; margin-right: 12px;
+    &::before {border: 1px solid $text-secondary!important; background-color: transparent!important; border-radius: $radius-xs!important;}
+    &::after {background-color: $brand-primary!important; border-radius: $radius-xs!important;}
+  }
+  &_label {color: $text-primary; font-size: $text-small!important; line-height: 16px!important; padding: 0!important;}
+  &_icon {height: 10px;}
+}
