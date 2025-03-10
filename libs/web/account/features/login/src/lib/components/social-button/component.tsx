@@ -6,14 +6,16 @@ import { SocialProvider } from '../../enums';
 interface SocialButtonProps {
   provider: SocialProvider;
   onPress: () => void;
+  isLoading?: boolean;
 }
 
-export function SocialButton({ provider, onPress }: SocialButtonProps): ReactElement {
+export function SocialButton({ provider, onPress, isLoading }: SocialButtonProps): ReactElement {
   const t = useTranslations('account.LOGIN');
 
   return (
     <Button
       onPress={onPress}
+      isLoading={isLoading}
       variant='bordered'
       fullWidth
       startContent={<Icon name={provider} />}>
