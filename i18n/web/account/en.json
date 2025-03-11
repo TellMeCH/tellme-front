@@ -2,8 +2,8 @@
   "LOGIN": {
     "TEXT_TITLE": "Welcome to tell<highlight>me</highlight>",
     "TEXT_DESCRIPTION": "The right call to get to know your customers",
-    "BUTTON_GOOGLE": "Sign with Google",
-    "BUTTON_MICROSOFT": "Sign with Microsoft",
+    "BUTTON_GOOGLE": "Sign in with Google",
+    "BUTTON_MICROSOFT": "Sign in with Microsoft",
     "TEXT_OR": "or",
     "TEXT_EMAIL": "Email",
     "TEXT_PASSWORD": "Password",
@@ -13,6 +13,7 @@
     "TEXT_INVALID_EMAIL": "Email is invalid",
     "TEXT_REQUIRED_PASSWORD": "Password is required",
     "TEXT_INVALID_CREDENTIALS": "Email or password is incorrect",
+    "TEXT_IMPOSSIBLE_TO_LOG_IN": "It's impossible to log in the selected way",
     "TEXT_INTERNAL_ERROR": "Something went wrong, please, try to log in later"
   }
 }

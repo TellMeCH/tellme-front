@@ -7,14 +7,18 @@ interface GoogleButtonProps {
 }
 
 export function GoogleButton({ onSuccess }: GoogleButtonProps): ReactElement {
-  const { loginBySocial, isLoading } = useLogin(onSuccess);
+  const { loginBySocial, isLoading, error } = useLogin(onSuccess);
 
   const loginByGoogle = (): void => {
     loginBySocial(SocialProviderName.GOOGLE);
   };
 
-  return <SocialButton
-    providerName={SocialProviderName.GOOGLE}
-    onPress={loginByGoogle}
-    isLoading={isLoading} />;
+  return (
+    <SocialButton
+      providerName={SocialProviderName.GOOGLE}
+      onPress={loginByGoogle}
+      isLoading={isLoading}
+      error={error}
+    />
+  );
 }
