@@ -18,10 +18,13 @@
     "@heroui/react": "^2.7.4",
     "@hookform/resolvers": "^4.1.3",
     "@ronas-it/axios-api-client": "^0.1.0",
-    "@ronas-it/rtkq-entity-api": "^0.4.3",
+    "@ronas-it/rtkq-entity-api": "0.4.6",
     "autoprefixer": "^10.4.20",
+    "class-transformer": "^0.5.1",
     "clsx": "^2.1.1",
+    "firebase": "^11.4.0",
     "framer-motion": "^12.4.7",
+    "js-cookie": "^3.0.5",
     "luxon": "^3.5.0",
     "next": "~15.1.4",
     "next-intl": "^3.26.5",
@@ -52,7 +55,7 @@
     "@nx/react": "20.4.6",
     "@nx/workspace": "20.4.6",
     "@opennextjs/cloudflare": "^0.5.8",
-    "@ronas-it/nx-generators": "^0.12.2",
+    "@ronas-it/nx-generators": "^0.13.2",
     "@stylistic/eslint-plugin": "^2.12.1",
     "@swc-node/register": "~1.9.1",
     "@swc/core": "~1.5.7",
@@ -62,6 +65,7 @@
     "@testing-library/react": "16.1.0",
     "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^29.5.12",
+    "@types/js-cookie": "^3.0.6",
     "@types/luxon": "^3.4.2",
     "@types/node": "18.16.9",
     "@types/react": "19.0.0",
@@ -94,15 +98,15 @@
     "typescript-eslint": "^8.19.0"
   },
   "optionalDependencies": {
-    "@ast-grep/napi-win32-x64-msvc": "0.34.4",
-    "@ast-grep/napi-darwin-x64": "0.34.4",
-    "@ast-grep/napi-linux-x64-gnu": "0.34.4",
-    "@ast-grep/napi-win32-ia32-msvc": "0.34.4",
     "@ast-grep/napi-darwin-arm64": "0.34.4",
-    "@ast-grep/napi-win32-arm64-msvc": "0.34.4",
+    "@ast-grep/napi-darwin-x64": "0.34.4",
     "@ast-grep/napi-linux-arm64-gnu": "0.34.4",
     "@ast-grep/napi-linux-arm64-musl": "0.34.4",
-    "@ast-grep/napi-linux-x64-musl": "0.34.4"
+    "@ast-grep/napi-linux-x64-gnu": "0.34.4",
+    "@ast-grep/napi-linux-x64-musl": "0.34.4",
+    "@ast-grep/napi-win32-arm64-msvc": "0.34.4",
+    "@ast-grep/napi-win32-ia32-msvc": "0.34.4",
+    "@ast-grep/napi-win32-x64-msvc": "0.34.4"
   },
   "workspaces": [
     "apps/*"

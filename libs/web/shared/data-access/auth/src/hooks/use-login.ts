@@ -1,0 +1,64 @@
+'use client';
+
+import {
+  browserLocalPersistence,
+  browserSessionPersistence,
+  GoogleAuthProvider,
+  setPersistence,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  UserCredential,
+} from 'firebase/auth';
+import { DateTime } from 'luxon';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { CookieService } from '@tellme/web/shared/data-access/cookies';
+import { firebaseAuth } from '../firebase-auth';
+import { authActions } from '../slice';
+
+const googleProvider = new GoogleAuthProvider();
+
+export function useLogin(onSuccess: () => void) {
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  const dispatch = useDispatch();
+
+  const executeLogin = async (login: () => Promise<UserCredential>, shouldRemember: boolean = true): Promise<void> => {
+    try {
+      setError('');
+      setIsLoading(true);
+
+      const response = await login();
+
+      dispatch(authActions.setProfile(response.user));
+      const expirationDate = DateTime.local().plus({ days: 14 }).toJSDate();
+      CookieService.set({ isAuthenticated: 'true' }, { expires: shouldRemember ? expirationDate : undefined });
+      onSuccess();
+    } catch (error: any) {
+      setError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const loginByEmail = async (email: string, password: string, shouldRemember: boolean): Promise<void> => {
+    const login = async (): Promise<UserCredential> => {
+      const persistence = shouldRemember ? browserLocalPersistence : browserSessionPersistence;
+      await setPersistence(firebaseAuth, persistence);
+
+      return await signInWithEmailAndPassword(firebaseAuth, email, password);
+    };
+
+    await executeLogin(login, shouldRemember);
+  };
+
+  const loginByGoogle = async (): Promise<void> => {
+    const login = async (): Promise<UserCredential> => {
+      return await signInWithPopup(firebaseAuth, googleProvider);
+    };
+
+    await executeLogin(login);
+  };
+
+  return { isLoading, error, loginByEmail, loginByGoogle };
+}

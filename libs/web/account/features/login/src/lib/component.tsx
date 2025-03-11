@@ -6,7 +6,18 @@ import { isEmpty } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, DividerWithText, FormTextInput, Heading, Icon, Logo } from '@tellme/web/shared/ui/ui-kit';
+import { useLogin } from '@tellme/web/shared/data-access/auth';
+import {
+  Button,
+  DividerWithText,
+  FormCheckbox,
+  FormMessage,
+  FormTextInput,
+  Heading,
+  Icon,
+  Logo,
+} from '@tellme/web/shared/ui/ui-kit';
+import { FormValues } from '@tellme/web/shared/utils/form';
 import styles from './component.module.scss';
 import { GoogleButton, MicrosoftButton } from './components';
 import { LoginFormSchema } from './forms';
@@ -24,8 +35,11 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
     resolver: yupResolver(LoginFormSchema.validationSchema(t)),
   });
 
-  // TODO: implement login with email and password
-  const submit = (): void => onSuccess();
+  const { loginByEmail, isLoading, error } = useLogin(onSuccess);
+
+  const submit = (values: FormValues<LoginFormSchema>): void => {
+    loginByEmail(values.email, values.password, values.shouldRemember);
+  };
 
   return (
     <div className='flex justify-center items-center w-full min-h-screen'>
@@ -40,7 +54,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
         </Heading>
         <p className='mb-6'>{t('TEXT_DESCRIPTION')}</p>
         <div className='flex flex-col gap-6 mb-6'>
-          <GoogleButton />
+          <GoogleButton onSuccess={onSuccess} />
           <MicrosoftButton />
           <DividerWithText text={t('TEXT_OR')} />
         </div>
@@ -63,9 +77,20 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
             type='password'
             autoComplete='current-password'
           />
+          <FormCheckbox name='shouldRemember' control={form.control}>
+            {t('TEXT_REMEMBER_ME')}
+          </FormCheckbox>
+          {!!error && (
+            <FormMessage
+              message={
+                error.includes('auth/invalid-credential') ? t('TEXT_INVALID_CREDENTIALS') : t('TEXT_INTERNAL_ERROR')
+              }
+            />
+          )}
           <Button
             type='submit'
             isDisabled={!isEmpty(form.formState.errors)}
+            isLoading={isLoading}
             fullWidth>
             {t('BUTTON_SIGN_IN')}
           </Button>
