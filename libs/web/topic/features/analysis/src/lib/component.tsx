@@ -1,7 +1,8 @@
 'use client';
 
-import { type ReactElement } from 'react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+import { type ReactElement } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
@@ -10,6 +11,7 @@ import { TopicSelect } from '@tellme/web/topic/ui/select';
 import { topicsMock, graphDataMock, paragraphsMock, filtersMock } from './mocks/analysis';
 
 export function TopicAnalysis(): ReactElement {
+  const t = useTranslations('topic.ANALYSIS');
   const showUnderDevelopment = useShowUnderDevelopment();
   const [selectedValue, setSelectedValue] = useState(topicsMock[0].value);
 
@@ -40,16 +42,16 @@ export function TopicAnalysis(): ReactElement {
         </div>
         <div className='flex flex-row justify-between items-center mt-4 mb-2'>
           <Heading level={3} className='text-xl uppercase'>
-            Trends
+            {t('TEXT_TRENDS')}
           </Heading>
           <div className='flex flex-row gap-4 items-center'>
             <p className='relative flex items-center gap-[10px]'>
               <span className='w-3 h-3 bg-brand-primary rounded-full' />
-              Frequency
+              {t('TEXT_FREQUENCY')}
             </p>
             <p className='relative flex items-center gap-[10px]'>
               <span className='w-3 h-3 bg-brand-tertiary rounded-full' />
-              Customer engagement
+              {t('TEXT_CUSTOMER_ENGAGEMENT')}
             </p>
           </div>
         </div>
@@ -96,7 +98,7 @@ export function TopicAnalysis(): ReactElement {
         </ResponsiveContainer>
         <div className='flex flex-col gap-3 p-5 bg-background-primary rounded-lg '>
           <Heading level={3} className='text-xl'>
-            Reasons for Calling
+            {t('TEXT_REASONS_FOR_CALLING')}
           </Heading>
           <p>
             Customers frequently contact the call center to inquire about restock dates and availability of specific
@@ -105,7 +107,7 @@ export function TopicAnalysis(): ReactElement {
         </div>
         <div className='flex flex-col gap-3 p-5 bg-background-primary rounded-lg '>
           <Heading level={3} className='text-xl'>
-            Suggested Actions
+            {t('TEXT_SUGGESTED_ACTIONS')}
           </Heading>
           <p>
             The company could improve customer satisfaction by providing more proactive updates on restock timelines and

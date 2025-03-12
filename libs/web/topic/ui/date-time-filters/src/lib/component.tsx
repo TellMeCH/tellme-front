@@ -27,8 +27,7 @@ export function DateTimeFilters({ options, defaultValue, onChange }: DateTimeFil
             selected === option.value && 'bg-black text-text-foreground',
           )}
           variant='flat'>
-          <span
-            className={clsx(selected === option.value ? 'text-text-foreground' : 'text-text-primary', 'font-medium')}>
+          <span className={selected === option.value ? 'text-text-foreground' : 'text-text-primary'}>
             {option.label}
           </span>
         </Button>

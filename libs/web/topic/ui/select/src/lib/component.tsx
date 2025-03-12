@@ -1,5 +1,6 @@
 import { DropdownSection, Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, Input } from '@heroui/react';
 import clsx from 'clsx';
+import { useTranslations } from 'next-intl';
 import { ReactElement, useState } from 'react';
 import { Icon } from '@tellme/web/shared/ui/ui-kit';
 
@@ -10,10 +11,12 @@ interface TopicSelectProps {
 }
 
 export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps): ReactElement {
-  const [search, setSearch] = useState('');
+  const t = useTranslations('topic.UI.SELECT');
+
+  const [value, setValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
 
-  const filteredItems = items.filter((item) => item.label.toLowerCase().includes(search.toLowerCase()));
+  const filteredItems = items.filter((item) => item.label.toLowerCase().includes(value.toLowerCase()));
 
   return (
     <Dropdown className='p-0 w-[300px] shadow-lg' onOpenChange={setIsOpen}>
@@ -28,14 +31,14 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
           key='search'
           className='p-0 m-0 cursor-default data-[hover=true]:bg-inherit'>
           <Input
-            placeholder='Search'
-            value={search}
+            placeholder={t('TEXT_PLACEHOLDER_SEARCH')}
+            value={value}
             startContent={<Icon name='search' />}
-            onValueChange={setSearch}
+            onValueChange={setValue}
             classNames={{
               inputWrapper:
                 'rounded-2 my-2 bg-background-primary shadow-none data-[hover=true]:bg-background-primary group-data-[focus=true]:bg-background-primary ',
-              input: ' p-0',
+              input: 'p-0',
             }}
           />
         </DropdownItem>
