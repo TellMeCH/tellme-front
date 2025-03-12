@@ -1,16 +1,16 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { ReactElement, useState } from 'react';
 
-interface DateTimeFilterProps {
+interface DateTimeFiltersProps {
   options: Array<{ label: string; value: string }>;
   defaultValue?: string;
   onChange?: (value: string) => void;
 }
 
-export function DateTimeFilter({ options, defaultValue, onChange }: DateTimeFilterProps) {
+export function DateTimeFilters({ options, defaultValue, onChange }: DateTimeFiltersProps): ReactElement {
   const [selected, setSelected] = useState(defaultValue || options[0]?.value);
 
-  const handleSelect = (value: string) => {
+  const handleSelect = (value: string): void => {
     setSelected(value);
     onChange?.(value);
   };
