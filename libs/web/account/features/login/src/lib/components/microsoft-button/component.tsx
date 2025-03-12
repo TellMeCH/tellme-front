@@ -19,6 +19,7 @@ export function MicrosoftButton({ onSuccess }: MicrosoftButtonProps): ReactEleme
       onPress={loginByMicrosoft}
       isLoading={isLoading}
       error={error}
+      testId='microsoft-button'
     />
   );
 }
