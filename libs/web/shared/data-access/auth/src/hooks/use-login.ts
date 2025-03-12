@@ -8,15 +8,18 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   UserCredential,
+  OAuthProvider,
 } from 'firebase/auth';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
+import { SocialProviderName } from '../enums';
 import { firebaseAuth } from '../firebase-auth';
 import { authActions } from '../slice';
 
 const googleProvider = new GoogleAuthProvider();
+const microsoftProvider = new OAuthProvider('microsoft.com');
 
 export function useLogin(onSuccess: () => void) {
   const [isLoading, setIsLoading] = useState(false);
@@ -52,13 +55,15 @@ export function useLogin(onSuccess: () => void) {
     await executeLogin(login, shouldRemember);
   };
 
-  const loginByGoogle = async (): Promise<void> => {
+  const loginBySocial = async (providerName: SocialProviderName): Promise<void> => {
     const login = async (): Promise<UserCredential> => {
-      return await signInWithPopup(firebaseAuth, googleProvider);
+      const provider = providerName === SocialProviderName.GOOGLE ? googleProvider : microsoftProvider;
+
+      return await signInWithPopup(firebaseAuth, provider);
     };
 
     await executeLogin(login);
   };
 
-  return { isLoading, error, loginByEmail, loginByGoogle };
+  return { isLoading, error, loginByEmail, loginBySocial };
 }
