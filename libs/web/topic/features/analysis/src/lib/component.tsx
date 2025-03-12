@@ -3,15 +3,22 @@
 import { type ReactElement } from 'react';
 import { useState } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFilters } from '@tellme/web/topic/ui/date-time-filters';
 import { TopicSelect } from '@tellme/web/topic/ui/select';
 import { topicsMock, graphDataMock, paragraphsMock, filtersMock } from './mocks/analysis';
 
 export function TopicAnalysis(): ReactElement {
+  const showUnderDevelopment = useShowUnderDevelopment();
   const [selectedValue, setSelectedValue] = useState(topicsMock[0].value);
 
   const selectedItem = topicsMock.find((item) => item.value === selectedValue);
+
+  const handleTopicSelect = (value: string): void => {
+    setSelectedValue(value);
+    showUnderDevelopment();
+  };
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -25,14 +32,10 @@ export function TopicAnalysis(): ReactElement {
             <TopicSelect
               items={topicsMock}
               selectedValue={selectedValue}
-              onSelect={setSelectedValue} />
+              onSelect={handleTopicSelect} />
           </div>
           <div>
-            <DateTimeFilters
-              options={filtersMock}
-              defaultValue='1y'
-              onChange={(value) => console.log('Selected:', value)}
-            />
+            <DateTimeFilters options={filtersMock} onChange={showUnderDevelopment} />
           </div>
         </div>
         <div className='flex flex-row justify-between items-center mt-4 mb-2'>

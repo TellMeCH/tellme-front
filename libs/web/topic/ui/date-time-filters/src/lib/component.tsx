@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import { ReactElement, useState } from 'react';
+import { Button } from '@tellme/web/shared/ui/ui-kit';
 
 interface DateTimeFiltersProps {
   options: Array<{ label: string; value: string }>;
@@ -18,15 +19,19 @@ export function DateTimeFilters({ options, defaultValue, onChange }: DateTimeFil
   return (
     <div className='flex gap-2'>
       {options.map((option) => (
-        <button
+        <Button
           key={option.value}
-          onClick={() => handleSelect(option.value)}
+          onPress={() => handleSelect(option.value)}
           className={clsx(
-            'px-4 py-2 rounded-full text-sm transition-colors',
-            selected === option.value ? 'bg-black text-white' : 'bg-gray-100 text-black hover:bg-gray-200',
-          )}>
-          {option.label}
-        </button>
+            'bg-background-primary transition-colors',
+            selected === option.value && 'bg-black text-text-foreground',
+          )}
+          variant='flat'>
+          <span
+            className={clsx(selected === option.value ? 'text-text-foreground' : 'text-text-primary', 'font-medium')}>
+            {option.label}
+          </span>
+        </Button>
       ))}
     </div>
   );
