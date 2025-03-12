@@ -112,7 +112,7 @@ export function TopicAnalysis(): ReactElement {
             enhancing the notification system for customers.
           </p>
         </div>
-        <div className='grid grid-cols-2 gap-10 bg-white rounded-lg mt-2'>
+        <div className='grid grid-cols-2 gap-10 rounded-lg mt-2'>
           {paragraphsMock.map((item, index) => (
             <div key={index}>
               <p className='font-medium text-xl mb-2'>{item.title}</p>
