@@ -6,86 +6,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } fro
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFilters } from '@tellme/web/topic/ui/date-time-filters';
 import { TopicSelect } from '@tellme/web/topic/ui/select';
-
-const topics = [
-  { value: 'product-stock', label: 'Product Stock' },
-  { value: 'order-status', label: 'Order Status' },
-  { value: 'returns', label: 'Returns and Exchanges' },
-  { value: 'sizing', label: 'Sizing and Fit' },
-  { value: 'promotions', label: 'Promotions' },
-];
-
-const filters = [
-  { label: '1 year', value: 'daily' },
-  { label: '3 months', value: 'weekly' },
-  { label: '1 month', value: 'monthly' },
-];
-
-const data = [
-  {
-    uv: 4000,
-    pv: 2400,
-    amt: 2400,
-  },
-  {
-    uv: 3000,
-    pv: 1398,
-    amt: 2210,
-  },
-  {
-    uv: 2000,
-    pv: 9800,
-    amt: 2290,
-  },
-  {
-    uv: 2780,
-    pv: 3908,
-    amt: 2000,
-  },
-  {
-    uv: 1890,
-    pv: 4800,
-    amt: 2181,
-  },
-  {
-    uv: 2390,
-    pv: 3800,
-    amt: 2500,
-  },
-  {
-    uv: 3490,
-    pv: 4300,
-    amt: 2100,
-  },
-];
-
-const paragraphs = [
-  {
-    title: 'Stages of the Customer Journey',
-    text: 'These callers are predominantly found in the consideration stage, as they are seeking information before making a purchase decision.',
-  },
-  {
-    title: 'Call Resolution Rates',
-    text: 'Most inquiries are resolved during the initial call, as agents provide information about restock timelines or set up notifications.',
-  },
-  {
-    title: 'Churn Potential',
-    text: 'The potential for churn appears low, as customers are actively seeking information to make purchases, indicating ongoing interest in the brand.',
-  },
-  {
-    title: 'Causes for Dissatisfaction',
-    text: 'Dissatisfaction may arise from delays in restocking or unavailability of desired items, but this is not explicitly mentioned in the conversations.',
-  },
-  {
-    title: 'Causes for Engagement',
-    text: 'Engagement is fostered through timely and informative responses from agents, as well as the option for restock notifications.',
-  },
-];
+import { topicsMock, graphDataMock, paragraphsMock, filtersMock } from './mocks/analysis';
 
 export function TopicAnalysis(): ReactElement {
-  const [selectedValue, setSelectedValue] = useState(topics[0].value);
+  const [selectedValue, setSelectedValue] = useState(topicsMock[0].value);
 
-  const selectedItem = topics.find((item) => item.value === selectedValue);
+  const selectedItem = topicsMock.find((item) => item.value === selectedValue);
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -97,13 +23,13 @@ export function TopicAnalysis(): ReactElement {
               {selectedItem?.label}
             </Heading>
             <TopicSelect
-              items={topics}
+              items={topicsMock}
               selectedValue={selectedValue}
               onSelect={setSelectedValue} />
           </div>
           <div>
             <DateTimeFilters
-              options={filters}
+              options={filtersMock}
               defaultValue='1y'
               onChange={(value) => console.log('Selected:', value)}
             />
@@ -114,7 +40,7 @@ export function TopicAnalysis(): ReactElement {
             Trends
           </Heading>
           <div className='flex flex-row gap-4 items-center'>
-            <p className='relative flex items-center gap-[10px] s'>
+            <p className='relative flex items-center gap-[10px]'>
               <span className='w-3 h-3 bg-brand-primary rounded-full' />
               Frequency
             </p>
@@ -128,13 +54,28 @@ export function TopicAnalysis(): ReactElement {
           width='100%'
           height='100%'
           className='min-h-[280px]'>
-          <LineChart data={data}>
-            <CartesianGrid strokeDasharray='0' vertical={false} />
-            <XAxis tickLine={false} />
-            <YAxis tickLine={false} />
+          <LineChart data={graphDataMock} margin={{ top: 0, right: 0, left: -35, bottom: 0 }}>
+            <CartesianGrid
+              stroke='currentColor'
+              className='text-text-tertiary'
+              vertical={false} />
+            <XAxis
+              tick={{ fontSize: 14, fill: 'currentColor' }}
+              className='text-text-secondary'
+              dataKey='name'
+              interval='preserveStartEnd'
+              tickLine={false}
+            />
+            <YAxis
+              tick={{ fontSize: 12, fill: 'currentColor' }}
+              className='text-text-secondary'
+              domain={[0, 100]}
+              tickMargin={0}
+              tickLine={false}
+            />
             <Line
               type='monotone'
-              dataKey='amt'
+              dataKey='frequency'
               stroke='currentColor'
               className='text-brand-primary'
               strokeWidth={2}
@@ -142,7 +83,7 @@ export function TopicAnalysis(): ReactElement {
             />
             <Line
               type='monotone'
-              dataKey='uv'
+              dataKey='engagement'
               stroke='currentColor'
               className='text-brand-tertiary'
               strokeWidth={2}
@@ -169,7 +110,7 @@ export function TopicAnalysis(): ReactElement {
           </p>
         </div>
         <div className='grid grid-cols-2 gap-10 bg-white rounded-lg mt-2'>
-          {paragraphs.map((item, index) => (
+          {paragraphsMock.map((item, index) => (
             <div key={index}>
               <p className='font-medium text-xl mb-2'>{item.title}</p>
               <p className='text-gray-600 whitespace-normal text-clip'>{item.text}</p>
