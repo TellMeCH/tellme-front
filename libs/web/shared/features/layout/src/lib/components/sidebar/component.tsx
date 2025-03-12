@@ -51,12 +51,12 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
         <SidebarItems itemsProps={sidebarItems} />
       </nav>
       <div className='sticky'>
-        <div className='px-7 mb-3 break-all'>
+        <div className='px-7 mb-3'>
           {profile && (
             <User
               name={profile.email}
               classNames={{
-                name: 'text-base',
+                name: 'text-base truncate max-w-48',
               }}
               avatarProps={{
                 size: 'sm',
