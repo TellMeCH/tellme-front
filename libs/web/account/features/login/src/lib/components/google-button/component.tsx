@@ -1,6 +1,5 @@
 import { ReactElement } from 'react';
-import { useLogin } from '@tellme/web/shared/data-access/auth';
-import { SocialProvider } from '../../enums';
+import { SocialProviderName, useLogin } from '@tellme/web/shared/data-access/auth';
 import { SocialButton } from '../social-button';
 
 interface GoogleButtonProps {
@@ -8,10 +7,18 @@ interface GoogleButtonProps {
 }
 
 export function GoogleButton({ onSuccess }: GoogleButtonProps): ReactElement {
-  const { loginByGoogle, isLoading } = useLogin(onSuccess);
+  const { loginBySocial, isLoading, error } = useLogin(onSuccess);
 
-  return <SocialButton
-    provider={SocialProvider.GOOGLE}
-    onPress={loginByGoogle}
-    isLoading={isLoading} />;
+  const loginByGoogle = (): void => {
+    loginBySocial(SocialProviderName.GOOGLE);
+  };
+
+  return (
+    <SocialButton
+      providerName={SocialProviderName.GOOGLE}
+      onPress={loginByGoogle}
+      isLoading={isLoading}
+      error={error}
+    />
+  );
 }

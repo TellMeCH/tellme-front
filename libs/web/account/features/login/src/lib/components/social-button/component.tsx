@@ -1,25 +1,38 @@
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
-import { Button, Icon } from '@tellme/web/shared/ui/ui-kit';
-import { SocialProvider } from '../../enums';
+import { SocialProviderName } from '@tellme/web/shared/data-access/auth';
+import { Button, FormMessage, Icon } from '@tellme/web/shared/ui/ui-kit';
 
 interface SocialButtonProps {
-  provider: SocialProvider;
+  providerName: SocialProviderName;
   onPress: () => void;
   isLoading?: boolean;
+  error?: string;
 }
 
-export function SocialButton({ provider, onPress, isLoading }: SocialButtonProps): ReactElement {
+export function SocialButton({ providerName, onPress, isLoading, error }: SocialButtonProps): ReactElement {
   const t = useTranslations('account.LOGIN');
 
   return (
-    <Button
-      onPress={onPress}
-      isLoading={isLoading}
-      variant='bordered'
-      fullWidth
-      startContent={<Icon name={provider} />}>
-      <span className='text-text-primary font-medium'>{t(`BUTTON_${provider.toUpperCase()}`)}</span>
-    </Button>
+    <div>
+      <Button
+        onPress={onPress}
+        isLoading={isLoading}
+        variant='bordered'
+        fullWidth
+        startContent={<Icon name={providerName} />}>
+        <span className='text-text-primary font-medium'>{t(`BUTTON_${providerName.toUpperCase()}`)}</span>
+      </Button>
+      {!!error && (
+        <FormMessage
+          message={
+            error.includes('auth/admin-restricted-operation')
+              ? t('TEXT_IMPOSSIBLE_TO_LOG_IN')
+              : t('TEXT_INTERNAL_ERROR')
+          }
+          className='mt-1'
+        />
+      )}
+    </div>
   );
 }
