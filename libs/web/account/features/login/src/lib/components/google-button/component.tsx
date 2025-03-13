@@ -19,6 +19,7 @@ export function GoogleButton({ onSuccess }: GoogleButtonProps): ReactElement {
       onPress={loginByGoogle}
       isLoading={isLoading}
       error={error}
+      testId='google-button'
     />
   );
 }
