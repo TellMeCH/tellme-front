@@ -13,5 +13,18 @@
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
       "TEXT_FREQUENCY": "Frequency"
     }
+  },
+  "MANAGEMENT": {
+    "TEXT_TITLE": "Topics",
+    "BUTTON_NEW_TOPIC": "New Topic",
+    "TEXT_LAST_MODIFIED": "Last modified: {date}",
+    "TEXT_CREATED": "Created: {date}",
+    "TEXT_NAME": "Topic Name",
+    "TEXT_DESCRIPTION": "Description",
+    "BUTTON_CANCEL": "Cancel",
+    "BUTTON_SAVE": "Save",
+    "TEXT_DELETE_TOPIC_TITLE": "Delete Topic",
+    "TEXT_DELETE_TOPIC_DESCRIPTION": "Do you really want to delete the topic <highlight>\"{name}\"</highlight>?",
+    "BUTTON_DELETE": "Delete"
   }
 }

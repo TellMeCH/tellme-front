@@ -1,4 +1,5 @@
+const apiRoot = process.env.NEXT_PUBLIC_BACKEND_URL;
+
 export const configuration = {
-  // TODO: Add development, staging, production url, when the work with the API will be started
-  apiURL: '',
+  apiURL: `${apiRoot}/api/v1`,
 };
