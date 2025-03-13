@@ -2,13 +2,13 @@ import clsx from 'clsx';
 import { ReactElement, useState } from 'react';
 import { Button } from '@tellme/web/shared/ui/ui-kit';
 
-interface DateTimeFiltersProps {
+interface PeriodFilterProps {
   options: Array<{ label: string; value: string }>;
   defaultValue?: string;
   onChange?: (value: string) => void;
 }
 
-export function DateTimeFilters({ options, defaultValue, onChange }: DateTimeFiltersProps): ReactElement {
+export function PeriodFilter({ options, defaultValue, onChange }: PeriodFilterProps): ReactElement {
   const [selected, setSelected] = useState(defaultValue || options[0]?.value);
 
   const handleSelect = (value: string): void => {

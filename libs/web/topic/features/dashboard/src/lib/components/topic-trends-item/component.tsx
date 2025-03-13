@@ -28,10 +28,10 @@ export function TopicTrendsItem({
       <div className='flex flex-col flex-1 max-w-80'>
         <p className='text-text-secondary mb-[22px]'>{t('TEXT_FREQUENCY')}</p>
         <div className='flex flex-col gap-1'>
-          <AppProgress value={averageDuration.secondMeasurement} aria-label='second measurement duration' />
+          <AppProgress value={averageDuration.secondMeasurement} aria-label={t('TEXT_SECOND_MEASURMENT_AREA_LABEL')} />
           <AppProgress
             value={averageDuration.firstMeasurement}
-            aria-label='first measurement duration'
+            aria-label={t('TEXT_FIRST_MEASURMENT_AREA_LABEL')}
             color='secondary'
           />
         </div>

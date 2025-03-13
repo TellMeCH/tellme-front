@@ -11,7 +11,7 @@ interface TopicSelectProps {
 }
 
 export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps): ReactElement {
-  const t = useTranslations('topic.UI.SELECT');
+  const t = useTranslations('topic.ANALYSIS.SELECT');
 
   const [value, setValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
@@ -25,11 +25,12 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
           <Icon name='arrow_up' className={clsx('transition-transform', isOpen ? 'rotate-180' : 'rotate-0')} />
         </Button>
       </DropdownTrigger>
-      <DropdownMenu aria-label='Dropdown with search' className='p-2'>
+      <DropdownMenu aria-label={t('TEXT_DROPDOWN_AREA_LABEL')} className='p-2'>
+        {/* TODO: Search functionality is hidden now. Remove hidden if necessary */}
         <DropdownItem
           isReadOnly
           key='search'
-          className='p-0 m-0 cursor-default data-[hover=true]:bg-inherit'>
+          className='p-0 m-0 cursor-default data-[hover=true]:bg-inherit hidden'>
           <Input
             placeholder={t('TEXT_PLACEHOLDER_SEARCH')}
             value={value}

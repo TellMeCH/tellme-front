@@ -41,8 +41,7 @@
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
       "@tellme/web/topic/features/analysis": ["libs/web/topic/features/analysis/src/index.ts"],
       "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"],
-      "@tellme/web/topic/ui/date-time-filters": ["libs/web/topic/ui/date-time-filters/src/index.ts"],
-      "@tellme/web/topic/ui/select": ["libs/web/topic/ui/select/src/index.ts"]
+      "@tellme/web/topic/ui/legend": ["libs/web/topic/ui/legend/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
