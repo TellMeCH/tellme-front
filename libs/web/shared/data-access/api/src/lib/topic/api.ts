@@ -24,12 +24,29 @@ export const topicApi = createAppApi({
           results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
         } as PaginationResponse<Topic>;
       },
+    }),
+    getActiveList: builder.query<PaginationResponse<Topic>, PaginationRequest>({
+      query: (params) => ({
+        method: 'get',
+        url: topicApiConfig.baseEndpoint + 'list_active/',
+        params: prepareRequestParams(params, PaginationRequest),
+      }),
+      serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),
+      transformResponse: (response) => {
+        const { results, next, previous } = plainToInstance(PaginationResponse<Topic>, response as object);
+
+        return {
+          next,
+          previous,
+          results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
+        } as PaginationResponse<Topic>;
+      },
       /*      providesTags: (response: PaginationResponse<Topic>) => {
-        return [
-          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
-          ...response.results.map((result) => ({ type: topicApiConfig.entityName, id: result.id })),
-        ]
-      },*/
+      return [
+        { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+        ...response.results.map((result) => ({ type: topicApiConfig.entityName, id: result.id })),
+      ]
+    },*/
     }),
   }),
 });

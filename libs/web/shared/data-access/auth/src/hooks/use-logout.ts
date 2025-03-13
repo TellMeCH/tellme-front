@@ -1,3 +1,5 @@
+'use client';
+
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';

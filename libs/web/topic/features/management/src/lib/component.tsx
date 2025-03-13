@@ -15,6 +15,8 @@ export function TopicsManagement(): ReactElement {
   const profile = useSelector(authSelectors.profile);
   const { data, isFetching } = topicApi.useSearchQuery({}, { skip: !profile });
 
+  console.log(data);
+
   return (
     <div>
       <Header
