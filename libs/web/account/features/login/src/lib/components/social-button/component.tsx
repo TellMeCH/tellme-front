@@ -8,9 +8,10 @@ interface SocialButtonProps {
   onPress: () => void;
   isLoading?: boolean;
   error?: string;
+  testId?: string;
 }
 
-export function SocialButton({ providerName, onPress, isLoading, error }: SocialButtonProps): ReactElement {
+export function SocialButton({ providerName, onPress, isLoading, error, testId }: SocialButtonProps): ReactElement {
   const t = useTranslations('account.LOGIN');
 
   return (
@@ -20,7 +21,8 @@ export function SocialButton({ providerName, onPress, isLoading, error }: Social
         isLoading={isLoading}
         variant='bordered'
         fullWidth
-        startContent={<Icon name={providerName} />}>
+        startContent={<Icon name={providerName} />}
+        data-testid={testId}>
         <span className='text-text-primary font-medium'>{t(`BUTTON_${providerName.toUpperCase()}`)}</span>
       </Button>
       {!!error && (
