@@ -43,7 +43,6 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
   } = props;
   const { className: formGroupClassName, ...restFormGroupProps } = formGroupProps ?? {};
   const [isPasswordVisible, setPasswordVisible] = useState<boolean>(false);
-  const [isFocused, setIsFocused] = useState<boolean>(false);
 
   const togglePasswordVisibility = (): void => {
     setPasswordVisible((currentValue) => !currentValue);
@@ -66,8 +65,6 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
     return accessoryRight;
   };
 
-  const toggleFocus = (): void => setIsFocused((isFocused) => !isFocused);
-
   return (
     <FormGroup
       className={clsx([
@@ -85,7 +82,6 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
         label={label}
         aria-describedby={restFormGroupProps.errorID}
         value={value}
-        onFocusChange={toggleFocus}
         isInvalid={hasError}
         variant='bordered'
         classNames={{

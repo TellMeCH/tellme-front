@@ -67,6 +67,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
             accessoryLeft={<Icon name='mail' />}
             type='email'
             autoComplete='email'
+            data-testid='email-input'
           />
           <FormTextInput
             name='password'
@@ -76,8 +77,12 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
             accessoryLeft={<Icon name='lock' />}
             type='password'
             autoComplete='current-password'
+            data-testid='password-input'
           />
-          <FormCheckbox name='shouldRemember' control={form.control}>
+          <FormCheckbox
+            name='shouldRemember'
+            control={form.control}
+            data-testid='should-remember-checkbox'>
             {t('TEXT_REMEMBER_ME')}
           </FormCheckbox>
           {!!error && (
@@ -91,6 +96,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
             type='submit'
             isDisabled={!isEmpty(form.formState.errors)}
             isLoading={isLoading}
+            data-testid='submit-button'
             fullWidth>
             {t('BUTTON_SIGN_IN')}
           </Button>
