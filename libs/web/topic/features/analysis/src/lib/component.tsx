@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { type ReactElement } from 'react';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
-import styles from './component.module.scss';
 import { TopicSelect, PeriodFilter, CardSection, TopicChart } from './components';
 import { topicsMock, graphDataMock, paragraphsMock, filtersMock } from './mocks/analysis';
 
@@ -39,14 +38,7 @@ export function TopicAnalysis(): ReactElement {
             <PeriodFilter options={filtersMock} onChange={showUnderDevelopment} />
           </div>
         </div>
-        <TopicChart
-          title={t('TEXT_TRENDS')}
-          data={graphDataMock}
-          lines={[
-            { key: 'frequency', color: styles.brandPrimary, label: t('TEXT_FREQUENCY') },
-            { key: 'engagement', color: styles.brandTertiary, label: t('TEXT_CUSTOMER_ENGAGEMENT') },
-          ]}
-        />
+        <TopicChart data={graphDataMock} />
         <CardSection title={t('TEXT_REASONS_FOR_CALLING')}>
           {/* TODO: Replace this with actual data */}
           <p>

@@ -1,28 +1,30 @@
 'use client';
 
+import { useTranslations } from 'next-intl';
 import { type ReactElement, Fragment } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { Legend } from '@tellme/web/topic/ui/legend';
+import styles from './component.module.scss';
 
-interface LineConfig {
-  key: string;
-  color: string;
-  label: string;
-}
-
+// TODO: Remove any and replace with actual data types
 interface TopicChartProps {
-  title: string;
   data: Array<Record<string, any>>;
-  lines: Array<LineConfig>;
 }
 
-export function TopicChart({ title, data, lines }: TopicChartProps): ReactElement {
+export function TopicChart({ data }: TopicChartProps): ReactElement {
+  const t = useTranslations('topic.ANALYSIS.CHART');
+
+  const lines = [
+    { key: 'frequency', color: styles.brandPrimary, label: t('TEXT_FREQUENCY') },
+    { key: 'engagement', color: styles.brandTertiary, label: t('TEXT_CUSTOMER_ENGAGEMENT') },
+  ];
+
   return (
     <Fragment>
       <div className='flex flex-row justify-between items-center mt-4 mb-2'>
         <Heading level={3} className='text-xl uppercase'>
-          {title}
+          {t('TEXT_TRENDS')}
         </Heading>
         <div className='flex flex-row gap-4 items-center'>
           {lines.map(({ key, ...props }) => (
