@@ -20,6 +20,7 @@ export type IconName =
   | 'microsoft'
   | 'facebook'
   | 'twitter'
+  | 'search'
   | 'instagram'
   | 'eye_closed';
 

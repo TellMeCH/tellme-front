@@ -1,8 +1,12 @@
 'use client';
 
 import clsx from 'clsx';
+import dynamic from 'next/dynamic';
 import { type ReactElement } from 'react';
-import { PieChart, Pie, Cell } from 'recharts';
+import { Pie, Cell } from 'recharts';
+
+// Workaround: https://github.com/recharts/recharts/issues/2272#issuecomment-802096207
+const PieChart = dynamic(() => import('recharts').then((mod) => mod.PieChart), { ssr: false });
 
 interface CircularProgressProps {
   value: number;
@@ -39,7 +43,6 @@ export function CircularProgress({
   return (
     <PieChart width={82} height={82}>
       <Pie
-        onClick={undefined}
         data={data}
         startAngle={-25}
         endAngle={205}
