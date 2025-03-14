@@ -1,0 +1,9 @@
+{
+  "name": "web/topic/ui/legend",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/topic/ui/legend/src",
+  "projectType": "library",
+  "tags": ["app:web", "scope:topic", "type:ui"],
+  "// targets": "to see all targets run: nx show project web/topic/ui/legend --web",
+  "targets": {}
+}

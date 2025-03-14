@@ -18,6 +18,7 @@ module.exports = {
         'brand-primary-transparent': '#167bf140',
         'brand-primary-transparent-hover': '#3391fe',
         'brand-secondary': '#b6393a',
+        'brand-tertiary': '#ee7016',
         'brand-danger': '#db4e5c',
         'brand-danger-hover': '#d83a4a',
         'brand-danger-pressed': '#c02434',
