@@ -1,5 +1,6 @@
 'use client';
 
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useState } from 'react';
 import { Topic } from '@tellme/web/shared/data-access/api';
@@ -23,13 +24,13 @@ export function Item({ topic }: ItemProps): ReactElement {
         isSelected={isActive}
         onValueChange={setIsActive}
         className='mr-6' />
-      <div className='flex-1 mr-[9%]'>
+      <div className={clsx('flex-1 mr-[9%]', !isActive && 'text-text-secondary')}>
         <Heading level={2} className='mb-2 text-xl font-medium'>
           {topic.name}
         </Heading>
         <p>{topic.description}</p>
       </div>
-      <div className='text-sm mr-[9%] min-w-[180px]'>
+      <div className={clsx('text-sm mr-[9%] min-w-[180px]', !isActive && 'text-text-secondary')}>
         <p className='mb-1'>{t('TEXT_LAST_MODIFIED', { date: formatDate(topic.updated) })}</p>
         <p>{t('TEXT_CREATED', { date: formatDate(topic.created) })}</p>
       </div>
