@@ -11,6 +11,22 @@
     },
     "TOPIC_TRENDS_ITEM": {
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
+      "TEXT_FREQUENCY": "Frequency",
+      "TEXT_FIRST_MEASURMENT_AREA_LABEL": "First measurement area label",
+      "TEXT_SECOND_MEASURMENT_AREA_LABEL": "Second measurement area label"
+    }
+  },
+  "ANALYSIS": {
+    "TEXT_TOPIC_ANALYSIS": "Topic analysis",
+    "TEXT_REASONS_FOR_CALLING": "Reasons for calling",
+    "TEXT_SUGGESTED_ACTIONS": "Suggested actions",
+    "SELECT": {
+      "TEXT_PLACEHOLDER_SEARCH": "Search",
+      "TEXT_DROPDOWN_AREA_LABEL": "Dropdown with search"
+    },
+    "CHART": {
+      "TEXT_TRENDS": "Trends",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
       "TEXT_FREQUENCY": "Frequency"
     }
   }
