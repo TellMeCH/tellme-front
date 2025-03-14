@@ -31,10 +31,10 @@ export const organizationApi = createAppApi({
         ]
       },*/
     }),
-    getOrganizations: builder.query<any, any>({
-      query: (params) => ({
+    getOrganization: builder.query<any, any>({
+      query: ({ id }) => ({
         method: 'get',
-        url: organizationApiConfig.baseEndpoint,
+        url: organizationApiConfig.baseEndpoint + id + '/',
         //params: prepareRequestParams(params, PaginationRequest),
       }),
       serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),

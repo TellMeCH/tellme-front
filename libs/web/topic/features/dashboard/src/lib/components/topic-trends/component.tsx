@@ -4,6 +4,7 @@ import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
+import { Legend } from '@tellme/web/topic/ui/legend';
 import { statisticsMock } from '../../mocks/statistics';
 import { TopicTrendsItem } from '../topic-trends-item';
 import styles from './component.module.scss';
@@ -21,14 +22,8 @@ export function DashboardTopicTrends(): ReactElement {
           {t('TEXT_TOPIC_TRENDS')}
         </Heading>
         <div className='flex flex-row gap-4 items-center'>
-          <p className='relative flex items-center gap-[10px]'>
-            <span className='w-3 h-3 bg-control-primary rounded-full' />
-            {formatDate(secondDate, DateTimeFormat.MONTH_ONLY)}
-          </p>
-          <p className='relative flex items-center gap-[10px]'>
-            <span className='w-3 h-3 bg-control-secondary rounded-full' />
-            {formatDate(firstDate, DateTimeFormat.MONTH_ONLY)}
-          </p>
+          <Legend label={formatDate(secondDate, DateTimeFormat.MONTH_ONLY)} color={styles.controlPrimary} />
+          <Legend label={formatDate(firstDate, DateTimeFormat.MONTH_ONLY)} color={styles.controlSecondary} />
         </div>
       </div>
       <div>

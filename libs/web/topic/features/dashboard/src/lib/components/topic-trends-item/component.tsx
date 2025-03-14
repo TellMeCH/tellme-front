@@ -20,19 +20,23 @@ export function TopicTrendsItem({
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS_ITEM');
 
   return (
-    <div className='flex flex-row h-[140px] pt-4 gap-[60px] border-b border-text-tertiary last:border-none'>
-      <div className='flex flex-col max-w-80 gap-2'>
+    <div className='flex flex-row justify-between h-[140px] pt-4 gap-[60px] border-b border-text-tertiary last:border-none'>
+      <div className='flex flex-col gap-2 max-w-[33%]'>
         <p className='text-xl'>{name}</p>
         <p className='text-sm'>{description}</p>
       </div>
-      <div className='flex flex-col flex-1 max-w-80'>
+      <div className='flex flex-col flex-1 max-w-[33%]'>
         <p className='text-text-secondary mb-[22px]'>{t('TEXT_FREQUENCY')}</p>
         <div className='flex flex-col gap-1'>
-          <AppProgress value={averageDuration.secondMeasurement} />
-          <AppProgress value={averageDuration.firstMeasurement} color='secondary' />
+          <AppProgress value={averageDuration.secondMeasurement} aria-label={t('TEXT_SECOND_MEASURMENT_AREA_LABEL')} />
+          <AppProgress
+            value={averageDuration.firstMeasurement}
+            aria-label={t('TEXT_FIRST_MEASURMENT_AREA_LABEL')}
+            color='secondary'
+          />
         </div>
       </div>
-      <div className='flex flex-col flex-1 max-w-80'>
+      <div className='flex flex-col flex-1 max-w-[20%]'>
         <p className='text-text-secondary mb-2'>{t('TEXT_CUSTOMER_ENGAGEMENT')}</p>
         <div className='flex flex-row gap-[68px]'>
           <CircularProgress value={averageSentiment.secondMeasurement} />

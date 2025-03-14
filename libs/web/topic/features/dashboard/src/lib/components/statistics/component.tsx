@@ -13,9 +13,11 @@ export function DashboardStatistics(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
   const { data, isFetching } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
+  const { data: a } = organizationApi.useGetOrganizationQuery({ id: 162 }, { skip: !profile });
   // const { data: data1s, isFetching: i } = topicApi.useGetActiveListQuery({}, { skip: !profile });
 
   console.log(data);
+  console.log(a);
 
   const { secondDate, averageDuration, count, averageSentiment, mostPopularTopic } = statisticsMock.general;
 
