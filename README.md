@@ -156,7 +156,7 @@ You can execute these commands for the whole project manually:
 
 ## Tests
 
-To create a test add a file `component.spec.tsx` near a component for testing.
+To create a test add a file `component.spec.tsx` near a component for testing and add tag "test" to a lib project.json.
 The structure of the file should be the following. It's allowed to use several nested `describe`.
 
 ```tsx
