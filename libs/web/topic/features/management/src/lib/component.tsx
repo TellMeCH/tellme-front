@@ -7,6 +7,7 @@ import { topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Button, Header, Icon } from '@tellme/web/shared/ui/ui-kit';
+import { Item } from './components';
 
 export function TopicsManagement(): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
@@ -25,8 +26,8 @@ export function TopicsManagement(): ReactElement {
           </Button>
         }
       />
-      <div className='flex flex-col flex-1 bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
-        {isFetching ? 'fetching' : 'done'}
+      <div className='bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
+        {data?.results.map((topic) => <Item topic={topic} key={topic.id} />)}
       </div>
     </div>
   );
