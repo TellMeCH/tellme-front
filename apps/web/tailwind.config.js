@@ -20,6 +20,8 @@ module.exports = {
         'brand-secondary': '#b6393a',
         'brand-tertiary': '#ee7016',
         'brand-danger': '#db4e5c',
+        'brand-danger-hover': '#d83a4a',
+        'brand-danger-pressed': '#c02434',
         'brand-success': '#099232',
         'brand-background': '#f2f1ef',
         'text-primary': '#181818',
@@ -50,6 +52,7 @@ module.exports = {
         light: {
           colors: {
             danger: '#db4e5c',
+            primary: '#569ee2',
           },
         },
       },

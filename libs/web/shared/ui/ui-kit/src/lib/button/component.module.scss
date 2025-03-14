@@ -30,6 +30,9 @@
       &_primary {background-color: $brand-primary; color: $white; --hover-color: #{$brand-primary-hover};
         --pressed-color: #{$brand-primary-pressed}; --focus-shadow: #{rgba($brand-primary, 0.5)};
       }
+      &_danger {background-color: $brand-danger; color: $white; --hover-color: #{$brand-danger-hover};
+        --pressed-color: #{$brand-danger-pressed}; --focus-shadow: #{rgba($brand-danger, 0.5)};
+      }
       &_disabled {background-color: $background-tertiary; color: $text-secondary;}
       &.button_icon {
         [class*='icon_primary'] {background-color: $white;}
@@ -40,11 +43,13 @@
       &[data-hover='true'] {color: var(--hover-color); outline-color: var(--hover-color);}
       &[data-pressed='true'] {color: var(--pressed-color); outline-color: var(--pressed-color);
         [class*='icon_primary'] {background-color: var(--pressed-color);}
-        &.button_icon {background-color: $background-secondary; outline-color: transparent;}
       }
 
       &_primary {color: $brand-primary; outline-color: $brand-primary; --hover-color: #{$brand-primary-hover};
         --pressed-color: #{$brand-primary-pressed}; --focus-color: #{$brand-primary-hover}; --outline-width: 1px;
+      }
+      &_danger {color: $brand-danger; outline-color: $brand-danger; --hover-color: #{$brand-danger-hover};
+        --pressed-color: #{$brand-danger-pressed}; --focus-color: #{$brand-danger-hover}; --outline-width: 1px;
       }
       &_disabled {outline-color: $text-tertiary; color: $text-tertiary;}
     }
@@ -60,6 +65,9 @@
 
       &_primary {color: $brand-primary; --hover-color: #{$brand-primary-hover}; --pressed-color: #{$brand-primary-pressed};
         --focus-color: #{$brand-primary-hover};
+      }
+      &_danger {color: $brand-danger; --hover-color: #{$brand-danger-hover}; --pressed-color: #{$brand-danger-pressed};
+        --focus-color: #{$brand-danger-hover};
       }
     }
 
