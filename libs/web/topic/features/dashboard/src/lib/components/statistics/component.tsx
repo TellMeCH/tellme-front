@@ -1,10 +1,10 @@
 'use client';
 
-import { organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
-import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
+import { organizationApi } from '@tellme/web/shared/data-access/api';
+import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { statisticsMock } from '../../mocks/statistics';
 import { StatisticsItem, StatisticsItemProps } from '../statistics-item';
 
@@ -13,11 +13,10 @@ export function DashboardStatistics(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
   const { data, isFetching } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
-  const { data: a } = organizationApi.useGetOrganizationQuery({ id: 162 }, { skip: !profile });
+  //const { data: a } = organizationApi.useGetOrganizationQuery({ id: 180 }, { skip: !profile });
   // const { data: data1s, isFetching: i } = topicApi.useGetActiveListQuery({}, { skip: !profile });
 
   console.log(data);
-  console.log(a);
 
   const { secondDate, averageDuration, count, averageSentiment, mostPopularTopic } = statisticsMock.general;
 

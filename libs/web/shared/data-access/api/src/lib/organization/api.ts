@@ -1,35 +1,32 @@
-import { createEntityInstance, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
-import { createAppApi } from '@tellme/web/shared/data-access/api-client';
+import { prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { plainToInstance } from 'class-transformer';
-import { PaginationRequest, PaginationResponse } from '../common';
+import { createAppApi } from '@tellme/web/shared/data-access/api-client';
+import { PaginationRequest } from '../common';
 import { organizationApiConfig } from './config';
-import { Topic } from './models';
+import { Overview } from './models';
 
 export const organizationApi = createAppApi({
   reducerPath: organizationApiConfig.entityName,
   endpoints: (builder) => ({
-    getOverviewData: builder.query<any, any>({
-      query: (params) => ({
+    getOverviewData: builder.query<Array<Overview>, Record<string, never> | void>({
+      query: () => ({
         method: 'get',
-        url: organizationApiConfig.baseEndpoint + 'overview/',
-        //params: prepareRequestParams(params, PaginationRequest),
+        url: `${organizationApiConfig.baseEndpoint}overview/`,
       }),
-      serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),
       transformResponse: (response) => {
-        const { results, next, previous } = plainToInstance(PaginationResponse<Topic>, response as object);
+        const [idKey] = Object.keys(response);
+        const durationKeys = Object.keys(response[idKey].general.avg_duration).filter((key) => key !== 'change');
+        const [secondDate, firstDate] = durationKeys;
 
-        return {
-          next,
-          previous,
-          results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
-        } as PaginationResponse<Topic>;
+        const overviewData = {
+          id: Number(idKey),
+          firstDate,
+          secondDate,
+          ...response[idKey],
+        };
+
+        return plainToInstance(Overview, overviewData);
       },
-      /*      providesTags: (response: PaginationResponse<Topic>) => {
-        return [
-          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
-          ...response.results.map((result) => ({ type: topicApiConfig.entityName, id: result.id })),
-        ]
-      },*/
     }),
     getOrganization: builder.query<any, any>({
       query: ({ id }) => ({
@@ -38,15 +35,15 @@ export const organizationApi = createAppApi({
         //params: prepareRequestParams(params, PaginationRequest),
       }),
       serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),
-      transformResponse: (response) => {
-        const { results, next, previous } = plainToInstance(PaginationResponse<Topic>, response as object);
+      // transformResponse: (response) => {
+      //   const { results, next, previous } = plainToInstance(PaginationResponse<any>, response as object);
 
-        return {
-          next,
-          previous,
-          results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
-        } as PaginationResponse<Topic>;
-      },
+      //   return {
+      //     next,
+      //     previous,
+      //     results: results.map((result) => createEntityInstance<any>(Topic, result)),
+      //   } as PaginationResponse<Topic>;
+      // },
     }),
   }),
 });
