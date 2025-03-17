@@ -1,46 +1,45 @@
 'use client';
 
+import { compact } from 'lodash-es';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-import { organizationApi } from '@tellme/web/shared/data-access/api';
+import { organizationApi, General } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
-import { statisticsMock } from '../../mocks/statistics';
-import { StatisticsItem, StatisticsItemProps } from '../statistics-item';
+import { StatisticsItem } from '../statistics-item';
+
+const itemsConfig: Array<{ key: keyof General; label: string; hasChange?: boolean }> = [
+  { key: 'count', label: 'TEXT_CALL_COUNT' },
+  { key: 'averageSentiment', label: 'TEXT_CUSTOMER_ENGAGEMENT' },
+  { key: 'averageDuration', label: 'TEXT_CALL_DURATION' },
+  { key: 'mostPopularTopic', label: 'TEXT_MOST_POPULAR_TOPIC', hasChange: false },
+];
 
 export function DashboardStatistics(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.STATISTICS');
   const profile = useSelector(authSelectors.profile);
 
-  const { data: overview } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
-  const { data: organizaton } = organizationApi.useGetOrganizationQuery({ id: overview?.id }, { skip: !overview?.id });
+  const { data } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
+  const { secondDate, general } = data || {};
 
-  console.log(overview, organizaton);
-
-  const { secondDate, averageDuration, count, averageSentiment, mostPopularTopic } = statisticsMock.general;
-
-  const statisticsItems: Array<StatisticsItemProps> = [
-    { title: t('TEXT_CALL_COUNT'), change: count.change, value: count.secondMeasurement, date: secondDate },
-    {
-      title: t('TEXT_CUSTOMER_ENGAGEMENT'),
-      change: averageSentiment.change,
-      value: averageSentiment.secondMeasurement,
-      date: secondDate,
-    },
-    {
-      title: t('TEXT_CALL_DURATION'),
-      change: averageDuration.change,
-      value: averageDuration.secondMeasurement,
-      date: secondDate,
-    },
-    { title: t('TEXT_MOST_POPULAR_TOPIC'), value: mostPopularTopic.secondMeasurement, date: secondDate },
-  ];
+  const statisticsItems =
+    general &&
+    secondDate &&
+    compact(
+      itemsConfig.map(
+        ({ key, label, hasChange = true }) =>
+          general[key] && {
+            title: t(label),
+            change: hasChange ? general[key]?.change : undefined,
+            value: general[key]?.firstMeasurement,
+            date: secondDate,
+          },
+      ),
+    );
 
   return (
     <div className='flex flex-row gap-2'>
-      {statisticsItems.map((itemProps) => (
-        <StatisticsItem key={itemProps.title} {...itemProps} />
-      ))}
+      {statisticsItems && statisticsItems.map((itemProps) => <StatisticsItem key={itemProps.title} {...itemProps} />)}
     </div>
   );
 }

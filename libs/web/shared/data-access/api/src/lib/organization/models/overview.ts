@@ -17,8 +17,8 @@ export class Overview {
   @TransformDate()
   public secondDate: DateTime;
 
-  @Type(() => General)
   @Expose()
+  @Type(() => General)
   public general: General;
 
   constructor(model: Partial<Overview>) {
