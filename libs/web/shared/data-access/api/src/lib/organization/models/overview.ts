@@ -1,5 +1,5 @@
 import { TransformDate } from '@ronas-it/rtkq-entity-api';
-import { Expose, Type, Exclude } from 'class-transformer';
+import { Expose, Type } from 'class-transformer';
 import { DateTime } from 'luxon';
 import { General } from './general';
 
@@ -10,12 +10,12 @@ export class Overview {
   @Expose()
   @Type(() => DateTime)
   @TransformDate()
-  public firstDate: string;
+  public firstDate: DateTime;
 
   @Expose()
   @Type(() => DateTime)
   @TransformDate()
-  public secondDate: string;
+  public secondDate: DateTime;
 
   @Type(() => General)
   @Expose()

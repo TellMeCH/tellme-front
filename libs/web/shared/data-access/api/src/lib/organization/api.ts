@@ -1,14 +1,12 @@
-import { prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { plainToInstance } from 'class-transformer';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
-import { PaginationRequest } from '../common';
 import { organizationApiConfig } from './config';
-import { Overview } from './models';
+import { Overview, Organization } from './models';
 
 export const organizationApi = createAppApi({
   reducerPath: organizationApiConfig.entityName,
   endpoints: (builder) => ({
-    getOverviewData: builder.query<Array<Overview>, Record<string, never> | void>({
+    getOverviewData: builder.query<Overview, Record<string, never> | void>({
       query: () => ({
         method: 'get',
         url: `${organizationApiConfig.baseEndpoint}overview/`,
@@ -25,25 +23,15 @@ export const organizationApi = createAppApi({
           ...response[idKey],
         };
 
-        return plainToInstance(Overview, overviewData);
+        return plainToInstance(Overview, overviewData as object);
       },
     }),
-    getOrganization: builder.query<any, any>({
+    getOrganization: builder.query<Organization, { id?: number }>({
       query: ({ id }) => ({
         method: 'get',
-        url: organizationApiConfig.baseEndpoint + id + '/',
-        //params: prepareRequestParams(params, PaginationRequest),
+        url: `${organizationApiConfig.baseEndpoint}${id}/`,
       }),
-      serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),
-      // transformResponse: (response) => {
-      //   const { results, next, previous } = plainToInstance(PaginationResponse<any>, response as object);
-
-      //   return {
-      //     next,
-      //     previous,
-      //     results: results.map((result) => createEntityInstance<any>(Topic, result)),
-      //   } as PaginationResponse<Topic>;
-      // },
+      transformResponse: (response) => plainToInstance(Organization, response as object),
     }),
   }),
 });

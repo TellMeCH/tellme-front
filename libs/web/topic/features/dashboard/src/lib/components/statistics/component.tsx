@@ -12,11 +12,10 @@ export function DashboardStatistics(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.STATISTICS');
   const profile = useSelector(authSelectors.profile);
 
-  const { data, isFetching } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
-  //const { data: a } = organizationApi.useGetOrganizationQuery({ id: 180 }, { skip: !profile });
-  // const { data: data1s, isFetching: i } = topicApi.useGetActiveListQuery({}, { skip: !profile });
+  const { data: overview } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
+  const { data: organizaton } = organizationApi.useGetOrganizationQuery({ id: overview?.id }, { skip: !overview?.id });
 
-  console.log(data);
+  console.log(overview, organizaton);
 
   const { secondDate, averageDuration, count, averageSentiment, mostPopularTopic } = statisticsMock.general;
 

@@ -1,23 +1,25 @@
+'use client';
+
 import { type ReactElement } from 'react';
-import { Header, Icon } from '@tellme/web/shared/ui/ui-kit';
+import { useSelector } from 'react-redux';
+import { organizationApi } from '@tellme/web/shared/data-access/api';
+import { authSelectors } from '@tellme/web/shared/data-access/auth';
+import { Header } from '@tellme/web/shared/ui/ui-kit';
 import { formatDateRange } from '@tellme/web/shared/utils/dates';
 import { DashboardStatistics, DashboardTopicTrends } from './components';
-import { statisticsMock } from './mocks/statistics';
 
 export function Dashboard(): ReactElement {
-  const { firstDate, secondDate, organisationName } = statisticsMock.general;
+  const profile = useSelector(authSelectors.profile);
+
+  const { data: { firstDate, secondDate, id } = {} } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
+  const { data: organizaton } = organizationApi.useGetOrganizationQuery({ id }, { skip: !id });
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
       <Header
-        title={organisationName}
+        title={organizaton?.name || ''}
         titleClassName='uppercase'
-        rightContent={
-          <div className='flex flex-row items-center gap-4'>
-            <p className='underline'>{formatDateRange(firstDate, secondDate)}</p>
-            <Icon name='calendar' />
-          </div>
-        }
+        rightContent={firstDate && secondDate && <p>{formatDateRange(firstDate, secondDate)}</p>}
       />
       <DashboardStatistics />
       <DashboardTopicTrends />
