@@ -9,7 +9,7 @@ import { TopicUpsertRequest } from './models/upsert-request';
 
 const getSearchQuery = (params: PaginationRequest) => ({
   method: 'get',
-  url: topicApiConfig.baseEndpoint,
+  url: `${topicApiConfig.baseEndpoint}${params.isActive && 'list_active/'}`,
   params: prepareRequestParams(params, PaginationRequest),
 });
 

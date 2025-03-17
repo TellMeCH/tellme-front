@@ -7,6 +7,9 @@ export class PaginationRequest {
   @Expose({ name: 'page_size' })
   public pageSize?: number;
 
+  @Expose()
+  public isActive?: boolean;
+
   constructor(request: Partial<PaginationRequest>) {
     Object.assign(this, request);
   }

@@ -27,8 +27,6 @@ export function TopicsManagement(): ReactElement {
     }
   };
 
-  console.log(data);
-
   return (
     <div className='flex flex-col min-h-full gap-2'>
       <Header
