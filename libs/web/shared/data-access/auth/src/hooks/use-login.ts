@@ -34,7 +34,7 @@ export function useLogin(onSuccess: () => void) {
       const response = await login();
 
       dispatch(authActions.setProfile(response.user));
-      const expirationDate = DateTime.local().plus({ days: 14 }).toJSDate();
+      const expirationDate = DateTime.local().plus({ days: 2 }).toJSDate();
       CookieService.set({ isAuthenticated: 'true' }, { expires: shouldRemember ? expirationDate : undefined });
       onSuccess();
     } catch (error: any) {
