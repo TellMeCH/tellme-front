@@ -24,6 +24,7 @@
     "baseUrl": ".",
     "paths": {
       "@tellme/web/account/features/login": ["libs/web/account/features/login/src/index.ts"],
+      "@tellme/web/shared/data-access/api": ["libs/web/shared/data-access/api/src/index.ts"],
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
       "@tellme/web/shared/data-access/auth": ["libs/web/shared/data-access/auth/src/index.ts"],
       "@tellme/web/shared/data-access/cookies": ["libs/web/shared/data-access/cookies/src/index.ts"],
@@ -41,6 +42,7 @@
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
       "@tellme/web/topic/features/analysis": ["libs/web/topic/features/analysis/src/index.ts"],
       "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"],
+      "@tellme/web/topic/features/management": ["libs/web/topic/features/management/src/index.ts"],
       "@tellme/web/topic/ui/legend": ["libs/web/topic/ui/legend/src/index.ts"]
     }
   },

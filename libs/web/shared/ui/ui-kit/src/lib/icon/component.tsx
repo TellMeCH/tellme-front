@@ -22,7 +22,8 @@ export type IconName =
   | 'twitter'
   | 'search'
   | 'instagram'
-  | 'eye_closed';
+  | 'eye_closed'
+  | 'plus';
 
 export interface IconProps {
   name: IconName;
