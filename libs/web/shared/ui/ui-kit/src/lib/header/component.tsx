@@ -11,7 +11,7 @@ interface HeaderProps {
 
 export function Header({ title, rightContent, titleClassName }: HeaderProps): ReactElement {
   return (
-    <div className='flex flex-row justify-between items-center bg-background-secondary rounded-2xl py-4 px-8 mb-2'>
+    <div className='flex flex-row justify-between items-center bg-background-secondary rounded-2xl py-4 px-8'>
       <Heading className={clsx(styles.header__title, titleClassName)}>{title}</Heading>
       {rightContent}
     </div>

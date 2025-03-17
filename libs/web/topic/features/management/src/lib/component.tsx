@@ -10,6 +10,7 @@ import { topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Button, Header, Icon } from '@tellme/web/shared/ui/ui-kit';
+import styles from './component.module.scss';
 import { Item } from './components';
 
 export function TopicsManagement(): ReactElement {
@@ -27,7 +28,7 @@ export function TopicsManagement(): ReactElement {
   };
 
   return (
-    <div>
+    <div className='flex flex-col min-h-full gap-2'>
       <Header
         title={t('TEXT_TITLE')}
         rightContent={
@@ -36,17 +37,17 @@ export function TopicsManagement(): ReactElement {
           </Button>
         }
       />
-      <InfiniteScroll
-        className='overflow-hidden'
-        dataLength={data?.results.length || 0}
-        next={fetchNextPage}
-        hasMore={!!data?.nextCursor}
-        loader={<Spinner />}>
-        <div className='bg-background-secondary rounded-2xl py-6 px-9 flex flex-col flex-1'>
+      <div className='bg-background-secondary rounded-2xl py-6 px-9 flex flex-col flex-1 items-center'>
+        <InfiniteScroll
+          className={styles.management__list}
+          dataLength={data?.results.length || 0}
+          next={fetchNextPage}
+          hasMore={!!data?.nextCursor}
+          loader={<Spinner />}>
           {isLoading && <Spinner />}
           {data?.results.map((topic) => <Item topic={topic} key={topic.id} />)}
-        </div>
-      </InfiniteScroll>
+        </InfiniteScroll>
+      </div>
     </div>
   );
 }
