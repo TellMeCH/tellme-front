@@ -23,8 +23,6 @@ export function DashboardStatistics(): ReactElement {
   const { data: tr } = organizationApi.useGetTopicsOverviewQuery({}, { skip: !profile });
   const { secondDate, general } = data || {};
 
-  console.log(data);
-
   const statisticsItems =
     general &&
     secondDate &&

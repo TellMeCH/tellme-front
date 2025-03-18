@@ -4,12 +4,12 @@ import { merge, omit } from 'lodash-es';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { Topic } from './models';
+import { Topic, ActivePaginationRequest } from './models';
 import { TopicUpsertRequest } from './models/upsert-request';
 
-const getSearchQuery = ({ isActive, ...params }: PaginationRequest & { isActive?: boolean }) => ({
+const getSearchQuery = ({ isActive, ...params }: ActivePaginationRequest) => ({
   method: 'get',
-  url: `${topicApiConfig.baseEndpoint}${isActive && 'list_active/'}`,
+  url: `${topicApiConfig.baseEndpoint}${isActive ? 'list_active/' : ''}`,
   params: prepareRequestParams(params, PaginationRequest),
 });
 
@@ -38,10 +38,10 @@ export const topicApi = createAppApi({
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
     }),
-    searchInfinite: builder.query<PaginationResponse<Topic>, PaginationRequest & { isActive?: boolean }>({
+    searchInfinite: builder.query<PaginationResponse<Topic>, ActivePaginationRequest>({
       query: getSearchQuery,
       serializeQueryArgs: ({ queryArgs }) =>
-        prepareRequestParams(omit(queryArgs, ['cursor']) as PaginationRequest, PaginationRequest),
+        prepareRequestParams(omit(queryArgs, ['cursor']) as ActivePaginationRequest, ActivePaginationRequest),
       forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
       transformResponse: transformSearchResponse,
       providesTags: getListTags,

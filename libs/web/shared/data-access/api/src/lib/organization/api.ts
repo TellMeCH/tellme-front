@@ -37,17 +37,23 @@ export const organizationApi = createAppApi({
       }),
       transformResponse: (response) => {
         const [idKey] = Object.keys(response);
-        const durationKeys = Object.keys(response[idKey].general.avg_duration).filter((key) => key !== 'change');
+        const topicsData = response[idKey];
+
+        const firstTopicKey = Object.keys(topicsData)[0];
+        const durationKeys = Object.keys(topicsData[firstTopicKey].avg_duration).filter((key) => key !== 'change');
         const [secondDate, firstDate] = durationKeys;
 
-        const overviewData = {
+        const topics = Object.entries(topicsData).map(([topicName, topicMetrics]) => ({
+          name: topicName,
+          ...(topicMetrics as object),
+        }));
+
+        return plainToInstance(TopicsOverview, {
           id: Number(idKey),
           firstDate,
           secondDate,
-          ...response[idKey],
-        };
-
-        return plainToInstance(TopicsOverview, overviewData as object);
+          topics,
+        });
       },
     }),
     getOrganization: builder.query<Organization, { id?: number }>({
