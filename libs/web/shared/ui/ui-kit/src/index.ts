@@ -11,3 +11,4 @@ export * from './lib/circular-progress/component';
 export * from './lib/progress/component';
 export * from './lib/checkbox/component';
 export * from './lib/form-checkbox/component';
+export * from './lib/switch/component';

@@ -40,7 +40,7 @@ function checkCookie(setCookieSpy: SpyInstance, shouldRemember?: boolean): void 
     return;
   }
 
-  const expectedExpirationDate = DateTime.local().plus({ days: 14 }).startOf('minute');
+  const expectedExpirationDate = DateTime.local().plus({ days: 2 }).startOf('minute');
   const expirationDateFromArgument = DateTime.fromJSDate(setCookieSpy.mock.lastCall?.[2]?.expires as Date).startOf(
     'minute',
   );
