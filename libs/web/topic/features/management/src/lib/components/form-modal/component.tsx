@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
-import { Fragment, ReactElement, useEffect } from 'react';
+import { Fragment, ReactElement } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
 import { Button, FormSwitch, FormTextarea, FormTextInput, Modal } from '@tellme/web/shared/ui/ui-kit';
@@ -17,7 +17,8 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
   const isForEdit = !!topic;
   const t = useTranslations('topic.MANAGEMENT');
 
-  const [update, { isLoading, isSuccess }] = topicApi.useUpdateMutation();
+  const [update, { isLoading: isUpdating }] = topicApi.useUpdateMutation();
+  const [create, { isLoading: isCreating }] = topicApi.useCreateMutation();
 
   const formSchema = new TopicFormSchema(topic);
   const form = useForm({
@@ -26,17 +27,15 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
   });
   const values = useWatch({ control: form.control });
 
-  const submit = (values: FormValues<TopicFormSchema>): void => {
+  const submit = async (values: FormValues<TopicFormSchema>): Promise<void> => {
     if (isForEdit) {
-      update({ id: topic.id, ...values });
+      await update({ id: topic.id, ...values });
+    } else {
+      await create(values);
     }
-  };
 
-  useEffect(() => {
-    if (isSuccess) {
-      onOpenChange();
-    }
-  }, [isSuccess]);
+    onOpenChange();
+  };
 
   return (
     <Modal
@@ -56,7 +55,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
           <Button
             type='submit'
             isDisabled={!values.name || !values.description}
-            isLoading={isLoading}
+            isLoading={isUpdating || isCreating}
             className='flex-1'>
             {t('BUTTON_SAVE')}
           </Button>
