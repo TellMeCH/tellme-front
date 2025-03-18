@@ -7,9 +7,9 @@ import { topicApiConfig } from './config';
 import { Topic } from './models';
 import { TopicUpsertRequest } from './models/upsert-request';
 
-const getSearchQuery = (params: PaginationRequest) => ({
+const getSearchQuery = ({ isActive, ...params }: PaginationRequest & { isActive?: boolean }) => ({
   method: 'get',
-  url: `${topicApiConfig.baseEndpoint}${params.isActive && 'list_active/'}`,
+  url: `${topicApiConfig.baseEndpoint}${isActive && 'list_active/'}`,
   params: prepareRequestParams(params, PaginationRequest),
 });
 
@@ -38,7 +38,7 @@ export const topicApi = createAppApi({
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
     }),
-    searchInfinite: builder.query<PaginationResponse<Topic>, PaginationRequest>({
+    searchInfinite: builder.query<PaginationResponse<Topic>, PaginationRequest & { isActive?: boolean }>({
       query: getSearchQuery,
       serializeQueryArgs: ({ queryArgs }) =>
         prepareRequestParams(omit(queryArgs, ['cursor']) as PaginationRequest, PaginationRequest),

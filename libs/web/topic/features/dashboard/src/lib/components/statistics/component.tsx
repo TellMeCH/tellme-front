@@ -19,8 +19,11 @@ export function DashboardStatistics(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.STATISTICS');
   const profile = useSelector(authSelectors.profile);
 
-  const { data } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
+  const { data } = organizationApi.useGetOverviewDataQuery({ perTopic: true }, { skip: !profile });
+  const { data: tr } = organizationApi.useGetOverviewDataQuery({}, { skip: !profile });
   const { secondDate, general } = data || {};
+
+  console.log(data);
 
   const statisticsItems =
     general &&

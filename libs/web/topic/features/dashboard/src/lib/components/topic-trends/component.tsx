@@ -1,7 +1,13 @@
 'use client';
 
+import { Spinner } from '@heroui/react';
+import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { useDispatch, useSelector } from 'react-redux';
+import { topicApi } from '@tellme/web/shared/data-access/api';
+import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { Legend } from '@tellme/web/topic/ui/legend';
@@ -9,9 +15,18 @@ import { statisticsMock } from '../../mocks/statistics';
 import { TopicTrendsItem } from '../topic-trends-item';
 import styles from './component.module.scss';
 
-// TODO: Fill by real data
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
+  const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
+
+  const profile = useSelector(authSelectors.profile);
+  const { data, isFetching, isLoading } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+
+  const fetchNextPage = (): void => {
+    if (data?.nextCursor && !isFetching) {
+      dispatch(topicApi.endpoints.searchInfinite.initiate({ cursor: data.nextCursor }, { forceRefetch: true }));
+    }
+  };
 
   const { firstDate, secondDate } = statisticsMock.general;
 
@@ -27,9 +42,16 @@ export function DashboardTopicTrends(): ReactElement {
         </div>
       </div>
       <div>
-        {statisticsMock.topics.map((itemProps) => (
-          <TopicTrendsItem key={itemProps.name} {...itemProps} />
-        ))}
+        <InfiniteScroll
+          className={styles.management__list}
+          dataLength={data?.results.length || 0}
+          next={fetchNextPage}
+          hasMore={!!data?.nextCursor}
+          loader={<Spinner />}>
+          {statisticsMock.topics.map((itemProps) => (
+            <TopicTrendsItem key={itemProps.name} {...itemProps} />
+          ))}
+        </InfiniteScroll>
       </div>
     </div>
   );
