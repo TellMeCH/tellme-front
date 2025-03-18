@@ -3,7 +3,7 @@ import { PaginationRequest } from '../../common';
 
 export class ActivePaginationRequest extends PaginationRequest {
   @Expose({ name: 'is_active' })
-  public isActive: boolean;
+  public isActive?: boolean;
 
   constructor(model: Partial<ActivePaginationRequest>) {
     super(model);

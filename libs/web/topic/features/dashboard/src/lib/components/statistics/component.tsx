@@ -20,7 +20,6 @@ export function DashboardStatistics(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
   const { data } = organizationApi.useGetGeneralOverviewQuery({}, { skip: !profile });
-  const { data: tr } = organizationApi.useGetTopicsOverviewQuery({}, { skip: !profile });
   const { secondDate, general } = data || {};
 
   const statisticsItems =

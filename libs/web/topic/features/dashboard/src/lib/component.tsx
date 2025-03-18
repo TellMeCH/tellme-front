@@ -3,7 +3,7 @@
 import { Spinner } from '@heroui/react';
 import { Fragment, type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-import { organizationApi } from '@tellme/web/shared/data-access/api';
+import { organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header } from '@tellme/web/shared/ui/ui-kit';
 import { formatDateRange } from '@tellme/web/shared/utils/dates';
@@ -12,7 +12,7 @@ import { DashboardStatistics, DashboardTopicTrends } from './components';
 export function Dashboard(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
-  const { data: overview, isLoading: isOverviewLoading } = organizationApi.useGetGeneralOverviewQuery(
+  const { data: overview, isLoading: isGeneralOverviewLoading } = organizationApi.useGetGeneralOverviewQuery(
     {},
     { skip: !profile },
   );
@@ -20,10 +20,14 @@ export function Dashboard(): ReactElement {
     { id: overview?.id },
     { skip: !overview?.id },
   );
+  const { isLoading: isTopicsOverviewLoading } = organizationApi.useGetTopicsOverviewQuery({}, { skip: !profile });
+  const { isLoading: isActiveListLoading } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+
+  const isLoading = isGeneralOverviewLoading || isOrganizationLoading || isActiveListLoading || isTopicsOverviewLoading;
 
   return (
     <div className='min-h-full flex flex-col gap-2 justify-center'>
-      {!overview || !organizaton || isOrganizationLoading || isOverviewLoading ? (
+      {!overview || !organizaton || isLoading ? (
         <Spinner />
       ) : (
         <Fragment>

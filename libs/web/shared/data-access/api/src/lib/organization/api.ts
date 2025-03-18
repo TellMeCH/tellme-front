@@ -43,7 +43,7 @@ export const organizationApi = createAppApi({
         const durationKeys = Object.keys(topicsData[firstTopicKey].avg_duration).filter((key) => key !== 'change');
         const [secondDate, firstDate] = durationKeys;
 
-        const topics = Object.entries(topicsData).map(([topicName, topicMetrics]) => ({
+        const topicMetrics = Object.entries(topicsData).map(([topicName, topicMetrics]) => ({
           name: topicName,
           ...(topicMetrics as object),
         }));
@@ -52,7 +52,7 @@ export const organizationApi = createAppApi({
           id: Number(idKey),
           firstDate,
           secondDate,
-          topics,
+          topicMetrics,
         });
       },
     }),
