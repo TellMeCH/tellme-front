@@ -1,10 +1,11 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
-import { plainToInstance } from 'class-transformer';
-import { omit } from 'lodash-es';
+import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { merge, omit } from 'lodash-es';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
 import { Topic } from './models';
+import { TopicUpsertRequest } from './models/upsert-request';
 
 const getSearchQuery = (params: PaginationRequest) => ({
   method: 'get',
@@ -64,6 +65,66 @@ export const topicApi = createAppApi({
           }
         }
       },
+    }),
+    get: builder.query<Topic, { id: number }>({
+      query: ({ id }) => {
+        return {
+          method: 'get',
+          url: `${topicApiConfig.baseEndpoint}${id}/`,
+        };
+      },
+      transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
+      providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.id })) as any,
+    }),
+    update: builder.mutation<Partial<TopicUpsertRequest>, Partial<TopicUpsertRequest>>({
+      query: (params) => {
+        const updatedEntity = createEntityInstance(TopicUpsertRequest, params, {
+          fromInstancePartial: true,
+        });
+        const request = instanceToPlain(updatedEntity);
+
+        return {
+          method: 'patch',
+          url: `${topicApiConfig.baseEndpoint}${request.id}/`,
+          data: request,
+        };
+      },
+      async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
+        const updatedEntityData = (await queryFulfilled).data;
+
+        const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
+          { type: topicApiConfig.entityName, id: arg.id },
+          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+        ]);
+
+        // TODO: if isActive is changed to false, remove a topic from the list with active topics
+        // if isActive is changed to true, add a topic to the list with active topics and sort it by name ascending
+        // Or refetch the list in both cases
+
+        for (const { endpointName, originalArgs } of cachedQueries) {
+          dispatch(
+            topicApi.util.updateQueryData(
+              endpointName as 'search' | 'searchInfinite' | 'get',
+              originalArgs as any,
+              (endpointData) => {
+                if ('results' in endpointData && Array.isArray(endpointData.results)) {
+                  const existingItemIndex = endpointData.results.findIndex((item) => item.id === arg.id);
+
+                  if (existingItemIndex > -1) {
+                    endpointData.results[existingItemIndex] = merge(
+                      endpointData.results[existingItemIndex],
+                      omit(updatedEntityData, 'id'),
+                    );
+                  }
+                } else {
+                  merge(endpointData as Topic, omit(updatedEntityData, 'id'));
+                }
+              },
+            ),
+          );
+        }
+      },
+      transformResponse: (response) => createEntityInstance<Topic>(Topic, response),
     }),
   }),
 });

@@ -1,9 +1,10 @@
 'use client';
 
 import clsx from 'clsx';
+import { debounce } from 'lodash-es';
 import { useTranslations } from 'next-intl';
-import { ReactElement, useState } from 'react';
-import { Topic } from '@tellme/web/shared/data-access/api';
+import { ReactElement, useCallback, useState } from 'react';
+import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Button, Heading, Icon, Switch } from '@tellme/web/shared/ui/ui-kit';
 import { formatDate } from '@tellme/web/shared/utils/dates';
@@ -18,11 +19,23 @@ export function Item({ topic }: ItemProps): ReactElement {
 
   const [isActive, setIsActive] = useState(topic.isActive);
 
+  const [update] = topicApi.useUpdateMutation();
+
+  const updateTopicWithDebounce = useCallback(
+    debounce((isActive: boolean) => update({ id: topic.id, isActive }), 400),
+    [topic],
+  );
+
+  const changeActivity = (value: boolean): void => {
+    setIsActive(value);
+    updateTopicWithDebounce(value);
+  };
+
   return (
     <div className='flex items-start py-4 border-b border-text-tertiary'>
       <Switch
         isSelected={isActive}
-        onValueChange={setIsActive}
+        onValueChange={changeActivity}
         className='mr-6' />
       <div className={clsx('flex-1 mr-[9%]', !isActive && 'text-text-secondary')}>
         <Heading level={2} className='mb-2 text-xl font-medium'>
