@@ -1,7 +1,6 @@
 import { TransformDate } from '@ronas-it/rtkq-entity-api';
 import { Expose, Type } from 'class-transformer';
 import { DateTime } from 'luxon';
-import { General } from './general';
 
 export class Overview {
   @Expose()
@@ -16,10 +15,6 @@ export class Overview {
   @Type(() => DateTime)
   @TransformDate()
   public secondDate: DateTime;
-
-  @Expose()
-  @Type(() => General)
-  public general: General;
 
   constructor(model: Partial<Overview>) {
     Object.assign(this, model);

@@ -12,7 +12,7 @@ import { DashboardStatistics, DashboardTopicTrends } from './components';
 export function Dashboard(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
-  const { data: overview, isLoading: isOverviewLoading } = organizationApi.useGetOverviewDataQuery(
+  const { data: overview, isLoading: isOverviewLoading } = organizationApi.useGetGeneralOverviewQuery(
     {},
     { skip: !profile },
   );
