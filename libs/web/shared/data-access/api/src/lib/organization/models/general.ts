@@ -1,21 +1,21 @@
-import { Expose, Transform } from 'class-transformer';
-import { Measurement } from './measurement';
+import { Expose } from 'class-transformer';
+import { TransformMeasurement, Measurement } from '@tellme/web/shared/utils/class-transformer';
 
 export class General {
   @Expose({ name: 'avg_sentiment' })
-  @Transform(({ value }) => Measurement.fromRaw(value))
+  @TransformMeasurement()
   public averageSentiment: Measurement;
 
   @Expose({ name: 'avg_duration' })
-  @Transform(({ value }) => Measurement.fromRaw(value))
+  @TransformMeasurement()
   public averageDuration: Measurement;
 
   @Expose()
-  @Transform(({ value }) => Measurement.fromRaw(value))
+  @TransformMeasurement()
   public count: Measurement;
 
   @Expose({ name: 'most_popular_topic' })
-  @Transform(({ value }) => Measurement.fromRaw(value))
+  @TransformMeasurement()
   public mostPopularTopic: Measurement;
 
   constructor(model: Partial<General>) {
