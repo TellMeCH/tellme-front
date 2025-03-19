@@ -23,7 +23,8 @@ export type IconName =
   | 'search'
   | 'instagram'
   | 'eye_closed'
-  | 'plus';
+  | 'plus'
+  | 'cross';
 
 export interface IconProps {
   name: IconName;

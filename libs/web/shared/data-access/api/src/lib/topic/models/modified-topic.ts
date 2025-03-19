@@ -1,7 +1,7 @@
 import { Expose } from 'class-transformer';
-import { UpsertRequest } from '../../common';
+import { ModifiedBaseEntity } from '../../common';
 
-export class TopicUpsertRequest extends UpsertRequest {
+export class ModifiedTopic extends ModifiedBaseEntity {
   @Expose()
   public name: string;
 
@@ -11,7 +11,7 @@ export class TopicUpsertRequest extends UpsertRequest {
   @Expose({ name: 'is_active' })
   public isActive: boolean;
 
-  constructor(model: Partial<TopicUpsertRequest>) {
+  constructor(model: Partial<ModifiedTopic>) {
     super(model);
     Object.assign(this, model);
   }

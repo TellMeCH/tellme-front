@@ -1,5 +1,6 @@
 'use client';
 
+import { useDisclosure } from '@heroui/react';
 import clsx from 'clsx';
 import { debounce } from 'lodash-es';
 import { useTranslations } from 'next-intl';
@@ -8,6 +9,7 @@ import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Button, Heading, Icon, Switch } from '@tellme/web/shared/ui/ui-kit';
 import { formatDate } from '@tellme/web/shared/utils/dates';
+import { FormModal } from '../form-modal';
 
 interface ItemProps {
   topic: Topic;
@@ -16,6 +18,7 @@ interface ItemProps {
 export function Item({ topic }: ItemProps): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
   const showUnderDevelopment = useShowUnderDevelopment();
+  const { isOpen: isFormModalOpen, onOpenChange: onFormModalOpenChange } = useDisclosure();
 
   const [isActive, setIsActive] = useState(topic.isActive);
 
@@ -49,7 +52,7 @@ export function Item({ topic }: ItemProps): ReactElement {
       </div>
       <div className='flex gap-2'>
         <Button
-          onPress={showUnderDevelopment}
+          onPress={onFormModalOpenChange}
           variant='bordered'
           isIconOnly
           startContent={<Icon name='pen' />} />
@@ -61,6 +64,10 @@ export function Item({ topic }: ItemProps): ReactElement {
           startContent={<Icon name='trash' />}
         />
       </div>
+      <FormModal
+        isOpen={isFormModalOpen}
+        onOpenChange={onFormModalOpenChange}
+        topic={topic} />
     </div>
   );
 }

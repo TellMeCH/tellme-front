@@ -32,12 +32,16 @@ const BaseButton = extendVariants(NextUIButton, {
     fullWidth: {
       true: styles.button_full,
     },
+    radius: {
+      md: styles.button_radius_md,
+    },
   },
   defaultVariants: {
     size: 'md',
     color: 'primary',
     variant: 'solid',
     isDisabled: false,
+    radius: 'md',
   },
   compoundVariants: [
     {
@@ -49,6 +53,11 @@ const BaseButton = extendVariants(NextUIButton, {
       variant: 'solid',
       color: 'danger',
       class: clsx(styles.button_solid, styles.button_solid_danger),
+    },
+    {
+      variant: 'solid',
+      color: 'default',
+      class: clsx(styles.button_solid, styles.button_solid_default),
     },
     {
       isDisabled: true,

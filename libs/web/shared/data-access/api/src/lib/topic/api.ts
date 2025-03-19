@@ -4,8 +4,7 @@ import { merge, omit } from 'lodash-es';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { Topic, TopicPaginationRequest } from './models';
-import { TopicUpsertRequest } from './models/upsert-request';
+import { Topic, TopicPaginationRequest, ModifiedTopic } from './models';
 
 const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
@@ -76,9 +75,22 @@ export const topicApi = createAppApi({
       transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
       providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.id })) as any,
     }),
-    update: builder.mutation<Partial<TopicUpsertRequest>, Partial<TopicUpsertRequest>>({
+    create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({
       query: (params) => {
-        const updatedEntity = createEntityInstance(TopicUpsertRequest, params, {
+        const request = createEntityInstance(ModifiedTopic, params, { fromInstancePartial: true });
+
+        return {
+          method: 'post',
+          url: topicApiConfig.baseEndpoint,
+          data: instanceToPlain(request),
+        };
+      },
+      transformResponse: (response: object) => createEntityInstance<ModifiedTopic>(ModifiedTopic, response),
+      invalidatesTags: [{ type: topicApiConfig.entityName, id: EntityTagID.LIST }],
+    }),
+    update: builder.mutation<Partial<ModifiedTopic>, Partial<ModifiedTopic>>({
+      query: (params) => {
+        const updatedEntity = createEntityInstance(ModifiedTopic, params, {
           fromInstancePartial: true,
         });
         const request = instanceToPlain(updatedEntity);
