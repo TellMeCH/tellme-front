@@ -12,8 +12,8 @@
     "TOPIC_TRENDS_ITEM": {
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
       "TEXT_FREQUENCY": "Frequency",
-      "TEXT_FIRST_MEASURMENT_AREA_LABEL": "First measurement area label",
-      "TEXT_SECOND_MEASURMENT_AREA_LABEL": "Second measurement area label"
+      "TEXT_FIRST_MEASUREMENT_AREA_LABEL": "First measurement area label",
+      "TEXT_SECOND_MEASUREMENT_AREA_LABEL": "Second measurement area label"
     }
   },
   "ANALYSIS": {

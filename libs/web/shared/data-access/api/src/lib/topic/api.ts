@@ -4,12 +4,11 @@ import { merge, omit } from 'lodash-es';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { Topic } from './models';
-import { ModifiedTopic } from './models/modified-topic';
+import { Topic, TopicPaginationRequest, ModifiedTopic } from './models';
 
-const getSearchQuery = (params: PaginationRequest) => ({
+const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
-  url: topicApiConfig.baseEndpoint,
+  url: `${topicApiConfig.baseEndpoint}${isActive ? 'list_active/' : ''}`,
   params: prepareRequestParams(params, PaginationRequest),
 });
 
@@ -38,10 +37,10 @@ export const topicApi = createAppApi({
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
     }),
-    searchInfinite: builder.query<PaginationResponse<Topic>, PaginationRequest>({
+    searchInfinite: builder.query<PaginationResponse<Topic>, TopicPaginationRequest>({
       query: getSearchQuery,
       serializeQueryArgs: ({ queryArgs }) =>
-        prepareRequestParams(omit(queryArgs, ['cursor']) as PaginationRequest, PaginationRequest),
+        prepareRequestParams(omit(queryArgs, ['cursor']) as TopicPaginationRequest, TopicPaginationRequest),
       forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
@@ -110,10 +109,6 @@ export const topicApi = createAppApi({
           { type: topicApiConfig.entityName, id: EntityTagID.LIST },
         ]);
 
-        // TODO: if isActive is changed to false, remove a topic from the list with active topics
-        // if isActive is changed to true, add a topic to the list with active topics and sort it by name ascending
-        // Or refetch the list in both cases
-
         for (const { endpointName, originalArgs } of cachedQueries) {
           dispatch(
             topicApi.util.updateQueryData(
@@ -121,13 +116,25 @@ export const topicApi = createAppApi({
               originalArgs as any,
               (endpointData) => {
                 if ('results' in endpointData && Array.isArray(endpointData.results)) {
-                  const existingItemIndex = endpointData.results.findIndex((item) => item.id === arg.id);
+                  const existingIndex = endpointData.results.findIndex((item) => item.id === arg.id);
 
-                  if (existingItemIndex > -1) {
-                    endpointData.results[existingItemIndex] = merge(
-                      endpointData.results[existingItemIndex],
-                      omit(updatedEntityData, 'id'),
-                    );
+                  if (existingIndex !== -1) {
+                    const existingItem = endpointData.results[existingIndex];
+                    const oldIsActive = existingItem.isActive;
+
+                    merge(existingItem, omit(updatedEntityData, 'id'));
+                    const newIsActive = existingItem.isActive;
+
+                    if (originalArgs?.isActive && oldIsActive && !newIsActive) {
+                      endpointData.results.splice(existingIndex, 1);
+                    }
+                  } else if (originalArgs?.isActive && updatedEntityData.isActive) {
+                    const newItem = createEntityInstance(Topic, updatedEntityData);
+                    endpointData.results.push(newItem);
+                  }
+
+                  if (originalArgs?.isActive) {
+                    endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
                   }
                 } else {
                   merge(endpointData as Topic, omit(updatedEntityData, 'id'));
