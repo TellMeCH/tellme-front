@@ -1,21 +1,44 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { type ReactElement } from 'react';
+import { useSelector } from 'react-redux';
+import { topicApi } from '@tellme/web/shared/data-access/api';
+import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { TopicSelect, PeriodFilter, CardSection, TopicChart } from './components';
-import { topicsMock, graphDataMock, paragraphsMock, filtersMock } from './mocks/analysis';
+import { graphDataMock, paragraphsMock, filtersMock } from './mocks/analysis';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
   const showUnderDevelopment = useShowUnderDevelopment();
-  const [selectedValue, setSelectedValue] = useState(topicsMock[0].value);
+  const profile = useSelector(authSelectors.profile);
+  const [selectedValue, setSelectedValue] = useState<string>('');
 
-  const selectedItem = topicsMock.find((item) => item.value === selectedValue);
+  const { data, isLoading } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+
+  const topics =
+    data?.results?.map((item) => ({
+      value: String(item.id),
+      label: item.name,
+    })) ?? [];
+
+  useEffect(() => {
+    if (!selectedValue && topics.length > 0) {
+      setSelectedValue(topics[0].value);
+    }
+     
+  }, [topics]);
+
+  const selectedItem = topics.find((item) => item.value === selectedValue);
 
   const handleTopicSelect = (value: string): void => {
+    if (value === selectedValue) {
+      return;
+    }
+
     setSelectedValue(value);
     showUnderDevelopment();
   };
@@ -30,7 +53,7 @@ export function TopicAnalysis(): ReactElement {
               {selectedItem?.label}
             </Heading>
             <TopicSelect
-              items={topicsMock}
+              items={topics}
               selectedValue={selectedValue}
               onSelect={handleTopicSelect} />
           </div>
