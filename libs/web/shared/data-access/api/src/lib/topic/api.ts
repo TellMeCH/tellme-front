@@ -4,10 +4,10 @@ import { merge, omit } from 'lodash-es';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { Topic, ActivePaginationRequest } from './models';
+import { Topic, TopicPaginationRequest } from './models';
 import { TopicUpsertRequest } from './models/upsert-request';
 
-const getSearchQuery = ({ isActive, ...params }: ActivePaginationRequest) => ({
+const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
   url: `${topicApiConfig.baseEndpoint}${isActive ? 'list_active/' : ''}`,
   params: prepareRequestParams(params, PaginationRequest),
@@ -38,10 +38,10 @@ export const topicApi = createAppApi({
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
     }),
-    searchInfinite: builder.query<PaginationResponse<Topic>, ActivePaginationRequest>({
+    searchInfinite: builder.query<PaginationResponse<Topic>, TopicPaginationRequest>({
       query: getSearchQuery,
       serializeQueryArgs: ({ queryArgs }) =>
-        prepareRequestParams(omit(queryArgs, ['cursor']) as ActivePaginationRequest, ActivePaginationRequest),
+        prepareRequestParams(omit(queryArgs, ['cursor']) as TopicPaginationRequest, TopicPaginationRequest),
       forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
@@ -116,12 +116,12 @@ export const topicApi = createAppApi({
                     if (originalArgs?.isActive && oldIsActive && !newIsActive) {
                       endpointData.results.splice(existingIndex, 1);
                     }
-                  } else {
-                    if (originalArgs?.isActive && updatedEntityData.isActive) {
-                      const newItem = createEntityInstance(Topic, updatedEntityData);
-                      endpointData.results.push(newItem);
-                    }
+                  } else if (originalArgs?.isActive && updatedEntityData.isActive) {
+                    const newItem = createEntityInstance(Topic, updatedEntityData);
+                    endpointData.results.push(newItem);
                   }
+
+                  endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
                 } else {
                   merge(endpointData as Topic, omit(updatedEntityData, 'id'));
                 }

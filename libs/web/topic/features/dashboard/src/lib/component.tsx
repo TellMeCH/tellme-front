@@ -13,14 +13,16 @@ export function Dashboard(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
   const { data: overview, isLoading: isGeneralOverviewLoading } = organizationApi.useGetGeneralOverviewQuery(
-    {},
+    undefined,
     { skip: !profile },
   );
   const { data: organizaton, isLoading: isOrganizationLoading } = organizationApi.useGetOrganizationQuery(
-    { id: overview?.id },
+    { id: overview?.id as number },
     { skip: !overview?.id },
   );
-  const { isLoading: isTopicsOverviewLoading } = organizationApi.useGetTopicsOverviewQuery({}, { skip: !profile });
+  const { isLoading: isTopicsOverviewLoading } = organizationApi.useGetTopicsOverviewQuery(undefined, {
+    skip: !profile,
+  });
   const { isLoading: isActiveListLoading } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
 
   const isLoading = isGeneralOverviewLoading || isOrganizationLoading || isActiveListLoading || isTopicsOverviewLoading;

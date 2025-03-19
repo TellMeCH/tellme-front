@@ -8,18 +8,18 @@ import { organizationApi, General } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { StatisticsItem } from '../statistics-item';
 
-const itemsConfig: Array<{ key: keyof General; label: string; hasChange?: boolean }> = [
-  { key: 'count', label: 'TEXT_CALL_COUNT' },
-  { key: 'averageSentiment', label: 'TEXT_CUSTOMER_ENGAGEMENT' },
-  { key: 'averageDuration', label: 'TEXT_CALL_DURATION' },
-  { key: 'mostPopularTopic', label: 'TEXT_MOST_POPULAR_TOPIC', hasChange: false },
+const itemsConfig: Array<{ key: keyof General; labelKey: string; hasChange?: boolean }> = [
+  { key: 'count', labelKey: 'TEXT_CALL_COUNT' },
+  { key: 'averageSentiment', labelKey: 'TEXT_CUSTOMER_ENGAGEMENT' },
+  { key: 'averageDuration', labelKey: 'TEXT_CALL_DURATION' },
+  { key: 'mostPopularTopic', labelKey: 'TEXT_MOST_POPULAR_TOPIC', hasChange: false },
 ];
 
 export function DashboardStatistics(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.STATISTICS');
   const profile = useSelector(authSelectors.profile);
 
-  const { data } = organizationApi.useGetGeneralOverviewQuery({}, { skip: !profile });
+  const { data } = organizationApi.useGetGeneralOverviewQuery(undefined, { skip: !profile });
   const { secondDate, general } = data || {};
 
   const statisticsItems =
@@ -27,9 +27,9 @@ export function DashboardStatistics(): ReactElement {
     secondDate &&
     compact(
       itemsConfig.map(
-        ({ key, label, hasChange = true }) =>
+        ({ key, labelKey, hasChange = true }) =>
           general[key] && {
-            title: t(label),
+            title: t(labelKey),
             change: hasChange ? general[key]?.change : undefined,
             value: general[key]?.firstMeasurement,
             date: secondDate,
@@ -39,7 +39,7 @@ export function DashboardStatistics(): ReactElement {
 
   return (
     <div className='flex flex-row gap-2'>
-      {statisticsItems && statisticsItems.map((itemProps) => <StatisticsItem key={itemProps.title} {...itemProps} />)}
+      {statisticsItems?.map((itemProps) => <StatisticsItem key={itemProps.title} {...itemProps} />)}
     </div>
   );
 }

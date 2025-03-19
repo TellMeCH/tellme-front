@@ -8,36 +8,38 @@ import { OverviewRequest } from './models/overview-request';
 export const organizationApi = createAppApi({
   reducerPath: organizationApiConfig.entityName,
   endpoints: (builder) => ({
-    getGeneralOverview: builder.query<GeneralOverview, Record<string, never> | void>({
+    getGeneralOverview: builder.query<GeneralOverview, void>({
       query: () => ({
         method: 'get',
         url: `${organizationApiConfig.baseEndpoint}overview/`,
         params: prepareRequestParams({ perTopic: false }, OverviewRequest),
       }),
       transformResponse: (response) => {
-        const [idKey] = Object.keys(response);
-        const durationKeys = Object.keys(response[idKey].general.avg_duration).filter((key) => key !== 'change');
+        const [organisationId] = Object.keys(response);
+        const durationKeys = Object.keys(response[organisationId].general.avg_duration).filter(
+          (key) => key !== 'change',
+        );
         const [secondDate, firstDate] = durationKeys;
 
         const overviewData = {
-          id: Number(idKey),
+          id: Number(organisationId),
           firstDate,
           secondDate,
-          ...response[idKey],
+          ...response[organisationId],
         };
 
         return plainToInstance(GeneralOverview, overviewData as object);
       },
     }),
-    getTopicsOverview: builder.query<TopicsOverview, Record<string, never> | void>({
+    getTopicsOverview: builder.query<TopicsOverview, void>({
       query: () => ({
         method: 'get',
         url: `${organizationApiConfig.baseEndpoint}overview/`,
         params: prepareRequestParams({ perTopic: true }, OverviewRequest),
       }),
       transformResponse: (response) => {
-        const [idKey] = Object.keys(response);
-        const topicsData = response[idKey];
+        const [organisationId] = Object.keys(response);
+        const topicsData = response[organisationId];
 
         const firstTopicKey = Object.keys(topicsData)[0];
         const durationKeys = Object.keys(topicsData[firstTopicKey].avg_duration).filter((key) => key !== 'change');
@@ -49,14 +51,14 @@ export const organizationApi = createAppApi({
         }));
 
         return plainToInstance(TopicsOverview, {
-          id: Number(idKey),
+          id: Number(organisationId),
           firstDate,
           secondDate,
           topicMetrics,
         });
       },
     }),
-    getOrganization: builder.query<Organization, { id?: number }>({
+    getOrganization: builder.query<Organization, { id: number }>({
       query: ({ id }) => ({
         method: 'get',
         url: `${organizationApiConfig.baseEndpoint}${id}/`,

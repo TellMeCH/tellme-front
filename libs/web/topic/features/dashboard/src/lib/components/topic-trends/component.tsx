@@ -20,7 +20,7 @@ export function DashboardTopicTrends(): ReactElement {
 
   const profile = useSelector(authSelectors.profile);
   const { data, isFetching } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
-  const { data: topicOverview } = organizationApi.useGetTopicsOverviewQuery({}, { skip: !profile });
+  const { data: topicOverview } = organizationApi.useGetTopicsOverviewQuery(undefined, { skip: !profile });
 
   const fetchNextPage = (): void => {
     if (data?.nextCursor && !isFetching) {
@@ -30,28 +30,29 @@ export function DashboardTopicTrends(): ReactElement {
 
   const { firstDate, secondDate, topicMetrics } = topicOverview || {};
 
-  const { activeTopics, maxProgressValue } = useMemo(() => {
+  const { activeTopics, maxCount } = useMemo(() => {
     if (!data?.results || !topicMetrics) {
-      return { activeTopics: [], maxProgressValue: 0 };
+      return { activeTopics: [], maxCount: 0 };
     }
 
     const activeTopicMap = new Map(data.results.map((topic) => [topic.name, topic]));
 
     const filteredTopics = topicMetrics
+      .sort((a, b) => a.name.localeCompare(b.name))
       .filter((metric) => activeTopicMap.has(metric.name))
       .map((metric) => ({
         ...metric,
         description: activeTopicMap.get(metric.name)?.description || '',
       }));
 
-    const maxValue = Math.max(
+    const maxCount = Math.max(
       ...filteredTopics.flatMap(({ count: { firstMeasurement, secondMeasurement } }) => [
         Number(firstMeasurement),
         Number(secondMeasurement),
       ]),
     );
 
-    return { activeTopics: filteredTopics, maxProgressValue: maxValue };
+    return { activeTopics: filteredTopics, maxCount };
   }, [data, topicMetrics]);
 
   return (
@@ -74,13 +75,12 @@ export function DashboardTopicTrends(): ReactElement {
           next={fetchNextPage}
           hasMore={!!data?.nextCursor}
           loader={<Spinner />}>
-          {activeTopics &&
-            activeTopics.map((itemProps) => (
-              <TopicTrendsItem
-                key={itemProps.name}
-                maxProgressValue={maxProgressValue}
-                {...itemProps} />
-            ))}
+          {activeTopics?.map((itemProps) => (
+            <TopicTrendsItem
+              key={itemProps.name}
+              maxCount={maxCount}
+              {...itemProps} />
+          ))}
         </InfiniteScroll>
       </div>
     </div>

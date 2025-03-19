@@ -1,2 +1,2 @@
 export * from './topic';
-export * from './active-pagination-request';
+export * from './topic-pagination-request';

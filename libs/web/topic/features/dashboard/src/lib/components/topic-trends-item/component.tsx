@@ -8,7 +8,7 @@ import { CircularProgress, AppProgress } from '@tellme/web/shared/ui/ui-kit';
 interface TopicTrendsItemProps {
   name: string;
   description: string;
-  maxProgressValue?: number;
+  maxCount?: number;
   count: Measurement;
   averageSentiment: Measurement;
 }
@@ -18,7 +18,7 @@ export function TopicTrendsItem({
   description,
   count,
   averageSentiment,
-  maxProgressValue,
+  maxCount,
 }: TopicTrendsItemProps): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS_ITEM');
 
@@ -32,12 +32,12 @@ export function TopicTrendsItem({
         <p className='text-text-secondary mb-[22px]'>{t('TEXT_FREQUENCY')}</p>
         <div className='flex flex-col gap-1'>
           <AppProgress
-            maxValue={maxProgressValue}
+            maxValue={maxCount}
             value={Math.round(Number(count.firstMeasurement))}
             aria-label={t('TEXT_SECOND_MEASURMENT_AREA_LABEL')}
           />
           <AppProgress
-            maxValue={maxProgressValue}
+            maxValue={maxCount}
             value={Math.round(Number(count.secondMeasurement))}
             aria-label={t('TEXT_FIRST_MEASURMENT_AREA_LABEL')}
             color='secondary'
