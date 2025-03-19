@@ -2,13 +2,14 @@
 
 // Is used to increase specificity and override heroui default styles
 .buttonRoot {$self: &;
-  &.button {font-weight: 700; border-radius: $radius-small; font-size: $text-default; width: auto; height: auto;
+  &.button {font-weight: 700; font-size: $text-default; width: auto; height: auto;
     min-width: unset; overflow: visible; border-width: 0;
     &_full {width: 100%}
     &_icon {
       &.button {
         &_sm {padding: 0.25rem; max-width: 32px; max-height: 32px; min-height: unset;}
         &_md {padding: 0.5rem; max-width: 40px; max-height: 40px;}
+        &_radius_md {border-radius: $radius-small;}
       }
     }
     &[data-hover='true'] {opacity: 1;}
@@ -32,6 +33,9 @@
       }
       &_danger {background-color: $brand-danger; color: $white; --hover-color: #{$brand-danger-hover};
         --pressed-color: #{$brand-danger-pressed}; --focus-shadow: #{rgba($brand-danger, 0.5)};
+      }
+      &_default {background-color: $background-primary; color: $text-primary; --hover-color: #{$text-tertiary};
+        --pressed-color: #{$text-tertiary}; --focus-shadow: #{rgba($background-primary, 0.5)};
       }
       &_disabled {background-color: $background-tertiary; color: $text-secondary;}
       &.button_icon {
