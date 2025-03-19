@@ -42,6 +42,7 @@
     "TEXT_NAME": "Name",
     "TEXT_DESCRIPTION": "Description",
     "TEXT_REQUIRED_NAME": "Name is required",
+    "TEXT_TOO_LONG_NAME": "Name should have maximum 100 symbols",
     "TEXT_REQUIRED_DESCRIPTION": "Description is required",
     "BUTTON_CANCEL": "Cancel",
     "BUTTON_SAVE": "Save",

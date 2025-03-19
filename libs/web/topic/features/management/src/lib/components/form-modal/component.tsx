@@ -34,21 +34,26 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
       await create(values);
     }
 
+    close();
+  };
+
+  const close = (): void => {
     onOpenChange();
+    form.reset({ isActive: false, name: '', description: '' });
   };
 
   return (
     <Modal
       size='2xl'
       isOpen={isOpen}
-      onClose={onOpenChange}
+      onClose={close}
       onSubmit={form.handleSubmit(submit)}
       title={isForEdit ? t('TEXT_EDIT_TOPIC') : t('TEXT_CREATE_TOPIC')}
       footerContent={
         <Fragment>
           <Button
             variant='bordered'
-            onPress={onOpenChange}
+            onPress={close}
             className='flex-1'>
             {t('BUTTON_CANCEL')}
           </Button>

@@ -19,7 +19,7 @@ export class TopicFormSchema implements BaseFormSchema<TopicFormSchema> {
   ): Yup.ObjectSchema<FormValues<TopicFormSchema>> {
     return Yup.object().shape({
       isActive: Yup.boolean().required(),
-      name: Yup.string().required(t('TEXT_REQUIRED_NAME')),
+      name: Yup.string().required(t('TEXT_REQUIRED_NAME')).max(100, t('TEXT_TOO_LONG_NAME')),
       description: Yup.string().required(t('TEXT_REQUIRED_DESCRIPTION')),
     });
   }
