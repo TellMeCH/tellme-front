@@ -133,7 +133,9 @@ export const topicApi = createAppApi({
                     endpointData.results.push(newItem);
                   }
 
-                  endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
+                  if (originalArgs?.isActive) {
+                    endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
+                  }
                 } else {
                   merge(endpointData as Topic, omit(updatedEntityData, 'id'));
                 }

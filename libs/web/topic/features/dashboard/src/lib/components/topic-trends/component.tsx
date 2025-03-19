@@ -1,59 +1,20 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
-import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 import { useTranslations } from 'next-intl';
-import { type ReactElement, useMemo } from 'react';
+import { type ReactElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useDispatch, useSelector } from 'react-redux';
-import { organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
-import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { Legend } from '@tellme/web/topic/ui/legend';
+import { useTopicTrends } from '../../hooks';
 import { TopicTrendsItem } from '../topic-trends-item';
 import styles from './component.module.scss';
 
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
-  const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
 
-  const profile = useSelector(authSelectors.profile);
-  const { data, isFetching } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
-  const { data: topicOverview } = organizationApi.useGetTopicsOverviewQuery(undefined, { skip: !profile });
-
-  const fetchNextPage = (): void => {
-    if (data?.nextCursor && !isFetching) {
-      dispatch(topicApi.endpoints.searchInfinite.initiate({ cursor: data.nextCursor }, { forceRefetch: true }));
-    }
-  };
-
-  const { firstDate, secondDate, topicMetrics } = topicOverview || {};
-
-  const { activeTopics, maxCount } = useMemo(() => {
-    if (!data?.results || !topicMetrics) {
-      return { activeTopics: [], maxCount: 0 };
-    }
-
-    const activeTopicMap = new Map(data.results.map((topic) => [topic.name, topic]));
-
-    const filteredTopics = topicMetrics
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .filter((metric) => activeTopicMap.has(metric.name))
-      .map((metric) => ({
-        ...metric,
-        description: activeTopicMap.get(metric.name)?.description || '',
-      }));
-
-    const maxCount = Math.max(
-      ...filteredTopics.flatMap(({ count: { firstMeasurement, secondMeasurement } }) => [
-        Number(firstMeasurement),
-        Number(secondMeasurement),
-      ]),
-    );
-
-    return { activeTopics: filteredTopics, maxCount };
-  }, [data, topicMetrics]);
+  const { data, firstDate, secondDate, activeTopics, maxCount, fetchNextPage } = useTopicTrends();
 
   return (
     <div className='flex flex-col flex-1 bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
