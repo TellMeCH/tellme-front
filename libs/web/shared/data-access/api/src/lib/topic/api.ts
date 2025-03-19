@@ -21,11 +21,11 @@ const getListTags = (response?: PaginationResponse<Topic>) => [
 const transformSearchResponse = (response: PaginationResponse<Topic>) => {
   const { results, next, previous } = plainToInstance(PaginationResponse<Topic>, response as object);
 
-  return {
+  return new PaginationResponse<Topic>({
     next,
     previous,
     results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
-  } as PaginationResponse<Topic>;
+  });
 };
 
 export const topicApi = createAppApi({
