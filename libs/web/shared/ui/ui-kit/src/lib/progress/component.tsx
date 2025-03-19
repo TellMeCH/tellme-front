@@ -18,7 +18,7 @@ const BaseProgress = extendVariants(HeroUIProgress, {
     },
     size: {
       md: {
-        base: 'h-2',
+        base: 'h-2 w-[96%]',
       },
     },
   },
@@ -34,7 +34,7 @@ interface AppProgressProps extends ProgressProps {
 
 export const AppProgress = forwardRef<HTMLDivElement, AppProgressProps>((props, ref): ReactElement => {
   return (
-    <span ref={ref} className='flex flex-row items-center gap-2'>
+    <span ref={ref} className='flex flex-row justify-between items-center gap-2'>
       <BaseProgress {...props} />
       {props.value}
     </span>

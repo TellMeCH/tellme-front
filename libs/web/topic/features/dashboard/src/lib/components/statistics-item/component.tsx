@@ -6,8 +6,8 @@ import styles from './component.module.scss';
 
 export interface StatisticsItemProps {
   title: string;
-  value: string | number;
-  change?: number;
+  value: string | number | null;
+  change?: number | null;
   date: DateTime;
 }
 
@@ -27,7 +27,7 @@ export function StatisticsItem({ title, value, change, date }: StatisticsItemPro
         )}
       </div>
       <div className='w-full flex flex-row justify-between items-end gap-2'>
-        <p className={clsx('w-min', styles.statistics__value)}>{value}</p>
+        <p className={styles.statistics__value}>{typeof value === 'number' ? Math.round(value) : value}</p>
         <p className='text-text-secondary whitespace-nowrap uppercase'>{formatDate(date, DateTimeFormat.MONTH_YEAR)}</p>
       </div>
     </div>

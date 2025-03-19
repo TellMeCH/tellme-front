@@ -1,0 +1,9 @@
+{
+  "name": "web/shared/utils/class-transformer",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/shared/utils/class-transformer/src",
+  "projectType": "library",
+  "tags": ["app:web", "scope:shared", "type:utils"],
+  "// targets": "to see all targets run: nx show project web/shared/utils/class-transformer --web",
+  "targets": {}
+}
