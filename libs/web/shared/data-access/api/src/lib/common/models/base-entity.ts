@@ -16,6 +16,10 @@ export class BaseEntity {
 
   @Exclude()
   public get id(): number {
+    if (!this.url) {
+      return -1;
+    }
+
     const segments = this.url.split('/');
 
     return Number(segments[segments.length - 2]);
