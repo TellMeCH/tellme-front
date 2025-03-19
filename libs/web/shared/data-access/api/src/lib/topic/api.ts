@@ -139,5 +139,34 @@ export const topicApi = createAppApi({
       },
       transformResponse: (response) => createEntityInstance<Topic>(Topic, response),
     }),
+    delete: builder.mutation<void, number>({
+      query: (id) => ({
+        method: 'delete',
+        url: `${topicApiConfig.baseEndpoint}${id}/`,
+      }),
+      async onQueryStarted(id, { queryFulfilled, getState, dispatch }) {
+        await queryFulfilled;
+
+        const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
+          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+        ]);
+
+        for (const { endpointName, originalArgs } of cachedQueries) {
+          dispatch(
+            topicApi.util.updateQueryData(
+              endpointName as 'search' | 'searchInfinite',
+              originalArgs as any,
+              (endpointData) => {
+                const existingItemIndex = endpointData.results.findIndex((item) => item.id === id);
+
+                if (existingItemIndex !== -1) {
+                  endpointData.results.splice(existingItemIndex, 1);
+                }
+              },
+            ),
+          );
+        }
+      },
+    }),
   }),
 });

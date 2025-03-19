@@ -55,5 +55,3 @@ export function Modal({
     </NextUIModal>
   );
 }
-
-export default Modal;

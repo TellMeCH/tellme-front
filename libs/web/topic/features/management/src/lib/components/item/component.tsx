@@ -6,8 +6,7 @@ import { debounce } from 'lodash-es';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useCallback, useState } from 'react';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
-import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
-import { Button, Heading, Icon, Switch } from '@tellme/web/shared/ui/ui-kit';
+import { Button, ConfirmationModal, Heading, Icon, Switch } from '@tellme/web/shared/ui/ui-kit';
 import { formatDate } from '@tellme/web/shared/utils/dates';
 import { FormModal } from '../form-modal';
 
@@ -17,12 +16,18 @@ interface ItemProps {
 
 export function Item({ topic }: ItemProps): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
-  const showUnderDevelopment = useShowUnderDevelopment();
   const { isOpen: isFormModalOpen, onOpenChange: onFormModalOpenChange } = useDisclosure();
+  const { isOpen: isConfirmationModalOpen, onOpenChange: onConfirmationModalOpenChange } = useDisclosure();
 
   const [isActive, setIsActive] = useState(topic.isActive);
 
   const [update] = topicApi.useUpdateMutation();
+  const [remove, { isLoading: isDeleting }] = topicApi.useDeleteMutation();
+
+  const removeTopic = async (): Promise<void> => {
+    await remove(topic.id);
+    onConfirmationModalOpenChange();
+  };
 
   const updateTopicWithDebounce = useCallback(
     debounce((isActive: boolean) => update({ id: topic.id, isActive }), 400),
@@ -57,7 +62,7 @@ export function Item({ topic }: ItemProps): ReactElement {
           isIconOnly
           startContent={<Icon name='pen' />} />
         <Button
-          onPress={showUnderDevelopment}
+          onPress={onConfirmationModalOpenChange}
           variant='bordered'
           color='danger'
           isIconOnly
@@ -68,6 +73,18 @@ export function Item({ topic }: ItemProps): ReactElement {
         isOpen={isFormModalOpen}
         onOpenChange={onFormModalOpenChange}
         topic={topic} />
+      <ConfirmationModal
+        isOpen={isConfirmationModalOpen}
+        onOpenChange={onConfirmationModalOpenChange}
+        title={t('TEXT_DELETE_TOPIC_TITLE')}
+        description={t.rich('TEXT_DELETE_TOPIC_DESCRIPTION', {
+          name: topic.name,
+          highlight: (chunks) => <strong>{chunks}</strong>,
+        })}
+        onConfirm={removeTopic}
+        isLoading={isDeleting}
+        confirmationButtonText={t('BUTTON_DELETE')}
+      />
     </div>
   );
 }
