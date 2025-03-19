@@ -12,3 +12,6 @@ export * from './lib/progress/component';
 export * from './lib/checkbox/component';
 export * from './lib/form-checkbox/component';
 export * from './lib/switch/component';
+export * from './lib/modal/component';
+export * from './lib/form-switch/component';
+export * from './lib/form-textarea/component';
