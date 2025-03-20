@@ -1,5 +1,6 @@
 'use client';
 
+import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { useState, useEffect } from 'react';
 import { type ReactElement } from 'react';
@@ -15,9 +16,15 @@ export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
   const showUnderDevelopment = useShowUnderDevelopment();
   const profile = useSelector(authSelectors.profile);
-  const [selectedValue, setSelectedValue] = useState<string>('');
+  const [selectedValue, setSelectedValue] = useState<string | null>(null);
 
-  const { data, isLoading } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+  const { data } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+  const { data: summary, isFetching } = topicApi.useGetSummaryDataQuery(
+    { id: Number(selectedValue) },
+    { skip: !selectedValue },
+  );
+
+  console.log(summary);
 
   const topics =
     data?.results?.map((item) => ({
@@ -29,6 +36,7 @@ export function TopicAnalysis(): ReactElement {
     if (!selectedValue && topics.length > 0) {
       setSelectedValue(topics[0].value);
     }
+
      
   }, [topics]);
 
@@ -45,6 +53,7 @@ export function TopicAnalysis(): ReactElement {
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
+      {isFetching && <Spinner />}
       <Header title={t('TEXT_TOPIC_ANALYSIS')} />
       <div className='flex-1 flex flex-col bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
         <div className='flex flex-row items-start justify-between'>

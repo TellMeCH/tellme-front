@@ -6,7 +6,7 @@ import { Icon } from '@tellme/web/shared/ui/ui-kit';
 
 interface TopicSelectProps {
   items: Array<{ value: string; label: string }>;
-  selectedValue: string;
+  selectedValue: string | null;
   onSelect: (key: string) => void;
 }
 

@@ -5,6 +5,7 @@ import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
 import { Topic, TopicPaginationRequest, ModifiedTopic } from './models';
+import { TopicSummary } from './models/topic-summary';
 
 const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
@@ -74,6 +75,17 @@ export const topicApi = createAppApi({
       },
       transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
       providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.id })) as any,
+    }),
+    getSummaryData: builder.query<TopicSummary, { id: number }>({
+      query: ({ id }) => {
+        return {
+          method: 'get',
+          url: `${topicApiConfig.baseEndpoint}${id}/summary_data/`,
+        };
+      },
+      transformResponse: (response) => {
+        return plainToInstance(TopicSummary, response as object);
+      },
     }),
     create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({
       query: (params) => {
