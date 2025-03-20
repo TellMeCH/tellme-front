@@ -14,7 +14,7 @@ export class TopicSummary {
 
   @Expose()
   @TransformSummary()
-  public summary: Record<string, SummaryDetail>;
+  public summary: Array<SummaryDetail>;
 
   constructor(model: Partial<TopicSummary>) {
     Object.assign(this, model);

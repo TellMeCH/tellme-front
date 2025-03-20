@@ -4,17 +4,13 @@ import { camelCase, isPlainObject } from 'lodash-es';
 export function TransformSummary(): PropertyDecorator {
   return Transform(
     ({ value }) => {
-      if (!value || !isPlainObject(value)) return value;
+      if (!value || !isPlainObject(value)) return [];
 
-      return Object.fromEntries(
-        Object.entries<string>(value).map(([originalKey, value]) => [
-          camelCase(originalKey),
-          {
-            name: originalKey,
-            description: value,
-          },
-        ]),
-      );
+      return Object.entries<string>(value).map(([originalKey, originalValue]) => ({
+        key: camelCase(originalKey),
+        name: originalKey,
+        description: originalValue,
+      }));
     },
     { toClassOnly: true },
   );

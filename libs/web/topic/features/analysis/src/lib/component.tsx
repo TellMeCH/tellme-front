@@ -10,7 +10,7 @@ import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { TopicSelect, PeriodFilter, CardSection, TopicChart } from './components';
-import { graphDataMock, paragraphsMock, filtersMock } from './mocks/analysis';
+import { graphDataMock, filtersMock } from './mocks/analysis';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
@@ -19,26 +19,16 @@ export function TopicAnalysis(): ReactElement {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
 
   const { data } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
-  const { data: summary, isFetching } = topicApi.useGetSummaryDataQuery(
+  const { data: { summary } = {}, isFetching } = topicApi.useGetSummaryDataQuery(
     { id: Number(selectedValue) },
     { skip: !selectedValue },
   );
-
-  console.log(summary);
 
   const topics =
     data?.results?.map((item) => ({
       value: String(item.id),
       label: item.name,
     })) ?? [];
-
-  useEffect(() => {
-    if (!selectedValue && topics.length > 0) {
-      setSelectedValue(topics[0].value);
-    }
-
-     
-  }, [topics]);
 
   const selectedItem = topics.find((item) => item.value === selectedValue);
 
@@ -50,6 +40,19 @@ export function TopicAnalysis(): ReactElement {
     setSelectedValue(value);
     showUnderDevelopment();
   };
+
+  const specialSections = ['reasonsForCalling', 'suggestedActions'];
+
+  const highlightedSections = summary?.filter((item) => specialSections.includes(item.key));
+  const generalSections = summary?.filter((item) => !specialSections.includes(item.key));
+
+  useEffect(() => {
+    if (!selectedValue && topics.length > 0) {
+      setSelectedValue(topics[0].value);
+    }
+
+     
+  }, [topics]);
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -71,25 +74,16 @@ export function TopicAnalysis(): ReactElement {
           </div>
         </div>
         <TopicChart data={graphDataMock} />
-        <CardSection title={t('TEXT_REASONS_FOR_CALLING')}>
-          {/* TODO: Replace this with actual data */}
-          <p>
-            Customers frequently contact the call center to inquire about restock dates and availability of specific
-            clothing items.
-          </p>
-        </CardSection>
-        <CardSection title={t('TEXT_SUGGESTED_ACTIONS')}>
-          {/* TODO: Replace this with actual data */}
-          <p>
-            The company could improve customer satisfaction by providing more proactive updates on restock timelines and
-            enhancing the notification system for customers.
-          </p>
-        </CardSection>
+        {highlightedSections?.map(({ key, name, description }) => (
+          <CardSection key={key} title={name}>
+            <p>{description}</p>
+          </CardSection>
+        ))}
         <div className='grid grid-cols-2 gap-10 rounded-lg mt-2'>
-          {paragraphsMock.map((item, index) => (
-            <div key={index}>
-              <p className='font-medium text-xl mb-2'>{item.title}</p>
-              <p className='text-gray-600 whitespace-normal text-clip'>{item.text}</p>
+          {generalSections?.map(({ key, name, description }) => (
+            <div key={key}>
+              <p className='font-medium text-xl mb-2'>{name}</p>
+              <p className='text-gray-600 whitespace-normal text-clip'>{description}</p>
             </div>
           ))}
         </div>
