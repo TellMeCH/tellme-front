@@ -26,6 +26,11 @@
       "TEXT_TRENDS": "Trends",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
       "TEXT_FREQUENCY": "Frequency"
+    },
+    "DATE_PERIOD": {
+      "TEXT_MONTHLY": "1 year",
+      "TEXT_WEEKLY": "3 months",
+      "TEXT_DAILY": "1 month"
     }
   },
   "MANAGEMENT": {

@@ -9,13 +9,13 @@ import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { TopicSelect, PeriodFilter, CardSection, TopicChart } from './components';
-import { filtersMock } from './mocks/analysis';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
   const showUnderDevelopment = useShowUnderDevelopment();
   const profile = useSelector(authSelectors.profile);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
+  const [trendPeriod, setTrendPeriod] = useState(TrendPeriod.MONTHLY);
 
   const { data } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
   const { data: { summary } = {}, isFetching } = topicApi.useGetSummaryDataQuery(
@@ -24,7 +24,7 @@ export function TopicAnalysis(): ReactElement {
   );
 
   const { data: chart } = topicApi.useGetChartDataQuery(
-    { id: Number(selectedValue), trendPeriod: TrendPeriod.MONTHLY },
+    { id: Number(selectedValue), trendPeriod },
     { skip: !selectedValue },
   );
 
@@ -39,7 +39,7 @@ export function TopicAnalysis(): ReactElement {
         ...item,
         date: item.date.toFormat('MMM dd, yyyy'),
       }));
-  }, [chart]);
+  }, [chart, data]);
 
   console.log(chartData);
 
@@ -51,13 +51,25 @@ export function TopicAnalysis(): ReactElement {
 
   const selectedItem = topics.find((item) => item.value === selectedValue);
 
+  const trendPeriodOptions = Object.values(TrendPeriod).map((value) => ({
+    value,
+    label: t(`DATE_PERIOD.TEXT_${value.toUpperCase()}`),
+  }));
+
   const handleTopicSelect = (value: string): void => {
     if (value === selectedValue) {
       return;
     }
 
     setSelectedValue(value);
-    showUnderDevelopment();
+  };
+
+  const handlePeriodSelect = (value: TrendPeriod): void => {
+    if (value === selectedValue) {
+      return;
+    }
+
+    setTrendPeriod(value);
   };
 
   const specialSections = ['reasonsForCalling', 'suggestedActions'];
@@ -86,7 +98,7 @@ export function TopicAnalysis(): ReactElement {
               onSelect={handleTopicSelect} />
           </div>
           <div>
-            <PeriodFilter options={filtersMock} onChange={showUnderDevelopment} />
+            <PeriodFilter options={trendPeriodOptions} onChange={handlePeriodSelect} />
           </div>
         </div>
         {chartData && <TopicChart data={chartData} />}
