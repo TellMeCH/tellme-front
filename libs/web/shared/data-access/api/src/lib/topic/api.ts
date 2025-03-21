@@ -4,7 +4,7 @@ import { merge, omit } from 'lodash-es';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { Topic, TopicPaginationRequest, ModifiedTopic } from './models';
+import { Topic, TopicPaginationRequest, ModifiedTopic, TopicChartRequest, TopicChart } from './models';
 import { TopicSummary } from './models/topic-summary';
 
 const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
@@ -85,6 +85,18 @@ export const topicApi = createAppApi({
       },
       transformResponse: (response) => {
         return plainToInstance(TopicSummary, response as object);
+      },
+    }),
+    getChartData: builder.query<Array<TopicChart>, TopicChartRequest>({
+      query: ({ id, ...params }) => {
+        return {
+          method: 'get',
+          url: `${topicApiConfig.baseEndpoint}${id}/trend/`,
+          params: prepareRequestParams(params, TopicChartRequest),
+        };
+      },
+      transformResponse: (response) => {
+        return plainToInstance(TopicChart, response.results as Array<object>);
       },
     }),
     create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({

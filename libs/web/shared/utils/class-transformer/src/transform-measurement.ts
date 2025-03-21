@@ -8,7 +8,7 @@ export function TransformMeasurement(): PropertyDecorator {
         return null;
       }
 
-      const keys = Object.keys(value).filter((key) => key !== 'change');
+      const keys = Object.keys(value).filter((key) => key !== 'change' && key !== 'date');
       const [firstKey, secondKey] = keys;
 
       return new Measurement({

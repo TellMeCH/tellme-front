@@ -1,16 +1,15 @@
 'use client';
 
-import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-import { topicApi } from '@tellme/web/shared/data-access/api';
+import { TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { TopicSelect, PeriodFilter, CardSection, TopicChart } from './components';
-import { graphDataMock, filtersMock } from './mocks/analysis';
+import { filtersMock } from './mocks/analysis';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
@@ -23,6 +22,26 @@ export function TopicAnalysis(): ReactElement {
     { id: Number(selectedValue) },
     { skip: !selectedValue },
   );
+
+  const { data: chart } = topicApi.useGetChartDataQuery(
+    { id: Number(selectedValue), trendPeriod: TrendPeriod.MONTHLY },
+    { skip: !selectedValue },
+  );
+
+  const chartData = useMemo(() => {
+    if (!chart) {
+      return;
+    }
+
+    return [...chart]
+      .sort((a, b) => a.date.toMillis() - b.date.toMillis())
+      .map((item) => ({
+        ...item,
+        date: item.date.toFormat('MMM dd, yyyy'),
+      }));
+  }, [chart]);
+
+  console.log(chartData);
 
   const topics =
     data?.results?.map((item) => ({
@@ -50,13 +69,10 @@ export function TopicAnalysis(): ReactElement {
     if (!selectedValue && topics.length > 0) {
       setSelectedValue(topics[0].value);
     }
-
-     
   }, [topics]);
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
-      {isFetching && <Spinner />}
       <Header title={t('TEXT_TOPIC_ANALYSIS')} />
       <div className='flex-1 flex flex-col bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
         <div className='flex flex-row items-start justify-between'>
@@ -73,7 +89,7 @@ export function TopicAnalysis(): ReactElement {
             <PeriodFilter options={filtersMock} onChange={showUnderDevelopment} />
           </div>
         </div>
-        <TopicChart data={graphDataMock} />
+        {chartData && <TopicChart data={chartData} />}
         {highlightedSections?.map(({ key, name, description }) => (
           <CardSection key={key} title={name}>
             <p>{description}</p>

@@ -9,15 +9,15 @@ import styles from './component.module.scss';
 
 // TODO: Remove any and replace with actual data types
 interface TopicChartProps {
-  data: Array<Record<string, any>>;
+  data: any;
 }
 
 export function TopicChart({ data }: TopicChartProps): ReactElement {
   const t = useTranslations('topic.ANALYSIS.CHART');
 
   const lines = [
-    { key: 'frequency', color: styles.brandPrimary, label: t('TEXT_FREQUENCY') },
-    { key: 'engagement', color: styles.brandTertiary, label: t('TEXT_CUSTOMER_ENGAGEMENT') },
+    { key: 'count', color: styles.brandPrimary, label: t('TEXT_FREQUENCY') },
+    { key: 'averageSentiment', color: styles.brandTertiary, label: t('TEXT_CUSTOMER_ENGAGEMENT') },
   ];
 
   return (
@@ -44,14 +44,13 @@ export function TopicChart({ data }: TopicChartProps): ReactElement {
           <XAxis
             tick={{ fontSize: 14, fill: 'currentColor' }}
             className='text-text-secondary'
-            dataKey='name'
+            dataKey='date'
             interval='preserveStartEnd'
             tickLine={false}
           />
           <YAxis
             tick={{ fontSize: 12, fill: 'currentColor' }}
             className='text-text-secondary'
-            domain={[0, 100]}
             tickMargin={0}
             tickLine={false}
           />

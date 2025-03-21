@@ -18,8 +18,6 @@
   },
   "ANALYSIS": {
     "TEXT_TOPIC_ANALYSIS": "Topic analysis",
-    "TEXT_REASONS_FOR_CALLING": "Reasons for calling",
-    "TEXT_SUGGESTED_ACTIONS": "Suggested actions",
     "SELECT": {
       "TEXT_PLACEHOLDER_SEARCH": "Search",
       "TEXT_DROPDOWN_AREA_LABEL": "Dropdown with search"
