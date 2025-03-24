@@ -1,7 +1,7 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { merge, omit } from 'lodash-es';
-import { createAppApi } from '@tellme/web/shared/data-access/api-client';
+import { merge, omit, orderBy } from 'lodash-es';
+import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
 import { Topic, TopicPaginationRequest, ModifiedTopic } from './models';
@@ -20,11 +20,11 @@ const getListTags = (response?: PaginationResponse<Topic>) => [
 const transformSearchResponse = (response: PaginationResponse<Topic>) => {
   const { results, next, previous } = plainToInstance(PaginationResponse<Topic>, response as object);
 
-  return {
+  return new PaginationResponse<Topic>({
     next,
     previous,
     results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
-  } as PaginationResponse<Topic>;
+  });
 };
 
 export const topicApi = createAppApi({
@@ -53,12 +53,12 @@ export const topicApi = createAppApi({
           const fetchedItemsIDs = response.results.map((item) => item.id);
           cache.results = cache.results.filter((item) => !fetchedItemsIDs.includes(item.id));
 
-          if (arg.cursor === response.nextCursor) {
+          if (arg.cursor === cache.nextCursor) {
             cache.results.push(...response.results);
             cache.next = response.next;
           }
 
-          if (arg.cursor === response.previousCursor) {
+          if (arg.cursor === cache.previousCursor) {
             cache.results.unshift(...response.results);
             cache.previous = response.previous;
           }
@@ -86,7 +86,32 @@ export const topicApi = createAppApi({
         };
       },
       transformResponse: (response: object) => createEntityInstance<ModifiedTopic>(ModifiedTopic, response),
-      invalidatesTags: [{ type: topicApiConfig.entityName, id: EntityTagID.LIST }],
+      async onQueryStarted(_, { queryFulfilled, getState, dispatch }) {
+        const result = (await queryFulfilled).data;
+
+        const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
+          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+        ]);
+
+        const newTopic = new Topic({
+          ...omit(result, 'id'),
+          url: `${apiConfig.root}${topicApiConfig.baseEndpoint}${result.id}/`,
+          updated: result.created,
+        });
+
+        for (const { endpointName, originalArgs } of cachedQueries) {
+          dispatch(
+            topicApi.util.updateQueryData(
+              endpointName as 'search' | 'searchInfinite',
+              originalArgs as any,
+              (endpointData) => {
+                endpointData.results.push(newTopic);
+                endpointData.results = orderBy(endpointData.results, ['isActive', 'name'], ['desc', 'asc']);
+              },
+            ),
+          );
+        }
+      },
     }),
     update: builder.mutation<Partial<ModifiedTopic>, Partial<ModifiedTopic>>({
       query: (params) => {
@@ -145,6 +170,35 @@ export const topicApi = createAppApi({
         }
       },
       transformResponse: (response) => createEntityInstance<Topic>(Topic, response),
+    }),
+    delete: builder.mutation<void, number>({
+      query: (id) => ({
+        method: 'delete',
+        url: `${topicApiConfig.baseEndpoint}${id}/`,
+      }),
+      async onQueryStarted(id, { queryFulfilled, getState, dispatch }) {
+        await queryFulfilled;
+
+        const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
+          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+        ]);
+
+        for (const { endpointName, originalArgs } of cachedQueries) {
+          dispatch(
+            topicApi.util.updateQueryData(
+              endpointName as 'search' | 'searchInfinite',
+              originalArgs as any,
+              (endpointData) => {
+                const existingItemIndex = endpointData.results.findIndex((item) => item.id === id);
+
+                if (existingItemIndex !== -1) {
+                  endpointData.results.splice(existingItemIndex, 1);
+                }
+              },
+            ),
+          );
+        }
+      },
     }),
   }),
 });

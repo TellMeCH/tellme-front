@@ -15,3 +15,4 @@ export * from './lib/switch/component';
 export * from './lib/modal/component';
 export * from './lib/form-switch/component';
 export * from './lib/form-textarea/component';
+export * from './lib/confirmation-modal/component';

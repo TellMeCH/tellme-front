@@ -24,7 +24,15 @@ export function TopicsManagement(): ReactElement {
 
   const fetchNextPage = (): void => {
     if (data?.nextCursor && !isFetching) {
-      dispatch(topicApi.endpoints.searchInfinite.initiate({ cursor: data.nextCursor }, { forceRefetch: true }));
+      dispatch(
+        topicApi.endpoints.searchInfinite.initiate(
+          {
+            cursor: data.nextCursor,
+            pageSize: 10,
+          },
+          { forceRefetch: true },
+        ),
+      );
     }
   };
 
@@ -43,8 +51,13 @@ export function TopicsManagement(): ReactElement {
           className={styles.management__list}
           dataLength={data?.results.length || 0}
           next={fetchNextPage}
+          scrollableTarget='main'
           hasMore={!!data?.nextCursor}
-          loader={<Spinner />}>
+          loader={
+            <div className='flex justify-center py-6'>
+              <Spinner />
+            </div>
+          }>
           {isLoading && <Spinner />}
           {data?.results.map((topic) => <Item topic={topic} key={topic.id} />)}
         </InfiniteScroll>
