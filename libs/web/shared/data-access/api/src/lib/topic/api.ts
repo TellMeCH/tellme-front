@@ -1,10 +1,10 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { merge, omit, orderBy } from 'lodash-es';
+import { merge, omit } from 'lodash-es';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
-import { PaginationRequest, PaginationResponse } from '../common';
+import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { Topic, TopicPaginationRequest, ModifiedTopic } from './models';
+import { Topic, TopicPaginationRequest, ModifiedTopic, TopicErrorData } from './models';
 
 const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
@@ -24,6 +24,15 @@ const transformSearchResponse = (response: PaginationResponse<Topic>) => {
     next,
     previous,
     results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
+  });
+};
+
+const transformTopicErrorResponse = (response: object): ErrorResponse<TopicErrorData> => {
+  const { code, data } = plainToInstance(ErrorResponse<TopicErrorData>, response);
+
+  return new ErrorResponse<TopicErrorData>({
+    code,
+    data: createEntityInstance(TopicErrorData, data),
   });
 };
 
@@ -86,31 +95,41 @@ export const topicApi = createAppApi({
         };
       },
       transformResponse: (response: object) => createEntityInstance<ModifiedTopic>(ModifiedTopic, response),
+      transformErrorResponse: transformTopicErrorResponse,
       async onQueryStarted(_, { queryFulfilled, getState, dispatch }) {
-        const result = (await queryFulfilled).data;
+        try {
+          const result = (await queryFulfilled).data;
+          const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
+            { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+          ]);
 
-        const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
-          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
-        ]);
+          const newTopic = new Topic({
+            ...omit(result, 'id'),
+            url: `${apiConfig.root}${topicApiConfig.baseEndpoint}${result.id}/`,
+            updated: result.created,
+          });
 
-        const newTopic = new Topic({
-          ...omit(result, 'id'),
-          url: `${apiConfig.root}${topicApiConfig.baseEndpoint}${result.id}/`,
-          updated: result.created,
-        });
+          for (const { endpointName, originalArgs } of cachedQueries) {
+            dispatch(
+              topicApi.util.updateQueryData(
+                endpointName as 'search' | 'searchInfinite',
+                originalArgs as any,
+                (endpointData) => {
+                  endpointData.results.push(newTopic);
+                  endpointData.results.sort((a, b) => {
+                    if (a.isActive !== b.isActive) {
+                      return a.isActive ? -1 : 1;
+                    }
 
-        for (const { endpointName, originalArgs } of cachedQueries) {
-          dispatch(
-            topicApi.util.updateQueryData(
-              endpointName as 'search' | 'searchInfinite',
-              originalArgs as any,
-              (endpointData) => {
-                endpointData.results.push(newTopic);
-                endpointData.results = orderBy(endpointData.results, ['isActive', 'name'], ['desc', 'asc']);
-              },
-            ),
-          );
-        }
+                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                  });
+                },
+              ),
+            );
+          }
+          /* eslint-disable no-empty */
+        } catch (error) {} //TODO: fix throwing errors here
+        /* eslint-enable no-empty */
       },
     }),
     update: builder.mutation<Partial<ModifiedTopic>, Partial<ModifiedTopic>>({
@@ -127,49 +146,54 @@ export const topicApi = createAppApi({
         };
       },
       async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
-        const updatedEntityData = (await queryFulfilled).data;
+        try {
+          const updatedEntityData = (await queryFulfilled).data;
 
-        const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
-          { type: topicApiConfig.entityName, id: arg.id },
-          { type: topicApiConfig.entityName, id: EntityTagID.LIST },
-        ]);
+          const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
+            { type: topicApiConfig.entityName, id: arg.id },
+            { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+          ]);
 
-        for (const { endpointName, originalArgs } of cachedQueries) {
-          dispatch(
-            topicApi.util.updateQueryData(
-              endpointName as 'search' | 'searchInfinite' | 'get',
-              originalArgs as any,
-              (endpointData) => {
-                if ('results' in endpointData && Array.isArray(endpointData.results)) {
-                  const existingIndex = endpointData.results.findIndex((item) => item.id === arg.id);
+          for (const { endpointName, originalArgs } of cachedQueries) {
+            dispatch(
+              topicApi.util.updateQueryData(
+                endpointName as 'search' | 'searchInfinite' | 'get',
+                originalArgs as any,
+                (endpointData) => {
+                  if ('results' in endpointData && Array.isArray(endpointData.results)) {
+                    const existingIndex = endpointData.results.findIndex((item) => item.id === arg.id);
 
-                  if (existingIndex !== -1) {
-                    const existingItem = endpointData.results[existingIndex];
-                    const oldIsActive = existingItem.isActive;
+                    if (existingIndex !== -1) {
+                      const existingItem = endpointData.results[existingIndex];
+                      const oldIsActive = existingItem.isActive;
 
-                    merge(existingItem, omit(updatedEntityData, 'id'));
-                    const newIsActive = existingItem.isActive;
+                      merge(existingItem, omit(updatedEntityData, 'id'));
+                      const newIsActive = existingItem.isActive;
 
-                    if (originalArgs?.isActive && oldIsActive && !newIsActive) {
-                      endpointData.results.splice(existingIndex, 1);
+                      if (originalArgs?.isActive && oldIsActive && !newIsActive) {
+                        endpointData.results.splice(existingIndex, 1);
+                      }
+                    } else if (originalArgs?.isActive && updatedEntityData.isActive) {
+                      const newItem = createEntityInstance(Topic, updatedEntityData);
+                      endpointData.results.push(newItem);
                     }
-                  } else if (originalArgs?.isActive && updatedEntityData.isActive) {
-                    const newItem = createEntityInstance(Topic, updatedEntityData);
-                    endpointData.results.push(newItem);
-                  }
 
-                  if (originalArgs?.isActive) {
-                    endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
+                    if (originalArgs?.isActive) {
+                      endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+                    }
+                  } else {
+                    merge(endpointData as Topic, omit(updatedEntityData, 'id'));
                   }
-                } else {
-                  merge(endpointData as Topic, omit(updatedEntityData, 'id'));
-                }
-              },
-            ),
-          );
-        }
+                },
+              ),
+            );
+          }
+          /* eslint-disable no-empty */
+        } catch (error) {} //TODO: fix throwing errors here
+        /* eslint-enable no-empty */
       },
       transformResponse: (response) => createEntityInstance<Topic>(Topic, response),
+      transformErrorResponse: transformTopicErrorResponse,
     }),
     delete: builder.mutation<void, number>({
       query: (id) => ({
