@@ -1,6 +1,6 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { merge, omit, orderBy } from 'lodash-es';
+import { merge, omit } from 'lodash-es';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
@@ -106,7 +106,13 @@ export const topicApi = createAppApi({
               originalArgs as any,
               (endpointData) => {
                 endpointData.results.push(newTopic);
-                endpointData.results = orderBy(endpointData.results, ['isActive', 'name'], ['desc', 'asc']);
+                endpointData.results.sort((a, b) => {
+                  if (a.isActive !== b.isActive) {
+                    return a.isActive ? -1 : 1;
+                  }
+
+                  return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+                });
               },
             ),
           );
@@ -159,7 +165,7 @@ export const topicApi = createAppApi({
                   }
 
                   if (originalArgs?.isActive) {
-                    endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
+                    endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
                   }
                 } else {
                   merge(endpointData as Topic, omit(updatedEntityData, 'id'));

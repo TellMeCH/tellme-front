@@ -2,10 +2,10 @@
 
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
-import { Fragment, ReactElement } from 'react';
+import { Fragment, ReactElement, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
-import { Button, FormSwitch, FormTextarea, FormTextInput, Modal } from '@tellme/web/shared/ui/ui-kit';
+import { Button, FormMessage, FormSwitch, FormTextarea, FormTextInput, Modal } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import { TopicFormSchema } from '../../forms';
 
@@ -19,8 +19,13 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
   const isForEdit = !!topic;
   const t = useTranslations('topic.MANAGEMENT');
 
-  const [update, { isLoading: isUpdating }] = topicApi.useUpdateMutation();
-  const [create, { isLoading: isCreating }] = topicApi.useCreateMutation();
+  const [update, { isLoading: isUpdating, error: updateError, isSuccess: wasUpdatedSuccessfully }] =
+    topicApi.useUpdateMutation();
+  const [create, { isLoading: isCreating, error: creationError, isSuccess: wasCreatedSuccessfully }] =
+    topicApi.useCreateMutation();
+
+  const isSuccess = wasCreatedSuccessfully || wasUpdatedSuccessfully;
+  const hasError = updateError || creationError;
 
   const formSchema = new TopicFormSchema(topic);
   const form = useForm({
@@ -29,20 +34,36 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
   });
   const values = useWatch({ control: form.control });
 
-  const submit = async (values: FormValues<TopicFormSchema>): Promise<void> => {
+  const submit = (values: FormValues<TopicFormSchema>): void => {
     if (isForEdit) {
-      await update({ id: topic.id, ...values });
+      update({ id: topic.id, ...values }).unwrap();
     } else {
-      await create(values);
+      create(values).unwrap();
     }
-
-    close();
   };
 
   const close = (): void => {
     onOpenChange();
     form.reset({ isActive: false, name: '', description: '' });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      close();
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (hasError) {
+      const hasUniqueNameError =
+        updateError?.data.non_field_errors?.includes('The fields name, organization must make a unique set.') ||
+        creationError?.data.name?.includes('A topic with this same name already exists in this Organization.');
+
+      if (hasUniqueNameError) {
+        form.setError('name', { message: t('TEXT_UNIQUE_NAME') });
+      }
+    }
+  }, [hasError]);
 
   return (
     <Modal
@@ -87,6 +108,9 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         label={t('TEXT_DESCRIPTION')}
         placeholder={t('TEXT_DESCRIPTION')}
       />
+      {creationError?.data.non_field_errors?.includes(
+        'Cannot add more topics to this organization; max topic count reached.',
+      ) && <FormMessage message={t('TEXT_TOPICS_LIMIT')} />}
     </Modal>
   );
 }
