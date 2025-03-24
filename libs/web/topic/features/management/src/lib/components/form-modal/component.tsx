@@ -36,9 +36,9 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
 
   const submit = (values: FormValues<TopicFormSchema>): void => {
     if (isForEdit) {
-      update({ id: topic.id, ...values }).unwrap();
+      update({ id: topic.id, ...values });
     } else {
-      create(values).unwrap();
+      create(values);
     }
   };
 
@@ -46,6 +46,12 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
     onOpenChange();
     form.reset({ isActive: false, name: '', description: '' });
   };
+
+  useEffect(() => {
+    if (isOpen && topic) {
+      form.reset({ name: topic.name, description: topic.description, isActive: topic.isActive });
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (isSuccess) {
