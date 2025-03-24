@@ -62,7 +62,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
   useEffect(() => {
     if (hasError) {
       const hasUniqueNameError =
-        updateError?.data.non_field_errors?.includes('The fields name, organization must make a unique set.') ||
+        updateError?.data.nonFieldErrors?.includes('The fields name, organization must make a unique set.') ||
         creationError?.data.name?.includes('A topic with this same name already exists in this Organization.');
 
       if (hasUniqueNameError) {
@@ -114,7 +114,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         label={t('TEXT_DESCRIPTION')}
         placeholder={t('TEXT_DESCRIPTION')}
       />
-      {creationError?.data.non_field_errors?.includes(
+      {creationError?.data.nonFieldErrors?.includes(
         'Cannot add more topics to this organization; max topic count reached.',
       ) && <FormMessage message={t('TEXT_TOPICS_LIMIT')} />}
     </Modal>
