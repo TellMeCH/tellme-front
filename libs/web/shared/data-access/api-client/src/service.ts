@@ -1,4 +1,4 @@
 import { ApiService } from '@ronas-it/axios-api-client';
-import { configuration } from './configuration';
+import { apiConfig } from './configuration';
 
-export const apiService = new ApiService(configuration.apiURL);
+export const apiService = new ApiService(apiConfig.root);

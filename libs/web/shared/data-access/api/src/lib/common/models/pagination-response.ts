@@ -1,7 +1,10 @@
 import { Exclude, Expose } from 'class-transformer';
+import { immerable } from 'immer';
 import { BaseEntity } from './base-entity';
 
 export class PaginationResponse<TEntity extends BaseEntity = BaseEntity> {
+  public [immerable] = true;
+
   @Expose({ toClassOnly: true })
   public results: Array<TEntity>;
 
@@ -22,6 +25,10 @@ export class PaginationResponse<TEntity extends BaseEntity = BaseEntity> {
   }
 
   private getCursor(url: string): string {
+    if (!url) {
+      return '';
+    }
+
     const parsedUrl = new URL(url);
 
     return parsedUrl.searchParams.get('cursor') as string;
