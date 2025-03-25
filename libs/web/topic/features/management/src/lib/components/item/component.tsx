@@ -44,7 +44,8 @@ export function Item({ topic }: ItemProps): ReactElement {
       <Switch
         isSelected={isActive}
         onValueChange={changeActivity}
-        className='mr-6' />
+        className='mr-6'
+        data-testid='activity-switch' />
       <div className={clsx('flex-1 mr-[9%]', !isActive && 'text-text-secondary')}>
         <Heading level={2} className='mb-2 text-xl font-medium'>
           {topic.name}

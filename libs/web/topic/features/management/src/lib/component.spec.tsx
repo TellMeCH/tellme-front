@@ -1,22 +1,46 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
-import { TestRootComponent, topicsPaginationResponse } from '@tellme/web/shared/data-access/tests-data';
+import { getIdFromUrl, TestRootComponent, topicsPaginationResponse } from '@tellme/web/shared/data-access/tests-data';
 import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
 
 import SpyInstance = jest.SpyInstance;
 
+// TODO: make common mock
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(() => ({})),
   GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
   OAuthProvider: jest.fn((providerId) => ({ providerId })),
-  onAuthStateChanged: jest.fn((_, observer) => {
-    observer({ uid: 'uid', email: 'test@test.com' });
-  }),
 }));
 
 describe('Topics management', () => {
   let requestSpy: SpyInstance;
+
+  const checkTopicActivityToggling = async (shouldEnable: boolean): Promise<void> => {
+    let activitySwitches;
+
+    await waitFor(async () => {
+      activitySwitches = screen.getAllByTestId('activity-switch');
+    });
+
+    if (activitySwitches) {
+      const topicIndex = topicsPaginationResponse.results.findIndex((topic) => topic.is_active !== shouldEnable);
+      await userEvent.click(activitySwitches[topicIndex]);
+
+      const topic = topicsPaginationResponse.results[topicIndex];
+      const topicId = getIdFromUrl(topic.url);
+      await waitFor(() => {
+        expect(requestSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'patch',
+            url: `/topics/${topicId}/`,
+            data: expect.objectContaining({ is_active: shouldEnable }),
+          }),
+        );
+      });
+    }
+  };
 
   beforeAll(() => {
     requestSpy = jest.spyOn(apiService.httpClient, 'request').mockImplementation((config) => {
@@ -35,6 +59,7 @@ describe('Topics management', () => {
   //TODO: return lodash-es
 
   beforeEach(() => {
+    requestSpy.mockClear();
     render(
       <TestRootComponent shouldAuthorize>
         <TopicsManagement />
@@ -57,17 +82,20 @@ describe('Topics management', () => {
     });
   });
 
-  /*
-
   it('should disable topic', async () => {
-
+    await checkTopicActivityToggling(false);
   });
 
   it('should enable topic', async () => {
+    await checkTopicActivityToggling(true);
+  });
+
+  /*
+  it('should create an active topic', async () => {
 
   });
 
-  it('should create an active topic', async () => {
+  it('should create an inactive topic', async () => {
 
   });
 
