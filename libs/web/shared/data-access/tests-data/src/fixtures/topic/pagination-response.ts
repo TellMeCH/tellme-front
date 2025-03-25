@@ -6,9 +6,9 @@ export const topicsPaginationResponse = {
       url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/topics/1/',
       created: '2025-03-24T12:58:18.347Z',
       updated: '2025-03-24T12:58:18.347Z',
-      name: 'Product Stock',
+      name: 'Returns and Exchanges',
       description:
-        'Requests for information on stock availability, restocking schedules, and pre-order options for specific items.',
+        'Questions and requests related to the return or exchange of purchased items, including policy clarifications, refund processing, and replacement shipments.',
       is_active: true,
     },
     {

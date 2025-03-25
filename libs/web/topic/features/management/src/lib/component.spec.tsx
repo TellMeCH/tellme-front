@@ -1,7 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
-import { getIdFromUrl, TestRootComponent, topicsPaginationResponse } from '@tellme/web/shared/data-access/tests-data';
+import {
+  getIdFromUrl,
+  TestRootComponent,
+  topic,
+  topicsPaginationResponse,
+} from '@tellme/web/shared/data-access/tests-data';
 import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
 
@@ -49,6 +54,19 @@ describe('Topics management', () => {
           return Promise.resolve({ data: topicsPaginationResponse });
         }
 
+        case 'post': {
+          const lastTopicIndex = topicsPaginationResponse.results.length - 1;
+          const sortedTopics = topicsPaginationResponse.results.sort((a, b) => a.url.localeCompare(b.url));
+
+          return Promise.resolve({
+            data: {
+              ...(config.data as object),
+              id: getIdFromUrl(sortedTopics[lastTopicIndex].url) + 1,
+              created: new Date().toISOString(),
+            },
+          });
+        }
+
         default: {
           return Promise.resolve({});
         }
@@ -72,14 +90,14 @@ describe('Topics management', () => {
       const items = screen.getAllByTestId('item');
 
       expect(items.length).toBe(topicsPaginationResponse.results.length);
-      expect(requestSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: 'get',
-          url: '/topics/',
-          params: { page_size: 10 },
-        }),
-      );
     });
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: '/topics/',
+        params: { page_size: 10 },
+      }),
+    );
   });
 
   it('should disable topic', async () => {
@@ -90,15 +108,27 @@ describe('Topics management', () => {
     await checkTopicActivityToggling(true);
   });
 
+  it('should create a topic', async () => {
+    await userEvent.click(screen.getByTestId('creation-modal-button'));
+    await userEvent.click(screen.getByTestId('creation-activity-switch'));
+    await userEvent.type(screen.getByTestId('name-input'), topic.name);
+    await userEvent.type(screen.getByTestId('description-input'), topic.description);
+    await userEvent.click(screen.getByTestId('submit-button'));
+
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'post',
+          url: '/topics/',
+          data: { is_active: true, name: topic.name, description: topic.description },
+        }),
+      );
+    });
+    const items = screen.getAllByTestId('item');
+    expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
+  });
+
   /*
-  it('should create an active topic', async () => {
-
-  });
-
-  it('should create an inactive topic', async () => {
-
-  });
-
   it('should edit a topic', async () => {
 
   });

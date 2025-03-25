@@ -8,7 +8,7 @@
     "prepare": "husky install",
     "deps:sync": "npx syncpack fix-mismatches",
     "postinstall": "patch-package",
-    "test": "nx run-many -t test --projects=tag:test --skipNxCache",
+    "test": "cross-env NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" nx run-many -t test --projects=tag:test --skipNxCache",
     "build:web": "npx nx build web --skip-nx-cache",
     "start:web": "npx nx start web --skip-nx-cache",
     "dev:web": "npx nx dev web --skip-nx-cache"
@@ -76,6 +76,7 @@
     "@typescript-eslint/eslint-plugin": "^8.18.1",
     "@typescript-eslint/parser": "^8.18.1",
     "babel-jest": "^29.7.0",
+    "cross-env": "^7.0.3",
     "eslint": "^9.21.0",
     "eslint-config-next": "^15.1.7",
     "eslint-config-prettier": "^9.1.0",
