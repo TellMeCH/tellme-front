@@ -74,8 +74,6 @@ describe('Topics management', () => {
     });
   });
 
-  //TODO: return lodash-es
-
   beforeEach(() => {
     cleanup();
     requestSpy.mockClear();
