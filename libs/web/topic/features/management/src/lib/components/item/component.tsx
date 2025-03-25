@@ -61,13 +61,16 @@ export function Item({ topic }: ItemProps): ReactElement {
           onPress={onFormModalOpenChange}
           variant='bordered'
           isIconOnly
-          startContent={<Icon name='pen' />} />
+          startContent={<Icon name='pen' />}
+          data-testid='update-modal-button'
+        />
         <Button
           onPress={onConfirmationModalOpenChange}
           variant='bordered'
           color='danger'
           isIconOnly
           startContent={<Icon name='trash' />}
+          data-testid='confirmation-modal-button'
         />
       </div>
       <FormModal
