@@ -56,13 +56,26 @@ describe('Topics management', () => {
 
         case 'post': {
           const lastTopicIndex = topicsPaginationResponse.results.length - 1;
-          const sortedTopics = topicsPaginationResponse.results.sort((a, b) => a.url.localeCompare(b.url));
+          const sortedTopics = topicsPaginationResponse.results.slice().sort((a, b) => a.url.localeCompare(b.url));
 
           return Promise.resolve({
             data: {
               ...(config.data as object),
               id: getIdFromUrl(sortedTopics[lastTopicIndex].url) + 1,
               created: new Date().toISOString(),
+            },
+          });
+        }
+
+        case 'patch': {
+          const id = getIdFromUrl(config.url as string);
+          const topic = topicsPaginationResponse.results.find((topic) => getIdFromUrl(topic.url) === id);
+
+          return Promise.resolve({
+            data: {
+              ...topic,
+              ...(config.data as object),
+              id,
             },
           });
         }
@@ -107,6 +120,26 @@ describe('Topics management', () => {
     await checkTopicActivityToggling(true);
   });
 
+  it('should create a topic', async () => {
+    await userEvent.click(screen.getByTestId('creation-modal-button'));
+    await userEvent.click(screen.getByTestId('creation-activity-switch'));
+    await userEvent.type(screen.getByTestId('name-input'), topic.name);
+    await userEvent.type(screen.getByTestId('description-input'), topic.description);
+    await userEvent.click(screen.getByTestId('submit-button'));
+
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'post',
+          url: '/topics/',
+          data: { is_active: true, name: topic.name, description: topic.description },
+        }),
+      );
+    });
+    const items = screen.getAllByTestId('item');
+    expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
+  });
+
   it('should edit a topic', async () => {
     await userEvent.click(screen.getAllByTestId('update-modal-button')[0]);
 
@@ -136,23 +169,21 @@ describe('Topics management', () => {
     });
   });
 
-  it('should create a topic', async () => {
-    await userEvent.click(screen.getByTestId('creation-modal-button'));
-    await userEvent.click(screen.getByTestId('creation-activity-switch'));
-    await userEvent.type(screen.getByTestId('name-input'), topic.name);
-    await userEvent.type(screen.getByTestId('description-input'), topic.description);
-    await userEvent.click(screen.getByTestId('submit-button'));
+  it('should delete a topic', async () => {
+    await userEvent.click(screen.getAllByTestId('confirmation-modal-button')[0]);
+    await userEvent.click(screen.getByTestId('confirm-button'));
 
+    const firstTopic = topicsPaginationResponse.results[0];
+    const firstTopicId = getIdFromUrl(firstTopic.url);
     await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
-          method: 'post',
-          url: '/topics/',
-          data: { is_active: true, name: topic.name, description: topic.description },
+          method: 'delete',
+          url: `/topics/${firstTopicId}/`,
         }),
       );
     });
     const items = screen.getAllByTestId('item');
-    expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
+    expect(items.length).toBe(topicsPaginationResponse.results.length - 1);
   });
 });
