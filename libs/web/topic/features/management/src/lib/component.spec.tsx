@@ -12,7 +12,6 @@ import '@testing-library/jest-dom';
 
 import SpyInstance = jest.SpyInstance;
 
-// TODO: make common mock
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(() => ({})),
   GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
