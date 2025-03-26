@@ -1,4 +1,4 @@
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
@@ -88,7 +88,6 @@ describe('Topics management', () => {
   });
 
   beforeEach(() => {
-    cleanup();
     requestSpy.mockClear();
     render(
       <TestRootComponent shouldAuthorize>
@@ -184,6 +183,6 @@ describe('Topics management', () => {
       );
     });
     const items = screen.getAllByTestId('item');
-    expect(items.length).toBe(topicsPaginationResponse.results.length - 1);
+    expect(items.length).toBe(topicsPaginationResponse.results.length);
   });
 });
