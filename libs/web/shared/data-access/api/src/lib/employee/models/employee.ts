@@ -5,7 +5,7 @@ import { EmployeeUser } from './user';
 
 export class Employee extends BaseEntity {
   @Expose({ name: 'organization' })
-  public organizationName: string;
+  public organizationUrl: string;
 
   @Expose()
   @Type(() => EmployeeUser)
