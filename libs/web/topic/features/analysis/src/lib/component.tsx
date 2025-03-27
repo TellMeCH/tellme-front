@@ -16,6 +16,13 @@ export function TopicAnalysis(): ReactElement {
   const profile = useSelector(authSelectors.profile);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [trendPeriod, setTrendPeriod] = useState(TrendPeriod.MONTHLY);
+  const [chartState, setChartState] = useState<{
+    data: Array<any>;
+    period: TrendPeriod;
+  }>({
+    data: [],
+    period: TrendPeriod.MONTHLY,
+  });
 
   const { data } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
   const { data: { summary } = {}, isLoading } = topicApi.useGetSummaryDataQuery(
@@ -30,10 +37,8 @@ export function TopicAnalysis(): ReactElement {
 
   const timeline = useMemo(() => generateTimeline(trendPeriod).timeline, [trendPeriod]);
 
-  const chartData = useMemo(() => {
-    if (!chart || isFetching) {
-      return [];
-    }
+  const computedChartData = useMemo(() => {
+    if (!chart || isFetching) return [];
 
     return timeline.map((bucket) => {
       const items = chart.filter((item) => item.date >= bucket.start && item.date < bucket.end);
@@ -44,7 +49,7 @@ export function TopicAnalysis(): ReactElement {
 
       return { date: bucket.start.toISO(), count, averageSentiment };
     });
-  }, [chart, isFetching]);
+  }, [chart, isFetching, timeline]);
 
   const topics =
     data?.results?.map((item) => ({
@@ -86,6 +91,16 @@ export function TopicAnalysis(): ReactElement {
     }
   }, [topics]);
 
+  useEffect(() => {
+    // Если загрузка завершилась и массив не пуст:
+    if (!isFetching && computedChartData.length > 0) {
+      setChartState({
+        data: computedChartData,
+        period: trendPeriod,
+      });
+    }
+  }, [isFetching, computedChartData, trendPeriod]);
+
   return (
     <div className='min-h-full flex flex-col gap-2'>
       <Header title={t('TEXT_TOPIC_ANALYSIS')} />
@@ -104,7 +119,7 @@ export function TopicAnalysis(): ReactElement {
             <PeriodFilter options={trendPeriodOptions} onChange={handlePeriodSelect} />
           </div>
         </div>
-        <TopicChart data={chartData} trendPeriod={trendPeriod} />
+        {chartState.data.length > 0 && <TopicChart chart={chartState} />}
         {highlightedSections?.map(({ key, name, description }) => (
           <CardSection key={key} title={name}>
             <p>{description}</p>

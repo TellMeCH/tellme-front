@@ -32,3 +32,8 @@ input {$self: &; font-size: inherit; font-family: inherit;
   }
 }
 
+.recharts-wrapper,
+.recharts-wrapper svg {
+  overflow: visible !important;
+}
+

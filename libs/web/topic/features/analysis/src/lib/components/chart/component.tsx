@@ -2,7 +2,7 @@
 
 import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
-import { type ReactElement, Fragment } from 'react';
+import { type ReactElement, Fragment, memo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
@@ -11,8 +11,10 @@ import styles from './component.module.scss';
 
 // TODO: Remove any and replace with actual data types
 interface TopicChartProps {
-  data: any;
-  trendPeriod: TrendPeriod;
+  chart: {
+    data: Array<{ date: string; count: number; averageSentiment: number }>;
+    period: TrendPeriod;
+  };
 }
 
 const renderYAxisTick = (props: any) => {
@@ -31,19 +33,20 @@ const renderYAxisTick = (props: any) => {
   );
 };
 
-export function TopicChart({ data, trendPeriod }: TopicChartProps): ReactElement {
+function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
   const t = useTranslations('topic.ANALYSIS.CHART');
+  const { data, period } = chart;
 
   const tickFormatter = (tick: string): string => {
     const dt = DateTime.fromISO(tick);
 
-    if (trendPeriod === TrendPeriod.MONTHLY) {
+    if (period === TrendPeriod.MONTHLY) {
       return dt.toFormat('MMM');
-    } else if (trendPeriod === TrendPeriod.WEEKLY) {
+    } else if (period === TrendPeriod.WEEKLY) {
       const weekEnd = dt.plus({ days: 6 });
 
       return `${dt.toFormat('d')}-${weekEnd.toFormat('d LLL')}`;
-    } else if (trendPeriod === TrendPeriod.DAILY) {
+    } else if (period === TrendPeriod.DAILY) {
       return dt.toFormat('d MMM');
     }
 
@@ -71,10 +74,7 @@ export function TopicChart({ data, trendPeriod }: TopicChartProps): ReactElement
         width='100%'
         height={280}
         className='min-h-[280px]'>
-        <LineChart
-          key={trendPeriod}
-          data={data}
-          margin={{ top: 0, right: 0, left: -50, bottom: 0 }}>
+        <LineChart data={data} margin={{ left: -60, right: 20 }}>
           <CartesianGrid
             stroke='currentColor'
             className='text-text-tertiary'
@@ -94,7 +94,6 @@ export function TopicChart({ data, trendPeriod }: TopicChartProps): ReactElement
           <YAxis
             tick={renderYAxisTick}
             width={80}
-            domain={['auto', 'auto']}
             className='text-text-secondary'
             tickMargin={0}
             allowDecimals={false}
@@ -103,8 +102,6 @@ export function TopicChart({ data, trendPeriod }: TopicChartProps): ReactElement
           {lines.map((line) => (
             <Line
               key={line.key}
-              animationBegin={100}
-              animationEasing='linear'
               type='monotone'
               dataKey={line.key}
               stroke={line.color}
@@ -118,3 +115,5 @@ export function TopicChart({ data, trendPeriod }: TopicChartProps): ReactElement
     </Fragment>
   );
 }
+
+export const TopicChart = memo(TopicChartComponent);

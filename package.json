@@ -36,7 +36,7 @@
     "react-infinite-scroll-component": "^6.1.0",
     "react-redux": "^9.1.2",
     "react-toastify": "^11.0.5",
-    "recharts": "^3.0.0-alpha.8",
+    "recharts": "^2.15.1",
     "tailwindcss": "^3.4.17",
     "wrangler": "^3.111.0",
     "yup": "^1.6.1"
