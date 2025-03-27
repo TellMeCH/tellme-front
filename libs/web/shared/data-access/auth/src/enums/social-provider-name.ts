@@ -1,4 +1,6 @@
+import { EmployeeAuthType } from '@tellme/web/shared/data-access/api';
+
 export enum SocialProviderName {
-  GOOGLE = 'google',
-  MICROSOFT = 'microsoft',
+  GOOGLE = EmployeeAuthType.GOOGLE,
+  MICROSOFT = EmployeeAuthType.MICROSOFT,
 }

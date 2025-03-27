@@ -3,7 +3,7 @@
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { topicApi, organizationApi } from '@tellme/web/shared/data-access/api';
+import { topicApi, organizationApi, employeeApi } from '@tellme/web/shared/data-access/api';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
 import { firebaseAuth } from '../firebase-auth';
 
@@ -21,6 +21,7 @@ export function useLogout(onSuccess: () => void) {
       CookieService.remove(['isAuthenticated']);
       dispatch(topicApi.util.resetApiState());
       dispatch(organizationApi.util.resetApiState());
+      dispatch(employeeApi.util.resetApiState());
 
       onSuccess();
     } catch (error: any) {
