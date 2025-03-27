@@ -1,8 +1,10 @@
 'use client';
 
+import { DateTime } from 'luxon';
 import { useTranslations } from 'next-intl';
 import { type ReactElement, Fragment } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { Legend } from '@tellme/web/topic/ui/legend';
 import styles from './component.module.scss';
@@ -10,13 +12,46 @@ import styles from './component.module.scss';
 // TODO: Remove any and replace with actual data types
 interface TopicChartProps {
   data: any;
+  trendPeriod: TrendPeriod;
 }
 
-export function TopicChart({ data }: TopicChartProps): ReactElement {
+const renderYAxisTick = (props: any) => {
+  const { x, y, payload } = props;
+
+  return (
+    <text
+      x={x}
+      y={y}
+      dx={-5}
+      dy={5}
+      textAnchor='end'
+      style={{ fontSize: 12, fill: 'currentColor' }}>
+      {payload.value}
+    </text>
+  );
+};
+
+export function TopicChart({ data, trendPeriod }: TopicChartProps): ReactElement {
   const t = useTranslations('topic.ANALYSIS.CHART');
 
+  const tickFormatter = (tick: string): string => {
+    const dt = DateTime.fromISO(tick);
+
+    if (trendPeriod === TrendPeriod.MONTHLY) {
+      return dt.toFormat('MMM');
+    } else if (trendPeriod === TrendPeriod.WEEKLY) {
+      const weekEnd = dt.plus({ days: 6 });
+
+      return `${dt.toFormat('d')}-${weekEnd.toFormat('d LLL')}`;
+    } else if (trendPeriod === TrendPeriod.DAILY) {
+      return dt.toFormat('d MMM');
+    }
+
+    return '';
+  };
+
   const lines = [
-    { key: 'count', color: styles.brandPrimary, label: t('TEXT_FREQUENCY') },
+    { key: 'count', color: styles.brandPrimary, label: t('TEXT_FREQUENCY'), style: { transform: 'translateY(-2px)' } },
     { key: 'averageSentiment', color: styles.brandTertiary, label: t('TEXT_CUSTOMER_ENGAGEMENT') },
   ];
 
@@ -34,9 +69,12 @@ export function TopicChart({ data }: TopicChartProps): ReactElement {
       </div>
       <ResponsiveContainer
         width='100%'
-        height='100%'
+        height={280}
         className='min-h-[280px]'>
-        <LineChart data={data} margin={{ top: 0, right: 0, left: -35, bottom: 0 }}>
+        <LineChart
+          key={trendPeriod}
+          data={data}
+          margin={{ top: 0, right: 0, left: -50, bottom: 0 }}>
           <CartesianGrid
             stroke='currentColor'
             className='text-text-tertiary'
@@ -45,23 +83,35 @@ export function TopicChart({ data }: TopicChartProps): ReactElement {
             tick={{ fontSize: 14, fill: 'currentColor' }}
             className='text-text-secondary'
             dataKey='date'
-            interval='preserveStartEnd'
+            interval={0}
+            minTickGap={0}
+            tickFormatter={tickFormatter}
             tickLine={false}
+            allowDecimals={false}
+            tickMargin={5}
+            textAnchor='middle'
           />
           <YAxis
-            tick={{ fontSize: 12, fill: 'currentColor' }}
+            tick={renderYAxisTick}
+            width={80}
+            domain={['auto', 'auto']}
             className='text-text-secondary'
             tickMargin={0}
+            allowDecimals={false}
             tickLine={false}
           />
           {lines.map((line) => (
             <Line
               key={line.key}
+              animationBegin={100}
+              animationEasing='linear'
               type='monotone'
               dataKey={line.key}
               stroke={line.color}
               strokeWidth={2}
-              dot={false} />
+              dot={false}
+              style={line.style}
+            />
           ))}
         </LineChart>
       </ResponsiveContainer>

@@ -6,48 +6,51 @@ import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
-import { useShowUnderDevelopment } from '@tellme/web/shared/features/toast-service';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
+
 import { TopicSelect, PeriodFilter, CardSection, TopicChart } from './components';
+import { generateTimeline } from './utils/generate-timeline';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
-  const showUnderDevelopment = useShowUnderDevelopment();
   const profile = useSelector(authSelectors.profile);
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [trendPeriod, setTrendPeriod] = useState(TrendPeriod.MONTHLY);
 
   const { data } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
-  const { data: { summary } = {}, isFetching } = topicApi.useGetSummaryDataQuery(
+  const { data: { summary } = {}, isLoading } = topicApi.useGetSummaryDataQuery(
     { id: Number(selectedValue) },
     { skip: !selectedValue },
   );
 
-  const { data: chart } = topicApi.useGetChartDataQuery(
+  const { data: chart, isFetching } = topicApi.useGetChartDataQuery(
     { id: Number(selectedValue), trendPeriod },
     { skip: !selectedValue },
   );
 
+  const timeline = useMemo(() => generateTimeline(trendPeriod).timeline, [trendPeriod]);
+
   const chartData = useMemo(() => {
-    if (!chart) {
-      return;
+    if (!chart || isFetching) {
+      return [];
     }
 
-    return [...chart]
-      .sort((a, b) => a.date.toMillis() - b.date.toMillis())
-      .map((item) => ({
-        ...item,
-        date: item.date.toFormat('MMM dd, yyyy'),
-      }));
-  }, [chart, data]);
+    return timeline.map((bucket) => {
+      const items = chart.filter((item) => item.date >= bucket.start && item.date < bucket.end);
+      const count = items.reduce((acc, item) => acc + Number(item.count), 0);
+      const averageSentiment = items.length
+        ? items.reduce((acc, item) => acc + Number(item.averageSentiment), 0) / items.length
+        : 0;
 
-  console.log(chartData);
+      return { date: bucket.start.toISO(), count, averageSentiment };
+    });
+  }, [chart, isFetching]);
 
   const topics =
     data?.results?.map((item) => ({
       value: String(item.id),
       label: item.name,
-    })) ?? [];
+    })) || [];
 
   const selectedItem = topics.find((item) => item.value === selectedValue);
 
@@ -101,7 +104,7 @@ export function TopicAnalysis(): ReactElement {
             <PeriodFilter options={trendPeriodOptions} onChange={handlePeriodSelect} />
           </div>
         </div>
-        {chartData && <TopicChart data={chartData} />}
+        <TopicChart data={chartData} trendPeriod={trendPeriod} />
         {highlightedSections?.map(({ key, name, description }) => (
           <CardSection key={key} title={name}>
             <p>{description}</p>
