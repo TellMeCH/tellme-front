@@ -1,6 +1,6 @@
 import { getRequestConfig } from 'next-intl/server';
-import { constants } from '../constants';
-import type { Locale } from '@tellme/web/shared/utils/i18n';
+import { constants } from '@tellme/shared/utils/constants';
+import type { Locale } from '@tellme/shared/utils/i18n';
 
 export default getRequestConfig(async ({ requestLocale }) => {
   let locale = await requestLocale;

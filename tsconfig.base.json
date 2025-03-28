@@ -23,6 +23,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@tellme/shared/utils/constants": ["libs/shared/utils/constants/src/index.ts"],
+      "@tellme/shared/utils/i18n": ["libs/shared/utils/i18n/src/index.ts"],
       "@tellme/web/account/features/login": ["libs/web/account/features/login/src/index.ts"],
       "@tellme/web/shared/data-access/api": ["libs/web/shared/data-access/api/src/index.ts"],
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
@@ -39,7 +41,6 @@
       "@tellme/web/shared/utils/class-transformer": ["libs/web/shared/utils/class-transformer/src/index.ts"],
       "@tellme/web/shared/utils/dates": ["libs/web/shared/utils/dates/src/index.ts"],
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
-      "@tellme/web/shared/utils/i18n": ["libs/web/shared/utils/i18n/src/index.ts"],
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
       "@tellme/web/topic/features/analysis": ["libs/web/topic/features/analysis/src/index.ts"],
       "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"],
