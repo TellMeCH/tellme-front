@@ -2,7 +2,7 @@
 
 import { useDisclosure } from '@heroui/react';
 import clsx from 'clsx';
-import { debounce } from 'lodash-es';
+import { debounce } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useCallback, useState } from 'react';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
@@ -40,11 +40,12 @@ export function Item({ topic }: ItemProps): ReactElement {
   };
 
   return (
-    <div className='flex items-start py-4 border-b border-text-tertiary'>
+    <div className='flex items-start py-4 border-b border-text-tertiary' data-testid='item'>
       <Switch
         isSelected={isActive}
         onValueChange={changeActivity}
-        className='mr-6' />
+        className='mr-6'
+        data-testid='activity-switch' />
       <div className={clsx('flex-1 mr-[9%]', !isActive && 'text-text-secondary')}>
         <Heading level={2} className='mb-2 text-xl font-medium'>
           {topic.name}
@@ -60,13 +61,16 @@ export function Item({ topic }: ItemProps): ReactElement {
           onPress={onFormModalOpenChange}
           variant='bordered'
           isIconOnly
-          startContent={<Icon name='pen' />} />
+          startContent={<Icon name='pen' />}
+          data-testid='update-modal-button'
+        />
         <Button
           onPress={onConfirmationModalOpenChange}
           variant='bordered'
           color='danger'
           isIconOnly
           startContent={<Icon name='trash' />}
+          data-testid='confirmation-modal-button'
         />
       </div>
       <FormModal
