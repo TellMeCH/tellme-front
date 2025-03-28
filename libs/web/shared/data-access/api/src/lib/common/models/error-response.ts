@@ -5,7 +5,7 @@ export class ErrorResponse<T extends object> {
   public code: string;
 
   @Expose()
-  public message: string;
+  public message?: string;
 
   @Expose()
   public data: T;

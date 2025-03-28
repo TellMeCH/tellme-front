@@ -11,28 +11,28 @@ interface SocialButtonProps {
   isLoading?: boolean;
   error?: ErrorResponse<any>;
   testId?: string;
+  isDisabled?: boolean;
 }
 
-export function SocialButton({ providerName, onPress, isLoading, error, testId }: SocialButtonProps): ReactElement {
+export function SocialButton({ providerName, error, testId, ...restProps }: SocialButtonProps): ReactElement {
   const t = useTranslations('account.LOGIN');
 
   return (
     <div>
       <Button
-        onPress={onPress}
-        isLoading={isLoading}
         variant='bordered'
         fullWidth
         startContent={<Icon name={providerName} />}
-        data-testid={testId}>
+        data-testid={testId}
+        {...restProps}>
         <span className='text-text-primary font-medium'>{t(`BUTTON_${providerName.toUpperCase()}`)}</span>
       </Button>
-      {!!error && !error.message.includes('auth/popup-closed-by-user') && (
+      {!!error && !error.message?.includes('auth/popup-closed-by-user') && (
         <FormMessage
           message={
             checkIsApiError(error)
               ? error.data.detail
-              : error.message.includes('auth/admin-restricted-operation')
+              : error.message?.includes('auth/admin-restricted-operation')
                 ? t('TEXT_IMPOSSIBLE_TO_LOG_IN')
                 : t('TEXT_INTERNAL_ERROR')
           }
