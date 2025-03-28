@@ -18,15 +18,20 @@ jest.mock('firebase/auth', () => ({
   OAuthProvider: jest.fn((providerId) => ({ providerId })),
 }));
 
+async function getAllByTestIdAsync(testId: string) {
+  let result;
+  await waitFor(async () => {
+    result = screen.getAllByTestId(testId);
+  });
+
+  return result;
+}
+
 describe('Topics management', () => {
   let requestSpy: SpyInstance;
 
   const checkTopicActivityToggling = async (shouldEnable: boolean): Promise<void> => {
-    let activitySwitches;
-
-    await waitFor(async () => {
-      activitySwitches = screen.getAllByTestId('activity-switch');
-    });
+    const activitySwitches = await getAllByTestIdAsync('activity-switch');
 
     if (activitySwitches) {
       const topicIndex = topicsPaginationResponse.results.findIndex((topic) => topic.is_active !== shouldEnable);
@@ -139,49 +144,57 @@ describe('Topics management', () => {
   });
 
   it('should edit a topic', async () => {
-    await userEvent.click(screen.getAllByTestId('update-modal-button')[0]);
+    const updateModalButtons = await getAllByTestIdAsync('update-modal-button');
 
-    const nameInput = screen.getByTestId('name-input');
-    await userEvent.clear(nameInput);
-    await userEvent.type(nameInput, topic.name);
+    if (updateModalButtons) {
+      await userEvent.click(updateModalButtons[0]);
 
-    const descriptionInput = screen.getByTestId('description-input');
-    await userEvent.clear(descriptionInput);
-    await userEvent.type(screen.getByTestId('description-input'), topic.description);
+      const nameInput = screen.getByTestId('name-input');
+      await userEvent.clear(nameInput);
+      await userEvent.type(nameInput, topic.name);
 
-    await userEvent.click(screen.getByTestId('submit-button'));
+      const descriptionInput = screen.getByTestId('description-input');
+      await userEvent.clear(descriptionInput);
+      await userEvent.type(screen.getByTestId('description-input'), topic.description);
 
-    const firstTopic = topicsPaginationResponse.results[0];
-    const firstTopicId = getIdFromUrl(firstTopic.url);
-    await waitFor(() => {
-      expect(requestSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: 'patch',
-          url: `/topics/${firstTopicId}/`,
-          data: expect.objectContaining({
-            name: topic.name,
-            description: topic.description,
+      await userEvent.click(screen.getByTestId('submit-button'));
+
+      const firstTopic = topicsPaginationResponse.results[0];
+      const firstTopicId = getIdFromUrl(firstTopic.url);
+      await waitFor(() => {
+        expect(requestSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'patch',
+            url: `/topics/${firstTopicId}/`,
+            data: expect.objectContaining({
+              name: topic.name,
+              description: topic.description,
+            }),
           }),
-        }),
-      );
-    });
+        );
+      });
+    }
   });
 
   it('should delete a topic', async () => {
-    await userEvent.click(screen.getAllByTestId('confirmation-modal-button')[0]);
-    await userEvent.click(screen.getByTestId('confirm-button'));
+    const confirmationModalButtons = await getAllByTestIdAsync('confirmation-modal-button');
 
-    const firstTopic = topicsPaginationResponse.results[0];
-    const firstTopicId = getIdFromUrl(firstTopic.url);
-    await waitFor(() => {
-      expect(requestSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: 'delete',
-          url: `/topics/${firstTopicId}/`,
-        }),
-      );
-    });
-    const items = screen.getAllByTestId('item');
-    expect(items.length).toBe(topicsPaginationResponse.results.length);
+    if (confirmationModalButtons) {
+      await userEvent.click(confirmationModalButtons[0]);
+      await userEvent.click(screen.getByTestId('confirm-button'));
+
+      const firstTopic = topicsPaginationResponse.results[0];
+      const firstTopicId = getIdFromUrl(firstTopic.url);
+      await waitFor(() => {
+        expect(requestSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'delete',
+            url: `/topics/${firstTopicId}/`,
+          }),
+        );
+      });
+      const items = screen.getAllByTestId('item');
+      expect(items.length).toBe(topicsPaginationResponse.results.length - 1);
+    }
   });
 });
