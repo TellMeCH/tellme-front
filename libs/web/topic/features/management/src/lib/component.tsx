@@ -41,7 +41,10 @@ export function TopicsManagement(): ReactElement {
       <Header
         title={t('TEXT_TITLE')}
         rightContent={
-          <Button onPress={onFormModalOpenChange} endContent={<Icon name='plus' />}>
+          <Button
+            onPress={onFormModalOpenChange}
+            endContent={<Icon name='plus' />}
+            data-testid='creation-modal-button'>
             {t('BUTTON_NEW_TOPIC')}
           </Button>
         }

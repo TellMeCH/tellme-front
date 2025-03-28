@@ -1,6 +1,6 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { instanceToPlain, plainToInstance } from 'class-transformer';
-import { merge, omit } from 'lodash-es';
+import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';

@@ -1,6 +1,6 @@
 'use client';
 
-import { compact } from 'lodash-es';
+import { compact } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';

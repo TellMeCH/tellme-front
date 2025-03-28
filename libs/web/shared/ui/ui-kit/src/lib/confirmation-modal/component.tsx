@@ -43,7 +43,8 @@ export function ConfirmationModal({
             color='danger'
             onPress={onConfirm}
             isLoading={isLoading}
-            className='flex-1'>
+            className='flex-1'
+            data-testid='confirm-button'>
             {confirmationButtonText}
           </Button>
         </Fragment>
