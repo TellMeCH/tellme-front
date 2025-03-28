@@ -27,7 +27,7 @@ export function SocialButton({ providerName, onPress, isLoading, error, testId }
         data-testid={testId}>
         <span className='text-text-primary font-medium'>{t(`BUTTON_${providerName.toUpperCase()}`)}</span>
       </Button>
-      {!!error && (
+      {!!error && !error.message.includes('auth/popup-closed-by-user') && (
         <FormMessage
           message={
             checkIsApiError(error)
