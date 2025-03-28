@@ -5,6 +5,9 @@ export class ErrorResponse<T extends object> {
   public code: string;
 
   @Expose()
+  public message: string;
+
+  @Expose()
   public data: T;
 
   constructor(model: Partial<ErrorResponse<T>>) {

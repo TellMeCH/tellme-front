@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { checkIsApiError } from '@tellme/web/shared/data-access/api-client';
 import { useLogin } from '@tellme/web/shared/data-access/auth';
 import {
   Button,
@@ -88,7 +89,11 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
           {!!error && (
             <FormMessage
               message={
-                error.includes('auth/invalid-credential') ? t('TEXT_INVALID_CREDENTIALS') : t('TEXT_INTERNAL_ERROR')
+                checkIsApiError(error)
+                  ? error.data.detail
+                  : error.message.includes('auth/invalid-credential')
+                    ? t('TEXT_INVALID_CREDENTIALS')
+                    : t('TEXT_INTERNAL_ERROR')
               }
             />
           )}
