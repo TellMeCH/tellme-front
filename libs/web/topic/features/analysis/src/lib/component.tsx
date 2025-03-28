@@ -8,7 +8,7 @@ import { TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 
-import { TopicSelect, PeriodFilter, CardSection, TopicChart } from './components';
+import { TopicSelect, PeriodFilter, CardSection, TopicChart, TopicChartDataPoint } from './components';
 import { generateTimeline } from './utils/generate-timeline';
 
 export function TopicAnalysis(): ReactElement {
@@ -17,7 +17,7 @@ export function TopicAnalysis(): ReactElement {
   const [selectedValue, setSelectedValue] = useState<string | null>(null);
   const [trendPeriod, setTrendPeriod] = useState(TrendPeriod.MONTHLY);
   const [chartState, setChartState] = useState<{
-    data: Array<any>;
+    data: Array<TopicChartDataPoint>;
     period: TrendPeriod;
   }>({
     data: [],
@@ -37,7 +37,7 @@ export function TopicAnalysis(): ReactElement {
 
   const timeline = useMemo(() => generateTimeline(trendPeriod).timeline, [trendPeriod]);
 
-  const computedChartData = useMemo(() => {
+  const сhartData = useMemo(() => {
     if (!chart || isFetching) return [];
 
     return timeline.map((bucket) => {
@@ -47,7 +47,7 @@ export function TopicAnalysis(): ReactElement {
         ? items.reduce((acc, item) => acc + Number(item.averageSentiment), 0) / items.length
         : 0;
 
-      return { date: bucket.start.toISO(), count, averageSentiment };
+      return { date: bucket.start.toISO() as string, count, averageSentiment };
     });
   }, [chart, isFetching, timeline]);
 
@@ -92,14 +92,13 @@ export function TopicAnalysis(): ReactElement {
   }, [topics]);
 
   useEffect(() => {
-    // Если загрузка завершилась и массив не пуст:
-    if (!isFetching && computedChartData.length > 0) {
+    if (!isFetching && сhartData.length > 0) {
       setChartState({
-        data: computedChartData,
+        data: сhartData,
         period: trendPeriod,
       });
     }
-  }, [isFetching, computedChartData, trendPeriod]);
+  }, [isFetching, сhartData, trendPeriod]);
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
