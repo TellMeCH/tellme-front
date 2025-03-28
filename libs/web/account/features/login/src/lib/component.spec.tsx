@@ -7,7 +7,6 @@ import { apiService } from '@tellme/web/shared/data-access/api-client';
 import { cookieConfig } from '@tellme/web/shared/data-access/cookies';
 import {
   TestRootComponent,
-  topicsPaginationResponse,
   validCredentials,
 } from '@tellme/web/shared/data-access/tests-data';
 import { Login } from './component';
@@ -58,9 +57,7 @@ describe('Login', () => {
   const signInWithEmailAndPasswordSpy = jest.spyOn(firebase, 'signInWithEmailAndPassword');
   const setPersistenceSpy = jest.spyOn(firebase, 'setPersistence');
   const signInWithPopupSpy = jest.spyOn(firebase, 'signInWithPopup');
-  const profileRequestSpy = jest
-    .spyOn(apiService.httpClient, 'request')
-    .mockReturnValue(Promise.resolve({ data: topicsPaginationResponse }));
+  const employeeProfileRequestSpy = jest.spyOn(apiService.httpClient, 'request').mockReturnValue(Promise.resolve({}));
 
   beforeEach(() => {
     onSuccessMock.mockClear();
@@ -68,7 +65,7 @@ describe('Login', () => {
     signInWithEmailAndPasswordSpy.mockClear();
     setPersistenceSpy.mockClear();
     signInWithPopupSpy.mockClear();
-    profileRequestSpy.mockClear();
+    employeeProfileRequestSpy.mockClear();
 
     render(<Login onSuccess={onSuccessMock} />, { wrapper: TestRootComponent });
   });
@@ -82,7 +79,7 @@ describe('Login', () => {
     checkCookie(setCookieSpy, true);
     expect(signInWithEmailAndPasswordSpy).toHaveBeenCalledWith({}, validCredentials.email, validCredentials.password);
     expect(setPersistenceSpy).toHaveBeenCalledWith({}, firebase.browserLocalPersistence);
-    expect(profileRequestSpy).toHaveBeenCalled();
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
@@ -94,7 +91,7 @@ describe('Login', () => {
     checkCookie(setCookieSpy);
     expect(signInWithEmailAndPasswordSpy).toHaveBeenCalledWith({}, validCredentials.email, validCredentials.password);
     expect(setPersistenceSpy).toHaveBeenCalledWith({}, firebase.browserSessionPersistence);
-    expect(profileRequestSpy).toHaveBeenCalled();
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
@@ -103,7 +100,7 @@ describe('Login', () => {
 
     checkCookie(setCookieSpy, true);
     expect(signInWithPopupSpy).toHaveBeenCalledWith({}, { providerId: 'google.com' });
-    expect(profileRequestSpy).toHaveBeenCalled();
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
@@ -112,7 +109,7 @@ describe('Login', () => {
 
     checkCookie(setCookieSpy, true);
     expect(signInWithPopupSpy).toHaveBeenCalledWith({}, { providerId: 'microsoft.com' });
-    expect(profileRequestSpy).toHaveBeenCalled();
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 });
