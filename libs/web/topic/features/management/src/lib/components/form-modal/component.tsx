@@ -90,7 +90,8 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
             type='submit'
             isDisabled={!values.name || !values.description}
             isLoading={isUpdating || isCreating}
-            className='flex-1'>
+            className='flex-1'
+            data-testid='submit-button'>
             {t('BUTTON_SAVE')}
           </Button>
         </Fragment>
@@ -99,7 +100,8 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         <FormSwitch
           name='isActive'
           control={form.control}
-          className='mb-3'>
+          className='mb-3'
+          data-testid='creation-activity-switch'>
           {t('TEXT_ACTIVATE_FOR_ANALYSIS')}
         </FormSwitch>
       )}
@@ -107,12 +109,15 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         name='name'
         control={form.control}
         label={t('TEXT_TOPIC_NAME')}
-        placeholder={t('TEXT_NAME')} />
+        placeholder={t('TEXT_NAME')}
+        data-testid='name-input'
+      />
       <FormTextarea
         name='description'
         control={form.control}
         label={t('TEXT_DESCRIPTION')}
         placeholder={t('TEXT_DESCRIPTION')}
+        data-testid='description-input'
       />
       {creationError?.data.nonFieldErrors?.includes(
         'Cannot add more topics to this organization; max topic count reached.',
