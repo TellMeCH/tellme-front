@@ -3,23 +3,14 @@
 import { useTranslations } from 'next-intl';
 import { type ReactElement, Fragment, memo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
-import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { Legend } from '@tellme/web/topic/ui/legend';
+import { ChartState } from '../../interfaces/chart-state';
 import { formatTick } from '../../utils';
 import styles from './component.module.scss';
 
-export interface TopicChartDataPoint {
-  date: string;
-  count: number;
-  averageSentiment: number;
-}
-
 interface TopicChartProps {
-  chart: {
-    data: Array<TopicChartDataPoint>;
-    period: TrendPeriod;
-  };
+  chart: ChartState;
 }
 
 function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
