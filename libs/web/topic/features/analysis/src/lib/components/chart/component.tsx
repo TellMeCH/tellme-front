@@ -50,19 +50,28 @@ function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
             tick={{ fontSize: 14, fill: 'currentColor' }}
             className='text-text-secondary'
             dataKey='date'
-            interval={0}
             tickLine={false}
             allowDecimals={false}
             textAnchor='middle'
           />
           <YAxis
             dy={-5}
+            dataKey={lines[1].key}
             textAnchor='end'
             style={{ fontSize: 11, fill: 'currentColor' }}
             className='text-text-secondary'
             tickMargin={0}
             allowDecimals={false}
             tickLine={false}
+          />
+          <YAxis
+            dataKey={lines[0].key}
+            yAxisId='right'
+            orientation='right'
+            allowDecimals={false}
+            tick={{ fontSize: 11, fill: 'currentColor' }}
+            tickLine={false}
+            //axisLine={false}
           />
           {lines.map((line) => (
             <Line

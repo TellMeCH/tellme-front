@@ -153,6 +153,11 @@ export const topicApi = createAppApi({
                       endpointData.results.splice(existingIndex, 1);
                     }
                   } else if (originalArgs?.isActive && updatedEntityData.isActive) {
+                    // NOTE: We need to add fallbackdId to make requests with cacjed topics id
+                    if (updatedEntityData.id === -1) {
+                      updatedEntityData.fallbackId = arg.id;
+                    }
+
                     const newItem = createEntityInstance(Topic, updatedEntityData);
                     endpointData.results.push(newItem);
                   }
