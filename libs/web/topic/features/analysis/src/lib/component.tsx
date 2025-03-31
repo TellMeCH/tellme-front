@@ -27,6 +27,7 @@ export function TopicAnalysis(): ReactElement {
     { isActive: true },
     { skip: !profile },
   );
+  console.log('topicList', topicList?.results);
   const { data: { summary } = {}, isLoading: isSummaryLoading } = topicApi.useGetSummaryDataQuery(
     { id: Number(selectedTopicId) },
     { skip: !selectedTopicId },

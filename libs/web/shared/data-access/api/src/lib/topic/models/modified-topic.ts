@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Expose, Exclude } from 'class-transformer';
 import { ModifiedBaseEntity } from '../../common';
 
 export class ModifiedTopic extends ModifiedBaseEntity {
@@ -11,7 +11,7 @@ export class ModifiedTopic extends ModifiedBaseEntity {
   @Expose({ name: 'is_active' })
   public isActive: boolean;
 
-  @Expose({ name: 'fallback_id' })
+  @Exclude()
   public fallbackId?: number;
 
   constructor(model: Partial<ModifiedTopic>) {

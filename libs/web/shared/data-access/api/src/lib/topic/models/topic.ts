@@ -11,7 +11,7 @@ export class Topic extends BaseEntity {
   @Expose({ name: 'is_active' })
   public isActive: boolean;
 
-  @Expose({ name: 'fallback_id' })
+  @Exclude()
   public fallbackId?: number;
 
   @Exclude()
