@@ -1,12 +1,12 @@
 diff --git a/node_modules/@ronas-it/nx-generators/src/generators/react-lib/generator.js b/node_modules/@ronas-it/nx-generators/src/generators/react-lib/generator.js
-index fc0de37..da605a9 100644
+index 8bbaa2e..eff99f0 100644
 --- a/node_modules/@ronas-it/nx-generators/src/generators/react-lib/generator.js
 +++ b/node_modules/@ronas-it/nx-generators/src/generators/react-lib/generator.js
-@@ -42,7 +42,7 @@ function reactLibGenerator(tree, options) {
+@@ -40,7 +40,7 @@ function reactLibGenerator(tree, options) {
              .split(path.sep)
              .join('/');
          const libPath = `libs/${libName}`;
--        const command = `npx nx g @nx/expo:lib --skipPackageJson --unitTestRunner=none --tags="${tags.join(', ')}" --name=${libName} ${libPath} --linter=eslint`;
+-        const command = `npx nx g @nx/react:library --skipPackageJson --unitTestRunner=none --tags="${tags.join(', ')}" --name=${libName} ${libPath} --linter=eslint --component=false --bundler=none --style=scss`;
 +        const command = `npx nx g @nx/react:library --skipPackageJson --unitTestRunner=jest --tags="${tags.join(', ')}" --name=${libName} ${libPath} --linter=eslint --component=false --bundler=none --style=scss`;
          const commandWithOptions = options.dryRun ? command + ' --dry-run' : command;
          (0, child_process_1.execSync)(commandWithOptions, { stdio: 'inherit' });

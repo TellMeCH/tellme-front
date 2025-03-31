@@ -11,7 +11,10 @@
     "test": "cross-env NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" nx run-many -t test --projects=tag:test --skipNxCache",
     "build:web": "npx nx build web --skip-nx-cache",
     "start:web": "npx nx start web --skip-nx-cache",
-    "dev:web": "npx nx dev web --skip-nx-cache"
+    "dev:web": "npx nx dev web --skip-nx-cache",
+    "build:landing": "npx nx build landing --skip-nx-cache",
+    "start:landing": "npx nx start landing --skip-nx-cache",
+    "dev:landing": "npx nx dev landing --skip-nx-cache"
   },
   "private": true,
   "dependencies": {
@@ -57,9 +60,10 @@
     "@nx/react": "20.4.6",
     "@nx/workspace": "20.4.6",
     "@opennextjs/cloudflare": "^0.5.8",
-    "@ronas-it/nx-generators": "0.13.2",
+    "@ronas-it/nx-generators": "0.13.4",
     "@stylistic/eslint-plugin": "^2.12.1",
     "@swc-node/register": "~1.9.1",
+    "@swc/cli": "~0.3.12",
     "@swc/core": "~1.5.7",
     "@swc/helpers": "~0.5.11",
     "@testing-library/dom": "^10.4.0",
