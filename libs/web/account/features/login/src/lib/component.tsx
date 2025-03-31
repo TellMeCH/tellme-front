@@ -112,7 +112,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
               message={
                 checkIsApiError(emailPasswordError)
                   ? emailPasswordError.data.detail
-                  : emailPasswordError.message.includes('auth/invalid-credential')
+                  : emailPasswordError.message?.includes('auth/invalid-credential')
                     ? t('TEXT_INVALID_CREDENTIALS')
                     : t('TEXT_INTERNAL_ERROR')
               }
