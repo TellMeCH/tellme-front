@@ -38,5 +38,9 @@
   {
     "sourceTag": "scope:account",
     "onlyDependOnLibsWithTags": ["scope:account", "scope:shared"]
+  },
+  {
+    "sourceTag": "app:landing",
+    "onlyDependOnLibsWithTags": ["app:landing", "app:shared"]
   }
 ]

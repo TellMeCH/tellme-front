@@ -1,4 +1,4 @@
-import type { Locale } from '@tellme/web/shared/utils/i18n';
+import type { Locale } from '@tellme/shared/utils/i18n';
 
 interface Constants {
   defaultLocale: Locale;
