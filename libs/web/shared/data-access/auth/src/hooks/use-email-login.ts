@@ -7,7 +7,7 @@ import {
 import { firebaseAuth } from '../firebase-auth';
 import { useLogin } from './use-login';
 
-export function useEmailPasswordLogin(onSuccess: () => void) {
+export function useEmailLogin(onSuccess: () => void) {
   const { isLoading, error, executeLogin } = useLogin(onSuccess);
 
   const loginByEmail = async (email: string, password: string, shouldRemember: boolean): Promise<void> => {

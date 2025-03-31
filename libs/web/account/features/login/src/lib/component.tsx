@@ -9,7 +9,7 @@ import { useForm } from 'react-hook-form';
 import { checkIsApiError } from '@tellme/web/shared/data-access/api-client';
 import {
   SocialProviderName,
-  useEmailPasswordLogin,
+  useEmailLogin,
   useGoogleLogin,
   useMicrosoftLogin,
 } from '@tellme/web/shared/data-access/auth';
@@ -41,11 +41,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
     resolver: yupResolver(LoginFormSchema.validationSchema(t)),
   });
 
-  const {
-    loginByEmail,
-    isLoading: isLoggingInByEmailPassword,
-    error: emailPasswordError,
-  } = useEmailPasswordLogin(onSuccess);
+  const { loginByEmail, isLoading: isLoggingInByEmailPassword, error: emailPasswordError } = useEmailLogin(onSuccess);
   const { loginByGoogle, isLoading: isLoggingInByGoogle, error: googleError } = useGoogleLogin(onSuccess);
   const { loginByMicrosoft, isLoading: isLoggingInByMicrosoft, error: microsoftError } = useMicrosoftLogin(onSuccess);
 
