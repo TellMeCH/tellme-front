@@ -107,7 +107,11 @@ Check [the generators docs](https://github.com/RonasIT/nx-generators/blob/main/R
 
 - `npm run build:web` - build the web app
 - `npm run start:web` - build and start the web app like after deployment
-- `npm run run:web` - run the web app in debugging mode
+- `npm run dev:web` - run the web app in debugging mode
+
+- `npm run build:landing` - build the landing app
+- `npm run start:landing` - build and start the landing app like after deployment
+- `npm run dev:landing` - run the landing app in debugging mode
 
 ### Running tasks
 

@@ -1,8 +1,11 @@
 import { TransformDate } from '@ronas-it/rtkq-entity-api';
 import { Exclude, Expose } from 'class-transformer';
+import { immerable } from 'immer';
 import { DateTime } from 'luxon';
 
 export class BaseEntity {
+  public [immerable] = true;
+
   @Expose()
   public url: string; // Example https://tellme-service-716439647851.europe-west6.run.app/api/v1/topics/28/
 

@@ -5,6 +5,9 @@
   "UI_KIT": {
     "LOGO": {
       "TEXT_ALT_LOGO": "Logo"
+    },
+    "CONFIRMATION_MODAL": {
+      "BUTTON_CANCEL": "Cancel"
     }
   },
   "UNDER_CONSTRUCTION": {

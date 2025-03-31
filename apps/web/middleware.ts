@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import createMiddleware from 'next-intl/middleware';
+import { constants } from '@tellme/shared/utils/constants';
+import { Locale } from '@tellme/shared/utils/i18n';
 import { cookieConfig } from '@tellme/web/shared/data-access/cookies';
-import { Locale } from '@tellme/web/shared/utils/i18n';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
-import { constants } from './constants';
 
 const intlMiddleware = createMiddleware({
   locales: constants.locales,

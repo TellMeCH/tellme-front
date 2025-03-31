@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event';
 import * as firebase from 'firebase/auth';
 import Cookies from 'js-cookie';
 import { DateTime } from 'luxon';
+import { apiService } from '@tellme/web/shared/data-access/api-client';
 import { cookieConfig } from '@tellme/web/shared/data-access/cookies';
 import { TestRootComponent, validCredentials } from '@tellme/web/shared/data-access/tests-data';
 import { Login } from './component';
@@ -53,6 +54,7 @@ describe('Login', () => {
   const signInWithEmailAndPasswordSpy = jest.spyOn(firebase, 'signInWithEmailAndPassword');
   const setPersistenceSpy = jest.spyOn(firebase, 'setPersistence');
   const signInWithPopupSpy = jest.spyOn(firebase, 'signInWithPopup');
+  const employeeProfileRequestSpy = jest.spyOn(apiService.httpClient, 'request').mockReturnValue(Promise.resolve({}));
 
   beforeEach(() => {
     onSuccessMock.mockClear();
@@ -60,6 +62,7 @@ describe('Login', () => {
     signInWithEmailAndPasswordSpy.mockClear();
     setPersistenceSpy.mockClear();
     signInWithPopupSpy.mockClear();
+    employeeProfileRequestSpy.mockClear();
 
     render(<Login onSuccess={onSuccessMock} />, { wrapper: TestRootComponent });
   });
@@ -73,6 +76,7 @@ describe('Login', () => {
     checkCookie(setCookieSpy, true);
     expect(signInWithEmailAndPasswordSpy).toHaveBeenCalledWith({}, validCredentials.email, validCredentials.password);
     expect(setPersistenceSpy).toHaveBeenCalledWith({}, firebase.browserLocalPersistence);
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
@@ -84,6 +88,7 @@ describe('Login', () => {
     checkCookie(setCookieSpy);
     expect(signInWithEmailAndPasswordSpy).toHaveBeenCalledWith({}, validCredentials.email, validCredentials.password);
     expect(setPersistenceSpy).toHaveBeenCalledWith({}, firebase.browserSessionPersistence);
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
@@ -92,6 +97,7 @@ describe('Login', () => {
 
     checkCookie(setCookieSpy, true);
     expect(signInWithPopupSpy).toHaveBeenCalledWith({}, { providerId: 'google.com' });
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 
@@ -100,6 +106,7 @@ describe('Login', () => {
 
     checkCookie(setCookieSpy, true);
     expect(signInWithPopupSpy).toHaveBeenCalledWith({}, { providerId: 'microsoft.com' });
+    expect(employeeProfileRequestSpy).toHaveBeenCalled();
     expect(onSuccessMock).toHaveBeenCalled();
   });
 });
