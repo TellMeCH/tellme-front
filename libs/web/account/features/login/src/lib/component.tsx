@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { Button } from '@tellme/shared/ui/ui-kit';
 import { checkIsApiError } from '@tellme/web/shared/data-access/api-client';
 import {
   SocialProviderName,
@@ -14,7 +15,6 @@ import {
   useMicrosoftLogin,
 } from '@tellme/web/shared/data-access/auth';
 import {
-  Button,
   DividerWithText,
   FormCheckbox,
   FormMessage,
@@ -112,7 +112,7 @@ export function Login({ onSuccess }: LoginProps): ReactElement {
               message={
                 checkIsApiError(emailPasswordError)
                   ? emailPasswordError.data.detail
-                  : emailPasswordError.message.includes('auth/invalid-credential')
+                  : emailPasswordError.message?.includes('auth/invalid-credential')
                     ? t('TEXT_INVALID_CREDENTIALS')
                     : t('TEXT_INTERNAL_ERROR')
               }

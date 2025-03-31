@@ -8,7 +8,7 @@
 
 * {box-sizing: border-box;}
 html, body {height: 100%; padding: 0; margin: 0; font-size: $text-default; color: $text-primary; 
-  font-family: $font; min-width: 360px; background-color: $background-primary;
+  font-family: $font; min-width: 360px; background-color: $background-primary; scroll-behavior: smooth;
 }
 fieldset {margin: 0; padding: 0; outline: none; border: none;}
 figure {margin: 0; padding: 0;}
@@ -31,4 +31,6 @@ input {$self: &; font-size: inherit; font-family: inherit;
     &:last-of-type {margin-right: 0;}
   }
 }
+
+.container {max-width: 1280px; margin: 0 auto; padding-right: $side-padding; padding-left: $side-padding;}
 

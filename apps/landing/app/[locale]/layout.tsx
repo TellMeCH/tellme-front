@@ -5,6 +5,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ReactElement, ReactNode } from 'react';
 import { constants } from '@tellme/shared/utils/constants';
 import { Locale } from '@tellme/shared/utils/i18n';
+import '@tellme/shared/ui/styles/global';
 
 export const metadata = {
   title: 'Tellme',
@@ -38,7 +39,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
       </head>
       <body>
         <NextIntlClientProvider messages={pick(messages, 'landing-shared')} locale={locale}>
-          {children}
+          <div className='text-lg max-lg:text-base'>{children}</div>
         </NextIntlClientProvider>
       </body>
     </html>

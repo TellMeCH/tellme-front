@@ -1,0 +1,9 @@
+{
+  "name": "landing/shared/features/home",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/landing/shared/features/home/src",
+  "projectType": "library",
+  "tags": ["app:landing", "scope:shared", "type:features"],
+  "// targets": "to see all targets run: nx show project landing/shared/features/home --web",
+  "targets": {}
+}

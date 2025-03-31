@@ -8,7 +8,7 @@ import {
   ModalVariantProps,
 } from '@heroui/react';
 import { FormEventHandler, ReactElement, ReactNode } from 'react';
-import Button from '../button/component';
+import { Button } from '@tellme/shared/ui/ui-kit';
 import Icon from '../icon/component';
 
 export interface ModalProps extends ModalVariantProps, NextUIModalProps {
