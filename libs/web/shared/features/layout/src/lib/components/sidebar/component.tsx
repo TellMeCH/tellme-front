@@ -56,7 +56,7 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
             <User
               name={profile.email}
               classNames={{
-                name: 'text-base truncate max-w-48',
+                name: 'text-base truncate max-w-44',
               }}
               avatarProps={{
                 size: 'sm',
