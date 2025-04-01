@@ -1,5 +1,9 @@
 {
   "HOME": {
+    "LINK_ABOUT_US": "About Us",
+    "LINK_OUR_PRODUCTS": "Our Products",
+    "LINK_ADDED_BENEFITS": "Added Benefits",
+    "LINK_CONTACT_US": "Contact Us",
     "TEXT_TITLE": "Transform Conversations into Valuable Insights",
     "TEXT_APP_DESCRIPTION": "If data is the new gold, your call center conversations are an unexploited gold mine. We transcribe and analyze your call recordings with AI to provide actionable insights that will boost your understanding of your customers and your call center operations.",
     "BUTTON_BOOK_DEMO_CALL": "Book a Demo Call",

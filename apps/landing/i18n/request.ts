@@ -13,6 +13,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
     locale,
     messages: {
       'landing-shared': (await import(`../../../i18n/landing/shared/${locale}.json`)).default,
+      shared: (await import(`../../../i18n/shared/${locale}.json`)).default,
     },
   };
 });
