@@ -9,6 +9,10 @@ import '@tellme/shared/ui/styles/global';
 
 export const metadata = {
   title: 'Tellme',
+  description:
+    'If data is the new gold, your call center conversations are an unexploited gold mine. ' +
+    'We transcribe and analyze your call recordings with AI to provide actionable insights ' +
+    'that will boost your understanding of your customers and your call center operations.',
 };
 
 export interface RootLayoutProps {

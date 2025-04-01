@@ -31,5 +31,11 @@
   &_instagram {--bg-position: 236px  -402px;}
   &_plus {--bg-position: -355px  -402px;}
   &_cross {--bg-position: -36px  -502px;}
+
+  &_number {
+    &_1 {--bg-position: -36px -270px; width: 80px; height: 80px;}
+    &_2 {--bg-position: -153px -270px; width: 80px; height: 80px;}
+    &_3 {--bg-position: -270px -270px; width: 80px; height: 80px;}
+  }
 }
 

@@ -1,9 +1,10 @@
 @import '@tellme/shared/ui/variables';
 
 .heading {$self: &; font-weight: 700;
-  &_1 {font-size: $text-huge; line-height: 1.1;
+  &_1 {font-size: $text-huge; line-height: 1.1;}
+  &_2 {font-size: $text-h1;}
+  &_1, &_2 {
     @media (max-width: $tablet-wide) {font-size: $text-h1-mobile;}
   }
-  &_2 {font-size: $text-h1;}
   &_3 {font-size: $text-h2;}
 }

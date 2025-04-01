@@ -24,7 +24,10 @@ export type IconName =
   | 'instagram'
   | 'eye_closed'
   | 'plus'
-  | 'cross';
+  | 'cross'
+  | 'number_1'
+  | 'number_2'
+  | 'number_3';
 
 export interface IconProps {
   name: IconName;
