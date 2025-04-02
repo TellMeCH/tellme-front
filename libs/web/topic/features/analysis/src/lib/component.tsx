@@ -2,7 +2,7 @@
 
 import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
-import { useState, useEffect, useMemo, Fragment, useRef } from 'react';
+import { useState, useEffect, useMemo, Fragment } from 'react';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
@@ -15,7 +15,6 @@ import { generateTimeline } from './utils/generate-timeline';
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
   const profile = useSelector(authSelectors.profile);
-  const selectedTopicRef = useRef<string | null>(null);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState(TrendPeriod.MONTHLY);
   const [chartState, setChartState] = useState<ChartState>({
@@ -71,49 +70,23 @@ export function TopicAnalysis(): ReactElement {
     label: t(`DATE_PERIOD.TEXT_${value.toUpperCase()}`),
   }));
 
-  const selectTopic = (value: string | null): void => {
-    selectedTopicRef.current = value;
-    setSelectedTopicId(value);
-  };
-
   const handleTopicChange = (value: string): void => {
-    if (value === selectedTopicId) {
-      return;
+    if (value !== selectedTopicId) {
+      setSelectedTopicId(value);
     }
-
-    selectTopic(value);
   };
 
   const handlePeriodChange = (value: TrendPeriod): void => {
-    if (value === selectedPeriod) {
-      return;
+    if (value !== selectedPeriod) {
+      setSelectedPeriod(value);
     }
-
-    setSelectedPeriod(value);
   };
 
   useEffect(() => {
-    if (selectedTopicRef.current) {
-      selectTopic(selectedTopicRef.current);
+    if (!selectedTopicId && topicList?.results?.length) {
+      setSelectedTopicId(String(topicList.results[0].id));
     }
-  }, []);
-
-  useEffect(() => {
-    const topics = topicList?.results ?? [];
-
-    if (!topics.length) {
-      selectTopic(null);
-
-      return;
-    }
-
-    const current = selectedTopicRef.current;
-    const isCurrentValid = current && topics.some((topic) => String(topic.id) === current);
-
-    if (!isCurrentValid) {
-      selectTopic(String(topics[0].id));
-    }
-  }, [topicList?.results]);
+  }, [topicList?.results, selectedTopicId]);
 
   useEffect(() => {
     if (!isFetching && chartData.length > 0) {
