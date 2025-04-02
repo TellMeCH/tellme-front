@@ -32,6 +32,13 @@
     "TEXT_BENEFIT_2_DESCRIPTION": "Tailor analytics to your business needs—because no two companies are the same. Tellme allows you to target the topics that matter most to you. Simply provide a description of each relevant topic of conversation, \u2028and let our analytics do the rest.",
     "TEXT_BENEFIT_3_TITLE": "Personalized Call Center Agent Monitoring",
     "TEXT_BENEFIT_3_ALT": "Call center",
-    "TEXT_BENEFIT_3_DESCRIPTION": "Provide targeted coaching and support for each call center agent with individualized performance insights."
+    "TEXT_BENEFIT_3_DESCRIPTION": "Provide targeted coaching and support for each call center agent with individualized performance insights.",
+    "TEXT_ABOUT_US": "About Us",
+    "TEXT_GOAL": "We want to revolutionize CX analytics",
+    "TEXT_GOAL_DESCRIPTION": "Having worked in airlines, banks, and insurance companies, we are very aware of the important role that call centers play in shaping a company's customer perception. We want to leverage these conversations in order to help companies identify recurring reasons for calling and to then discover potential solutions for these issues.",
+    "TEXT_EXPERTISE_TITLE": "Diverse Expertise, One Vision",
+    "TEXT_EXPERTISE_DESCRIPTION": "Our team blends backgrounds in aerospace engineering, finance, and consultancy, fostering multiple perspectives in our approach to customer satisfaction.",
+    "TEXT_VALUES_TITLE": "Swiss Precision Meets AI Innovation",
+    "TEXT_VALUES_DESCRIPTION": "Rooted in Swiss values of precision, quality, and reliability, we bring a meticulous approach to the ever-evolving world of AI."
   }
 }
