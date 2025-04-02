@@ -28,7 +28,8 @@ export type IconName =
   | 'number_1'
   | 'number_2'
   | 'number_3'
-  | 'menu_lines';
+  | 'menu_lines'
+  | 'switzerland';
 
 export interface IconProps {
   name: IconName;
