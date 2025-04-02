@@ -6,5 +6,7 @@
   &_1, &_2 {
     @media (max-width: $tablet-wide) {font-size: $text-h1-mobile;}
   }
-  &_3 {font-size: $text-h2;}
+  &_3 {font-size: $text-h2;
+    @media (max-width: $tablet-wide) {font-size: $text-h4;}
+  }
 }

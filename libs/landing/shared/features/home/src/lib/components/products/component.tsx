@@ -16,7 +16,7 @@ export function Products(): ReactElement {
   return (
     <section className='section' id={HomeSectionId.OUR_PRODUCTS}>
       <div className='container'>
-        <Heading level={2} className='mb-[3.75rem]'>
+        <Heading level={2} className='mb-[3.75rem] max-lg:mb-10'>
           {t('TEXT_OUR_PRODUCTS')}
         </Heading>
         <div className='flex gap-4 max-md:flex-col'>

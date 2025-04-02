@@ -22,6 +22,16 @@
     "TEXT_PRODUCT_2_DESCRIPTION": "Evaluate how well your agents are dealing with customer issues and identify knowledge gaps that could be targeted with further training.",
     "TEXT_PRODUCT_3_TITLE": "Agent View",
     "TEXT_PRODUCT_3_ALT": "Entrepreneur with charts",
-    "TEXT_PRODUCT_3_DESCRIPTION": "Boost your agent's knowledge of specific customers and topics with quick access to your conversation data."
+    "TEXT_PRODUCT_3_DESCRIPTION": "Boost your agent's knowledge of specific customers and topics with quick access to your conversation data.",
+    "TEXT_ADDED_BENEFITS": "Added Benefits",
+    "TEXT_BENEFIT_1_TITLE": "Data-Driven Customer Insights",
+    "TEXT_BENEFIT_1_ALT": "Topic analysis chart",
+    "TEXT_BENEFIT_1_DESCRIPTION": "Make informed decisions based on real customer interactions rather than subjective opinions. This way, you can ensure that you're moving your company's customer experience in the right direction.",
+    "TEXT_BENEFIT_2_TITLE": "Customizable Conversation Analytics",
+    "TEXT_BENEFIT_2_ALT": "Marker highlighting a text",
+    "TEXT_BENEFIT_2_DESCRIPTION": "Tailor analytics to your business needs—because no two companies are the same. Tellme allows you to target the topics that matter most to you. Simply provide a description of each relevant topic of conversation, \u2028and let our analytics do the rest.",
+    "TEXT_BENEFIT_3_TITLE": "Personalized Call Center Agent Monitoring",
+    "TEXT_BENEFIT_3_ALT": "Call center",
+    "TEXT_BENEFIT_3_DESCRIPTION": "Provide targeted coaching and support for each call center agent with individualized performance insights."
   }
 }
