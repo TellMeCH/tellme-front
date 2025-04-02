@@ -1,4 +1,4 @@
-import { Expose, Exclude } from 'class-transformer';
+import { Expose } from 'class-transformer';
 import { ModifiedBaseEntity } from '../../common';
 
 export class ModifiedTopic extends ModifiedBaseEntity {
