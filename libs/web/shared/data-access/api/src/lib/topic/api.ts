@@ -14,11 +14,6 @@ import {
   TopicSummary,
 } from './models';
 
-export enum TopicTagID {
-  LIST_ACTIVE = 'LIST_ACTIVE',
-  LIST = 'LIST',
-}
-
 const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
   url: `${topicApiConfig.baseEndpoint}${isActive ? 'list_active/' : ''}`,
@@ -26,7 +21,7 @@ const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
 });
 
 const getListTags = (response?: PaginationResponse<Topic>) => [
-  { type: topicApiConfig.entityName, id: TopicTagID.LIST },
+  { type: topicApiConfig.entityName, id: EntityTagID.LIST },
   ...(response?.results.map((result) => ({ type: topicApiConfig.entityName, id: result.id })) || []),
 ];
 
