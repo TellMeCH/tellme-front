@@ -44,6 +44,10 @@ module.exports = {
         'control-secondary': '#bec9d4',
         'control-secondary-transparent': '#bec9d430',
       },
+      fontSize: {
+        h1: '2.75rem',
+        'h1-mobile': '2rem',
+      },
     },
   },
   darkMode: 'class',
