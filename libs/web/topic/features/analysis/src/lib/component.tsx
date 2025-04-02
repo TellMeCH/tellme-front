@@ -2,109 +2,36 @@
 
 import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
-import { useState, useEffect, useMemo, Fragment } from 'react';
-import { type ReactElement } from 'react';
-import { useSelector } from 'react-redux';
-import { TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
-import { authSelectors } from '@tellme/web/shared/data-access/auth';
+import { Fragment, ReactElement } from 'react';
+import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { TopicSelect, PeriodFilter, CardSection, TopicChart, EmptyChart } from './components';
-import { ChartState } from './interfaces/chart-state';
-import { generateTimeline } from './utils/generate-timeline';
+import { useTopicAnalysis } from './hooks';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
-  const profile = useSelector(authSelectors.profile);
-  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
-  const [selectedPeriod, setSelectedPeriod] = useState(TrendPeriod.MONTHLY);
-  const [chartState, setChartState] = useState<ChartState>({
-    data: [],
-    period: TrendPeriod.MONTHLY,
-  });
 
-  const { data: topicList, isLoading: isTopicListLoading } = topicApi.useSearchInfiniteQuery(
-    { isActive: true, pageSize: 10 },
-    { skip: !profile },
-  );
-  const { data: { summary } = {}, isLoading: isSummaryLoading } = topicApi.useGetSummaryDataQuery(
-    { id: Number(selectedTopicId) },
-    { skip: !selectedTopicId },
-  );
   const {
-    data: rawChartData,
-    isFetching,
-    isLoading: isChartDataLoading,
-  } = topicApi.useGetChartDataQuery(
-    { id: Number(selectedTopicId), trendPeriod: selectedPeriod },
-    { skip: !selectedTopicId },
-  );
-
-  const timeline = useMemo(() => generateTimeline(selectedPeriod).timeline, [selectedPeriod]);
-
-  const chartData = useMemo(() => {
-    if (!rawChartData) {
-      return [];
-    }
-
-    return timeline.map((bucket) => {
-      const items = rawChartData.filter((item) => item.date >= bucket.start && item.date < bucket.end);
-      const count = items.reduce((acc, item) => acc + Number(item.count), 0);
-      const averageSentiment = items.length
-        ? items.reduce((acc, item) => acc + Number(item.averageSentiment), 0) / items.length
-        : 0;
-
-      return { date: bucket.start.toISO() as string, count, averageSentiment };
-    });
-  }, [rawChartData, timeline]);
-
-  const topicOptions =
-    topicList?.results?.map((item) => ({
-      value: String(item.id),
-      label: item.name,
-    })) || [];
-
-  const selectedTopic = topicOptions.find((item) => item.value === selectedTopicId);
+    topicOptions,
+    selectedTopic,
+    selectedTopicId,
+    summary,
+    chartState,
+    isLoading,
+    isEmptyList,
+    isEmptyChart,
+    handleTopicChange,
+    handlePeriodChange,
+  } = useTopicAnalysis();
 
   const periodOptions = Object.values(TrendPeriod).map((value) => ({
     value,
     label: t(`DATE_PERIOD.TEXT_${value.toUpperCase()}`),
   }));
 
-  const handleTopicChange = (value: string): void => {
-    if (value !== selectedTopicId) {
-      setSelectedTopicId(value);
-    }
-  };
-
-  const handlePeriodChange = (value: TrendPeriod): void => {
-    if (value !== selectedPeriod) {
-      setSelectedPeriod(value);
-    }
-  };
-
-  useEffect(() => {
-    if (!selectedTopicId && topicList?.results?.length) {
-      setSelectedTopicId(String(topicList.results[0].id));
-    }
-  }, [topicList?.results, selectedTopicId]);
-
-  useEffect(() => {
-    if (!isFetching && chartData.length > 0) {
-      setChartState({
-        data: chartData,
-        period: selectedPeriod,
-      });
-    }
-  }, [isFetching, chartData, selectedPeriod]);
-
   const specialSections = ['reasonsForCalling', 'suggestedActions'];
-
   const highlightedSections = summary?.filter((item) => specialSections.includes(item.key));
   const generalSections = summary?.filter((item) => !specialSections.includes(item.key));
-
-  const isLoading = !profile || isTopicListLoading || isChartDataLoading || isSummaryLoading;
-  const isEmptyList = topicList?.results?.length === 0;
-  const isEmptyChart = summary?.length === 0;
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -128,18 +55,22 @@ export function TopicAnalysis(): ReactElement {
                   selectedValue={selectedTopicId}
                   onSelect={handleTopicChange} />
               </div>
+
               {!isEmptyChart && <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />}
             </div>
+
             {isEmptyChart ? (
               <EmptyChart />
             ) : (
               <Fragment>
                 <TopicChart chart={chartState} />
+
                 {highlightedSections?.map(({ key, name, description }) => (
                   <CardSection key={key} title={name}>
                     <p>{description}</p>
                   </CardSection>
                 ))}
+
                 <div className='grid grid-cols-2 gap-10 rounded-lg mt-2'>
                   {generalSections?.map(({ key, name, description }) => (
                     <div key={key}>
