@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { SummaryDetail, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
@@ -13,8 +15,6 @@ interface TopicOption {
 
 interface TopicAnalysisResult {
   topicOptions: Array<TopicOption>;
-  selectedTopic: TopicOption | undefined;
-  summary?: Array<SummaryDetail>;
   chartState: ChartState;
   selectedTopicId: string | null;
   isLoading: boolean;
@@ -22,6 +22,8 @@ interface TopicAnalysisResult {
   isEmptyChart: boolean;
   handleTopicChange: (value: string) => void;
   handlePeriodChange: (value: TrendPeriod) => void;
+  selectedTopic?: TopicOption;
+  summary?: Array<SummaryDetail>;
 }
 
 export function useTopicAnalysis(): TopicAnalysisResult {
