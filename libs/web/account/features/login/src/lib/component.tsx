@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { useForm } from 'react-hook-form';
+import { Button, Icon, Logo } from '@tellme/shared/ui/ui-kit';
 import { checkIsApiError } from '@tellme/web/shared/data-access/api-client';
 import {
   SocialProviderName,
@@ -13,16 +14,7 @@ import {
   useGoogleLogin,
   useMicrosoftLogin,
 } from '@tellme/web/shared/data-access/auth';
-import {
-  Button,
-  DividerWithText,
-  FormCheckbox,
-  FormMessage,
-  FormTextInput,
-  Heading,
-  Icon,
-  Logo,
-} from '@tellme/web/shared/ui/ui-kit';
+import { DividerWithText, FormCheckbox, FormMessage, FormTextInput, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import styles from './component.module.scss';
 import { SocialButton } from './components';

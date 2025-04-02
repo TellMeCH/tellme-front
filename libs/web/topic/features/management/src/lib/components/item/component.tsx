@@ -5,8 +5,9 @@ import clsx from 'clsx';
 import { debounce } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useCallback, useState } from 'react';
+import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
-import { Button, ConfirmationModal, Heading, Icon, Switch } from '@tellme/web/shared/ui/ui-kit';
+import { ConfirmationModal, Heading, Switch } from '@tellme/web/shared/ui/ui-kit';
 import { formatDate } from '@tellme/web/shared/utils/dates';
 import { FormModal } from '../form-modal';
 

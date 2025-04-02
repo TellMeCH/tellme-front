@@ -1,5 +1,5 @@
 import { Transform } from 'class-transformer';
-import { camelCase, isPlainObject } from 'lodash-es';
+import { camelCase, isPlainObject } from 'lodash';
 
 export function TransformSummary(): PropertyDecorator {
   return Transform(

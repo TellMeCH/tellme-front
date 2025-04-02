@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import 'fonts';
+@import 'variables';
+@import 'forms';
+
+* {box-sizing: border-box;}
+html, body {height: 100%; padding: 0; margin: 0; font-size: $text-default; color: $text-primary; 
+  font-family: $font; min-width: 360px; background-color: $background-primary; scroll-behavior: smooth;
+}
+fieldset {margin: 0; padding: 0; outline: none; border: none;}
+figure {margin: 0; padding: 0;}
+a {text-decoration: none; cursor: pointer;}
+p {font-family: inherit;}
+h1, h2, h3, h4, h5, h6 {font-weight: 700;}
+button,
+input {$self: &; font-size: inherit; font-family: inherit;
+  &[type='number']::-webkit-outer-spin-button,
+  &[type='number']::-webkit-inner-spin-button {-webkit-appearance: none; margin: 0;}
+  &[type="search"]::-webkit-search-cancel-button {display: none;}
+}
+
+.table {
+  &__row {border-bottom: $text-tertiary 1px solid; padding: 1rem 0;
+    &::after {content: ""; clear: both; display: table;}
+  }
+  &__cell {float: left; margin: 0 0.75rem;
+    &:first-of-type {margin-left: 0;}
+    &:last-of-type {margin-right: 0;}
+  }
+}
+
+.container {max-width: 1280px; margin: 0 auto; padding-right: $side-padding; padding-left: $side-padding;}
+.section {padding-top: 60px; padding-bottom: 60px;}
+
+.recharts-wrapper,
+.recharts-wrapper svg {
+  overflow: visible !important;
+}
+

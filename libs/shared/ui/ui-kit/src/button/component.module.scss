@@ -1,0 +1,106 @@
+@import '@tellme/shared/ui/variables';
+
+// Is used to increase specificity and override heroui default styles
+.buttonRoot {$self: &;
+  &.button {font-weight: 700; font-size: $text-default; width: auto; height: auto;
+    min-width: unset; overflow: visible; border-width: 0;
+    &_full {width: 100%}
+    &_icon {
+      &.button {
+        &_md {padding: 0.5rem; max-width: 40px; max-height: 40px;}
+        &_radius_md {border-radius: $radius-small;}
+      }
+    }
+    &[data-hover='true'] {opacity: 1;}
+    &[data-focus-visible='true'] {outline: none;}
+    &[data-loading='true'] > div > div > i {border-left: transparent; border-right: transparent; border-top: transparent; border-bottom: 2px dotted currentColor;}
+    &[data-pressed='true'] {transform: none;}
+    &:not([data-pressed='true']) {
+      &[data-focus='true']:before {border-color: var(--hover-color);}
+    }
+    &:before {content: ''; position: absolute; z-index: -1; inset: -3px; border: 1px solid transparent;
+      border-radius: $radius-small; @apply transition-colors;
+    }
+
+    &_solid {
+      &[data-hover='true'] {background-color: var(--hover-color);}
+      &[data-focus='true'] {background-color: var(--hover-color);}
+      &[data-pressed='true'] {background-color: var(--pressed-color);}
+
+      &_primary {background-color: $brand-primary; color: $white; --hover-color: #{$brand-primary-hover};
+        --pressed-color: #{$brand-primary-pressed}; --focus-shadow: #{rgba($brand-primary, 0.5)};
+      }
+      &_danger {background-color: $brand-danger; color: $white; --hover-color: #{$brand-danger-hover};
+        --pressed-color: #{$brand-danger-pressed}; --focus-shadow: #{rgba($brand-danger, 0.5)};
+      }
+      &_default {background-color: $background-primary; color: $text-primary; --hover-color: #{$text-tertiary};
+        --pressed-color: #{$text-tertiary}; --focus-shadow: #{rgba($background-primary, 0.5)};
+      }
+      &_secondary {background-color: $brand-secondary; color: $background-secondary; --hover-color: #{$brand-secondary-hover};
+        --pressed-color: #{$brand-secondary-pressed}; --focus-shadow: #{rgba($brand-secondary, 0.5)};
+      }
+      &_disabled {background-color: $background-tertiary; color: $text-secondary;}
+      &.button_icon {
+        [class*='icon_primary'] {background-color: $white;}
+      }
+    }
+
+    &_bordered {outline-width: var(--outline-width); background: transparent;
+      &[data-hover='true'] {color: var(--hover-color); outline-color: var(--hover-color);}
+      &[data-pressed='true'] {color: var(--pressed-color); outline-color: var(--pressed-color);
+        [class*='icon_primary'] {background-color: var(--pressed-color);}
+      }
+
+      &_primary {color: $brand-primary; outline-color: $brand-primary; --hover-color: #{$brand-primary-hover};
+        --pressed-color: #{$brand-primary-pressed}; --focus-color: #{$brand-primary-hover}; --outline-width: 1px;
+      }
+      &_danger {color: $brand-danger; outline-color: $brand-danger; --hover-color: #{$brand-danger-hover};
+        --pressed-color: #{$brand-danger-pressed}; --focus-color: #{$brand-danger-hover}; --outline-width: 1px;
+      }
+      &_secondary {color: $brand-secondary; outline-color: $brand-secondary; --hover-color: #{$brand-secondary-hover};
+        --pressed-color: #{$brand-secondary-pressed}; --focus-color: #{$brand-secondary-hover}; --outline-width: 1px;
+      }
+      &_disabled {outline-color: $text-tertiary; color: $text-tertiary;}
+    }
+
+    &_light {background: transparent;
+      &[data-hover='true'] {color: var(--hover-color); background-color: transparent;}
+      &[data-pressed='true'] {color: var(--pressed-color); background-color: transparent;
+        &:not(.button_icon) {
+          [class*='icon_primary'] {background-color: var(--pressed-color);}
+        }
+      }
+      &[data-disabled='true'] {color: $text-tertiary; opacity: 1;}
+
+      &_primary {color: $brand-primary; --hover-color: #{$brand-primary-hover}; --pressed-color: #{$brand-primary-pressed};
+        --focus-color: #{$brand-primary-hover};
+      }
+      &_danger {color: $brand-danger; --hover-color: #{$brand-danger-hover}; --pressed-color: #{$brand-danger-pressed};
+        --focus-color: #{$brand-danger-hover};
+      }
+      &_secondary {color: $brand-secondary; --hover-color: #{$brand-secondary-hover}; --pressed-color: #{$brand-secondary-pressed};
+        --focus-color: #{$brand-secondary-hover};
+      }
+    }
+
+    &_bordered,
+    &_light {outline-offset: calc(var(--outline-width) * (-1));
+      transition-property: transform, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity, outline-color;
+      &[data-disabled='true'] {
+        [class*='icon_primary'] {background-color: $text-tertiary;}
+      }
+      &:not([data-pressed='true']) {
+        &[data-hover='true'],
+        &[data-focus='true'] {
+          [class*='icon_primary'] {background-color: var(--hover-color);}
+        }
+        &[data-focus='true'] {--outline-width: 2px; outline-color: var(--focus-color); color: var(--focus-color);}
+      }
+    }
+
+    &_md {min-height: 2.5rem; padding-left: 20px; padding-right: 20px;}
+    &_lg {min-height: 3rem; padding-left: 34px; padding-right: 34px;}
+
+    [class*='icon_primary'] {@apply transition-colors;}
+  }
+}

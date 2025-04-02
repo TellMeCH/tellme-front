@@ -2,7 +2,7 @@ import { DropdownSection, Button, Dropdown, DropdownTrigger, DropdownMenu, Dropd
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useState } from 'react';
-import { Icon } from '@tellme/web/shared/ui/ui-kit';
+import { Icon } from '@tellme/shared/ui/ui-kit';
 
 interface TopicSelectProps {
   items: Array<{ value: string; label: string }>;

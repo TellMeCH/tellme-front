@@ -5,8 +5,8 @@ import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
+import { Logo } from '@tellme/shared/ui/ui-kit';
 import { authSelectors, useLogout } from '@tellme/web/shared/data-access/auth';
-import { Logo } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 import { SidebarItem } from '../sidebar-item/component';
 import { SidebarItems, type SidebarItemsProps } from '../sidebar-items/component';
@@ -56,7 +56,7 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
             <User
               name={profile.email}
               classNames={{
-                name: 'text-base truncate max-w-48',
+                name: 'text-base truncate max-w-44',
               }}
               avatarProps={{
                 size: 'sm',

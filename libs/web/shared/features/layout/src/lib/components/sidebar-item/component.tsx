@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { type ReactElement, useRef } from 'react';
-import { Icon, type IconProps } from '@tellme/web/shared/ui/ui-kit';
+import { Icon, type IconProps } from '@tellme/shared/ui/ui-kit';
 
 export type SidebarItemProps = {
   iconName: IconProps['name'];

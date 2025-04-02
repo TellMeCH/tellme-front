@@ -3,8 +3,8 @@
 import { Input, InputProps } from '@heroui/react';
 import clsx from 'clsx';
 import { ChangeEvent, ReactNode, forwardRef, useState } from 'react';
+import { Icon } from '@tellme/shared/ui/ui-kit';
 import { FormGroup, FormGroupProps } from '../form-group/component';
-import { Icon } from '../icon/component';
 
 export enum TextInputSize {
   SMALL = 'small',

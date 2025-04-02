@@ -1,6 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement, ReactNode } from 'react';
-import Button from '../button/component';
+import { Button } from '@tellme/shared/ui/ui-kit';
 import { Modal } from '../modal/component';
 
 interface ConfirmationModalProps {

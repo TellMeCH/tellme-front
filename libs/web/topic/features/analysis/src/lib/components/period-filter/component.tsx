@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { ReactElement, useState } from 'react';
+import { Button } from '@tellme/shared/ui/ui-kit';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
-import { Button } from '@tellme/web/shared/ui/ui-kit';
 
 interface PeriodFilterProps {
   options: Array<{ label: string; value: TrendPeriod }>;
