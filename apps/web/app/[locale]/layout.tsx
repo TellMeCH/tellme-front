@@ -3,7 +3,7 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ReactElement, ReactNode } from 'react';
 import { Locale } from '@tellme/shared/utils/i18n';
 import { Providers } from './providers';
-import '@tellme/web/shared/ui/styles/global';
+import '@tellme/shared/ui/styles/global';
 import { NextIntlClientProvider } from 'next-intl';
 import { constants } from '@tellme/shared/utils/constants';
 
