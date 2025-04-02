@@ -20,12 +20,21 @@ export function useTopicTrends(): UseTopicTrendsReturn {
   const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
   const profile = useSelector(authSelectors.profile);
 
-  const { data, isFetching } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+  const { data, isFetching } = topicApi.useSearchInfiniteQuery({ isActive: true, pageSize: 10 }, { skip: !profile });
   const { data: topicOverview } = organizationApi.useGetTopicsOverviewQuery(undefined, { skip: !profile });
 
   const fetchNextPage = (): void => {
     if (data?.nextCursor && !isFetching) {
-      dispatch(topicApi.endpoints.searchInfinite.initiate({ cursor: data.nextCursor }, { forceRefetch: true }));
+      dispatch(
+        topicApi.endpoints.searchInfinite.initiate(
+          {
+            isActive: true,
+            cursor: data.nextCursor,
+            pageSize: 10,
+          },
+          { forceRefetch: true },
+        ),
+      );
     }
   };
 
