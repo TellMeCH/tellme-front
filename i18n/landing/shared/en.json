@@ -12,6 +12,16 @@
     "TEXT_STEP_2": "Calls will be automatically processed to extract meaningful data",
     "TEXT_STEP_3": "Access the results in our dynamic dashboard",
     "BUTTON_OPEN_MENU": "Open menu",
-    "BUTTON_CLOSE_MENU": "Close menu"
+    "BUTTON_CLOSE_MENU": "Close menu",
+    "TEXT_OUR_PRODUCTS": "Our Products",
+    "TEXT_PRODUCT_1_TITLE": "Executive View",
+    "TEXT_PRODUCT_1_ALT": "Executive director",
+    "TEXT_PRODUCT_1_DESCRIPTION": "Step into your customer's shoes to understand the key pain points in your customer experience and discover strategies for improvement.",
+    "TEXT_PRODUCT_2_TITLE": "Call Center Performance View",
+    "TEXT_PRODUCT_2_ALT": "Meeting",
+    "TEXT_PRODUCT_2_DESCRIPTION": "Evaluate how well your agents are dealing with customer issues and identify knowledge gaps that could be targeted with further training.",
+    "TEXT_PRODUCT_3_TITLE": "Agent View",
+    "TEXT_PRODUCT_3_ALT": "Entrepreneur with charts",
+    "TEXT_PRODUCT_3_DESCRIPTION": "Boost your agent's knowledge of specific customers and topics with quick access to your conversation data."
   }
 }
