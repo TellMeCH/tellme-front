@@ -3,8 +3,9 @@
 import { useTranslations } from 'next-intl';
 import { type ReactElement, Fragment, memo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
-import { useWindowSize } from '@tellme/web/shared/utils/use-window-size';
+import { useResponsiveLayout } from '@tellme/web/shared/utils/use-responsive-layout';
 import { Legend } from '@tellme/web/topic/ui/legend';
 import { ChartState } from '../../interfaces/chart-state';
 import { formatTick } from '../../utils';
@@ -16,7 +17,7 @@ interface TopicChartProps {
 
 function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
   const t = useTranslations('topic.ANALYSIS.CHART');
-  const { width } = useWindowSize();
+  const { isDesktopLarge } = useResponsiveLayout();
 
   const { data, period } = chart;
 
@@ -37,6 +38,7 @@ function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
     },
   ];
 
+  const tickInterval = period === TrendPeriod.DAILY && isDesktopLarge ? 1 : 0;
   const tickFormatter = (isoString: string): string => formatTick(isoString, period);
 
   return (
@@ -56,7 +58,7 @@ function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
         width='100%'
         height='100%'
         className='min-h-[280px]'>
-        <LineChart data={data} margin={{ left: -30, right: -30 }}>
+        <LineChart data={data} margin={{ left: -40, right: -40 }}>
           <CartesianGrid
             stroke='currentColor'
             className='text-text-tertiary'
@@ -68,7 +70,7 @@ function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
             dataKey='date'
             allowDataOverflow
             scale='point'
-            interval={0}
+            interval={tickInterval}
             tickLine={false}
             allowDecimals={false}
             textAnchor='middle'
