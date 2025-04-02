@@ -26,7 +26,11 @@ interface TopicAnalysisResult {
   summary?: Array<SummaryDetail>;
 }
 
-export function useTopicAnalysis(): TopicAnalysisResult {
+interface UseTopicAnalysisProps {
+  topicIdFromUrl: string | null;
+}
+
+export function useTopicAnalysis({ topicIdFromUrl }: UseTopicAnalysisProps): TopicAnalysisResult {
   const profile = useSelector(authSelectors.profile);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState(TrendPeriod.MONTHLY);
@@ -101,10 +105,16 @@ export function useTopicAnalysis(): TopicAnalysisResult {
   };
 
   useEffect(() => {
-    if (!selectedTopicId && topicList?.results?.length) {
+    if (selectedTopicId) {
+      return;
+    }
+
+    if (topicIdFromUrl) {
+      setSelectedTopicId(topicIdFromUrl);
+    } else if (topicList?.results?.length) {
       setSelectedTopicId(String(topicList.results[0].id));
     }
-  }, [topicList?.results, selectedTopicId]);
+  }, [topicIdFromUrl, topicList?.results, selectedTopicId]);
 
   useEffect(() => {
     if (!isFetching && chartData.length > 0) {

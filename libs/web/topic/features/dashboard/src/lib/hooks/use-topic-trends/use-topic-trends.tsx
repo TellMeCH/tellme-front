@@ -11,7 +11,7 @@ interface UseTopicTrendsReturn {
   data?: PaginationResponse<Topic>;
   firstDate?: DateTime;
   secondDate?: DateTime;
-  activeTopics: Array<TopicMetric & { description: string }>;
+  activeTopics: Array<TopicMetric & { id: string; description: string }>;
   maxCount: number;
   fetchNextPage: () => void;
 }
@@ -49,10 +49,15 @@ export function useTopicTrends(): UseTopicTrendsReturn {
     const filteredTopics = topicMetrics
       .sort((a, b) => a.name.localeCompare(b.name))
       .filter((metric) => activeTopicMap.has(metric.name))
-      .map((metric) => ({
-        ...metric,
-        description: activeTopicMap.get(metric.name)?.description || '',
-      }));
+      .map((metric) => {
+        const topic = activeTopicMap.get(metric.name);
+
+        return {
+          ...metric,
+          id: String(topic?.id),
+          description: topic?.description || '',
+        };
+      });
 
     const maxCount = Math.max(
       ...filteredTopics.flatMap(({ count: { firstMeasurement, secondMeasurement } }) => [
