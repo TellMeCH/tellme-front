@@ -1,6 +1,8 @@
 $font: 'Onest', sans-serif;
 
+$text-huge: 3.5rem; // 56px
 $text-h1: 2.75rem; // 44px
+$text-h1-mobile: 2rem; // 32px
 $text-h2: 1.75rem; // 28px
 $text-h3: 1.5rem; // 24px
 $text-h4: 1.25rem; // 20px
@@ -17,6 +19,9 @@ $brand-primary-transparent: #167bf140;
 $brand-primary-transparent-hover: #3391fe;
 
 $brand-secondary: #b6393a;
+$brand-secondary-hover: #A23031;
+$brand-secondary-pressed: #802122;
+
 $brand-tertiary: #ee7016;
 
 $brand-danger: #db4e5c;
@@ -60,7 +65,11 @@ $radius-xs: 4px;
 
 $widescreen-small: 1300px;
 $tablet-wider: 1150px;
-$tablet-wide: 1024px;
+$tablet-wide: 1023px;
 $tablet-medium: 880px;
 $tablet: 768px;
 $mobile: 480px;
+
+$side-padding: 20px;
+
+$landing-mobile-header-height: 50px;

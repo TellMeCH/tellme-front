@@ -1,4 +1,4 @@
-@import '@tellme/web/shared/ui/variables';
+@import '@tellme/shared/ui/variables';
 
 // Is used to increase specificity and override heroui default styles
 .buttonRoot {$self: &;
@@ -7,7 +7,6 @@
     &_full {width: 100%}
     &_icon {
       &.button {
-        &_sm {padding: 0.25rem; max-width: 32px; max-height: 32px; min-height: unset;}
         &_md {padding: 0.5rem; max-width: 40px; max-height: 40px;}
         &_radius_md {border-radius: $radius-small;}
       }
@@ -37,6 +36,9 @@
       &_default {background-color: $background-primary; color: $text-primary; --hover-color: #{$text-tertiary};
         --pressed-color: #{$text-tertiary}; --focus-shadow: #{rgba($background-primary, 0.5)};
       }
+      &_secondary {background-color: $brand-secondary; color: $background-secondary; --hover-color: #{$brand-secondary-hover};
+        --pressed-color: #{$brand-secondary-pressed}; --focus-shadow: #{rgba($brand-secondary, 0.5)};
+      }
       &_disabled {background-color: $background-tertiary; color: $text-secondary;}
       &.button_icon {
         [class*='icon_primary'] {background-color: $white;}
@@ -54,6 +56,9 @@
       }
       &_danger {color: $brand-danger; outline-color: $brand-danger; --hover-color: #{$brand-danger-hover};
         --pressed-color: #{$brand-danger-pressed}; --focus-color: #{$brand-danger-hover}; --outline-width: 1px;
+      }
+      &_secondary {color: $brand-secondary; outline-color: $brand-secondary; --hover-color: #{$brand-secondary-hover};
+        --pressed-color: #{$brand-secondary-pressed}; --focus-color: #{$brand-secondary-hover}; --outline-width: 1px;
       }
       &_disabled {outline-color: $text-tertiary; color: $text-tertiary;}
     }
@@ -73,6 +78,9 @@
       &_danger {color: $brand-danger; --hover-color: #{$brand-danger-hover}; --pressed-color: #{$brand-danger-pressed};
         --focus-color: #{$brand-danger-hover};
       }
+      &_secondary {color: $brand-secondary; --hover-color: #{$brand-secondary-hover}; --pressed-color: #{$brand-secondary-pressed};
+        --focus-color: #{$brand-secondary-hover};
+      }
     }
 
     &_bordered,
@@ -91,6 +99,7 @@
     }
 
     &_md {min-height: 2.5rem; padding-left: 20px; padding-right: 20px;}
+    &_lg {min-height: 3rem; padding-left: 34px; padding-right: 34px;}
 
     [class*='icon_primary'] {@apply transition-colors;}
   }

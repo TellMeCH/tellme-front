@@ -1,0 +1,21 @@
+@import '@tellme/shared/ui/variables';
+
+.processstep {position: relative;
+  &:nth-child(2n)::before, &:nth-child(2n + 1)::before {content: ''; position: absolute;
+    top: 30px; width: 111px; height: 21px;
+    @media (max-width: $tablet-wide) {width: 13px; height: 69px; top: -100px;}
+  }
+  &:nth-child(2n)::before {left: -95px; background: url(../../assets/arrow-horizontal-top.svg);
+    @media (max-width: $tablet-wider) {left: -47px;}
+    @media (max-width: $tablet-wide) {background: url(../../assets/arrow-vertical-right.svg);
+      left: 50%; transform: translateX(-50%);
+    }
+  }
+  &:nth-child(2n + 1)::before {left: -40px; background: url(../../assets/arrow-horizontal-bottom.svg);
+    @media (max-width: $tablet-wider) {left: -80px;}
+    @media (max-width: $tablet-wide) {background: url(../../assets/arrow-vertical-left.svg);
+      left: 50%; transform: translateX(-50%);
+    }
+  }
+  &:first-child::before {display: none;}
+}

@@ -15,7 +15,6 @@ const BaseButton = extendVariants(NextUIButton, {
     color: {
       primary: '',
       light: '',
-      tertiary: styles.button_tertiary,
     },
     isDisabled: {
       true: '',
@@ -25,6 +24,7 @@ const BaseButton = extendVariants(NextUIButton, {
     },
     size: {
       md: styles.button_md,
+      lg: styles.button_lg,
     },
     isIconOnly: {
       true: styles.button_icon,
@@ -60,6 +60,11 @@ const BaseButton = extendVariants(NextUIButton, {
       class: clsx(styles.button_solid, styles.button_solid_default),
     },
     {
+      variant: 'solid',
+      color: 'secondary',
+      class: clsx(styles.button_solid, styles.button_solid_secondary),
+    },
+    {
       isDisabled: true,
       variant: 'solid',
       class: clsx(styles.button_solid, styles.button_solid_disabled),
@@ -75,6 +80,11 @@ const BaseButton = extendVariants(NextUIButton, {
       class: clsx(styles.button_light, styles.button_light_danger),
     },
     {
+      variant: 'light',
+      color: 'secondary',
+      class: clsx(styles.button_light, styles.button_light_secondary),
+    },
+    {
       isDisabled: true,
       variant: 'bordered',
       class: styles.button_bordered_disabled,
@@ -88,6 +98,11 @@ const BaseButton = extendVariants(NextUIButton, {
       variant: 'bordered',
       color: 'danger',
       class: clsx(styles.button_bordered, styles.button_bordered_danger),
+    },
+    {
+      variant: 'bordered',
+      color: 'secondary',
+      class: clsx(styles.button_bordered, styles.button_bordered_secondary),
     },
   ],
 });

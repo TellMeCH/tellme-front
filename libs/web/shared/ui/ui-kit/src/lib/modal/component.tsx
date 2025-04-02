@@ -8,8 +8,7 @@ import {
   ModalVariantProps,
 } from '@heroui/react';
 import { FormEventHandler, ReactElement, ReactNode } from 'react';
-import Button from '../button/component';
-import Icon from '../icon/component';
+import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 
 export interface ModalProps extends ModalVariantProps, NextUIModalProps {
   footerContent?: ReactNode;
