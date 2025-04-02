@@ -1,10 +1,11 @@
+import { StaticImport } from 'next/dist/shared/lib/get-img-props';
 import Image from 'next/image';
 import { ReactElement } from 'react';
 
 interface ProductProps {
   title: string;
   description: string;
-  imageSrc: string;
+  imageSrc: string | StaticImport;
   imageAlt: string;
 }
 
