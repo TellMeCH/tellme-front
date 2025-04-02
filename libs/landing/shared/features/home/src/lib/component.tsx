@@ -1,9 +1,10 @@
 import { Fragment, ReactElement } from 'react';
-import { Hero, Process } from './components';
+import { Header, Hero, Process } from './components';
 
 export function Home(): ReactElement {
   return (
     <Fragment>
+      <Header />
       <Hero />
       <Process />
     </Fragment>

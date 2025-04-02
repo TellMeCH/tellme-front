@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ReactElement } from 'react';
 import styles from './component.module.scss';
 
-export type IconTheme = 'primary' | 'secondary' | 'tertiary' | 'success' | 'danger';
+export type IconTheme = 'primary' | 'secondary' | 'tertiary' | 'bg_primary';
 
 export type IconName =
   | 'calendar'
@@ -27,7 +27,8 @@ export type IconName =
   | 'cross'
   | 'number_1'
   | 'number_2'
-  | 'number_3';
+  | 'number_3'
+  | 'menu_lines';
 
 export interface IconProps {
   name: IconName;

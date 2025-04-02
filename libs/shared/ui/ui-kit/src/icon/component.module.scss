@@ -7,14 +7,15 @@
   &_primary {background: $text-primary;}
   &_secondary {background-color: $text-secondary;}
   &_tertiary {background-color: $text-tertiary;}
-  &_success {background-color: $status-success;}
-  &_danger {background-color: $status-danger;}
+  &_bg_primary {background-color: $background-primary;}
 
   &_calendar {--bg-position: 433px -22px;}
   &_logout {--bg-position: 372px -22px;}
   &_label {--bg-position: 312px -22px;}
   &_chart {--bg-position: 250px -22px;}
-  &_menu {--bg-position: 189px -22px;}
+  &_menu {--bg-position: 189px -22px;
+    &_lines {--bg-position: -219px -502px;}
+  }
   &_mail {--bg-position: 128px -22px;}
   &_lock {--bg-position: 67px -22px;}
   &_eye {--bg-position: 433px -98px;

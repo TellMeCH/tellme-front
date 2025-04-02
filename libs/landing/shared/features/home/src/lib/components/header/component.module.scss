@@ -1,0 +1,21 @@
+@import '@tellme/shared/ui/variables';
+
+.header {
+  &__menu {display: flex; align-items: center; gap: 4rem;
+    @media (max-width: $widescreen-small) {gap: 2rem;}
+    @media (max-width: $tablet-wide) {position: fixed; background: $black;
+      top: $landing-mobile-header-height; left: 0; right: 0; flex-direction: column;
+      height: calc(100vh - $landing-mobile-header-height); z-index: 10;
+      transform: translateX(100%); transition: transform 0.3s; padding: 64px $side-padding;
+      align-items: flex-start;
+    }
+
+    &_open {
+      @media (max-width: $tablet-wide) {transform: translateX(0);}
+    }
+  }
+}
+
+body:has(.header__menu_open) {
+  @media (max-width: $tablet-wide) {overflow: hidden;}
+}

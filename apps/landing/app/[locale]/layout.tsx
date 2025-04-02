@@ -1,4 +1,3 @@
-import { pick } from 'lodash';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
@@ -42,7 +41,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
         <meta name='robots' content='noindex' />
       </head>
       <body>
-        <NextIntlClientProvider messages={pick(messages, 'landing-shared')} locale={locale}>
+        <NextIntlClientProvider messages={messages} locale={locale}>
           <div className='text-lg max-lg:text-base'>{children}</div>
         </NextIntlClientProvider>
       </body>
