@@ -27,6 +27,11 @@
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
       "TEXT_FREQUENCY": "Frequency"
     },
+    "EMPTY_CHART": {
+      "TEXT_TITLE": "Analytics will appear here soon",
+      "TEXT_SUBTITLE": "Once we have enough information, we will collect analytics for you.",
+      "TEXT_ALT_EMPTY_CHART": "There is no data to display"
+    },
     "DATE_PERIOD": {
       "TEXT_MONTHLY": "1 year",
       "TEXT_WEEKLY": "3 months",

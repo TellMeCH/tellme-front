@@ -24,10 +24,9 @@ export function TopicAnalysis(): ReactElement {
   });
 
   const { data: topicList, isLoading: isTopicListLoading } = topicApi.useSearchInfiniteQuery(
-    { isActive: true },
+    { isActive: true, pageSize: 10 },
     { skip: !profile },
   );
-  console.log('topicList', topicList?.results);
   const { data: { summary } = {}, isLoading: isSummaryLoading } = topicApi.useGetSummaryDataQuery(
     { id: Number(selectedTopicId) },
     { skip: !selectedTopicId },
@@ -61,7 +60,7 @@ export function TopicAnalysis(): ReactElement {
 
   const topicOptions =
     topicList?.results?.map((item) => ({
-      value: String(item.resolvedId),
+      value: String(item.id),
       label: item.name,
     })) || [];
 
@@ -109,10 +108,10 @@ export function TopicAnalysis(): ReactElement {
     }
 
     const current = selectedTopicRef.current;
-    const isCurrentValid = current && topics.some((topic) => String(topic.resolvedId) === current);
+    const isCurrentValid = current && topics.some((topic) => String(topic.id) === current);
 
     if (!isCurrentValid) {
-      selectTopic(String(topics[0].resolvedId));
+      selectTopic(String(topics[0].id));
     }
   }, [topicList?.results]);
 

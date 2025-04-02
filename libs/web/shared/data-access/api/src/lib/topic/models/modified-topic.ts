@@ -11,9 +11,6 @@ export class ModifiedTopic extends ModifiedBaseEntity {
   @Expose({ name: 'is_active' })
   public isActive: boolean;
 
-  @Exclude()
-  public fallbackId?: number;
-
   constructor(model: Partial<ModifiedTopic>) {
     super(model);
     Object.assign(this, model);

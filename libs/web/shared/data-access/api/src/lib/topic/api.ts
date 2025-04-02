@@ -14,6 +14,11 @@ import {
   TopicSummary,
 } from './models';
 
+export enum TopicTagID {
+  LIST_ACTIVE = 'LIST_ACTIVE',
+  LIST = 'LIST',
+}
+
 const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
   url: `${topicApiConfig.baseEndpoint}${isActive ? 'list_active/' : ''}`,
@@ -21,7 +26,7 @@ const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
 });
 
 const getListTags = (response?: PaginationResponse<Topic>) => [
-  { type: topicApiConfig.entityName, id: EntityTagID.LIST },
+  { type: topicApiConfig.entityName, id: TopicTagID.LIST },
   ...(response?.results.map((result) => ({ type: topicApiConfig.entityName, id: result.id })) || []),
 ];
 
@@ -185,6 +190,11 @@ export const topicApi = createAppApi({
             { type: topicApiConfig.entityName, id: EntityTagID.LIST },
           ]);
 
+          const newTopic = new Topic({
+            ...omit(updatedEntityData, 'id'),
+            url: `${apiConfig.root}${topicApiConfig.baseEndpoint}${arg.id}/`,
+          });
+
           for (const { endpointName, originalArgs } of cachedQueries) {
             dispatch(
               topicApi.util.updateQueryData(
@@ -205,15 +215,11 @@ export const topicApi = createAppApi({
                         endpointData.results.splice(existingIndex, 1);
                       }
                     } else if (originalArgs?.isActive && updatedEntityData.isActive) {
-                      const dataWithFallback =
-                        updatedEntityData.id === -1 ? { ...updatedEntityData, fallbackId: arg.id } : updatedEntityData;
-
-                      const newItem = createEntityInstance(Topic, dataWithFallback, { fromInstancePartial: true });
-                      endpointData.results.push(newItem);
+                      endpointData.results.push(newTopic);
                     }
 
                     if (originalArgs?.isActive) {
-                      endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+                      endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
                     }
                   } else {
                     merge(endpointData as Topic, omit(updatedEntityData, 'id'));
