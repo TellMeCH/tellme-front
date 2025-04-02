@@ -42,7 +42,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
       </head>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>
-          <div className='text-lg max-lg:text-base'>{children}</div>
+          <div className='bg-background-landing text-lg max-lg:text-base'>{children}</div>
         </NextIntlClientProvider>
       </body>
     </html>
