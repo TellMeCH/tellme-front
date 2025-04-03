@@ -16,6 +16,6 @@ vars = { ENVIRONMENT = "staging" }
 
 # KV Cache for Staging
 [[env.staging.kv_namespaces]]
-binding = "tellme_landing_cache_staging"
-id = "a47c6af9163d449689a83339ac71bff9"
+binding = "kv"
+id = "1ef196bfd0ba46f39a79809ec87c8e7e"
 
