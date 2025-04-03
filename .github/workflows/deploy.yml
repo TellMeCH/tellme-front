@@ -52,11 +52,11 @@ jobs:
           NODE_ENV: development
 
       - name: Build
-        run: npx nx build landing --skip-nx-cache
+        run: npx nx run landing:build:worker
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy "apps/landing/.next" --project-name=tellme-web
+          command: deploy ./apps/landing/.open-next/worker.js --env=${{ env.TELLME_ENV }}
