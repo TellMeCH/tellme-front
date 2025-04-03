@@ -23,7 +23,10 @@ export function Dashboard(): ReactElement {
   const { isLoading: isTopicsOverviewLoading } = organizationApi.useGetTopicsOverviewQuery(undefined, {
     skip: !profile,
   });
-  const { isLoading: isActiveListLoading } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+  const { isLoading: isActiveListLoading } = topicApi.useSearchInfiniteQuery(
+    { isActive: true, pageSize: 10 },
+    { skip: !profile },
+  );
 
   const isLoading = isGeneralOverviewLoading || isOrganizationLoading || isActiveListLoading || isTopicsOverviewLoading;
 

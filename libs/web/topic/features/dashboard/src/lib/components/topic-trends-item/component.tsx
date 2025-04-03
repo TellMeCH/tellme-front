@@ -34,12 +34,12 @@ export function TopicTrendsItem({
           <AppProgress
             maxValue={maxCount}
             value={Math.round(Number(count.firstMeasurement))}
-            aria-label={t('TEXT_SECOND_MEASUREMENT_AREA_LABEL')}
+            aria-label={t('TEXT_FIRST_MEASUREMENT_AREA_LABEL')}
           />
           <AppProgress
             maxValue={maxCount}
             value={Math.round(Number(count.secondMeasurement))}
-            aria-label={t('TEXT_FIRST_MEASUREMENT_AREA_LABEL')}
+            aria-label={t('TEXT_SECOND_MEASUREMENT_AREA_LABEL')}
             color='secondary'
           />
         </div>

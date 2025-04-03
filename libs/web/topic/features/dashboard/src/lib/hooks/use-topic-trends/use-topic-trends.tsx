@@ -1,10 +1,15 @@
 'use client';
 
-import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { topicApi, organizationApi, Topic, TopicMetric, PaginationResponse } from '@tellme/web/shared/data-access/api';
+import { useSelector } from 'react-redux';
+import {
+  organizationApi,
+  Topic,
+  TopicMetric,
+  PaginationResponse,
+  useSearchInfiniteTopics,
+} from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 
 interface UseTopicTrendsReturn {
@@ -17,17 +22,13 @@ interface UseTopicTrendsReturn {
 }
 
 export function useTopicTrends(): UseTopicTrendsReturn {
-  const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
   const profile = useSelector(authSelectors.profile);
 
-  const { data, isFetching } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+  const { data, fetchNextPage } = useSearchInfiniteTopics({
+    params: { isActive: true, pageSize: 10 },
+    skip: !profile,
+  });
   const { data: topicOverview } = organizationApi.useGetTopicsOverviewQuery(undefined, { skip: !profile });
-
-  const fetchNextPage = (): void => {
-    if (data?.nextCursor && !isFetching) {
-      dispatch(topicApi.endpoints.searchInfinite.initiate({ cursor: data.nextCursor }, { forceRefetch: true }));
-    }
-  };
 
   const { firstDate, secondDate, topicMetrics } = topicOverview || {};
 
@@ -35,10 +36,10 @@ export function useTopicTrends(): UseTopicTrendsReturn {
     if (!data?.results || !topicMetrics) {
       return { activeTopics: [], maxCount: 0 };
     }
-    const activeTopicMap = new Map(data.results.map((topic) => [topic.name, topic]));
+    const activeTopicMap = new Map(data.results.map((topic: Topic) => [topic.name, topic]));
 
     const filteredTopics = topicMetrics
-      .sort((a, b) => a.name.localeCompare(b.name))
+      .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
       .filter((metric) => activeTopicMap.has(metric.name))
       .map((metric) => ({
         ...metric,

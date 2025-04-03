@@ -18,16 +18,24 @@
   },
   "ANALYSIS": {
     "TEXT_TOPIC_ANALYSIS": "Topic analysis",
-    "TEXT_REASONS_FOR_CALLING": "Reasons for calling",
-    "TEXT_SUGGESTED_ACTIONS": "Suggested actions",
     "SELECT": {
       "TEXT_PLACEHOLDER_SEARCH": "Search",
       "TEXT_DROPDOWN_AREA_LABEL": "Dropdown with search"
     },
     "CHART": {
       "TEXT_TRENDS": "Trends",
-      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_FREQUENCY": "Frequency"
+    },
+    "EMPTY_CHART": {
+      "TEXT_TITLE": "Analytics will appear here soon",
+      "TEXT_SUBTITLE": "Once we have enough information, we will collect analytics for you.",
+      "TEXT_ALT_EMPTY_CHART": "There is no data to display"
+    },
+    "DATE_PERIOD": {
+      "TEXT_MONTHLY": "1 year",
+      "TEXT_WEEKLY": "3 months",
+      "TEXT_DAILY": "1 month"
     }
   },
   "MANAGEMENT": {

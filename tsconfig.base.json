@@ -45,6 +45,7 @@
       "@tellme/web/shared/utils/dates": ["libs/web/shared/utils/dates/src/index.ts"],
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
+      "@tellme/web/shared/utils/use-responsive-layout": ["libs/web/shared/utils/use-responsive-layout/src/index.ts"],
       "@tellme/web/topic/features/analysis": ["libs/web/topic/features/analysis/src/index.ts"],
       "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"],
       "@tellme/web/topic/features/management": ["libs/web/topic/features/management/src/index.ts"],
