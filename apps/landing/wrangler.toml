@@ -1,0 +1,21 @@
+name = "tellme-landing"
+main = ".open-next/worker.js"
+compatibility_date = "2024-09-23"
+compatibility_flags = ["nodejs_compat"]
+
+# Static assets for SSR app
+[assets]
+directory = ".open-next/assets"
+binding = "ASSETS"
+
+# Staging Environment (test.tell-me.ch)
+[env.staging]
+name = "tellme-landing-staging"
+routes = ["https://www.tell-me.ch/*"]
+vars = { ENVIRONMENT = "staging" }
+
+# KV Cache for Staging
+[[env.staging.kv_namespaces]]
+binding = "tellme_landing_cache_staging"
+id = "a47c6af9163d449689a83339ac71bff9"
+

@@ -4,6 +4,32 @@
   "sourceRoot": "apps/landing",
   "projectType": "application",
   "tags": ["app:landing", "type:app"],
-  "// targets": "to see all targets run: nx show project landing --web",
-  "targets": {}
+  "// targets": "to see all targets run: nx show project landing --landing",
+  "targets": {
+    "build:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx build landing --skip-nx-cache && cd ./apps/landing && opennextjs-cloudflare -s"
+      }
+    },
+    "dev:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "wrangler dev ./.open-next/worker.js --port 8771",
+        "cwd": "apps/landing"
+      }
+    },
+    "preview:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx run landing:build:worker && npx nx run landing:dev:worker"
+      }
+    },
+    "deploy:worker": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "npx nx run landing:build:worker && wrangler deploy ./apps/landing/.open-next/worker.js --env=${DEPLOY_ENV}"
+      }
+    }
+  }
 }
