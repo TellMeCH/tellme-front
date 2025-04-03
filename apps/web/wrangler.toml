@@ -16,16 +16,16 @@ vars = { ENVIRONMENT = "staging" }
 
 # KV Cache for Staging
 [[env.staging.kv_namespaces]]
-binding = "tellme_front_cache_staging"
-id = "fa72ebe6dcac43bfaf23e07a0d17f5eb"
+binding = "kv"
+id = "e4245fa569aa4c4f958ebdeb5a5988e6"
 
 # Production Environment (app.tell-me.ch)
-[env.main]
-name = "tellme-front-main"
+[env.prod]
+name = "tellme-front-prod"
 routes = ["https://app.tell-me.ch/*"]
-vars = { ENVIRONMENT = "main" }
+vars = { ENVIRONMENT = "prod" }
 
 # KV Cache for Staging
-[[env.main.kv_namespaces]]
-binding = "tellme_front_cache_main"
-id = "6b7195e5eb6a4307ac6301e2a62321ad"
+[[env.prod.kv_namespaces]]
+binding = "kv"
+id = "8203e5196bfa4ea4a19a1138fab4226b"
