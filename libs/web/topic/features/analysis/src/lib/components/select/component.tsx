@@ -52,6 +52,7 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
           {filteredItems.map((item) => (
             <DropdownItem
               key={item.value}
+              textValue={item.label}
               onPress={() => onSelect(item.value)}
               className={clsx(
                 'rounded-2 py-3 truncate data-[hover=true]:bg-background-primary',

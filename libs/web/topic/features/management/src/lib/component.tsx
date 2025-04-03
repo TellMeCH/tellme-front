@@ -6,7 +6,7 @@ import { ReactElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
-import { Topic, useSearchTopics } from '@tellme/web/shared/data-access/api';
+import { Topic, useSearchInfiniteTopics } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header } from '@tellme/web/shared/ui/ui-kit';
 import styles from './component.module.scss';
@@ -17,7 +17,7 @@ export function TopicsManagement(): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
 
   const profile = useSelector(authSelectors.profile);
-  const { data, isLoading, fetchNextPage } = useSearchTopics({
+  const { data, isLoading, fetchNextPage } = useSearchInfiniteTopics({
     params: { pageSize: 10 },
     skip: !profile,
   });

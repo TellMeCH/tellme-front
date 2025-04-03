@@ -4,17 +4,17 @@ import { topicApi } from '../api';
 import type { PaginationResponse } from '../../common';
 import type { Topic, TopicPaginationRequest } from '../models';
 
-interface UseSearchTopicsOptions {
+interface UseSearchInfiniteTopicsOptions {
   params: TopicPaginationRequest;
   skip?: boolean;
 }
 
-type UseSearchTopicsResult = Omit<ReturnType<typeof topicApi.useSearchInfiniteQuery>, 'data'> & {
+type UseSearchInfiniteResult = Omit<ReturnType<typeof topicApi.useSearchInfiniteQuery>, 'data'> & {
   data?: PaginationResponse<Topic>;
   fetchNextPage: () => void;
 };
 
-export function useSearchTopics({ params, skip }: UseSearchTopicsOptions): UseSearchTopicsResult {
+export function useSearchInfiniteTopics({ params, skip }: UseSearchInfiniteTopicsOptions): UseSearchInfiniteResult {
   const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
 
   const queryResult = topicApi.useSearchInfiniteQuery(params, { skip });
