@@ -1,9 +1,7 @@
 'use client';
 
-import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { Legend } from '@tellme/web/topic/ui/legend';
@@ -14,7 +12,7 @@ import styles from './component.module.scss';
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
 
-  const { data, firstDate, secondDate, activeTopics, maxCount, fetchNextPage } = useTopicTrends();
+  const { firstDate, secondDate, activeTopics, maxCount } = useTopicTrends();
 
   return (
     <div className='flex flex-col flex-1 bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
@@ -30,24 +28,10 @@ export function DashboardTopicTrends(): ReactElement {
         )}
       </div>
       <div>
-        <InfiniteScroll
-          className={styles['topic-trends__list']}
-          dataLength={data?.results.length || 0}
-          next={fetchNextPage}
-          hasMore={!!data?.nextCursor}
-          loader={
-            <div className='flex justify-center py-6'>
-              <Spinner />
-            </div>
-          }
-          scrollableTarget='main'>
-          {activeTopics?.map((itemProps) => (
-            <TopicTrendsItem
-              key={itemProps.name}
-              maxCount={maxCount}
-              {...itemProps} />
-          ))}
-        </InfiniteScroll>
+        {activeTopics?.map((itemProps) => <TopicTrendsItem
+          key={itemProps.name}
+          maxCount={maxCount}
+          {...itemProps} />)}
       </div>
     </div>
   );

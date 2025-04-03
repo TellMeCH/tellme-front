@@ -5,6 +5,12 @@ import { TransformSummary } from '@tellme/web/shared/utils/class-transformer';
 import { SummaryDetail } from './summary-detail';
 
 export class TopicSummary {
+  @Expose()
+  public id?: number;
+
+  @Expose()
+  public name?: string;
+
   @Expose({ name: 'summary_date' })
   @TransformDate()
   public summaryDate: DateTime;

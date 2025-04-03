@@ -103,6 +103,22 @@ export const topicApi = createAppApi({
         return plainToInstance(TopicSummary, response as object);
       },
     }),
+    getAllSummaries: builder.query<Array<TopicSummary>, void>({
+      query: () => {
+        return {
+          method: 'get',
+          url: `${topicApiConfig.baseEndpoint}all_summaries/`,
+        };
+      },
+      transformResponse: (response) => {
+        const summaries = Object.entries(response).map(([id, rawSummary]) => ({
+          id: Number(id),
+          ...(rawSummary as object),
+        }));
+
+        return plainToInstance(TopicSummary, summaries);
+      },
+    }),
     getChartData: builder.query<Array<TopicChartEntry>, TopicChartDataRequest & { id: number }>({
       query: ({ id, ...params }) => {
         return {
