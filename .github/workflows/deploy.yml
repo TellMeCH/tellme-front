@@ -52,7 +52,7 @@ jobs:
           NODE_ENV: development
 
       - name: Build
-        run: npx nx run landing:build-page
+        run: npx nx build landing --skip-nx-cache
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
