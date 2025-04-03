@@ -1,9 +1,0 @@
-{
-  "name": "web/topic/features/use-search-topics",
-  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/web/topic/features/use-search-topics/src",
-  "projectType": "library",
-  "tags": ["app:web", "scope:topic", "type:features"],
-  "// targets": "to see all targets run: nx show project web/topic/features/use-search-topics --web",
-  "targets": {}
-}

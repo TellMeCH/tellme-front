@@ -6,10 +6,9 @@ import { ReactElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
-import { Topic } from '@tellme/web/shared/data-access/api';
+import { Topic, useSearchTopics } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header } from '@tellme/web/shared/ui/ui-kit';
-import { useSearchTopics } from '@tellme/web/topic/features/use-search-topics';
 import styles from './component.module.scss';
 import { Item } from './components';
 import { FormModal } from './components/form-modal';
@@ -30,7 +29,10 @@ export function TopicsManagement(): ReactElement {
       <Header
         title={t('TEXT_TITLE')}
         rightContent={
-          <Button onPress={onFormModalOpenChange} endContent={<Icon name='plus' />} data-testid='creation-modal-button'>
+          <Button
+            onPress={onFormModalOpenChange}
+            endContent={<Icon name='plus' />}
+            data-testid='creation-modal-button'>
             {t('BUTTON_NEW_TOPIC')}
           </Button>
         }

@@ -3,9 +3,14 @@
 import { DateTime } from 'luxon';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { organizationApi, Topic, TopicMetric, PaginationResponse } from '@tellme/web/shared/data-access/api';
+import {
+  organizationApi,
+  Topic,
+  TopicMetric,
+  PaginationResponse,
+  useSearchTopics,
+} from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
-import { useSearchTopics } from '@tellme/web/topic/features/use-search-topics';
 
 interface UseTopicTrendsReturn {
   data?: PaginationResponse<Topic>;

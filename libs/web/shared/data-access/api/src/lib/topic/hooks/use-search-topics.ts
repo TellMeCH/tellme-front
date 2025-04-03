@@ -1,15 +1,16 @@
 import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { topicApi } from '@tellme/web/shared/data-access/api';
-import type { TopicPaginationRequest } from '@tellme/web/shared/data-access/api';
+import { topicApi } from '../api';
+import type { PaginationResponse } from '../../common';
+import type { Topic, TopicPaginationRequest } from '../models';
 
 interface UseSearchTopicsOptions {
   params: TopicPaginationRequest;
   skip?: boolean;
 }
 
-// TODO: Refactor this type
-type UseSearchTopicsResult = ReturnType<typeof topicApi.useSearchInfiniteQuery> & {
+type UseSearchTopicsResult = Omit<ReturnType<typeof topicApi.useSearchInfiniteQuery>, 'data'> & {
+  data?: PaginationResponse<Topic>;
   fetchNextPage: () => void;
 };
 
