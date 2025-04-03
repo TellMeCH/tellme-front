@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement } from 'react';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
-import { TopicSelect, PeriodFilter, CardSection, TopicChart, EmptyChart } from './components';
+import { TopicSelect, PeriodFilter, TopicChart, EmptyChart, TopicSummary } from './components';
 import { useTopicAnalysis } from './hooks';
 
 export function TopicAnalysis(): ReactElement {
@@ -29,10 +29,6 @@ export function TopicAnalysis(): ReactElement {
     label: t(`DATE_PERIOD.TEXT_${value.toUpperCase()}`),
   }));
 
-  const specialSections = ['reasonsForCalling', 'suggestedActions'];
-  const highlightedSections = summary?.filter((item) => specialSections.includes(item.key));
-  const generalSections = summary?.filter((item) => !specialSections.includes(item.key));
-
   return (
     <div className='min-h-full flex flex-col gap-2'>
       <Header title={t('TEXT_TOPIC_ANALYSIS')} />
@@ -50,35 +46,17 @@ export function TopicAnalysis(): ReactElement {
                 <Heading level={2} className='text-3xl'>
                   {selectedTopic?.label}
                 </Heading>
-                <TopicSelect
-                  items={topicOptions}
-                  selectedValue={selectedTopicId}
-                  onSelect={handleTopicChange} />
+                <TopicSelect items={topicOptions} selectedValue={selectedTopicId} onSelect={handleTopicChange} />
               </div>
 
               {!isEmptyChart && <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />}
             </div>
-
             {isEmptyChart ? (
               <EmptyChart />
             ) : (
               <Fragment>
-                <TopicChart chart={chartState} />
-
-                {highlightedSections?.map(({ key, name, description }) => (
-                  <CardSection key={key} title={name}>
-                    <p>{description}</p>
-                  </CardSection>
-                ))}
-
-                <div className='grid grid-cols-2 gap-10 rounded-lg mt-2'>
-                  {generalSections?.map(({ key, name, description }) => (
-                    <div key={key}>
-                      <p className='font-medium text-xl mb-2'>{name}</p>
-                      <p className='text-gray-600 whitespace-normal text-clip'>{description}</p>
-                    </div>
-                  ))}
-                </div>
+                <TopicChart chartState={chartState} />
+                <TopicSummary summary={summary!} />
               </Fragment>
             )}
           </Fragment>

@@ -5,8 +5,7 @@ import { useSelector } from 'react-redux';
 import { SummaryDetail, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { ChartState } from '../../interfaces/chart-state';
-import { TimelineBucket } from '../../utils';
-import { generateTimeline } from '../../utils/generate-timeline';
+import { generateTimeline, transformChartData } from '../../utils/';
 
 interface TopicOption {
   value: string;
@@ -35,49 +34,43 @@ export function useTopicAnalysis(): TopicAnalysisResult {
     period: TrendPeriod.MONTHLY,
   });
 
-  const { data: topicList, isLoading: isTopicListLoading } = topicApi.useSearchInfiniteQuery(
-    { isActive: true },
-    { skip: !profile },
-  );
+  const {
+    data: topicList,
+    isLoading: isTopicListLoading,
+    isUninitialized: isTopicListUninitialized,
+  } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
 
-  const { data: { summary } = {}, isLoading: isSummaryLoading } = topicApi.useGetSummaryDataQuery(
-    { id: Number(selectedTopicId) },
-    { skip: !selectedTopicId },
-  );
+  const {
+    data: { summary } = {},
+    isLoading: isSummaryLoading,
+    isUninitialized: isSummaryUninitialized,
+  } = topicApi.useGetSummaryQuery({ id: Number(selectedTopicId) }, { skip: !selectedTopicId });
 
   const {
     data: rawChartData,
     isFetching,
     isLoading: isChartDataLoading,
+    isUninitialized: isChartDataUninitialized,
   } = topicApi.useGetChartDataQuery(
     { id: Number(selectedTopicId), trendPeriod: selectedPeriod },
     { skip: !selectedTopicId },
   );
 
-  const isLoading = !profile || isTopicListLoading || isChartDataLoading || isSummaryLoading;
-  const isEmptyList = topicList?.results?.length === 0;
-  const isEmptyChart = summary?.length === 0;
+  const isUninitialized = isTopicListUninitialized || isSummaryUninitialized || isChartDataUninitialized;
+  const isResourceLoading = isTopicListLoading || isSummaryLoading || isChartDataLoading;
+  const isLoading = isResourceLoading || isUninitialized;
 
-  const timeline = useMemo(() => generateTimeline(selectedPeriod).timeline, [selectedPeriod]);
+  const isEmptyList = topicList?.results?.length === 0;
+  const isEmptyChart = summary?.length === 0 && rawChartData?.length === 0;
+
+  const timeline = useMemo(() => generateTimeline(selectedPeriod), [selectedPeriod]);
 
   const chartData = useMemo(() => {
     if (!rawChartData) {
       return [];
     }
 
-    return timeline.map((bucket: TimelineBucket) => {
-      const items = rawChartData.filter((item) => item.date >= bucket.start && item.date < bucket.end);
-      const count = items.reduce((acc, item) => acc + Number(item.count), 0);
-      const averageSentiment = items.length
-        ? items.reduce((acc, item) => acc + Number(item.averageSentiment), 0) / items.length
-        : 0;
-
-      return {
-        date: bucket.start.toISO() as string,
-        count,
-        averageSentiment,
-      };
-    });
+    return transformChartData(rawChartData, timeline);
   }, [rawChartData, timeline]);
 
   const topicOptions =
@@ -101,10 +94,13 @@ export function useTopicAnalysis(): TopicAnalysisResult {
   };
 
   useEffect(() => {
-    if (!selectedTopicId && topicList?.results?.length) {
-      setSelectedTopicId(String(topicList.results[0].id));
+    const availableIds = topicList?.results.map((topic) => String(topic.id)) || [];
+    const isSelectedIdValid = selectedTopicId && availableIds.includes(selectedTopicId);
+
+    if (!isSelectedIdValid && availableIds.length > 0) {
+      setSelectedTopicId(availableIds[0]);
     }
-  }, [topicList?.results, selectedTopicId]);
+  }, [selectedTopicId, topicList?.results]);
 
   useEffect(() => {
     if (!isFetching && chartData.length > 0) {

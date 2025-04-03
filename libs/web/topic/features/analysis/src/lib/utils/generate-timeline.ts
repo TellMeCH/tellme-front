@@ -1,12 +1,7 @@
-import { DateTime } from 'luxon';
+import { DateTime, Interval } from 'luxon';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 
-export interface TimelineBucket {
-  start: DateTime;
-  end: DateTime;
-}
-
-export const generateTimeline = (period: TrendPeriod): { timeline: Array<TimelineBucket> } => {
+export const generateTimeline = (period: TrendPeriod): Array<Interval> => {
   const now = DateTime.now();
 
   const config: Record<TrendPeriod, { count: number; unit: 'months' | 'weeks' | 'days'; start: DateTime }> = {
@@ -30,12 +25,10 @@ export const generateTimeline = (period: TrendPeriod): { timeline: Array<Timelin
 
   const { count, unit, start } = config[period];
 
-  const timeline = Array.from({ length: count }, (_, i) => {
+  return Array.from({ length: count }, (_, i) => {
     const bucketStart = start.plus({ [unit]: i });
     const bucketEnd = bucketStart.plus({ [unit]: 1 });
 
-    return { start: bucketStart, end: bucketEnd };
+    return Interval.fromDateTimes(bucketStart, bucketEnd);
   });
-
-  return { timeline };
 };
