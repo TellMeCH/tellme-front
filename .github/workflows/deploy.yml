@@ -40,7 +40,7 @@ jobs:
           command: deploy ./apps/web/.open-next/worker.js --env=${{ env.TELLME_ENV }}
 
   deploy_landing:
-    if: ${{ env.TELLME_ENV == 'staging' }}
+    if: ${{ github.ref_name == 'staging' }}
     name: Deploy Landing Page to Cloudflare
     environment:
       name: ${{ github.ref_name }}
