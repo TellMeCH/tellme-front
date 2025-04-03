@@ -1,0 +1,26 @@
+{
+  "HOME_PAGE": {
+    "HOME_PAGE_TEXT": "Tellme home page"
+  },
+  "UI_KIT": {
+    "CONFIRMATION_MODAL": {
+      "BUTTON_CANCEL": "Cancel"
+    }
+  },
+  "UNDER_CONSTRUCTION": {
+    "TEXT_TITLE": "Under construction",
+    "TEXT_DESCRIPTION": "We are working hard to bring this feature to life",
+    "BUTTON_BACK": "Go back"
+  },
+  "TOAST_MESSAGE": {
+    "TEXT_UNDER_DEVELOPMENT": "This function is under development"
+  },
+  "LAYOUT": {
+    "SIDEBAR": {
+      "LINK_DASHBOARD": "Dashboard",
+      "LINK_TOPICS": "Topics",
+      "LINK_TOPIC_ANALYSIS": "Topic Analysis",
+      "BUTTON_LOGOUT": "Logout"
+    }
+  }
+}

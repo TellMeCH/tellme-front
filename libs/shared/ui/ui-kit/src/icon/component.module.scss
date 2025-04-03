@@ -1,0 +1,44 @@
+@import '@tellme/shared/ui/variables';
+
+.icon {width: 24px; height: 24px; display: inline-block; vertical-align: top;
+  background-image: url('../assets/icons-sprite.svg'); background-position: var(--bg-position);
+  &_mask {mask-image: url('../assets/icons-sprite.svg'); mask-position: var(--bg-position); background: var(--bg-color);}
+
+  &_primary {background: $text-primary;}
+  &_secondary {background-color: $text-secondary;}
+  &_tertiary {background-color: $text-tertiary;}
+  &_bg_primary {background-color: $background-primary;}
+
+  &_calendar {--bg-position: 433px -22px;}
+  &_logout {--bg-position: 372px -22px;}
+  &_label {--bg-position: 312px -22px;}
+  &_chart {--bg-position: 250px -22px;}
+  &_menu {--bg-position: 189px -22px;
+    &_lines {--bg-position: -219px -502px;}
+  }
+  &_mail {--bg-position: 128px -22px;}
+  &_lock {--bg-position: 67px -22px;}
+  &_eye {--bg-position: 433px -98px;
+    &_closed {--bg-position: -294px -402px;}
+  }
+  &_search {--bg-position: 65px -98px;}
+  &_arrow_up {--bg-position: 372px -98px;}
+  &_pen {--bg-position: 312px -98px;}
+  &_trash {--bg-position: 250px -98px;}
+  &_google {--bg-position: 189px -98px;}
+  &_microsoft {--bg-position: 128px -98px;}
+  &_facebook {--bg-position: 348px -402px;}
+  &_twitter {--bg-position: 292px  -402px;}
+  &_instagram {--bg-position: 236px  -402px;}
+  &_plus {--bg-position: -355px  -402px;}
+  &_cross {--bg-position: -36px  -502px;}
+
+  &_number {
+    &_1 {--bg-position: -36px -270px; width: 80px; height: 80px;}
+    &_2 {--bg-position: -153px -270px; width: 80px; height: 80px;}
+    &_3 {--bg-position: -270px -270px; width: 80px; height: 80px;}
+  }
+
+  &_switzerland {--bg-position: -36px  -402px; width: 48px; height: 48px;}
+}
+

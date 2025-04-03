@@ -1,0 +1,13 @@
+@import '@tellme/shared/ui/variables';
+
+$desktop-image: url(../../assets/app-dashboard.jpg) no-repeat;
+$mobile-image: url(../../assets/app-dashboard.jpg) no-repeat 67% 100%;
+
+.hero {background: $desktop-image; background-size: cover;
+  @media (max-width: $tablet-wide) {background: linear-gradient(-175deg, black 25%, transparent 50%), $mobile-image;
+    padding-top: calc($landing-mobile-header-height + 1.5rem); background-size: cover;
+  }
+  @media (max-width: $mobile) {background: linear-gradient(-175deg, black 35%, transparent 60%), $mobile-image;
+    background-size: 250%;
+  }
+}

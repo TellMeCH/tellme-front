@@ -1,0 +1,11 @@
+@import '@tellme/shared/ui/variables';
+
+.switch {
+  &__wrapper {
+    &_md {width: 2.75rem; height: 28px; padding: 2px;}
+    &_primary {background: $text-secondary;}
+  }
+  &__thumb {width: 24px; height: 24px;}
+
+  &[data-selected="true"] span span {margin-inline-start: 1rem !important;}
+}
