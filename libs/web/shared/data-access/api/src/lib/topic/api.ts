@@ -4,7 +4,15 @@ import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { Topic, TopicPaginationRequest, ModifiedTopic, TopicErrorData } from './models';
+import {
+  Topic,
+  TopicPaginationRequest,
+  ModifiedTopic,
+  TopicChartDataRequest,
+  TopicChartEntry,
+  TopicErrorData,
+  TopicSummary,
+} from './models';
 
 const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
   method: 'get',
@@ -84,6 +92,29 @@ export const topicApi = createAppApi({
       transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
       providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.id })) as any,
     }),
+    getSummary: builder.query<TopicSummary, { id: number }>({
+      query: ({ id }) => {
+        return {
+          method: 'get',
+          url: `${topicApiConfig.baseEndpoint}${id}/summary_data/`,
+        };
+      },
+      transformResponse: (response) => {
+        return plainToInstance(TopicSummary, response as object);
+      },
+    }),
+    getChartData: builder.query<Array<TopicChartEntry>, { id: number; params: TopicChartDataRequest }>({
+      query: ({ id, params }) => {
+        return {
+          method: 'get',
+          url: `${topicApiConfig.baseEndpoint}${id}/trend/`,
+          params: prepareRequestParams(params, TopicChartDataRequest),
+        };
+      },
+      transformResponse: (response) => {
+        return plainToInstance(TopicChartEntry, response.results as Array<object>);
+      },
+    }),
     create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({
       query: (params) => {
         const request = createEntityInstance(ModifiedTopic, params, { fromInstancePartial: true });
@@ -154,6 +185,11 @@ export const topicApi = createAppApi({
             { type: topicApiConfig.entityName, id: EntityTagID.LIST },
           ]);
 
+          const newTopic = new Topic({
+            ...omit(updatedEntityData, 'id'),
+            url: `${apiConfig.root}${topicApiConfig.baseEndpoint}${arg.id}/`,
+          });
+
           for (const { endpointName, originalArgs } of cachedQueries) {
             dispatch(
               topicApi.util.updateQueryData(
@@ -174,8 +210,7 @@ export const topicApi = createAppApi({
                         endpointData.results.splice(existingIndex, 1);
                       }
                     } else if (originalArgs?.isActive && updatedEntityData.isActive) {
-                      const newItem = createEntityInstance(Topic, updatedEntityData);
-                      endpointData.results.push(newItem);
+                      endpointData.results.push(newTopic);
                     }
 
                     if (originalArgs?.isActive) {

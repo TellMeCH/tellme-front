@@ -35,7 +35,12 @@ export function DashboardTopicTrends(): ReactElement {
           dataLength={data?.results.length || 0}
           next={fetchNextPage}
           hasMore={!!data?.nextCursor}
-          loader={<Spinner />}>
+          loader={
+            <div className='flex justify-center py-6'>
+              <Spinner />
+            </div>
+          }
+          scrollableTarget='main'>
           {activeTopics?.map((itemProps) => (
             <TopicTrendsItem
               key={itemProps.name}

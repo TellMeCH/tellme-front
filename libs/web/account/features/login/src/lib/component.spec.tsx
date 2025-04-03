@@ -5,10 +5,7 @@ import Cookies from 'js-cookie';
 import { DateTime } from 'luxon';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import { cookieConfig } from '@tellme/web/shared/data-access/cookies';
-import {
-  TestRootComponent,
-  validCredentials,
-} from '@tellme/web/shared/data-access/tests-data';
+import { TestRootComponent, validCredentials } from '@tellme/web/shared/data-access/tests-data';
 import { Login } from './component';
 import '@testing-library/jest-dom';
 
