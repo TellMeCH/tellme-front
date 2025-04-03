@@ -1,51 +1,36 @@
 'use client';
 
 import { Spinner, useDisclosure } from '@heroui/react';
-import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
-import { topicApi } from '@tellme/web/shared/data-access/api';
+import { Topic } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header } from '@tellme/web/shared/ui/ui-kit';
+import { useSearchTopics } from '@tellme/web/topic/features/use-search-topics';
 import styles from './component.module.scss';
 import { Item } from './components';
 import { FormModal } from './components/form-modal';
 
 export function TopicsManagement(): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
-  const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
 
   const profile = useSelector(authSelectors.profile);
-  const { data, isFetching, isLoading } = topicApi.useSearchInfiniteQuery({ pageSize: 10 }, { skip: !profile });
+  const { data, isLoading, fetchNextPage } = useSearchTopics({
+    params: { pageSize: 10 },
+    skip: !profile,
+  });
 
   const { isOpen: isFormModalOpen, onOpenChange: onFormModalOpenChange } = useDisclosure();
-
-  const fetchNextPage = (): void => {
-    if (data?.nextCursor && !isFetching) {
-      dispatch(
-        topicApi.endpoints.searchInfinite.initiate(
-          {
-            cursor: data.nextCursor,
-            pageSize: 10,
-          },
-          { forceRefetch: true },
-        ),
-      );
-    }
-  };
 
   return (
     <div className='flex flex-col min-h-full gap-2'>
       <Header
         title={t('TEXT_TITLE')}
         rightContent={
-          <Button
-            onPress={onFormModalOpenChange}
-            endContent={<Icon name='plus' />}
-            data-testid='creation-modal-button'>
+          <Button onPress={onFormModalOpenChange} endContent={<Icon name='plus' />} data-testid='creation-modal-button'>
             {t('BUTTON_NEW_TOPIC')}
           </Button>
         }
@@ -56,14 +41,14 @@ export function TopicsManagement(): ReactElement {
           dataLength={data?.results.length || 0}
           next={fetchNextPage}
           scrollableTarget='main'
-          hasMore={!!data?.nextCursor}
+          hasMore={!data?.nextCursor}
           loader={
             <div className='flex justify-center py-6'>
               <Spinner />
             </div>
           }>
           {isLoading && <Spinner />}
-          {data?.results.map((topic) => <Item topic={topic} key={topic.id} />)}
+          {data?.results.map((topic: Topic) => <Item topic={topic} key={topic.id} />)}
         </InfiniteScroll>
       </div>
       <FormModal isOpen={isFormModalOpen} onOpenChange={onFormModalOpenChange} />

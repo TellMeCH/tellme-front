@@ -4,7 +4,9 @@ import { camelCase, isPlainObject } from 'lodash';
 export function TransformSummary(): PropertyDecorator {
   return Transform(
     ({ value }) => {
-      if (!value || !isPlainObject(value)) return [];
+      if (!value || !isPlainObject(value)) {
+        return [];
+      }
 
       return Object.entries<string>(value).map(([originalKey, originalValue]) => ({
         key: camelCase(originalKey),

@@ -12,14 +12,14 @@ import { formatTick } from '../../utils';
 import styles from './component.module.scss';
 
 interface TopicChartProps {
-  chart: ChartState;
+  chartState: ChartState;
 }
 
-function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
+function TopicChartComponent({ chartState }: TopicChartProps): ReactElement {
   const t = useTranslations('topic.ANALYSIS.CHART');
   const { isDesktopLarge } = useResponsiveLayout();
 
-  const { data, period } = chart;
+  const { data, period } = chartState;
 
   const lines = [
     {
@@ -48,21 +48,12 @@ function TopicChartComponent({ chart }: TopicChartProps): ReactElement {
       </Heading>
       <div className='flex flex-row gap-4 justify-between'>
         {lines.map(({ key, ...props }, index) => (
-          <Legend
-            key={key}
-            flipped={index === lines.length - 1}
-            {...props} />
+          <Legend key={key} isFlipped={index === lines.length - 1} {...props} />
         ))}
       </div>
-      <ResponsiveContainer
-        width='100%'
-        height='100%'
-        className='min-h-[280px]'>
+      <ResponsiveContainer width='100%' height='100%' className='min-h-[280px]'>
         <LineChart data={data} margin={{ left: -40, right: -40 }}>
-          <CartesianGrid
-            stroke='currentColor'
-            className='text-text-tertiary'
-            vertical={false} />
+          <CartesianGrid stroke='currentColor' className='text-text-tertiary' vertical={false} />
           <XAxis
             tickFormatter={tickFormatter}
             tick={{ fontSize: 14, fill: 'currentColor' }}

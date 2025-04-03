@@ -8,8 +8,8 @@ import {
   Topic,
   TopicPaginationRequest,
   ModifiedTopic,
-  TopicChartRequest,
-  TopicChart,
+  TopicChartDataRequest,
+  TopicChartEntry,
   TopicErrorData,
   TopicSummary,
 } from './models';
@@ -92,7 +92,7 @@ export const topicApi = createAppApi({
       transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
       providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.id })) as any,
     }),
-    getSummaryData: builder.query<TopicSummary, { id: number }>({
+    getSummary: builder.query<TopicSummary, { id: number }>({
       query: ({ id }) => {
         return {
           method: 'get',
@@ -103,16 +103,16 @@ export const topicApi = createAppApi({
         return plainToInstance(TopicSummary, response as object);
       },
     }),
-    getChartData: builder.query<Array<TopicChart>, TopicChartRequest>({
+    getChartData: builder.query<Array<TopicChartEntry>, TopicChartDataRequest & { id: number }>({
       query: ({ id, ...params }) => {
         return {
           method: 'get',
           url: `${topicApiConfig.baseEndpoint}${id}/trend/`,
-          params: prepareRequestParams(params, TopicChartRequest),
+          params: prepareRequestParams(params, TopicChartDataRequest),
         };
       },
       transformResponse: (response) => {
-        return plainToInstance(TopicChart, response.results as Array<object>);
+        return plainToInstance(TopicChartEntry, response.results as Array<object>);
       },
     }),
     create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({
@@ -214,7 +214,7 @@ export const topicApi = createAppApi({
                     }
 
                     if (originalArgs?.isActive) {
-                      endpointData.results.sort((a, b) => a.name.localeCompare(b.name));
+                      endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
                     }
                   } else {
                     merge(endpointData as Topic, omit(updatedEntityData, 'id'));

@@ -2,7 +2,7 @@ import { TransformDate } from '@ronas-it/rtkq-entity-api';
 import { Expose } from 'class-transformer';
 import { DateTime } from 'luxon';
 
-export class TopicChart {
+export class TopicChartEntry {
   @Expose({ name: 'avg_sentiment' })
   public averageSentiment: number | null;
 
@@ -16,7 +16,7 @@ export class TopicChart {
   @TransformDate()
   public date: DateTime;
 
-  constructor(model: Partial<TopicChart>) {
+  constructor(model: Partial<TopicChartEntry>) {
     Object.assign(this, model);
   }
 }
