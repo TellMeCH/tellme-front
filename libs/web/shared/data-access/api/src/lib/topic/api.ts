@@ -119,8 +119,8 @@ export const topicApi = createAppApi({
         return plainToInstance(TopicSummary, summaries);
       },
     }),
-    getChartData: builder.query<Array<TopicChartEntry>, TopicChartDataRequest & { id: number }>({
-      query: ({ id, ...params }) => {
+    getChartData: builder.query<Array<TopicChartEntry>, { id: number; params: TopicChartDataRequest }>({
+      query: ({ id, params }) => {
         return {
           method: 'get',
           url: `${topicApiConfig.baseEndpoint}${id}/trend/`,

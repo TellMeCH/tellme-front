@@ -8,9 +8,9 @@ import {
   Topic,
   TopicMetric,
   PaginationResponse,
-  useSearchTopics,
   topicApi,
   TopicSummary,
+  useSearchInfiniteTopics,
 } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 
@@ -26,7 +26,7 @@ interface UseTopicTrendsReturn {
 export function useTopicTrends(): UseTopicTrendsReturn {
   const profile = useSelector(authSelectors.profile);
 
-  const { data, fetchNextPage } = useSearchTopics({
+  const { data, fetchNextPage } = useSearchInfiniteTopics({
     params: { isActive: true, pageSize: 10 },
     skip: !profile,
   });

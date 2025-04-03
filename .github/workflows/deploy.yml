@@ -11,8 +11,8 @@ env:
   TELLME_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
 
 jobs:
-  deploy:
-    name: Deploy to Cloudflare
+  deploy_web:
+    name: Deploy Frontend to Cloudflare
     environment:
       name: ${{ github.ref_name }}
     env:
@@ -34,6 +34,32 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
+          wranglerVersion: '4.7.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy ./apps/web/.open-next/worker.js --env=${{ env.TELLME_ENV }}
+
+  deploy_landing:
+    if: ${{ github.ref_name == 'staging' }}
+    name: Deploy Landing Page to Cloudflare
+    environment:
+      name: ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install
+        run: npm install --legacy-peer-deps
+        env:
+          NODE_ENV: development
+
+      - name: Build
+        run: npx nx run landing:build:worker
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: '4.7.0'
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy ./apps/landing/.open-next/worker.js --env=${{ env.TELLME_ENV }}

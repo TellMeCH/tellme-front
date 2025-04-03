@@ -1,13 +1,11 @@
 const { join } = require('path');
 const { heroui } = require('@heroui/theme');
-const { createGlobPatternsForDependencies } = require('@nx/react/tailwind');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     join(__dirname, '{src,pages,components,apps,libs}/**/*!(*.stories|*.spec).{ts,tsx,html}'),
     '../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}',
-    ...createGlobPatternsForDependencies(__dirname),
   ],
   theme: {
     extend: {
@@ -43,6 +41,10 @@ module.exports = {
         'control-primary-transparent': '#e0eefb',
         'control-secondary': '#bec9d4',
         'control-secondary-transparent': '#bec9d430',
+      },
+      fontSize: {
+        h1: '2.75rem',
+        'h1-mobile': '2rem',
       },
     },
   },

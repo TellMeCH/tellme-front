@@ -1,1 +1,1 @@
-export * from './use-search-topics';
+export * from './use-search-infinite-topics';

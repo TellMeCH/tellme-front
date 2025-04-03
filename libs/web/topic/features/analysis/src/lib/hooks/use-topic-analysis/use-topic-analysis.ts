@@ -56,7 +56,7 @@ export function useTopicAnalysis({ topicIdFromUrl }: UseTopicAnalysisProps): Top
     isLoading: isChartDataLoading,
     isUninitialized: isChartDataUninitialized,
   } = topicApi.useGetChartDataQuery(
-    { id: Number(selectedTopicId), trendPeriod: selectedPeriod },
+    { id: Number(selectedTopicId), params: { trendPeriod: selectedPeriod } },
     { skip: !selectedTopicId },
   );
 
