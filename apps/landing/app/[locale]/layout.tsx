@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
-import { ReactElement, ReactNode, Suspense } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { constants } from '@tellme/shared/utils/constants';
 import { Locale } from '@tellme/shared/utils/i18n';
 import '@tellme/shared/ui/styles/global';
@@ -40,11 +40,9 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
         <meta name='robots' content='noindex' />
       </head>
       <body>
-        <Suspense>
-          <NextIntlClientProvider messages={messages} locale={locale}>
-            <div className='bg-background-landing text-lg max-lg:text-base'>{children}</div>
-          </NextIntlClientProvider>
-        </Suspense>
+        <NextIntlClientProvider messages={messages} locale={locale}>
+          <div className='bg-background-landing text-lg max-lg:text-base'>{children}</div>
+        </NextIntlClientProvider>
       </body>
     </html>
   );
