@@ -5,7 +5,7 @@ import { Heading } from '@tellme/landing/shared/ui/ui-kit';
 import { ProcessStep } from '../process-step';
 
 export function Process(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.PROCESS');
 
   return (
     <section className='bg-background-secondary section'>

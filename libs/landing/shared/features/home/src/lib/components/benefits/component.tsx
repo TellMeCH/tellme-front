@@ -11,7 +11,7 @@ import { Benefit } from '../benefit';
 const images = [TopicChartImage, MarkerImage, CallCenterImage];
 
 export function Benefits(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.BENEFITS');
 
   return (
     <section className='section' id={HomeSectionId.ADDED_BENEFITS}>

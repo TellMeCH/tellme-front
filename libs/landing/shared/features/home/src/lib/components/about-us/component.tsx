@@ -7,7 +7,7 @@ import { HomeSectionId } from '../../enums';
 import styles from './component.module.scss';
 
 export function AboutUs(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.ABOUT_US');
 
   return (
     <section className={clsx(styles.aboutus, 'section text-background-primary')} id={HomeSectionId.ABOUT_US}>

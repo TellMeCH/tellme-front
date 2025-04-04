@@ -16,7 +16,7 @@ interface ItemProps {
 }
 
 export function Item({ topic }: ItemProps): ReactElement {
-  const t = useTranslations('topic.MANAGEMENT');
+  const t = useTranslations('topic.MANAGEMENT.ITEM');
   const { isOpen: isFormModalOpen, onOpenChange: onFormModalOpenChange } = useDisclosure();
   const { isOpen: isConfirmationModalOpen, onOpenChange: onConfirmationModalOpenChange } = useDisclosure();
 
