@@ -13,7 +13,7 @@ export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
 
   const searchParams = useSearchParams();
-  const topicIdFromUrl = searchParams.get('id');
+  const topicId = searchParams.get('id');
 
   const {
     topicOptions,
@@ -26,7 +26,7 @@ export function TopicAnalysis(): ReactElement {
     isEmptyChart,
     handleTopicChange,
     handlePeriodChange,
-  } = useTopicAnalysis({ topicIdFromUrl });
+  } = useTopicAnalysis({ topicId });
 
   const periodOptions = Object.values(TrendPeriod).map((value) => ({
     value,
@@ -50,7 +50,10 @@ export function TopicAnalysis(): ReactElement {
                 <Heading level={2} className='text-3xl'>
                   {selectedTopic?.label}
                 </Heading>
-                <TopicSelect items={topicOptions} selectedValue={selectedTopicId} onSelect={handleTopicChange} />
+                <TopicSelect
+                  items={topicOptions}
+                  selectedValue={selectedTopicId}
+                  onSelect={handleTopicChange} />
               </div>
 
               {!isEmptyChart && <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />}
