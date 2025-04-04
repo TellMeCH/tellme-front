@@ -41,23 +41,27 @@
   "MANAGEMENT": {
     "TEXT_TITLE": "Topics",
     "BUTTON_NEW_TOPIC": "New Topic",
-    "TEXT_LAST_MODIFIED": "Last modified: {date}",
-    "TEXT_CREATED": "Created: {date}",
-    "TEXT_CREATE_TOPIC": "Create Topic",
-    "TEXT_EDIT_TOPIC": "Edit Topic",
-    "TEXT_ACTIVATE_FOR_ANALYSIS": "Activate for Analysis",
-    "TEXT_TOPIC_NAME": "Topic Name",
-    "TEXT_NAME": "Name",
-    "TEXT_DESCRIPTION": "Description",
-    "TEXT_REQUIRED_NAME": "Name is required",
-    "TEXT_TOO_LONG_NAME": "Name should have maximum {maxLength} characters",
-    "TEXT_REQUIRED_DESCRIPTION": "Description is required",
-    "TEXT_UNIQUE_NAME": "You already have a topic with this name",
-    "TEXT_TOPICS_LIMIT": "You cannot to add more topics, because maximal topics count is reached",
-    "BUTTON_CANCEL": "Cancel",
-    "BUTTON_SAVE": "Save",
-    "TEXT_DELETE_TOPIC_TITLE": "Delete Topic",
-    "TEXT_DELETE_TOPIC_DESCRIPTION": "Do you really want to delete the topic <highlight>\"{name}\"</highlight>?",
-    "BUTTON_DELETE": "Delete"
+    "ITEM": {
+      "TEXT_LAST_MODIFIED": "Last modified: {date}",
+      "TEXT_CREATED": "Created: {date}",
+      "TEXT_DELETE_TOPIC_TITLE": "Delete Topic",
+      "TEXT_DELETE_TOPIC_DESCRIPTION": "Do you really want to delete the topic <highlight>\"{name}\"</highlight>?",
+      "BUTTON_DELETE": "Delete"
+    },
+    "FORM_MODAL": {
+      "TEXT_CREATE_TOPIC": "Create Topic",
+      "TEXT_EDIT_TOPIC": "Edit Topic",
+      "TEXT_ACTIVATE_FOR_ANALYSIS": "Activate for Analysis",
+      "TEXT_TOPIC_NAME": "Topic Name",
+      "TEXT_NAME": "Name",
+      "TEXT_DESCRIPTION": "Description",
+      "TEXT_REQUIRED_NAME": "Name is required",
+      "TEXT_TOO_LONG_NAME": "Name should have maximum {maxLength} characters",
+      "TEXT_REQUIRED_DESCRIPTION": "Description is required",
+      "TEXT_UNIQUE_NAME": "You already have a topic with this name",
+      "TEXT_TOPICS_LIMIT": "You cannot to add more topics, because maximal topics count is reached",
+      "BUTTON_CANCEL": "Cancel",
+      "BUTTON_SAVE": "Save"
+    }
   }
 }
