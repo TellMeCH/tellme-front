@@ -17,7 +17,7 @@ export function Benefits(): ReactElement {
     <section className='section' id={HomeSectionId.ADDED_BENEFITS}>
       <div className='container'>
         <Heading level={2} className='text-center mb-[3.75rem] max-lg:mb-10'>
-          {t('TEXT_OUR_PRODUCTS')}
+          {t('TEXT_ADDED_BENEFITS')}
         </Heading>
         <div className='flex flex-col gap-[100px] max-lg:gap-10'>
           {times(3).map((index) => (

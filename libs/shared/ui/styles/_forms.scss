@@ -18,12 +18,18 @@
     &_small {height: 48px;}
     &_big {height: 52px; font-size: $text-h5;}
 
+    &_transparent {background-color: transparent; border-color: $text-secondary;
+      &::placeholder {color: $text-secondary; font-size: $text-h5;}
+      &:focus-within, &[data-hover="true"] {border-color: $background-secondary !important;}
+    }
+
     &__password {position: absolute; top: 50%; right: 12px; transform: translateY(-50%); border: none;
       background: none; cursor: pointer; z-index: 2;
     }
   }
-  &__label {font-size: $text-small; display: block;
+  &__label {font-size: $text-small; display: block; margin-bottom: 0.25rem;
     &_disabled {color: $text-tertiary;}
+    &_light {color: $background-secondary !important;}
   }
   &__accessory {position: absolute; top: 50%; transform: translateY(-50%);
     &_left {left: 16px;}

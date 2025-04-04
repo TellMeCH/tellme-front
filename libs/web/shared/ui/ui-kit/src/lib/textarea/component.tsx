@@ -3,7 +3,7 @@
 import { Textarea as NextUITextarea, TextAreaProps } from '@heroui/react';
 import clsx from 'clsx';
 import { forwardRef } from 'react';
-import { FormGroup, FormGroupProps } from '../form-group/component';
+import { FormGroup, FormGroupProps } from '@tellme/shared/ui/ui-kit';
 
 interface TextareaClassNames {
   label?: string;

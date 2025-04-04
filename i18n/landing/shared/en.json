@@ -39,6 +39,17 @@
     "TEXT_EXPERTISE_TITLE": "Diverse Expertise, One Vision",
     "TEXT_EXPERTISE_DESCRIPTION": "Our team blends backgrounds in aerospace engineering, finance, and consultancy, fostering multiple perspectives in our approach to customer satisfaction.",
     "TEXT_VALUES_TITLE": "Swiss Precision Meets AI Innovation",
-    "TEXT_VALUES_DESCRIPTION": "Rooted in Swiss values of precision, quality, and reliability, we bring a meticulous approach to the ever-evolving world of AI."
+    "TEXT_VALUES_DESCRIPTION": "Rooted in Swiss values of precision, quality, and reliability, we bring a meticulous approach to the ever-evolving world of AI.",
+    "TEXT_CONTACT_TITLE": "Would you like to try out our product?",
+    "TEXT_CONTACT_DESCRIPTION": "The best way to know what tellme can offer to your company is with a live demo. Fill out the following form and we'll get in touch with you soon!",
+    "TEXT_NAME": "Your name",
+    "TEXT_EMAIL": "Email address",
+    "TEXT_PHONE": "Phone number",
+    "TEXT_COMPANY": "Company",
+    "TEXT_CALL_CENTER_SIZE": "Call Center Size",
+    "TEXT_AGENTS": "Agents",
+    "TEXT_MESSAGE": "Message",
+    "TEXT_TYPE_HERE": "Type here",
+    "BUTTON_SEND_MESSAGE": "Send message"
   }
 }
