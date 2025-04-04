@@ -39,6 +39,8 @@
     "TEXT_EXPERTISE_TITLE": "Diverse Expertise, One Vision",
     "TEXT_EXPERTISE_DESCRIPTION": "Our team blends backgrounds in aerospace engineering, finance, and consultancy, fostering multiple perspectives in our approach to customer satisfaction.",
     "TEXT_VALUES_TITLE": "Swiss Precision Meets AI Innovation",
-    "TEXT_VALUES_DESCRIPTION": "Rooted in Swiss values of precision, quality, and reliability, we bring a meticulous approach to the ever-evolving world of AI."
+    "TEXT_VALUES_DESCRIPTION": "Rooted in Swiss values of precision, quality, and reliability, we bring a meticulous approach to the ever-evolving world of AI.",
+    "TEXT_FOOTER_DESCRIPTION": "We bring a meticulous approach to the ever-evolving world of AI.",
+    "TEXT_COPYRIGHT": "© {year} Tellme, Inc. All rights reserved"
   }
 }
