@@ -74,6 +74,7 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
           title={t('BUTTON_LOGOUT')}
           onPress={logout}
           isDisabled={isLoggingOut || !profile}
+          testId='logout-button'
         />
       </div>
     </div>
