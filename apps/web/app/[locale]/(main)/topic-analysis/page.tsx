@@ -1,6 +1,10 @@
-import { ReactElement } from 'react';
+import { ReactElement, Suspense } from 'react';
 import { TopicAnalysis } from '@tellme/web/topic/features/analysis';
 
 export default function TopicAnalysisPage(): ReactElement {
-  return <TopicAnalysis />;
+  return (
+    <Suspense>
+      <TopicAnalysis />
+    </Suspense>
+  );
 }
