@@ -1,6 +1,7 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement } from 'react';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
@@ -10,6 +11,9 @@ import { useTopicAnalysis } from './hooks';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
+
+  const searchParams = useSearchParams();
+  const topicIdFromUrl = searchParams.get('id');
 
   const {
     topicOptions,
@@ -22,7 +26,7 @@ export function TopicAnalysis(): ReactElement {
     isEmptyChart,
     handleTopicChange,
     handlePeriodChange,
-  } = useTopicAnalysis();
+  } = useTopicAnalysis({ topicIdFromUrl });
 
   const periodOptions = Object.values(TrendPeriod).map((value) => ({
     value,

@@ -1,11 +1,14 @@
 'use client';
 
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { CircularProgress, AppProgress } from '@tellme/web/shared/ui/ui-kit';
 import { Measurement } from '@tellme/web/shared/utils/class-transformer';
+import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 
 interface TopicTrendsItemProps {
+  id: string;
   name: string;
   description: string;
   maxCount?: number;
@@ -14,6 +17,7 @@ interface TopicTrendsItemProps {
 }
 
 export function TopicTrendsItem({
+  id,
   name,
   description,
   count,
@@ -25,7 +29,11 @@ export function TopicTrendsItem({
   return (
     <div className='flex flex-row justify-between min-h-[140px] py-4 gap-[60px] border-b border-text-tertiary last:border-none'>
       <div className='flex flex-col gap-2 w-1/3'>
-        <p className='text-xl'>{name}</p>
+        <Link
+          href={{ pathname: navigationConfig.routes.private.topicAnalysis, query: { id } }}
+          className='text-xl hover:underline'>
+          {name}
+        </Link>
         <p className='text-sm'>{description}</p>
       </div>
       <div className='flex flex-col flex-1 w-1/3'>
