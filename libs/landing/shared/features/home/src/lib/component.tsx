@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { AboutUs, Benefits, Contact, Header, Hero, Process, Products } from './components';
+import { AboutUs, Benefits, Contact, Footer, Header, Hero, Process, Products } from './components';
 
 export function Home(): ReactElement {
   return (
@@ -11,6 +11,7 @@ export function Home(): ReactElement {
       <Benefits />
       <AboutUs />
       <Contact />
+      <Footer />
     </main>
   );
 }

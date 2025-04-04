@@ -15,7 +15,7 @@ interface SocialButtonProps {
 }
 
 export function SocialButton({ providerName, error, testId, ...restProps }: SocialButtonProps): ReactElement {
-  const t = useTranslations('account.LOGIN');
+  const t = useTranslations('account.LOGIN.SOCIAL_BUTTON');
 
   return (
     <div>

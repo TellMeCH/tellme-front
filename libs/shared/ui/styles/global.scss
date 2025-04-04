@@ -37,3 +37,8 @@ input {$self: &; font-size: inherit; font-family: inherit;
   @media (max-width: $tablet-wide) {padding-top: 40px; padding-bottom: 40px;}
 }
 
+.recharts-wrapper,
+.recharts-wrapper svg {
+  overflow: visible !important;
+}
+

@@ -1,55 +1,67 @@
 {
   "DASHBOARD": {
     "STATISTICS": {
-      "TEXT_CALL_COUNT": "Call count",
-      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
-      "TEXT_CALL_DURATION": "Call duration",
-      "TEXT_MOST_POPULAR_TOPIC": "Most popular topic"
+      "TEXT_CALL_COUNT": "Call Count",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
+      "TEXT_CALL_DURATION": "Call Duration",
+      "TEXT_MOST_POPULAR_TOPIC": "Most Popular Topic"
     },
     "TOPIC_TRENDS": {
-      "TEXT_TOPIC_TRENDS": "Topic trends"
+      "TEXT_TOPIC_TRENDS": "Topic Trends"
     },
     "TOPIC_TRENDS_ITEM": {
-      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_FREQUENCY": "Frequency",
       "TEXT_FIRST_MEASUREMENT_AREA_LABEL": "First measurement area label",
       "TEXT_SECOND_MEASUREMENT_AREA_LABEL": "Second measurement area label"
     }
   },
   "ANALYSIS": {
-    "TEXT_TOPIC_ANALYSIS": "Topic analysis",
-    "TEXT_REASONS_FOR_CALLING": "Reasons for calling",
-    "TEXT_SUGGESTED_ACTIONS": "Suggested actions",
+    "TEXT_TOPIC_ANALYSIS": "Topic Analysis",
     "SELECT": {
       "TEXT_PLACEHOLDER_SEARCH": "Search",
       "TEXT_DROPDOWN_AREA_LABEL": "Dropdown with search"
     },
     "CHART": {
       "TEXT_TRENDS": "Trends",
-      "TEXT_CUSTOMER_ENGAGEMENT": "Customer engagement",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_FREQUENCY": "Frequency"
+    },
+    "EMPTY_CHART": {
+      "TEXT_TITLE": "Analytics will appear here soon",
+      "TEXT_SUBTITLE": "Once we have enough information, we will collect analytics for you.",
+      "TEXT_ALT_EMPTY_CHART": "There is no data to display"
+    },
+    "DATE_PERIOD": {
+      "TEXT_MONTHLY": "1 year",
+      "TEXT_WEEKLY": "3 months",
+      "TEXT_DAILY": "1 month"
     }
   },
   "MANAGEMENT": {
     "TEXT_TITLE": "Topics",
     "BUTTON_NEW_TOPIC": "New Topic",
-    "TEXT_LAST_MODIFIED": "Last modified: {date}",
-    "TEXT_CREATED": "Created: {date}",
-    "TEXT_CREATE_TOPIC": "Create Topic",
-    "TEXT_EDIT_TOPIC": "Edit Topic",
-    "TEXT_ACTIVATE_FOR_ANALYSIS": "Activate for Analysis",
-    "TEXT_TOPIC_NAME": "Topic Name",
-    "TEXT_NAME": "Name",
-    "TEXT_DESCRIPTION": "Description",
-    "TEXT_REQUIRED_NAME": "Name is required",
-    "TEXT_TOO_LONG_NAME": "Name should have maximum {maxLength} characters",
-    "TEXT_REQUIRED_DESCRIPTION": "Description is required",
-    "TEXT_UNIQUE_NAME": "You already have a topic with this name",
-    "TEXT_TOPICS_LIMIT": "You cannot to add more topics, because maximal topics count is reached",
-    "BUTTON_CANCEL": "Cancel",
-    "BUTTON_SAVE": "Save",
-    "TEXT_DELETE_TOPIC_TITLE": "Delete Topic",
-    "TEXT_DELETE_TOPIC_DESCRIPTION": "Do you really want to delete the topic <highlight>\"{name}\"</highlight>?",
-    "BUTTON_DELETE": "Delete"
+    "ITEM": {
+      "TEXT_LAST_MODIFIED": "Last modified: {date}",
+      "TEXT_CREATED": "Created: {date}",
+      "TEXT_DELETE_TOPIC_TITLE": "Delete Topic",
+      "TEXT_DELETE_TOPIC_DESCRIPTION": "Do you really want to delete the topic <highlight>\"{name}\"</highlight>?",
+      "BUTTON_DELETE": "Delete"
+    },
+    "FORM_MODAL": {
+      "TEXT_CREATE_TOPIC": "Create Topic",
+      "TEXT_EDIT_TOPIC": "Edit Topic",
+      "TEXT_ACTIVATE_FOR_ANALYSIS": "Activate for Analysis",
+      "TEXT_TOPIC_NAME": "Topic Name",
+      "TEXT_NAME": "Name",
+      "TEXT_DESCRIPTION": "Description",
+      "TEXT_REQUIRED_NAME": "Name is required",
+      "TEXT_TOO_LONG_NAME": "Name should have maximum {maxLength} characters",
+      "TEXT_REQUIRED_DESCRIPTION": "Description is required",
+      "TEXT_UNIQUE_NAME": "You already have a topic with this name",
+      "TEXT_TOPICS_LIMIT": "You cannot to add more topics, because maximal topics count is reached",
+      "BUTTON_CANCEL": "Cancel",
+      "BUTTON_SAVE": "Save"
+    }
   }
 }

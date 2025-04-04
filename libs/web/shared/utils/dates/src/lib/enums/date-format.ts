@@ -4,4 +4,6 @@ export enum DateTimeFormat {
   FULL_MONTH_DAY_YEAR = 'MMMM d, yyyy',
   MONTH_ONLY = 'MMM',
   MONTH_YEAR = 'MMM yyyy',
+  DAY_MONTH = 'd MMM',
+  DAY_ONLY = 'd',
 }

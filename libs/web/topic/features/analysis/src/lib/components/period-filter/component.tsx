@@ -1,17 +1,18 @@
 import clsx from 'clsx';
 import { ReactElement, useState } from 'react';
 import { Button } from '@tellme/shared/ui/ui-kit';
+import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 
 interface PeriodFilterProps {
-  options: Array<{ label: string; value: string }>;
+  options: Array<{ label: string; value: TrendPeriod }>;
   defaultValue?: string;
-  onChange?: (value: string) => void;
+  onChange?: (value: TrendPeriod) => void;
 }
 
 export function PeriodFilter({ options, defaultValue, onChange }: PeriodFilterProps): ReactElement {
   const [selected, setSelected] = useState(defaultValue || options[0]?.value);
 
-  const handleSelect = (value: string): void => {
+  const handleSelect = (value: TrendPeriod): void => {
     setSelected(value);
     onChange?.(value);
   };

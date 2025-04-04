@@ -7,4 +7,6 @@ export * from './product';
 export * from './benefits';
 export * from './benefit';
 export * from './about-us';
+export * from './footer';
+export * from './menu';
 export * from './contact';

@@ -18,7 +18,7 @@ interface FormModalProps {
 
 export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): ReactElement {
   const isForEdit = !!topic;
-  const t = useTranslations('topic.MANAGEMENT');
+  const t = useTranslations('topic.MANAGEMENT.FORM_MODAL');
 
   const [update, { isLoading: isUpdating, error: updateError, isSuccess: wasUpdatedSuccessfully }] =
     topicApi.useUpdateMutation();

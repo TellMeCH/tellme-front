@@ -8,7 +8,7 @@ import { NextIntlClientProvider } from 'next-intl';
 import { constants } from '@tellme/shared/utils/constants';
 
 export const metadata = {
-  title: 'Tellme',
+  title: 'tellme',
 };
 
 export interface RootLayoutProps {

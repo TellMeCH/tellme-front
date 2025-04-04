@@ -8,7 +8,7 @@ export class ModifiedBaseEntity {
 
   @Expose()
   @TransformDate()
-  public created: DateTime;
+  public created?: DateTime;
 
   constructor(model: Partial<ModifiedBaseEntity>) {
     Object.assign(this, model);
