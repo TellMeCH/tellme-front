@@ -5,7 +5,7 @@
   "scripts": {
     "lint": "npx tsc && npx eslint ./",
     "format": "npx prettier --write . && npm run lint -- --fix",
-    "prepare": "husky install",
+    "prepare": "husky",
     "deps:sync": "npx syncpack fix-mismatches",
     "postinstall": "patch-package",
     "test": "cross-env NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" nx run-many -t test --projects=tag:test --skipNxCache",
