@@ -40,7 +40,7 @@ export function useTopicTrends(): UseTopicTrendsReturn {
       return { activeTopics: [], maxCount: 0 };
     }
     const activeTopicMap = new Map(data.results.map((topic: Topic) => [topic.name, topic]));
-    const summaryMap = new Map(summaries.map((summary: TopicSummary) => [summary.name, summary]));
+    const summaryMap = new Map(summaries.map((summary: TopicSummary) => [summary.topicName, summary]));
 
     const filteredTopics = topicMetrics
       .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))

@@ -26,10 +26,10 @@ interface TopicAnalysisResult {
 }
 
 interface UseTopicAnalysisProps {
-  topicIdFromUrl: string | null;
+  topicId: string | null;
 }
 
-export function useTopicAnalysis({ topicIdFromUrl }: UseTopicAnalysisProps): TopicAnalysisResult {
+export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnalysisResult {
   const profile = useSelector(authSelectors.profile);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState(TrendPeriod.MONTHLY);
@@ -101,14 +101,14 @@ export function useTopicAnalysis({ topicIdFromUrl }: UseTopicAnalysisProps): Top
     const availableIds = topicList?.results.map((topic) => String(topic.id)) || [];
 
     const isSelectedIdValid = selectedTopicId && availableIds.includes(selectedTopicId);
-    const isTopicFromUrlValid = topicIdFromUrl && availableIds.includes(topicIdFromUrl);
+    const isTopicFromUrlValid = topicId && availableIds.includes(topicId);
 
     if (isSelectedIdValid) {
       return;
     }
 
     if (isTopicFromUrlValid) {
-      setSelectedTopicId(topicIdFromUrl);
+      setSelectedTopicId(topicId);
 
       return;
     }
@@ -116,7 +116,7 @@ export function useTopicAnalysis({ topicIdFromUrl }: UseTopicAnalysisProps): Top
     if (availableIds.length > 0) {
       setSelectedTopicId(availableIds[0]);
     }
-  }, [selectedTopicId, topicIdFromUrl, topicList?.results]);
+  }, [selectedTopicId, topicId, topicList?.results]);
 
   useEffect(() => {
     if (!isFetching && chartData.length > 0) {
