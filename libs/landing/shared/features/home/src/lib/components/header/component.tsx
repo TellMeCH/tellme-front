@@ -8,7 +8,7 @@ import { Menu } from '../menu';
 import styles from './component.module.scss';
 
 export function Header(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.HEADER');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleMobileMenu = (): void => {

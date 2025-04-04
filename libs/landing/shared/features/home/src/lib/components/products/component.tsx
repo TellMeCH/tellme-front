@@ -11,7 +11,7 @@ import { Product } from '../product';
 const images = [ExecutiveDirectorImage, MeetingImage, EntrepreneurImage];
 
 export function Products(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.PRODUCTS');
 
   return (
     <section className='section' id={HomeSectionId.OUR_PRODUCTS}>

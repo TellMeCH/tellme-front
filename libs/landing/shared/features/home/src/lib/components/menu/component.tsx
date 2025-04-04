@@ -11,7 +11,7 @@ interface MenuProps {
 }
 
 export function Menu({ className, itemClassName, onItemClick }: MenuProps): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.MENU');
 
   return (
     <nav className={clsx('flex items-center gap-16 max-xl:gap-8 max-lg:flex-col max-lg:items-start', className)}>

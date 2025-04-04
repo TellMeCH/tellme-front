@@ -4,7 +4,7 @@ import { Logo } from '@tellme/shared/ui/ui-kit';
 import { Menu } from '../menu';
 
 export function Footer(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.FOOTER');
 
   return (
     <footer className='pt-10 pb-[100px] bg-text-primary max-lg:py-10'>

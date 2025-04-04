@@ -8,7 +8,7 @@ import { HomeSectionId } from '../../enums';
 import styles from './component.module.scss';
 
 export function Hero(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.HERO');
 
   return (
     <div
