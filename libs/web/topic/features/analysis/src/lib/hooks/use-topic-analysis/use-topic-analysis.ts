@@ -25,7 +25,11 @@ interface TopicAnalysisResult {
   summary?: Array<SummaryDetail>;
 }
 
-export function useTopicAnalysis(): TopicAnalysisResult {
+interface UseTopicAnalysisProps {
+  topicId: string | null;
+}
+
+export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnalysisResult {
   const profile = useSelector(authSelectors.profile);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState(TrendPeriod.MONTHLY);
@@ -95,12 +99,24 @@ export function useTopicAnalysis(): TopicAnalysisResult {
 
   useEffect(() => {
     const availableIds = topicList?.results.map((topic) => String(topic.id)) || [];
-    const isSelectedIdValid = selectedTopicId && availableIds.includes(selectedTopicId);
 
-    if (!isSelectedIdValid && availableIds.length > 0) {
+    const isSelectedIdValid = selectedTopicId && availableIds.includes(selectedTopicId);
+    const isTopicFromUrlValid = topicId && availableIds.includes(topicId);
+
+    if (isSelectedIdValid) {
+      return;
+    }
+
+    if (isTopicFromUrlValid) {
+      setSelectedTopicId(topicId);
+
+      return;
+    }
+
+    if (availableIds.length > 0) {
       setSelectedTopicId(availableIds[0]);
     }
-  }, [selectedTopicId, topicList?.results]);
+  }, [selectedTopicId, topicId, topicList?.results]);
 
   useEffect(() => {
     if (!isFetching && chartData.length > 0) {
