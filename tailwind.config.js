@@ -41,6 +41,7 @@ module.exports = {
         'control-primary-transparent': '#e0eefb',
         'control-secondary': '#bec9d4',
         'control-secondary-transparent': '#bec9d430',
+        'footer-background': '#151515',
       },
       fontSize: {
         h1: '2.75rem',
