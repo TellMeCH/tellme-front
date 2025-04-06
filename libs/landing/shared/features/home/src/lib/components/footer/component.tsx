@@ -7,7 +7,7 @@ export function Footer(): ReactElement {
   const t = useTranslations('landing-shared.HOME.FOOTER');
 
   return (
-    <footer className='pt-10 pb-[100px] bg-text-primary max-lg:py-10'>
+    <footer className='pt-10 pb-[100px] bg-footer-background max-lg:py-10'>
       <div className='container'>
         <div className='flex justify-between items-start mb-6 max-sm:flex-col max-sm:gap-10 max-sm:mb-10'>
           <div className='max-w-[264px] text-medium text-background-primary'>
