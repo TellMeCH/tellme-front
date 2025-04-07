@@ -18,7 +18,7 @@ jobs:
     env:
       NEXT_PUBLIC_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       NEXT_PUBLIC_BACKEND_URL: ${{ secrets.BACKEND_URL }}
-      NEXT_PUBLIC_ENV: ${{ env.TELLME_ENV }}
+      NEXT_PUBLIC_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
 
     runs-on: ubuntu-latest
     steps:
@@ -46,8 +46,7 @@ jobs:
     environment:
       name: ${{ github.ref_name }}
     env:
-      NEXT_PUBLIC_ENV: ${{ env.TELLME_ENV }}
-
+      NEXT_PUBLIC_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
