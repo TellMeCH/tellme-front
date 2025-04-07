@@ -8,6 +8,7 @@ export type SidebarItemProps = {
   iconName: IconProps['name'];
   title: string;
   className?: string;
+  testId?: string;
 } & (
   | {
       href: string;
@@ -21,7 +22,15 @@ export type SidebarItemProps = {
     }
 );
 
-export function SidebarItem({ href, onPress, iconName, title, className, isDisabled }: SidebarItemProps): ReactElement {
+export function SidebarItem({
+  href,
+  onPress,
+  iconName,
+  title,
+  className,
+  isDisabled,
+  testId,
+}: SidebarItemProps): ReactElement {
   const pathname = usePathname();
   const labelRef = useRef<HTMLLabelElement>(null);
   const isActive = !!href && pathname.startsWith(href);
@@ -50,11 +59,15 @@ export function SidebarItem({ href, onPress, iconName, title, className, isDisab
         href={href}
         onClick={handlePress}
         className={basePressableClass} />}
-      {onPress && <button
-        onClick={handlePress}
-        type='button'
-        className={basePressableClass}
-        disabled={isDisabled} />}
+      {onPress && (
+        <button
+          onClick={handlePress}
+          type='button'
+          className={basePressableClass}
+          disabled={isDisabled}
+          data-testid={testId}
+        />
+      )}
     </div>
   );
 }
