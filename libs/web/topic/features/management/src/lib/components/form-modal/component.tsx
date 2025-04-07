@@ -4,9 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Button } from '@tellme/shared/ui/ui-kit';
+import { Button, FormMessage } from '@tellme/shared/ui/ui-kit';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
-import { FormMessage, FormSwitch, FormTextarea, FormTextInput, Modal } from '@tellme/web/shared/ui/ui-kit';
+import { FormSwitch, FormTextarea, FormTextInput, Modal } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import { TopicFormSchema } from '../../forms';
 

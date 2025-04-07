@@ -2,8 +2,8 @@
 
 import { ReactElement } from 'react';
 import { FieldValues, useController } from 'react-hook-form';
+import { Textarea, TextareaProps } from '@tellme/shared/ui/ui-kit';
 import { FormControlProps } from '@tellme/web/shared/utils/form';
-import { Textarea, TextareaProps } from '../textarea/component';
 
 export type FormTextareaProps<T extends FieldValues> = FormControlProps<T> & TextareaProps;
 
