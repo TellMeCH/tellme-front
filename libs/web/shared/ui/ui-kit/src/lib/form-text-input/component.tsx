@@ -2,8 +2,8 @@
 
 import { ReactElement } from 'react';
 import { FieldValues, useController } from 'react-hook-form';
+import { TextInput, TextInputProps } from '@tellme/shared/ui/ui-kit';
 import { FormControlProps } from '@tellme/web/shared/utils/form';
-import { TextInput, TextInputProps } from '../text-input/component';
 
 export type FormTextInputProps<T extends FieldValues> = FormControlProps<T> & TextInputProps;
 
