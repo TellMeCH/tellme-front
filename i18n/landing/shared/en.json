@@ -59,6 +59,8 @@
       "TEXT_COPYRIGHT": "© {year} Tellme, Inc. All rights reserved"
     },
     "CONTACT": {
+      "TEXT_CONTACT_TITLE": "Would you like to try out our product?",
+      "TEXT_CONTACT_DESCRIPTION": "The best way to know what tellme can offer to your company is with a live demo. Fill out the following form and we'll get in touch with you soon!",
       "TEXT_NAME": "Your name",
       "TEXT_EMAIL": "Email address",
       "TEXT_PHONE": "Phone number",

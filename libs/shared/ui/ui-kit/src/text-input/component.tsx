@@ -30,7 +30,6 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
     accessoryLeft,
     accessoryRight,
     classNames,
-    name,
     hasError,
     inputSize = 'small',
     inputColor = 'light',

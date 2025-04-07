@@ -1,14 +1,14 @@
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { Heading } from '@tellme/landing/shared/ui/ui-kit';
-import { TextInput } from '@tellme/shared/ui/ui-kit';
+import { Button, Textarea, TextInput } from '@tellme/shared/ui/ui-kit';
 import { HomeSectionId } from '../../enums';
 
 const mailchimpActionUrl =
-  'https://docky.us21.list-manage.com/subscribe/post?u=2473c54b3fbed6461cf7c9b2e&amp;id=5a6cf4994e&amp;f_id=00aef1e6f0';
+  'https://tell-me.us2.list-manage.com/subscribe/post?u=c4f987d41ec44f05821236f9e&amp;id=8644ec6302&amp;f_id=006570e1f0';
 
 export function Contact(): ReactElement {
-  const t = useTranslations('landing-shared.HOME');
+  const t = useTranslations('landing-shared.HOME.CONTACT');
 
   return (
     <section className='section text-background-primary bg-text-primary' id={HomeSectionId.CONTACT_US}>
@@ -20,23 +20,86 @@ export function Contact(): ReactElement {
           <p>{t('TEXT_CONTACT_DESCRIPTION')}</p>
         </div>
         <form
-          className='flex-1'
+          className='flex-1 flex flex-col gap-3'
           action={mailchimpActionUrl}
           method='post'
           id='mc-embedded-subscribe-form'
           name='mc-embedded-subscribe-form'>
-          <div className='mc-field-group'>
-            <TextInput
-              inputColor='transparent'
-              inputSize='big'
-              label={t('TEXT_EMAIL')}
-              placeholder='john@gmail.com'
-              type='email'
-              name='EMAIL'
-              id='mce-EMAIL'
-              required
-            />
-          </div>
+          <TextInput
+            inputColor='transparent'
+            inputSize='big'
+            label={t('TEXT_NAME')}
+            placeholder='John Doe'
+            type='text'
+            name='NAME'
+            id='mce-NAME'
+            required
+            autoComplete='name'
+            max={255}
+          />
+          <TextInput
+            inputColor='transparent'
+            inputSize='big'
+            label={t('TEXT_EMAIL')}
+            placeholder='john@gmail.com'
+            type='email'
+            name='EMAIL'
+            id='mce-EMAIL'
+            required
+            autoComplete='email'
+          />
+          <TextInput
+            inputColor='transparent'
+            inputSize='big'
+            label={t('TEXT_PHONE')}
+            placeholder='+56787239820'
+            type='text'
+            name='PHONE'
+            id='mce-PHONE'
+            required
+          />
+          <TextInput
+            inputColor='transparent'
+            inputSize='big'
+            label={t('TEXT_COMPANY')}
+            placeholder='Arte.co'
+            type='text'
+            name='COMPANY'
+            id='mce-COMPANY'
+            required
+            max={255}
+          />
+          <TextInput
+            inputColor='transparent'
+            inputSize='big'
+            label={t('TEXT_CALL_CENTER_SIZE')}
+            placeholder={t('TEXT_AGENTS')}
+            type='number'
+            name='CC_SIZE'
+            id='mce-CC_SIZE'
+            required
+          />
+          <Textarea
+            inputColor='transparent'
+            label={t('TEXT_MESSAGE')}
+            placeholder={t('TEXT_TYPE_HERE')}
+            name='MESSAGE'
+            id='mce-MESSAGE'
+            required
+            className='mt-3'
+            minRows={6}
+            max={255}
+          />
+          <Button
+            color='secondary'
+            type='submit'
+            name='subscribe'
+            id='mc-embedded-subscribe'
+            size='lg'
+            className='mt-6'
+            fullWidth>
+            {t('BUTTON_SEND_MESSAGE')}
+          </Button>
         </form>
       </div>
     </section>

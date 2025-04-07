@@ -27,7 +27,7 @@
       background: none; cursor: pointer; z-index: 2;
     }
   }
-  &__label {font-size: $text-small; display: block; margin-bottom: 0.25rem;
+  &__label {font-size: $text-small; display: block; padding-bottom: 0.25rem;
     &_disabled {color: $text-tertiary;}
     &_light {color: $background-secondary !important;}
   }
