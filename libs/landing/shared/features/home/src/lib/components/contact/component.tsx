@@ -15,7 +15,7 @@ export function Contact(): ReactElement {
   const t = useTranslations('landing-shared.HOME.CONTACT');
 
   const params = useSearchParams();
-  const isSuccess = params.get('message_status') === 'success';
+  const isSuccess = params.get('status') === 'success';
 
   useEffect(() => {
     // Full flow with the toast works only in production
