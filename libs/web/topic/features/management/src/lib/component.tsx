@@ -43,7 +43,7 @@ export function TopicsManagement(): ReactElement {
           dataLength={data?.results.length || 0}
           next={fetchNextPage}
           scrollableTarget='main'
-          hasMore={!data?.nextCursor}
+          hasMore={!!data?.nextCursor}
           loader={
             <div className='flex justify-center py-6'>
               <Spinner />
