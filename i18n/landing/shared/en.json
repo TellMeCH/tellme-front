@@ -69,7 +69,8 @@
       "TEXT_AGENTS": "Agents",
       "TEXT_MESSAGE": "Message",
       "TEXT_TYPE_HERE": "Type here",
-      "BUTTON_SEND_MESSAGE": "Send message"
+      "BUTTON_SEND_MESSAGE": "Send message",
+      "TEXT_SUCCESS_MESSAGE": "Your message has been sent successfully"
     }
   }
 }
