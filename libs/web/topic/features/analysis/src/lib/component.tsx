@@ -6,7 +6,8 @@ import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement } from 'react';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
-import { TopicSelect, PeriodFilter, TopicChart, EmptyChart, TopicSummary } from './components';
+import { EmptyChart } from '@tellme/web/topic/ui/empty-chart';
+import { TopicSelect, PeriodFilter, TopicChart, TopicSummary } from './components';
 import { useTopicAnalysis } from './hooks';
 
 export function TopicAnalysis(): ReactElement {

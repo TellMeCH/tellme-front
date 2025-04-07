@@ -31,7 +31,7 @@ export const organizationApi = createAppApi({
         return plainToInstance(GeneralOverview, overviewData as object);
       },
     }),
-    getTopicsOverview: builder.query<TopicsOverview, void>({
+    getTopicsOverview: builder.query<TopicsOverview | null, void>({
       query: () => ({
         method: 'get',
         url: `${organizationApiConfig.baseEndpoint}overview/`,
@@ -40,6 +40,11 @@ export const organizationApi = createAppApi({
       transformResponse: (response) => {
         const [organisationId] = Object.keys(response);
         const topicsData = response[organisationId];
+        const hasAnyTopic = Object.keys(topicsData).length > 0;
+
+        if (!hasAnyTopic) {
+          return null;
+        }
 
         const firstTopicKey = Object.keys(topicsData)[0];
         const durationKeys = Object.keys(topicsData[firstTopicKey].avg_duration).filter((key) => key !== 'change');

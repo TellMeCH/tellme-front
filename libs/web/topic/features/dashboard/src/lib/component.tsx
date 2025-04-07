@@ -7,30 +7,33 @@ import { organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header } from '@tellme/web/shared/ui/ui-kit';
 import { formatDateRange } from '@tellme/web/shared/utils/dates';
+import { EmptyChart } from '@tellme/web/topic/ui/empty-chart';
 import { DashboardStatistics, DashboardTopicTrends } from './components';
 
 export function Dashboard(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
-  const { data: overview, isLoading: isGeneralOverviewLoading } = organizationApi.useGetGeneralOverviewQuery(
+  const { data: generalOverview, isLoading: isGeneralOverviewLoading } = organizationApi.useGetGeneralOverviewQuery(
     undefined,
     { skip: !profile },
   );
   const { data: organizaton, isLoading: isOrganizationLoading } = organizationApi.useGetOrganizationQuery(
-    { id: overview?.id as number },
-    { skip: !overview?.id },
+    { id: generalOverview?.id as number },
+    { skip: !generalOverview?.id },
   );
   const { isLoading: isTopicsOverviewLoading } = organizationApi.useGetTopicsOverviewQuery(undefined, {
     skip: !profile,
   });
   const { isLoading: isAllSummariesLoading } = topicApi.useGetAllSummariesQuery(undefined, { skip: !profile });
 
+  const topicsOverview = null;
+
   const isLoading =
     isGeneralOverviewLoading || isOrganizationLoading || isTopicsOverviewLoading || isAllSummariesLoading;
 
   return (
     <div className='min-h-full flex flex-col gap-2 justify-center'>
-      {!overview || !organizaton || isLoading ? (
+      {!generalOverview || !organizaton || isLoading ? (
         <Spinner />
       ) : (
         <Fragment>
@@ -38,12 +41,20 @@ export function Dashboard(): ReactElement {
             title={organizaton?.name || ''}
             titleClassName='uppercase'
             rightContent={
-              overview.firstDate &&
-              overview.secondDate && <p>{formatDateRange(overview.firstDate, overview.secondDate)}</p>
+              generalOverview.firstDate &&
+              generalOverview.secondDate && (
+                <p>{formatDateRange(generalOverview.firstDate, generalOverview.secondDate)}</p>
+              )
             }
           />
-          <DashboardStatistics />
-          <DashboardTopicTrends />
+          {!topicsOverview ? (
+            <EmptyChart containerClassName='bg-background-secondary rounded-2xl' />
+          ) : (
+            <Fragment>
+              <DashboardStatistics />
+              <DashboardTopicTrends />
+            </Fragment>
+          )}
         </Fragment>
       )}
     </div>

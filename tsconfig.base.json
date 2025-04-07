@@ -49,6 +49,7 @@
       "@tellme/web/topic/features/analysis": ["libs/web/topic/features/analysis/src/index.ts"],
       "@tellme/web/topic/features/dashboard": ["libs/web/topic/features/dashboard/src/index.ts"],
       "@tellme/web/topic/features/management": ["libs/web/topic/features/management/src/index.ts"],
+      "@tellme/web/topic/ui/empty-chart": ["libs/web/topic/ui/empty-chart/src/index.ts"],
       "@tellme/web/topic/ui/legend": ["libs/web/topic/ui/legend/src/index.ts"]
     }
   },
