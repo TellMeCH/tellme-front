@@ -1,10 +1,10 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import * as authHooks from '@tellme/web/shared/data-access/auth';
-import { CookieService } from '@tellme/web/shared/data-access/cookies';
+import * as firebase from 'firebase/auth';
+import Cookies from 'js-cookie';
 import { TestRootComponent } from '@tellme/web/shared/data-access/tests-data';
-import { Sidebar } from './components';
+import { Sidebar } from './component';
 
 jest.mock('firebase/auth', () => ({
   signOut: jest.fn(() => Promise.resolve()),
@@ -13,31 +13,17 @@ jest.mock('firebase/auth', () => ({
   OAuthProvider: jest.fn((providerId) => ({ providerId })),
 }));
 
-jest.mock('@tellme/web/shared/data-access/auth', () => ({
-  ...jest.requireActual('@tellme/web/shared/data-access/auth'),
-  useLogout: jest.fn(),
-}));
-
 jest.mock('next/navigation', () => ({
-  usePathname: () => '/dashboard',
+  usePathname: () => '/',
 }));
 
 describe('Logout', () => {
-  const logoutFn = jest.fn();
+  const logoutSpy = jest.spyOn(firebase, 'signOut');
   const onLogoutSuccess = jest.fn();
-  const removeCookieSpy = jest.spyOn(CookieService, 'remove');
+  const removeCookieSpy = jest.spyOn(Cookies, 'remove');
 
   beforeEach(() => {
     jest.clearAllMocks();
-
-    (authHooks.useLogout as jest.Mock).mockImplementation((successCallback: () => void) => ({
-      logout: () => {
-        CookieService.remove(['isAuthenticated']);
-        logoutFn();
-        successCallback();
-      },
-      isLoading: false,
-    }));
   });
 
   it('should call logout, clear cookie and call onLogoutSuccess', async () => {
@@ -47,8 +33,8 @@ describe('Logout', () => {
 
     await userEvent.click(screen.getByTestId('logout-button'));
 
-    expect(logoutFn).toHaveBeenCalled();
-    expect(removeCookieSpy).toHaveBeenCalledWith(['isAuthenticated']);
+    expect(logoutSpy).toHaveBeenCalled();
+    expect(removeCookieSpy).toHaveBeenCalledWith('isAuthenticated', undefined);
     expect(onLogoutSuccess).toHaveBeenCalled();
   });
 });
