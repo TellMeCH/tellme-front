@@ -1,6 +1,7 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
+import { useTranslations } from 'next-intl';
 import { Fragment, type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
@@ -11,6 +12,7 @@ import { EmptyChart } from '@tellme/web/topic/ui/empty-chart';
 import { DashboardStatistics, DashboardTopicTrends } from './components';
 
 export function Dashboard(): ReactElement {
+  const t = useTranslations('topic.DASHBOARD');
   const profile = useSelector(authSelectors.profile);
 
   const { data: generalOverview, isLoading: isGeneralOverviewLoading } = organizationApi.useGetGeneralOverviewQuery(
@@ -21,12 +23,13 @@ export function Dashboard(): ReactElement {
     { id: generalOverview?.id as number },
     { skip: !generalOverview?.id },
   );
-  const { isLoading: isTopicsOverviewLoading } = organizationApi.useGetTopicsOverviewQuery(undefined, {
-    skip: !profile,
-  });
+  const { data: topicsOverview, isLoading: isTopicsOverviewLoading } = organizationApi.useGetTopicsOverviewQuery(
+    undefined,
+    {
+      skip: !profile,
+    },
+  );
   const { isLoading: isAllSummariesLoading } = topicApi.useGetAllSummariesQuery(undefined, { skip: !profile });
-
-  const topicsOverview = null;
 
   const isLoading =
     isGeneralOverviewLoading || isOrganizationLoading || isTopicsOverviewLoading || isAllSummariesLoading;
@@ -48,7 +51,11 @@ export function Dashboard(): ReactElement {
             }
           />
           {!topicsOverview ? (
-            <EmptyChart containerClassName='bg-background-secondary rounded-2xl' />
+            <EmptyChart
+              title={t('TEXT_EMPTY_CHART_TITLE')}
+              subtitle={t('TEXT_EMPTY_CHART_SUBTITLE')}
+              containerClassName='bg-background-secondary rounded-2xl'
+            />
           ) : (
             <Fragment>
               <DashboardStatistics />

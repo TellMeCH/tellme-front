@@ -1,5 +1,7 @@
 {
   "DASHBOARD": {
+    "TEXT_EMPTY_CHART_TITLE": "Nothing to see here",
+    "TEXT_EMPTY_CHART_SUBTITLE": "There are no recent customer interactions to analyze.",
     "STATISTICS": {
       "TEXT_CALL_COUNT": "Call Count",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
