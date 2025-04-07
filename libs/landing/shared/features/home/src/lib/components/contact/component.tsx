@@ -10,6 +10,8 @@ import { HomeSectionId } from '../../enums';
 
 const mailchimpActionUrl =
   'https://tell-me.us2.list-manage.com/subscribe/post?u=c4f987d41ec44f05821236f9e&amp;id=8644ec6302&amp;f_id=006570e1f0';
+const phoneValidationPattern =
+  '^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$';
 
 export function Contact(): ReactElement {
   const t = useTranslations('landing-shared.HOME.CONTACT');
@@ -72,6 +74,7 @@ export function Contact(): ReactElement {
               name='PHONE'
               id='mce-PHONE'
               required
+              pattern={phoneValidationPattern}
             />
             <TextInput
               inputColor='transparent'
