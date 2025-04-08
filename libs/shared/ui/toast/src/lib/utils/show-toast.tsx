@@ -1,7 +1,8 @@
+import clsx from 'clsx';
 import { ReactNode } from 'react';
 import { toast } from 'react-toastify';
-import styles from '../component.module.scss';
 import { ToastType } from '../enums';
+import styles from './toast.module.scss';
 
 export type ToastOptions = {
   autoClose?: false | number;
@@ -15,6 +16,6 @@ export const showToast = (message: ReactNode, options: ToastOptions = {}): void 
     type,
     autoClose,
     position: 'top-right',
-    className: styles.toastmessage,
+    className: clsx(styles.toast, styles[`toast_${type}`]),
   });
 };
