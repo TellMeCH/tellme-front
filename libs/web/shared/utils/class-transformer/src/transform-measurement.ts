@@ -8,12 +8,15 @@ export function TransformMeasurement(): PropertyDecorator {
         return null;
       }
 
-      const keys = Object.keys(value).filter((key) => key !== 'change' && key !== 'date');
-      const [firstKey, secondKey] = keys;
+      const keys = Object.keys(value)
+        .filter((key) => key !== 'change' && key !== 'date')
+        .sort();
+
+      const [previousMeasurementKey, currentMeasurementKey] = keys;
 
       return new Measurement({
-        firstMeasurement: value[firstKey] ?? null,
-        secondMeasurement: value[secondKey] ?? null,
+        previousMeasurement: value[previousMeasurementKey] ?? null,
+        currentMeasurement: value[currentMeasurementKey] ?? null,
         change: value.change ?? null,
       });
     },

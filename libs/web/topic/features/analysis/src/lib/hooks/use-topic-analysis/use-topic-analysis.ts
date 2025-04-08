@@ -42,7 +42,7 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     data: topicList,
     isLoading: isTopicListLoading,
     isUninitialized: isTopicListUninitialized,
-  } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+  } = topicApi.useSearchInfiniteQuery({ isActive: false }, { skip: !profile });
 
   const {
     data: { summary } = {},

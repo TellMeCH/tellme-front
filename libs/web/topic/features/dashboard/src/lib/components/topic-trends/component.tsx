@@ -12,7 +12,7 @@ import styles from './component.module.scss';
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
 
-  const { firstDate, secondDate, activeTopics, maxCount } = useTopicTrends();
+  const { currentMonth, previousMonth, activeTopics, maxCount } = useTopicTrends();
 
   return (
     <div className='flex flex-col flex-1 bg-background-secondary rounded-2xl py-6 px-9 gap-6'>
@@ -20,10 +20,10 @@ export function DashboardTopicTrends(): ReactElement {
         <Heading level={2} className={styles['topic-trends__title']}>
           {t('TEXT_TOPIC_TRENDS')}
         </Heading>
-        {firstDate && secondDate && (
+        {currentMonth && previousMonth && (
           <div className='flex flex-row gap-4 items-center'>
-            <Legend label={formatDate(secondDate, DateTimeFormat.MONTH_ONLY)} color={styles.controlPrimary} />
-            <Legend label={formatDate(firstDate, DateTimeFormat.MONTH_ONLY)} color={styles.controlSecondary} />
+            <Legend label={formatDate(currentMonth, DateTimeFormat.MONTH_ONLY)} color={styles.controlPrimary} />
+            <Legend label={formatDate(previousMonth, DateTimeFormat.MONTH_ONLY)} color={styles.controlSecondary} />
           </div>
         )}
       </div>

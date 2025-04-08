@@ -56,7 +56,6 @@ export function TopicAnalysis(): ReactElement {
                   selectedValue={selectedTopicId}
                   onSelect={handleTopicChange} />
               </div>
-
               {!isEmptyChart && <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />}
             </div>
             {isEmptyChart ? (

@@ -7,8 +7,8 @@ import { organizationApi, TopicMetric, topicApi, TopicSummary } from '@tellme/we
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 
 interface UseTopicTrendsReturn {
-  firstDate?: DateTime;
-  secondDate?: DateTime;
+  currentMonth?: DateTime;
+  previousMonth?: DateTime;
   activeTopics: Array<TopicMetric & { id: string; description: string }>;
   maxCount: number;
 }
@@ -19,7 +19,7 @@ export function useTopicTrends(): UseTopicTrendsReturn {
   const { data: topicOverview } = organizationApi.useGetTopicsOverviewQuery(undefined, { skip: !profile });
   const { data: summaries } = topicApi.useGetAllSummariesQuery(undefined, { skip: !profile });
 
-  const { firstDate, secondDate, topicMetrics } = topicOverview || {};
+  const { currentMonth, previousMonth, topicMetrics } = topicOverview || {};
 
   const { activeTopics, maxCount } = useMemo(() => {
     if (!topicMetrics || !summaries) {
@@ -40,9 +40,9 @@ export function useTopicTrends(): UseTopicTrendsReturn {
     });
 
     const maxCount = Math.max(
-      ...filteredTopics.flatMap(({ count: { firstMeasurement, secondMeasurement } }) => [
-        Number(firstMeasurement),
-        Number(secondMeasurement),
+      ...filteredTopics.flatMap(({ count: { currentMeasurement, previousMeasurement } }) => [
+        Number(currentMeasurement),
+        Number(previousMeasurement),
       ]),
     );
 
@@ -50,8 +50,8 @@ export function useTopicTrends(): UseTopicTrendsReturn {
   }, [summaries, topicMetrics]);
 
   return {
-    firstDate,
-    secondDate,
+    currentMonth,
+    previousMonth,
     activeTopics,
     maxCount,
   };

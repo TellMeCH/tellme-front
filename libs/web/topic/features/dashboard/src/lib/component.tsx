@@ -44,9 +44,9 @@ export function Dashboard(): ReactElement {
             title={organizaton?.name || ''}
             titleClassName='uppercase'
             rightContent={
-              generalOverview.firstDate &&
-              generalOverview.secondDate && (
-                <p>{formatDateRange(generalOverview.firstDate, generalOverview.secondDate)}</p>
+              generalOverview.currentMonth &&
+              generalOverview.previousMonth && (
+                <p>{formatDateRange(generalOverview.previousMonth, generalOverview.currentMonth)}</p>
               )
             }
           />
