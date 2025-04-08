@@ -2,10 +2,12 @@
 
 import { User } from '@heroui/react';
 import clsx from 'clsx';
+import { compact } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
 import { useSelector } from 'react-redux';
 import { Logo } from '@tellme/shared/ui/ui-kit';
+import { employeeApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors, useLogout } from '@tellme/web/shared/data-access/auth';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 import { SidebarItem } from '../sidebar-item/component';
@@ -21,8 +23,9 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
 
   const { logout, isLoading: isLoggingOut } = useLogout(onLogoutSuccess);
   const profile = useSelector(authSelectors.profile);
+  const { data: employeeProfile } = employeeApi.useGetProfileQuery(undefined, { skip: !profile });
 
-  const sidebarItems: SidebarItemsProps['itemsProps'] = [
+  const sidebarItems: SidebarItemsProps['itemsProps'] = compact([
     {
       href: navigationConfig.routes.private.dashboard,
       iconName: 'menu',
@@ -38,7 +41,12 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
       iconName: 'label',
       title: t('LINK_TOPICS'),
     },
-  ];
+    employeeProfile?.isOrganizationAdmin && {
+      href: navigationConfig.routes.private.administration,
+      iconName: 'setting',
+      title: t('LINK_ADMINISTRATION'),
+    },
+  ]);
 
   return (
     <div
@@ -55,8 +63,10 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
           {profile && (
             <User
               name={profile.email}
+              description={employeeProfile?.isOrganizationAdmin ? t('TEXT_ADMIN') : undefined}
               classNames={{
                 name: 'text-base truncate max-w-44',
+                description: 'text-small text-brand-primary',
               }}
               avatarProps={{
                 size: 'sm',
