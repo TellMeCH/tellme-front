@@ -18,7 +18,6 @@ interface TopicAnalysisResult {
   selectedTopicId: string | null;
   isLoading: boolean;
   isEmptyList: boolean;
-  isEmptyChart: boolean;
   handleTopicChange: (value: string) => void;
   handlePeriodChange: (value: TrendPeriod) => void;
   selectedTopic?: TopicOption;
@@ -44,8 +43,6 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     isUninitialized: isTopicListUninitialized,
   } = topicApi.useSearchInfiniteQuery({ listType: TopicInfiniteListType.RECENT }, { skip: !profile });
 
-  console.log('topicList', topicList);
-
   const {
     data: { summary } = {},
     isLoading: isSummaryLoading,
@@ -62,12 +59,14 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     { skip: !selectedTopicId },
   );
 
-  const isUninitialized = isTopicListUninitialized || isSummaryUninitialized || isChartDataUninitialized;
-  const isResourceLoading = isTopicListLoading || isSummaryLoading || isChartDataLoading;
-  const isLoading = isResourceLoading || isUninitialized;
-
   const isEmptyList = topicList?.results?.length === 0;
-  const isEmptyChart = summary?.length === 0 && rawChartData?.length === 0;
+
+  const isListLoading = isTopicListUninitialized || isTopicListLoading;
+
+  const areDetailsLoading =
+    !isEmptyList && (isSummaryLoading || isChartDataLoading || isSummaryUninitialized || isChartDataUninitialized);
+
+  const isLoading = isListLoading || areDetailsLoading;
 
   const timeline = useMemo(() => generateTimeline(selectedPeriod), [selectedPeriod]);
 
@@ -100,23 +99,27 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
   };
 
   useEffect(() => {
-    const availableIds = topicList?.results.map((topic) => String(topic.id)) || [];
+    const availableTopics = topicList?.results || [];
+    const availableIds = availableTopics.map((topic) => String(topic.id));
 
     const isSelectedIdValid = selectedTopicId && availableIds.includes(selectedTopicId);
-    const isTopicFromUrlValid = topicId && availableIds.includes(topicId);
 
     if (isSelectedIdValid) {
       return;
     }
 
-    if (isTopicFromUrlValid) {
-      setSelectedTopicId(topicId);
+    if (topicId) {
+      const matchedTopic = availableTopics.find((topic) => String(topic.id) === topicId || topic.name === topicId);
 
-      return;
+      if (matchedTopic) {
+        setSelectedTopicId(String(matchedTopic.id));
+
+        return;
+      }
     }
 
-    if (availableIds.length > 0) {
-      setSelectedTopicId(availableIds[0]);
+    if (availableTopics.length > 0) {
+      setSelectedTopicId(String(availableTopics[0].id));
     }
   }, [selectedTopicId, topicId, topicList?.results]);
 
@@ -137,7 +140,6 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     chartState,
     isLoading,
     isEmptyList,
-    isEmptyChart,
     handleTopicChange,
     handlePeriodChange,
   };

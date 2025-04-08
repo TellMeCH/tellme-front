@@ -24,7 +24,6 @@ export function TopicAnalysis(): ReactElement {
     chartState,
     isLoading,
     isEmptyList,
-    isEmptyChart,
     handleTopicChange,
     handlePeriodChange,
   } = useTopicAnalysis({ topicId });
@@ -56,16 +55,10 @@ export function TopicAnalysis(): ReactElement {
                   selectedValue={selectedTopicId}
                   onSelect={handleTopicChange} />
               </div>
-              {!isEmptyChart && <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />}
+              <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />
             </div>
-            {isEmptyChart ? (
-              <EmptyChart />
-            ) : (
-              <Fragment>
-                <TopicChart chartState={chartState} />
-                <TopicSummary summary={summary!} />
-              </Fragment>
-            )}
+            <TopicChart chartState={chartState} />
+            <TopicSummary summary={summary!} />
           </Fragment>
         )}
       </div>
