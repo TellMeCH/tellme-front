@@ -9,3 +9,4 @@ export * from './benefit';
 export * from './about-us';
 export * from './footer';
 export * from './menu';
+export * from './contact';

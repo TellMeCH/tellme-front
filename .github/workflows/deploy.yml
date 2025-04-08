@@ -18,6 +18,7 @@ jobs:
     env:
       NEXT_PUBLIC_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       NEXT_PUBLIC_BACKEND_URL: ${{ secrets.BACKEND_URL }}
+      NEXT_PUBLIC_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
 
     runs-on: ubuntu-latest
     steps:
@@ -44,6 +45,8 @@ jobs:
     name: Deploy Landing Page to Cloudflare
     environment:
       name: ${{ github.ref_name }}
+    env:
+      NEXT_PUBLIC_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

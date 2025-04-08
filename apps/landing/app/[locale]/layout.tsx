@@ -5,6 +5,8 @@ import { ReactElement, ReactNode } from 'react';
 import { constants } from '@tellme/shared/utils/constants';
 import { Locale } from '@tellme/shared/utils/i18n';
 import '@tellme/shared/ui/styles/global';
+import * as process from 'node:process';
+import { ToastContainer } from '@tellme/shared/ui/toast';
 
 export const metadata = {
   title: 'tellme',
@@ -36,11 +38,11 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
   return (
     <html lang={locale}>
       <head>
-        {/* TODO: turn on indexing right before release */}
-        <meta name='robots' content='noindex' />
+        <meta name='robots' content={process.env.NEXT_PUBLIC_ENV === 'prod' ? 'index' : 'noindex'} />
       </head>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>
+          <ToastContainer />
           <div className='bg-background-landing text-lg max-lg:text-base'>{children}</div>
         </NextIntlClientProvider>
       </body>

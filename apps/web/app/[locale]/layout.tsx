@@ -6,6 +6,7 @@ import { Providers } from './providers';
 import '@tellme/shared/ui/styles/global';
 import { NextIntlClientProvider } from 'next-intl';
 import { constants } from '@tellme/shared/utils/constants';
+import process from 'node:process';
 
 export const metadata = {
   title: 'tellme',
@@ -34,7 +35,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
   return (
     <html lang={locale}>
       <head>
-        <meta name='robots' content='noindex' />
+        <meta name='robots' content={process.env.NEXT_PUBLIC_ENV === 'prod' ? 'index' : 'noindex'} />
       </head>
       <body>
         <div className='min-w-[1024px]'>

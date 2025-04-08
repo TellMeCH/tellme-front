@@ -3,13 +3,8 @@
 import { Input, InputProps } from '@heroui/react';
 import clsx from 'clsx';
 import { ChangeEvent, ReactNode, forwardRef, useState } from 'react';
-import { Icon } from '@tellme/shared/ui/ui-kit';
 import { FormGroup, FormGroupProps } from '../form-group/component';
-
-export enum TextInputSize {
-  SMALL = 'small',
-  BIG = 'big',
-}
+import { Icon } from '../icon/component';
 
 interface TextInputClassNames {
   label?: string;
@@ -23,7 +18,8 @@ export interface TextInputProps extends Omit<InputProps, 'className' | 'errorMes
   accessoryRight?: ReactNode;
   classNames?: TextInputClassNames;
   hasError?: boolean;
-  inputSize?: TextInputSize;
+  inputSize?: 'big' | 'small';
+  inputColor?: 'light' | 'transparent';
   formGroupProps?: FormGroupProps;
 }
 
@@ -34,9 +30,9 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
     accessoryLeft,
     accessoryRight,
     classNames,
-    name,
     hasError,
-    inputSize = TextInputSize.SMALL,
+    inputSize = 'small',
+    inputColor = 'light',
     value,
     formGroupProps,
     ...restProps
@@ -85,10 +81,15 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
         isInvalid={hasError}
         variant='bordered'
         classNames={{
-          inputWrapper: clsx('form__control', `form__control_${inputSize}`, classNames?.containerInner),
+          inputWrapper: clsx(
+            'form__control',
+            `form__control_${inputSize}`,
+            `form__control_${inputColor}`,
+            classNames?.containerInner,
+          ),
           mainWrapper: 'form__group__inner',
           input: classNames?.input,
-          label: clsx('form__label', classNames?.label),
+          label: clsx('form__label', inputColor === 'transparent' && 'form__label_light', classNames?.label),
         }}
         startContent={accessoryLeft}
         endContent={renderEndContent()}
