@@ -22,9 +22,8 @@ export function useLogin(onSuccess: () => void) {
       const employeeProfile = await dispatch(employeeApi.endpoints.getProfile.initiate()).unwrap();
 
       const expirationDate = DateTime.local().plus({ days: 2 }).toJSDate();
-      CookieService.set({ isAuthenticated: 'true' }, { expires: shouldRemember ? expirationDate : undefined });
       CookieService.set(
-        { isOrganizationAdmin: String(employeeProfile.isOrganizationAdmin) },
+        { isAuthenticated: 'true', isOrganizationAdmin: String(employeeProfile.isOrganizationAdmin) },
         { expires: shouldRemember ? expirationDate : undefined },
       );
       onSuccess();
