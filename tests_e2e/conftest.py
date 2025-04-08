@@ -23,6 +23,33 @@ def firebase_app():
 
 
 @pytest.fixture(scope="session")
+def frontend_path():
+    """
+    Simply returns the frontend path from the environment
+    """
+    FRONTEND_PATH = os.getenv("FRONTEND_PATH")
+    if not FRONTEND_PATH:
+      raise EnvironmentError("FRONTEND_PATH environment variable not set.")
+    return FRONTEND_PATH
+
+
+def user_id_token(user_email: str, firebase_api_key: str) -> str:
+    """
+    Exchange a Firebase custom token for an ID token using Identity Toolkit.
+    """
+    user = auth.get_user_by_email(user_email)
+    custom_token = auth.create_custom_token(user.uid)
+    url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key={firebase_api_key}"
+    payload = {
+        "token": custom_token.decode("utf-8"),
+        "returnSecureToken": True
+    }
+    resp = requests.post(url, json=payload)
+    resp.raise_for_status()
+    return resp.json()["idToken"]
+
+
+@pytest.fixture(scope="session")
 def superuser_headers(firebase_app):
     """
     Grab the superuser ID token once and produce a 'superuser_headers'
@@ -36,19 +63,7 @@ def superuser_headers(firebase_app):
 
     superuser_email = f"app.admin.{tellme_env}@tell-me.ch"
 
-    def get_superuser_token(email):
-        user = auth.get_user_by_email(email)
-        custom_token = auth.create_custom_token(user.uid)
-        url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key={firebase_api_key}"
-        payload = {
-            "token": custom_token.decode("utf-8"),
-            "returnSecureToken": True
-        }
-        resp = requests.post(url, json=payload)
-        resp.raise_for_status()
-        return resp.json()["idToken"]
-
-    token = get_superuser_token(superuser_email)
+    token = user_id_token(superuser_email, firebase_api_key)
     return {"Authorization": f"Bearer {token}"}
 
 
@@ -70,26 +85,10 @@ def test_org_context(superuser_headers):
     if not analyst_email:
         raise EnvironmentError("TEST_USER_EMAIL environment variable not set.")
 
-    def user_id_token(user_email: str) -> str:
-        """
-        Exchange a Firebase custom token for an ID token using Identity Toolkit.
-        """
-        user = auth.get_user_by_email(user_email)
-        custom_token = auth.create_custom_token(user.uid)
-        url = f"https://identitytoolkit.googleapis.com/v1/accounts:signInWithCustomToken?key={firebase_api_key}"
-        payload = {
-            "token": custom_token.decode("utf-8"),
-            "returnSecureToken": True
-        }
-        resp = requests.post(url, json=payload)
-        resp.raise_for_status()
-        return resp.json()["idToken"]
-
     def delete_surrogate_data(org_url: str):
         """
-        Delete the test analyst (if found), then delete the test organization.
+        Delete the test analyst, then delete the organization.
         """
-        # Delete the test analyst if it exists
         analyst_response = requests.get(
             f"{cloud_run_host}/api/v1/employees/",
             headers=superuser_headers
@@ -124,7 +123,7 @@ def test_org_context(superuser_headers):
         secrets.SystemRandom().shuffle(password_chars)
         return ''.join(password_chars)
 
-    # 1) Check if there's an existing org with the same name
+    # 1) Check for existing "TestOrg-Suite", delete if found
     org_name = "TestOrg-Suite"
     org_list_resp = requests.get(
         f"{cloud_run_host}/api/v1/organizations/",
@@ -137,7 +136,7 @@ def test_org_context(superuser_headers):
             logger.info(f"Found existing org: {org['url']}. Deleting it...")
             delete_surrogate_data(org["url"])
 
-    # 2) Create the organization
+    # 2) Create a new org
     org_data = {
         "name": org_name,
         "max_user_count": 10,
@@ -153,9 +152,8 @@ def test_org_context(superuser_headers):
     org_id = re.search(r"/organizations/([^/]+)/", org_json["url"]).group(1)
     logger.info(f"Created test organization {org_id}")
 
-    # 3) Create the analyst user
+    # 3) Create analyst user
     analyst_password = generate_password()
-
     analyst_data = {
         "role": "ANALYST",
         "organization": org_id,
@@ -177,7 +175,7 @@ def test_org_context(superuser_headers):
     analyst_id = employee_json['id']
     logger.info(f"Created analyst with email: {employee_json['user']['email']}")
 
-    # 4) Mark the new Analyst user as verified, set password
+    # 4) Mark the new Analyst user as verified; set password
     analyst_user = auth.get_user_by_email(analyst_email)
     auth.update_user(
         analyst_user.uid,
@@ -185,8 +183,8 @@ def test_org_context(superuser_headers):
         password=analyst_password
     )
 
-    # 5) Obtain an ID token for that user
-    analyst_id_token = user_id_token(analyst_email)
+    # 5) Obtain an ID token for that user, if needed in direct requests:
+    analyst_id_token = user_id_token(analyst_email, firebase_api_key)
     analyst_headers = {
         "Authorization": f"Bearer {analyst_id_token}"
     }
@@ -208,46 +206,40 @@ def test_org_context(superuser_headers):
     delete_surrogate_data(f"{cloud_run_host}/api/v1/organizations/{org_id}/")
 
 
-@pytest.fixture(scope="session")
-def playwright_context(test_org_context):
+@pytest.fixture(scope="function")
+def login_page(test_org_context, frontend_path):
     """
-    Spin up a single browser (session scope). Log the analyst user in once,
-    store the login state, and re-use in test scripts.
+    A function-scoped fixture that:
+      - Opens a new browser + context
+      - Logs in from scratch
+      - Returns a Page object that is now logged in
+    Will run fresh for every test function.
     """
-    # Frontend path
-    FRONTEND_PATH = os.getenv('FRONTEND_PATH')
-    if not FRONTEND_PATH:
-      raise EnvironmentError("FRONTEND_PATH environment variable not set.")
-
-    # Pull data for logging in
+    # Data for the login
     analyst_email = test_org_context["analyst_email"]
     analyst_password = test_org_context["analyst_password"]
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)  # Set headless=False for debugging
-        context = browser.new_context()
+    # Start a new browser each test
+    playwright = sync_playwright().start()
+    browser = playwright.chromium.launch(headless=True)
+    context = browser.new_context()
 
-        page = context.new_page()
-        page.goto(f"{FRONTEND_PATH}")
+    page = context.new_page()
+    page.goto(frontend_path)
 
-        # Perform the login steps
-        page.get_by_test_id("email-input").fill(analyst_email)
-        page.get_by_test_id("email-input").press("Enter")
+    # The login steps
+    page.get_by_test_id("email-input").fill(analyst_email)
+    page.get_by_test_id("email-input").press("Enter")
 
-        page.get_by_test_id("password-input").fill(analyst_password)
-        page.get_by_test_id("submit-button").click()
+    page.get_by_test_id("password-input").fill(analyst_password)
+    page.get_by_test_id("submit-button").click()
 
-        page.wait_for_url(f"{FRONTEND_PATH}/dashboard")
+    # Wait for redirect or some "dashboard" route
+    page.wait_for_url(f"{frontend_path}/dashboard")
 
-        # Save the logged-in state
-        stored = context.storage_state(path="state.json")
-        print('STORED STATE:', stored)
+    yield page  # or yield (page, browser) if you need the browser instance
 
-        yield {
-            "browser": browser,
-            "storage_path": "state.json",
-            "frontend_url": FRONTEND_PATH
-        }
-
-        # Close the browser after the entire session finishes
-        browser.close()
+    # Teardown: close everything
+    context.close()
+    browser.close()
+    playwright.stop()
