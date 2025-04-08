@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { SummaryDetail, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
+import { SummaryDetail, TopicInfiniteListType, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { ChartState } from '../../interfaces/chart-state';
 import { generateTimeline, transformChartData } from '../../utils/';
@@ -42,7 +42,9 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     data: topicList,
     isLoading: isTopicListLoading,
     isUninitialized: isTopicListUninitialized,
-  } = topicApi.useSearchInfiniteQuery({ isActive: false }, { skip: !profile });
+  } = topicApi.useSearchInfiniteQuery({ listType: TopicInfiniteListType.RECENT }, { skip: !profile });
+
+  console.log('topicList', topicList);
 
   const {
     data: { summary } = {},

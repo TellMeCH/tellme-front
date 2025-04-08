@@ -4,6 +4,7 @@ import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
+import { TopicInfiniteListType } from './enums';
 import {
   Topic,
   TopicPaginationRequest,
@@ -14,11 +15,19 @@ import {
   TopicSummary,
 } from './models';
 
-const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
-  method: 'get',
-  url: `${topicApiConfig.baseEndpoint}${isActive ? 'list_active/' : ''}`,
-  params: prepareRequestParams(params, PaginationRequest),
-});
+const getSearchQuery = ({ listType = TopicInfiniteListType.DEFAULT, ...params }: TopicPaginationRequest) => {
+  const searchQueryPath = {
+    [TopicInfiniteListType.DEFAULT]: '',
+    [TopicInfiniteListType.ACTIVE]: 'list_active/',
+    [TopicInfiniteListType.RECENT]: 'list_recent/',
+  }[listType];
+
+  return {
+    method: 'get',
+    url: `${topicApiConfig.baseEndpoint}${searchQueryPath}`,
+    params: prepareRequestParams(params, PaginationRequest),
+  };
+};
 
 const getListTags = (response?: PaginationResponse<Topic>) => [
   { type: topicApiConfig.entityName, id: EntityTagID.LIST },
@@ -157,6 +166,10 @@ export const topicApi = createAppApi({
           });
 
           for (const { endpointName, originalArgs } of cachedQueries) {
+            if (originalArgs?.listType === TopicInfiniteListType.RECENT) {
+              continue;
+            }
+
             dispatch(
               topicApi.util.updateQueryData(
                 endpointName as 'search' | 'searchInfinite',
@@ -222,14 +235,14 @@ export const topicApi = createAppApi({
                       merge(existingItem, omit(updatedEntityData, 'id'));
                       const newIsActive = existingItem.isActive;
 
-                      if (originalArgs?.isActive && oldIsActive && !newIsActive) {
+                      if (originalArgs?.listType === TopicInfiniteListType.ACTIVE && oldIsActive && !newIsActive) {
                         endpointData.results.splice(existingIndex, 1);
                       }
-                    } else if (originalArgs?.isActive && updatedEntityData.isActive) {
+                    } else if (originalArgs?.listType === TopicInfiniteListType.ACTIVE && updatedEntityData.isActive) {
                       endpointData.results.push(newTopic);
                     }
 
-                    if (originalArgs?.isActive) {
+                    if (originalArgs?.listType === TopicInfiniteListType.ACTIVE) {
                       endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
                     }
                   } else {
