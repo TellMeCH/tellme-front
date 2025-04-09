@@ -1,0 +1,8 @@
+{
+  "ADMINISTRATION": {
+    "TEXT_TITLE": "{organizationName} Administration",
+    "TEXT_REGISTERED_EMPLOYEES": "Registered employees",
+    "TEXT_MAX_ACCOUNTS_COUNT": "Maximum number of registered accounts",
+    "TEXT_CONVERSATIONS_COUNT": "Conversations count"
+  }
+}
