@@ -55,7 +55,7 @@ describe('Dashboard', () => {
     );
   });
 
-  it('should load initially', async () => {
+  it('should load general overview and organization initially', async () => {
     await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -64,22 +64,22 @@ describe('Dashboard', () => {
           params: { per_topic: false },
         }),
       );
+    });
+  });
 
+  it('should load organization initially', async () => {
+    await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
           url: `/organizations/${organizationId}/`,
         }),
       );
+    });
+  });
 
-      expect(requestSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: 'get',
-          url: '/organizations/overview/',
-          params: { per_topic: true },
-        }),
-      );
-
+  it('should load summaries initially', async () => {
+    await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
@@ -87,8 +87,18 @@ describe('Dashboard', () => {
         }),
       );
     });
+  });
 
-    expect(requestSpy).toHaveBeenCalledTimes(4);
+  it('should load topics overview initially', async () => {
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: '/organizations/overview/',
+          params: { per_topic: true },
+        }),
+      );
+    });
   });
 
   afterEach(() => {
