@@ -16,22 +16,23 @@ export const organizationApi = createAppApi({
       }),
       transformResponse: (response) => {
         const [organisationId] = Object.keys(response);
-        const durationKeys = Object.keys(response[organisationId].general.avg_duration).filter(
-          (key) => key !== 'change',
-        );
-        const [secondDate, firstDate] = durationKeys;
+        const durationKeys = Object.keys(response[organisationId].general.avg_duration)
+          .filter((key) => key !== 'change')
+          .sort();
+
+        const [previousMonth, currentMonth] = durationKeys;
 
         const overviewData = {
           id: Number(organisationId),
-          firstDate,
-          secondDate,
+          currentMonth,
+          previousMonth,
           ...response[organisationId],
         };
 
         return plainToInstance(GeneralOverview, overviewData as object);
       },
     }),
-    getTopicsOverview: builder.query<TopicsOverview, void>({
+    getTopicsOverview: builder.query<TopicsOverview | null, void>({
       query: () => ({
         method: 'get',
         url: `${organizationApiConfig.baseEndpoint}overview/`,
@@ -40,10 +41,18 @@ export const organizationApi = createAppApi({
       transformResponse: (response) => {
         const [organisationId] = Object.keys(response);
         const topicsData = response[organisationId];
+        const hasAnyTopic = Object.keys(topicsData).length > 0;
+
+        if (!hasAnyTopic) {
+          return null;
+        }
 
         const firstTopicKey = Object.keys(topicsData)[0];
-        const durationKeys = Object.keys(topicsData[firstTopicKey].avg_duration).filter((key) => key !== 'change');
-        const [secondDate, firstDate] = durationKeys;
+        const durationKeys = Object.keys(topicsData[firstTopicKey].avg_duration)
+          .filter((key) => key !== 'change')
+          .sort();
+
+        const [previousMonth, currentMonth] = durationKeys;
 
         const topicMetrics = Object.entries(topicsData).map(([topicName, topicMetrics]) => ({
           name: topicName,
@@ -52,8 +61,8 @@ export const organizationApi = createAppApi({
 
         return plainToInstance(TopicsOverview, {
           id: Number(organisationId),
-          firstDate,
-          secondDate,
+          currentMonth,
+          previousMonth,
           topicMetrics,
         });
       },

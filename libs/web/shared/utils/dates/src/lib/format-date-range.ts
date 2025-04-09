@@ -2,11 +2,11 @@ import { DateTime } from 'luxon';
 import { DateTimeFormat } from './enums';
 import { formatDate } from './format-date';
 
-export function formatDateRange(firstDate: DateTime, secondDate: DateTime): string {
-  const sameYear = firstDate.year === secondDate.year;
+export function formatDateRange(previousDate: DateTime, currentDate: DateTime): string {
+  const sameYear = previousDate.year === currentDate.year;
 
-  return `${formatDate(firstDate, sameYear ? DateTimeFormat.MONTH_ONLY : DateTimeFormat.MONTH_YEAR)}—${formatDate(
-    secondDate,
+  return `${formatDate(previousDate, sameYear ? DateTimeFormat.MONTH_ONLY : DateTimeFormat.MONTH_YEAR)}—${formatDate(
+    currentDate,
     DateTimeFormat.MONTH_YEAR,
   )}`;
 }
