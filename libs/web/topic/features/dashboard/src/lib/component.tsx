@@ -29,7 +29,9 @@ export function Dashboard(): ReactElement {
       skip: !profile,
     },
   );
-  const { isLoading: isAllSummariesLoading } = topicApi.useGetAllSummariesQuery(undefined, { skip: !profile });
+  const { isLoading: isAllSummariesLoading } = topicApi.useGetAllSummariesQuery(undefined, {
+    skip: !profile,
+  });
 
   const isLoading =
     isGeneralOverviewLoading || isOrganizationLoading || isTopicsOverviewLoading || isAllSummariesLoading;

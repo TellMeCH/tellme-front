@@ -1,7 +1,12 @@
-import { render } from '@testing-library/react';
+import { render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
   TestRootComponent,
+  generalOverviewResponse,
+  topicsOverviewResponse,
+  organizationResponse,
+  summariesResponse,
 } from '@tellme/web/shared/data-access/tests-data';
 import { Dashboard } from './component';
 
@@ -14,12 +19,35 @@ jest.mock('firebase/auth', () => ({
 }));
 
 describe('Dashboard', () => {
-  //let requestSpy: SpyInstance;
-  // Optional
-  beforeAll(() => {});
+  let requestSpy: SpyInstance;
+  const organizationId = Object.keys(generalOverviewResponse)[0];
+
+  beforeAll(() => {
+    requestSpy = jest.spyOn(apiService.httpClient, 'request').mockImplementation((config) => {
+      const { method, url, params } = config;
+
+      if (method !== 'get') return Promise.resolve({});
+
+      switch (url) {
+        case '/organizations/overview/':
+          return Promise.resolve({
+            data: params?.perTopic ? topicsOverviewResponse : generalOverviewResponse,
+          });
+
+        case `/organizations/${organizationId}/`:
+          return Promise.resolve({ data: organizationResponse });
+
+        case '/topics/all_summaries/':
+          return Promise.resolve({ data: summariesResponse });
+
+        default:
+          return Promise.resolve({});
+      }
+    });
+  });
 
   beforeEach(() => {
-    //requestSpy.mockClear();
+    requestSpy.mockClear();
     render(
       <TestRootComponent shouldAuthorize>
         <Dashboard />
@@ -27,30 +55,49 @@ describe('Dashboard', () => {
     );
   });
 
-  // Optional
-  afterAll(() => {
-    // Set up mocks and make other preparations actual for all test cases
+  it('should load initially', async () => {
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: '/organizations/overview/',
+          params: { per_topic: false },
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/organizations/${organizationId}/`,
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: '/organizations/overview/',
+          params: { per_topic: true },
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: '/topics/all_summaries/',
+        }),
+      );
+    });
+
+    expect(requestSpy).toHaveBeenCalledTimes(4);
   });
 
-  // Optional
   afterEach(() => {
-    // Actions after each test case
-  });
-
-  // Test cases
-  it('should load topics initially', () => {
-    // Actions with elements and results check
-  });
-  it('should do something', () => {
-    // Actions with elements and results check
-  });
-  it('should do something', () => {
-    // Actions with elements and results check
-  });
-  it('should do something', () => {
-    // Actions with elements and results check
-  });
-  it('should do something', () => {
-    // Actions with elements and results check
+    console.log(
+      requestSpy.mock.calls.map(([config]) => ({
+        method: config.method,
+        url: config.url,
+        params: config.params,
+      })),
+    );
   });
 });
