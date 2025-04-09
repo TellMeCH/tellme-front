@@ -70,7 +70,7 @@ export const topicApi = createAppApi({
       providesTags: getListTags,
     }),
     searchInfinite: builder.query<PaginationResponse<Topic>, TopicPaginationRequest>({
-      query: getSearchQuery,
+      query: ({ listType, ...params }) => getSearchQuery({ params, listType }),
       serializeQueryArgs: ({ queryArgs }) =>
         prepareRequestParams(omit(queryArgs, ['cursor']) as TopicPaginationRequest, TopicPaginationRequest),
       forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
