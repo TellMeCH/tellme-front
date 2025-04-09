@@ -28,10 +28,12 @@ export function DashboardTopicTrends(): ReactElement {
         )}
       </div>
       <div>
-        {activeTopics?.map((itemProps) => <TopicTrendsItem
-          key={itemProps.id}
-          maxCount={maxCount}
-          {...itemProps} />)}
+        {activeTopics?.map((itemProps) => (
+          <TopicTrendsItem
+            key={itemProps.topicKey}
+            maxCount={maxCount}
+            {...itemProps} />
+        ))}
       </div>
     </div>
   );

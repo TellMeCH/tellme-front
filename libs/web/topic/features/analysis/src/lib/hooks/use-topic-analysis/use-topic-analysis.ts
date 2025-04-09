@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { SummaryDetail, TopicInfiniteListType, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
+import { SummaryDetail, TopicListType, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { ChartState } from '../../interfaces/chart-state';
 import { generateTimeline, transformChartData } from '../../utils/';
@@ -25,10 +25,10 @@ interface TopicAnalysisResult {
 }
 
 interface UseTopicAnalysisProps {
-  topicId: string | null;
+  topicKey: string | null;
 }
 
-export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnalysisResult {
+export function useTopicAnalysis({ topicKey }: UseTopicAnalysisProps): TopicAnalysisResult {
   const profile = useSelector(authSelectors.profile);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState(TrendPeriod.MONTHLY);
@@ -41,7 +41,7 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     data: topicList,
     isLoading: isTopicListLoading,
     isUninitialized: isTopicListUninitialized,
-  } = topicApi.useSearchInfiniteQuery({ listType: TopicInfiniteListType.RECENT }, { skip: !profile });
+  } = topicApi.useSearchInfiniteQuery({ listType: TopicListType.RECENT }, { skip: !profile });
 
   const {
     data: { summary } = {},
@@ -108,8 +108,8 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
       return;
     }
 
-    if (topicId) {
-      const matchedTopic = availableTopics.find((topic) => String(topic.id) === topicId || topic.name === topicId);
+    if (topicKey) {
+      const matchedTopic = availableTopics.find((topic) => String(topic.id) === topicKey || topic.name === topicKey);
 
       if (matchedTopic) {
         setSelectedTopicId(String(matchedTopic.id));
@@ -121,7 +121,7 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     if (availableTopics.length > 0) {
       setSelectedTopicId(String(availableTopics[0].id));
     }
-  }, [selectedTopicId, topicId, topicList?.results]);
+  }, [selectedTopicId, topicKey, topicList?.results]);
 
   useEffect(() => {
     if (!isFetching && chartData.length > 0) {

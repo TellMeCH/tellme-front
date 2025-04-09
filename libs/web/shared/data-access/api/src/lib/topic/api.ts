@@ -4,7 +4,7 @@ import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import { topicApiConfig } from './config';
-import { TopicInfiniteListType } from './enums';
+import { TopicListType } from './enums';
 import {
   Topic,
   TopicPaginationRequest,
@@ -15,11 +15,17 @@ import {
   TopicSummary,
 } from './models';
 
-const getSearchQuery = ({ listType = TopicInfiniteListType.DEFAULT, ...params }: TopicPaginationRequest) => {
+const getSearchQuery = ({
+  listType = TopicListType.DEFAULT,
+  params,
+}: {
+  listType?: TopicListType;
+  params: PaginationRequest;
+}) => {
   const searchQueryPath = {
-    [TopicInfiniteListType.DEFAULT]: '',
-    [TopicInfiniteListType.ACTIVE]: 'list_active/',
-    [TopicInfiniteListType.RECENT]: 'list_recent/',
+    [TopicListType.DEFAULT]: '',
+    [TopicListType.ACTIVE]: 'list_active/',
+    [TopicListType.RECENT]: 'list_recent/',
   }[listType];
 
   return {
@@ -58,13 +64,13 @@ export const topicApi = createAppApi({
   tagTypes: [topicApiConfig.entityName],
   endpoints: (builder) => ({
     search: builder.query<PaginationResponse<Topic>, PaginationRequest>({
-      query: getSearchQuery,
+      query: (params) => getSearchQuery({ params }),
       serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
     }),
     searchInfinite: builder.query<PaginationResponse<Topic>, TopicPaginationRequest>({
-      query: getSearchQuery,
+      query: ({ listType, ...params }) => getSearchQuery({ params, listType }),
       serializeQueryArgs: ({ queryArgs }) =>
         prepareRequestParams(omit(queryArgs, ['cursor']) as TopicPaginationRequest, TopicPaginationRequest),
       forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
@@ -166,7 +172,7 @@ export const topicApi = createAppApi({
           });
 
           for (const { endpointName, originalArgs } of cachedQueries) {
-            if (originalArgs?.listType === TopicInfiniteListType.RECENT) {
+            if (originalArgs?.listType === TopicListType.RECENT) {
               continue;
             }
 
@@ -235,14 +241,14 @@ export const topicApi = createAppApi({
                       merge(existingItem, omit(updatedEntityData, 'id'));
                       const newIsActive = existingItem.isActive;
 
-                      if (originalArgs?.listType === TopicInfiniteListType.ACTIVE && oldIsActive && !newIsActive) {
+                      if (originalArgs?.listType === TopicListType.ACTIVE && oldIsActive && !newIsActive) {
                         endpointData.results.splice(existingIndex, 1);
                       }
-                    } else if (originalArgs?.listType === TopicInfiniteListType.ACTIVE && updatedEntityData.isActive) {
+                    } else if (originalArgs?.listType === TopicListType.ACTIVE && updatedEntityData.isActive) {
                       endpointData.results.push(newTopic);
                     }
 
-                    if (originalArgs?.listType === TopicInfiniteListType.ACTIVE) {
+                    if (originalArgs?.listType === TopicListType.ACTIVE) {
                       endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
                     }
                   } else {

@@ -1,2 +1,2 @@
 export * from './trend-period';
-export * from './topic-infinite-list-type';
+export * from './topic-list-type';

@@ -56,6 +56,7 @@ export function SidebarItem({
       <Icon name={iconName} theme={isDisabled ? 'secondary' : 'primary'} />
       <span className='ml-3'>{title}</span>
       {!!href && <Link
+        data-testid={testId}
         href={href}
         onClick={handlePress}
         className={basePressableClass} />}

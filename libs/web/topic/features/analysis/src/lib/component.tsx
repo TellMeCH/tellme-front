@@ -14,7 +14,7 @@ export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
 
   const searchParams = useSearchParams();
-  const topicId = searchParams.get('id');
+  const topicKey = searchParams.get('topicKey');
 
   const {
     topicOptions,
@@ -26,7 +26,7 @@ export function TopicAnalysis(): ReactElement {
     isEmptyList,
     handleTopicChange,
     handlePeriodChange,
-  } = useTopicAnalysis({ topicId });
+  } = useTopicAnalysis({ topicKey });
 
   const periodOptions = Object.values(TrendPeriod).map((value) => ({
     value,

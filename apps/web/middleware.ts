@@ -29,14 +29,17 @@ const redirectToPage = (request: NextRequest, route: string): NextResponse => {
 
 export default async function middleware(request: NextRequest): Promise<NextResponse> {
   const pathname = request.nextUrl.pathname;
-  const value = request.cookies.get(cookieConfig.keys.isAuthenticated)?.value;
-  const isAuthenticated = value === 'true';
+  const isAuthenticated = request.cookies.get(cookieConfig.keys.isAuthenticated)?.value === 'true';
+  const isOrganizationAdmin = request.cookies.get(cookieConfig.keys.isOrganizationAdmin)?.value === 'true';
 
   if (!isAuthenticated && isPathnameMatchingRoutes(pathname, privateRoutes)) {
     return redirectToPage(request, navigationConfig.routes.public.root);
   }
 
-  if (isAuthenticated && isPathnameMatchingRoutes(pathname, publicRoutes)) {
+  if (
+    (isAuthenticated && isPathnameMatchingRoutes(pathname, publicRoutes)) ||
+    (!isOrganizationAdmin && pathname === navigationConfig.routes.private.administration)
+  ) {
     return redirectToPage(request, navigationConfig.routes.private.dashboard);
   }
 
