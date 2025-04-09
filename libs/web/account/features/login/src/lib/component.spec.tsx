@@ -32,7 +32,7 @@ jest.mock('firebase/auth', () => {
 });
 
 function checkCookie(setCookieSpy: SpyInstance, key: string, value: string, shouldRemember?: boolean): void {
-  const callIndex = key === cookieConfig.keys.isAuthenticated ? 0 : 1;
+  const callIndex = Number(key === cookieConfig.keys.isOrganizationAdmin);
   const lastCall = setCookieSpy.mock.calls[callIndex];
   expect(lastCall?.[0]).toEqual(key);
   expect(lastCall?.[1]).toEqual(value);
