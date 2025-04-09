@@ -20,19 +20,19 @@ export function DashboardStatistics(): ReactElement {
   const profile = useSelector(authSelectors.profile);
 
   const { data } = organizationApi.useGetGeneralOverviewQuery(undefined, { skip: !profile });
-  const { secondDate, general } = data || {};
+  const { currentMonth, general } = data || {};
 
   const statisticsItems =
     general &&
-    secondDate &&
+    currentMonth &&
     compact(
       itemsConfig.map(
         ({ key, labelKey, hasChange = true }) =>
           general[key] && {
             title: t(labelKey),
             change: hasChange ? general[key]?.change : undefined,
-            value: general[key]?.firstMeasurement,
-            date: secondDate,
+            value: general[key]?.currentMeasurement,
+            date: currentMonth,
           },
       ),
     );

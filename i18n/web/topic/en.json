@@ -1,5 +1,7 @@
 {
   "DASHBOARD": {
+    "TEXT_EMPTY_CHART_TITLE": "Nothing to see here",
+    "TEXT_EMPTY_CHART_SUBTITLE": "There are no recent customer interactions to analyze.",
     "STATISTICS": {
       "TEXT_CALL_COUNT": "Call Count",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
@@ -12,8 +14,8 @@
     "TOPIC_TRENDS_ITEM": {
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_FREQUENCY": "Frequency",
-      "TEXT_FIRST_MEASUREMENT_AREA_LABEL": "First measurement area label",
-      "TEXT_SECOND_MEASUREMENT_AREA_LABEL": "Second measurement area label"
+      "TEXT_CURRENT_MEASUREMENT_AREA_LABEL": "Current measurement area label",
+      "TEXT_PREVIOUS_MEASUREMENT_AREA_LABEL": "Previous measurement area label"
     }
   },
   "ANALYSIS": {
@@ -26,11 +28,6 @@
       "TEXT_TRENDS": "Trends",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_FREQUENCY": "Frequency"
-    },
-    "EMPTY_CHART": {
-      "TEXT_TITLE": "Analytics will appear here soon",
-      "TEXT_SUBTITLE": "Once we have enough information, we will collect analytics for you.",
-      "TEXT_ALT_EMPTY_CHART": "There is no data to display"
     },
     "DATE_PERIOD": {
       "TEXT_MONTHLY": "1 year",
@@ -63,5 +60,10 @@
       "BUTTON_CANCEL": "Cancel",
       "BUTTON_SAVE": "Save"
     }
+  },
+  "EMPTY_CHART": {
+    "TEXT_TITLE": "Analytics will appear here soon",
+    "TEXT_SUBTITLE": "Once we have enough information, we will collect analytics for you.",
+    "TEXT_ALT_EMPTY_CHART": "There is no data to display"
   }
 }
