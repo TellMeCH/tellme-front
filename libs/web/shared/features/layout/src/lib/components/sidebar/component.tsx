@@ -30,21 +30,25 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
       href: navigationConfig.routes.private.dashboard,
       iconName: 'menu',
       title: t('LINK_DASHBOARD'),
+      testId: 'link',
     },
     {
       href: navigationConfig.routes.private.topicAnalysis,
       iconName: 'chart',
       title: t('LINK_TOPIC_ANALYSIS'),
+      testId: 'link',
     },
     {
       href: navigationConfig.routes.private.topics,
       iconName: 'label',
       title: t('LINK_TOPICS'),
+      testId: 'link',
     },
     employeeProfile?.isOrganizationAdmin && {
       href: navigationConfig.routes.private.administration,
       iconName: 'setting',
       title: t('LINK_ADMINISTRATION'),
+      testId: 'link',
     },
   ]);
 

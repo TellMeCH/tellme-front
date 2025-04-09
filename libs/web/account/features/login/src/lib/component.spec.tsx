@@ -5,7 +5,7 @@ import Cookies from 'js-cookie';
 import { DateTime } from 'luxon';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import { cookieConfig } from '@tellme/web/shared/data-access/cookies';
-import { employee, TestRootComponent, validCredentials } from '@tellme/web/shared/data-access/tests-data';
+import { nonAdmin, TestRootComponent, validCredentials } from '@tellme/web/shared/data-access/tests-data';
 import { Login } from './component';
 import '@testing-library/jest-dom';
 
@@ -56,7 +56,7 @@ function checkAdminCookie(setCookieSpy: SpyInstance, shouldRemember?: boolean): 
   checkCookie(
     setCookieSpy,
     cookieConfig.keys.isOrganizationAdmin,
-    String(employee.is_organization_admin),
+    String(nonAdmin.is_organization_admin),
     shouldRemember,
   );
 }
@@ -69,7 +69,7 @@ describe('Login', () => {
   const signInWithPopupSpy = jest.spyOn(firebase, 'signInWithPopup');
   const employeeProfileRequestSpy = jest
     .spyOn(apiService.httpClient, 'request')
-    .mockReturnValue(Promise.resolve({ data: employee }));
+    .mockReturnValue(Promise.resolve({ data: nonAdmin }));
 
   beforeEach(() => {
     onSuccessMock.mockClear();

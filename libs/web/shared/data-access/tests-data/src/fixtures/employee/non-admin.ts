@@ -1,9 +1,9 @@
-export const employee = {
+export const nonAdmin = {
   user: {
-    email: 'user@example.com',
+    email: 'test@example.com',
     auth_type: 'password',
     first_name: 'John',
     last_name: 'Doe',
   },
-  is_organization_admin: true,
+  is_organization_admin: false,
 };
