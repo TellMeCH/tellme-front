@@ -8,6 +8,7 @@ export const navigationConfig = {
       dashboard: '/dashboard',
       topics: '/topics',
       topicAnalysis: '/topic-analysis',
+      administration: '/administration',
     },
   },
 };

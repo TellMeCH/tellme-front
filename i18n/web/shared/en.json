@@ -17,6 +17,8 @@
       "LINK_DASHBOARD": "Dashboard",
       "LINK_TOPICS": "Topics",
       "LINK_TOPIC_ANALYSIS": "Topic Analysis",
+      "LINK_ADMINISTRATION": "Administration",
+      "TEXT_ADMIN": "Admin",
       "BUTTON_LOGOUT": "Logout"
     }
   }

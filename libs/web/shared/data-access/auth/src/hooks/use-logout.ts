@@ -18,7 +18,7 @@ export function useLogout(onSuccess: () => void) {
       setIsLoading(true);
       await signOut(firebaseAuth);
 
-      CookieService.remove(['isAuthenticated']);
+      CookieService.remove(['isAuthenticated', 'isOrganizationAdmin']);
       dispatch(topicApi.util.resetApiState());
       dispatch(organizationApi.util.resetApiState());
       dispatch(employeeApi.util.resetApiState());

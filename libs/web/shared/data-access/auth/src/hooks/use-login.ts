@@ -19,10 +19,13 @@ export function useLogin(onSuccess: () => void) {
       setIsLoading(true);
 
       await login();
-      await dispatch(employeeApi.endpoints.getProfile.initiate()).unwrap();
+      const employeeProfile = await dispatch(employeeApi.endpoints.getProfile.initiate()).unwrap();
 
       const expirationDate = DateTime.local().plus({ days: 2 }).toJSDate();
-      CookieService.set({ isAuthenticated: 'true' }, { expires: shouldRemember ? expirationDate : undefined });
+      CookieService.set(
+        { isAuthenticated: 'true', isOrganizationAdmin: String(employeeProfile.isOrganizationAdmin) },
+        { expires: shouldRemember ? expirationDate : undefined },
+      );
       onSuccess();
     } catch (error: any) {
       setError(error);
