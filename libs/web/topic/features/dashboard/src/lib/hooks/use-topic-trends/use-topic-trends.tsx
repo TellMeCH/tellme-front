@@ -9,7 +9,7 @@ import { authSelectors } from '@tellme/web/shared/data-access/auth';
 interface UseTopicTrendsReturn {
   currentMonth?: DateTime;
   previousMonth?: DateTime;
-  activeTopics: Array<TopicMetric & { id: string; description: string }>;
+  activeTopics: Array<TopicMetric & { topicKey: string; description: string }>;
   maxCount: number;
 }
 
@@ -34,7 +34,7 @@ export function useTopicTrends(): UseTopicTrendsReturn {
 
       return {
         ...metric,
-        id: String(topicSummary?.topicId ?? metric.name),
+        topicKey: String(topicSummary?.topicId ?? metric.name),
         description: reasonsForCalling || '',
       };
     });

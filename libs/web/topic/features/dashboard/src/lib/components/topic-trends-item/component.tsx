@@ -8,7 +8,7 @@ import { Measurement } from '@tellme/web/shared/utils/class-transformer';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 
 interface TopicTrendsItemProps {
-  id: string;
+  topicKey: string;
   name: string;
   description: string;
   maxCount?: number;
@@ -17,7 +17,7 @@ interface TopicTrendsItemProps {
 }
 
 export function TopicTrendsItem({
-  id,
+  topicKey,
   name,
   description,
   count,
@@ -30,7 +30,7 @@ export function TopicTrendsItem({
     <div className='flex flex-row justify-between min-h-[140px] py-4 gap-[60px] border-b border-text-tertiary last:border-none'>
       <div className='flex flex-col gap-2 w-1/3'>
         <Link
-          href={{ pathname: navigationConfig.routes.private.topicAnalysis, query: { id } }}
+          href={{ pathname: navigationConfig.routes.private.topicAnalysis, query: { topicKey } }}
           className='text-xl hover:underline'>
           {name}
         </Link>
