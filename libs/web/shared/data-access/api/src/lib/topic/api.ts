@@ -3,6 +3,7 @@ import { instanceToPlain, plainToInstance } from 'class-transformer';
 import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
+import { mergeInInfiniteSearch, createSearchResponseTransformer, createListTagsProvider } from '../common/utils';
 import { topicApiConfig } from './config';
 import { TopicListType } from './enums';
 import {
@@ -35,20 +36,9 @@ const getSearchQuery = ({
   };
 };
 
-const getListTags = (response?: PaginationResponse<Topic>) => [
-  { type: topicApiConfig.entityName, id: EntityTagID.LIST },
-  ...(response?.results.map((result) => ({ type: topicApiConfig.entityName, id: result.id })) || []),
-];
+const getListTags = createListTagsProvider<Topic>(topicApiConfig.entityName);
 
-const transformSearchResponse = (response: PaginationResponse<Topic>) => {
-  const { results, next, previous } = plainToInstance(PaginationResponse<Topic>, response as object);
-
-  return new PaginationResponse<Topic>({
-    next,
-    previous,
-    results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
-  });
-};
+const transformSearchResponse = createSearchResponseTransformer<Topic>(Topic);
 
 const transformTopicErrorResponse = (response: object): ErrorResponse<TopicErrorData> => {
   const { code, data } = plainToInstance(ErrorResponse<TopicErrorData>, response);
@@ -76,26 +66,7 @@ export const topicApi = createAppApi({
       forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
-      merge: (cache, response, { arg }) => {
-        if (!arg.cursor) {
-          cache.results = response.results;
-          cache.next = response.next;
-          cache.previous = response.previous;
-        } else {
-          const fetchedItemsIDs = response.results.map((item) => item.id);
-          cache.results = cache.results.filter((item) => !fetchedItemsIDs.includes(item.id));
-
-          if (arg.cursor === cache.nextCursor) {
-            cache.results.push(...response.results);
-            cache.next = response.next;
-          }
-
-          if (arg.cursor === cache.previousCursor) {
-            cache.results.unshift(...response.results);
-            cache.previous = response.previous;
-          }
-        }
-      },
+      merge: mergeInInfiniteSearch,
     }),
     get: builder.query<Topic, { id: number }>({
       query: ({ id }) => {
