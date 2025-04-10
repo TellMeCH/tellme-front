@@ -43,7 +43,7 @@ export function Dashboard(): ReactElement {
       ) : (
         <Fragment>
           <Header
-            testId='organization-name'
+            titleTestId='organization-name'
             title={organizaton?.name || ''}
             titleClassName='uppercase'
             rightContent={
