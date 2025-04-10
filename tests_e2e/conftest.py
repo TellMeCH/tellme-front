@@ -1,12 +1,16 @@
 import os
 import re
+import time
 import secrets
+import random
+import hashlib
 import string
 import logging
 import requests
 import pytest
 import firebase_admin
 from firebase_admin import auth
+from datetime import datetime, timedelta
 from playwright.sync_api import sync_playwright
 
 logger = logging.getLogger(__name__)
@@ -95,12 +99,13 @@ def test_org_context(superuser_headers):
         )
         analyst_list = analyst_response.json()["results"]
         for analyst in analyst_list:
-            if analyst['user']['email'] == analyst_email:
-                requests.delete(
-                    analyst['url'],
-                    headers=superuser_headers
-                )
-                logger.info(f"Deleted test analyst {analyst['user']['email']}")
+            if analyst.get('user'):
+                if analyst['user']['email'] == analyst_email:
+                    requests.delete(
+                        analyst['url'],
+                        headers=superuser_headers
+                    )
+                    logger.info(f"Deleted test analyst {analyst['user']['email']}")
 
         # Finally, delete the test organization
         requests.delete(org_url, headers=superuser_headers)
@@ -243,3 +248,213 @@ def login_page(test_org_context, frontend_path):
     context.close()
     browser.close()
     playwright.stop()
+
+
+@pytest.fixture(scope="session")
+def extended_test_data(test_org_context):
+    """
+    Creates:
+      - 1 agent
+      - 3 topics
+      - 1 customer
+      - 15 conversations total:
+         * 6 in the 'month before the previous month' (M-2)
+         * 9 in 'last month' (M-1)
+         * Among the 9 'last month' convs: distribution is 4/3/2 across the 3 topics.
+
+    Returns a dict with IDs and any other metadata you want to reference in tests.
+    """
+    cloud_run_host = test_org_context["cloud_run_host"]
+    org_id = test_org_context["org_id"]
+    superuser_headers = test_org_context["superuser_headers"]
+
+    # Single agent
+    agent_email = "test.agent@tell-me.ch"
+    agent_data = {
+        "role": "AGENT",
+        "organization": org_id,
+        "is_organization_admin": False,
+        "user": {
+          "email": agent_email,
+          "first_name": "Agent",
+          "last_name": "Test",
+          "auth_type": "password"
+        }
+    }
+    create_agent_resp = requests.post(
+        f"{cloud_run_host}/api/v1/employees/",
+        json=agent_data,
+        headers=superuser_headers
+    )
+    create_agent_resp.raise_for_status()
+    agent_id = create_agent_resp.json()["id"]
+
+    # Create 3 topics
+    TOPIC_DATA = [
+        {"name": "Topic Alpha"},
+        {"name": "Topic Beta"},
+        {"name": "Topic Gamma"},
+        {"name": "Topic Omega"}  # Empty topic
+    ]
+    topic_id_mapping = {}
+    for i, topic in enumerate(TOPIC_DATA, start=1):
+        topic['organization'] = org_id
+        topic['is_active'] = True  # You can decide if all are active
+        topic['description'] = 'Test topic description'
+        create_topic_resp = requests.post(
+          f"{cloud_run_host}/api/v1/topics/",
+          json=topic,
+          headers=superuser_headers,
+        )
+        create_topic_resp.raise_for_status()
+        topic_id_mapping[i] = create_topic_resp.json()["id"]
+
+    # Create 1 customer
+    customer_data = {
+        'external_id': hashlib.sha256(f'customer-{int(time.time())}'.encode()).hexdigest(),
+        'organization': org_id
+    }
+    create_customer_resp = requests.post(
+        f"{cloud_run_host}/api/v1/customers/",
+        json=customer_data,
+        headers=superuser_headers,
+    )
+    create_customer_resp.raise_for_status()
+    customer_id = create_customer_resp.json()["id"]
+
+    # Create 15 conversations: 6 = month before the previous month (M-2), 9 = last month (M-1)
+    # Among those 9, distribution of topics = 4 / 3 / 2
+    first_of_this_month = datetime(datetime.today().year, datetime.today().month, 1)
+
+    # M-1 (last month)
+    m1_end = first_of_this_month - timedelta(days=1)
+    m1_start = datetime(m1_end.year, m1_end.month, 1)
+
+    # M-2 (month before last)
+    m2_end = m1_start - timedelta(days=1)
+    m2_start = datetime(m2_end.year, m2_end.month, 1)
+
+    # For the 9 conv in M-1: topic distribution is 4/3/2
+    m1_distribution = {
+        1: 4,
+        2: 3,
+        3: 2
+    }
+
+    # For the 6 conv in M-2, distribute 2 per topic just for clarity
+    m2_distribution = {
+        1: 2,
+        2: 2,
+        3: 2
+    }
+
+    conversation_ids = []
+
+    def random_date_in_range(start_dt, end_dt):
+        """Returns a random datetime between start_dt and end_dt."""
+        delta = end_dt - start_dt
+        random_days = random.randint(0, delta.days)
+        return start_dt + timedelta(days=random_days)
+
+    # Helper to create the conversation via POST
+    def create_conversation(date_val, topic_idx):
+        sentiment = random.uniform(0, 5)
+        duration = random.randint(30, 1800)
+        payload = {
+          'path': f'/random/path/{secrets.token_hex(4)}',
+          'date': date_val.isoformat() + 'Z',
+          'duration': duration,
+          'transcript': "This is a sample transcript",
+          'sentiment': sentiment,
+          'title': f"Conversation with {agent_email}",
+          'summary': "This is a sample summary",
+          'input_tokens': random.randint(50, 200),
+          'output_tokens': random.randint(20, 100),
+          'customer': customer_id,
+          'agent': agent_id,
+          'topics': [topic_id_mapping[topic_idx]]
+        }
+        resp = requests.post(
+          f"{cloud_run_host}/api/v1/conversations/",
+          json=payload,
+          headers=superuser_headers,
+        )
+        resp.raise_for_status()
+        return resp.json()["id"]
+
+    # Create the 6 conv in M-2
+    for topic_idx, count in m2_distribution.items():
+        for _ in range(count):
+            date_val = random_date_in_range(m2_start, m2_end)
+            cid = create_conversation(date_val, topic_idx)
+            conversation_ids.append(cid)
+
+    # Create the 9 conv in M-1 (4/3/2 distribution)
+    for topic_idx, count in m1_distribution.items():
+        for _ in range(count):
+            date_val = random_date_in_range(m1_start, m1_end)
+            cid = create_conversation(date_val, topic_idx)
+            conversation_ids.append(cid)
+
+    # Pre-generate topic summaries
+    requests.get(
+        f'{cloud_run_host}/api/v1/topics/all_summaries/',
+        headers=test_org_context['analyst_headers']
+    )
+
+    def delete_conversations(context):
+        """
+        Delete all conversations in the organization and their associated agent.
+        """
+        org_id = context['org_id']
+        cloud_run_host = context['cloud_run_host']
+        superuser_headers = context['superuser_headers']
+        analyst_headers = context['analyst_headers']
+
+        next_url = f"{cloud_run_host}/api/v1/organizations/{org_id}/conversations/"
+        all_conversations = []
+        while next_url:
+            conv_response = requests.get(
+                next_url,
+                headers=superuser_headers
+            )
+            all_conversations.extend(conv_response.json()['results'])
+            next_url = conv_response.json()['next']
+
+        for conv in all_conversations:
+            requests.delete(
+                conv['url'],
+                headers=superuser_headers
+            )
+            logger.info(f"Deleted test conversation {conv['title']}")
+
+        next_url = f"{cloud_run_host}/api/v1/topics/"
+        all_topics = []
+        while next_url:
+            topic_response = requests.get(
+              next_url,
+              headers=test_org_context['analyst_headers']
+            )
+            all_topics.extend(topic_response.json()['results'])
+            next_url = topic_response.json()['next']
+
+        for topic in all_topics:
+            requests.delete(
+                topic['url'],
+                headers=analyst_headers
+            )
+            logger.info(f"Deleted test topic {topic['name']}")
+
+        requests.delete(f'{cloud_run_host}/api/v1/employees/{agent_id}', headers=superuser_headers)
+
+    # Yield any data that might be useful in tests
+    yield {
+        "agent_id": agent_id,
+        "agent_email": agent_email,
+        "topic_ids": topic_id_mapping,
+        "customer_id": customer_id,
+        "conversation_ids": conversation_ids,
+    }
+
+    # Delete conversations (the rest should be deleted by deleting the organization)
+    delete_conversations(test_org_context)
