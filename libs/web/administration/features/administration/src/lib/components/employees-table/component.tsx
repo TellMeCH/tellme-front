@@ -29,7 +29,7 @@ export function EmployeesTable(): ReactElement {
         dataLength={data?.results.length || 0}
         next={fetchNextPage}
         scrollableTarget='main'
-        hasMore={!data?.nextCursor}
+        hasMore={!!data?.nextCursor}
         loader={
           <div className='flex justify-center py-6'>
             <Spinner />
@@ -40,7 +40,7 @@ export function EmployeesTable(): ReactElement {
           removeWrapper
           classNames={{
             td: 'text-medium align-top px-0 py-4',
-            th: 'text-text-secondary bg-transparent font-normal text-small',
+            th: 'text-text-secondary bg-transparent font-normal text-small px-0',
             tr: 'border-b-1 border-b-text-tertiary',
           }}>
           <TableHeader>
