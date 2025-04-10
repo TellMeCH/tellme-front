@@ -7,12 +7,15 @@ interface HeaderProps {
   title: string;
   rightContent?: ReactNode;
   titleClassName?: string;
+  testId?: string;
 }
 
-export function Header({ title, rightContent, titleClassName }: HeaderProps): ReactElement {
+export function Header({ title, rightContent, titleClassName, testId }: HeaderProps): ReactElement {
   return (
     <div className='flex flex-row justify-between items-center bg-background-secondary rounded-2xl py-4 px-8'>
-      <Heading className={clsx(styles.header__title, titleClassName)}>{title}</Heading>
+      <Heading testId={testId} className={clsx(styles.header__title, titleClassName)}>
+        {title}
+      </Heading>
       {rightContent}
     </div>
   );

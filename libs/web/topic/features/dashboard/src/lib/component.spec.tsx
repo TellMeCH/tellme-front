@@ -88,9 +88,9 @@ describe('Dashboard', () => {
     });
 
     await waitFor(() => {
-      const items = screen.getAllByTestId('summary-description');
+      const summaryDescriptions = screen.getAllByTestId('summary-description');
 
-      expect(items.length).toBe(matchingTopics.length);
+      expect(summaryDescriptions.length).toBe(matchingTopics.length);
     });
 
     expect(requestSpy).toHaveBeenCalledWith(
@@ -103,9 +103,9 @@ describe('Dashboard', () => {
 
   it('should load topics overview initially', async () => {
     await waitFor(() => {
-      const items = screen.getAllByTestId('overview-item');
+      const overviewItems = screen.getAllByTestId('overview-item');
 
-      expect(items.length).toBe(Object.keys(Object.values(topicsOverviewResponse)[0]).length);
+      expect(overviewItems.length).toBe(Object.keys(Object.values(topicsOverviewResponse)[0]).length);
     });
 
     expect(requestSpy).toHaveBeenCalledWith(
@@ -117,21 +117,13 @@ describe('Dashboard', () => {
     );
   });
 
-  it('should render formatted date range correctly', async () => {
+  it('should show organization name and render formatted date range correctly', async () => {
     await waitFor(() => {
       const dateRangeItem = screen.getByTestId('date-range');
+      const organizationNameItem = screen.getByTestId('organization-name');
 
+      expect(organizationNameItem).toHaveTextContent(organizationResponse.name);
       expect(dateRangeItem).toHaveTextContent('Feb—Mar 2025');
     });
-  });
-
-  afterEach(() => {
-    console.log(
-      requestSpy.mock.calls.map(([config]) => ({
-        method: config.method,
-        url: config.url,
-        params: config.params,
-      })),
-    );
   });
 });
