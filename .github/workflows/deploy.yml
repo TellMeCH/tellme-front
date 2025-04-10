@@ -66,3 +66,65 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy ./apps/landing/.open-next/worker.js --env=${{ env.TELLME_ENV }}
+
+  e2e_testing:
+    name: End-to-end Testing of Deployed Application
+    environment:
+      name: ${{ github.ref_name }}
+    runs-on: ubuntu-latest
+    needs: deploy_web
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+      pull-requests: 'read'
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        token_format: access_token
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        credentials_json: ${{ secrets.CICD_SERVICE_ACCOUNT_JSON_KEY }}
+        service_account: ${{ secrets.CICD_SERVICE_ACCOUNT }}
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install Poetry
+      run: |
+        curl -sSL https://install.python-poetry.org | python3 -
+        echo 'export PATH="$HOME/.local/bin:$PATH"' >> $GITHUB_ENV
+
+    - name: Install Dependencies
+      run: |
+        poetry install --directory=tests_e2e --sync
+
+    - name: Ensure browsers are installed
+      run: python -m playwright install --with-deps
+
+    - name: Determine Cloud Run URL
+      id: extract_urls
+      run: |
+        PROJECT_NUMBER=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format='value(projectNumber)')
+        CLOUD_RUN_URL="https://${{ vars.SERVICE_NAME }}-${PROJECT_NUMBER}.${{ secrets.GCP_PROJECT_REGION }}.run.app"
+        echo "url=$CLOUD_RUN_URL" >> $GITHUB_OUTPUT
+
+    - name: Run End-to-end Testing Routine
+      env:
+        TELLME_ENV: ${{ env.TELLME_ENV }}
+        CLOUD_RUN_HOST: ${{ steps.extract_urls.outputs.url }}
+        FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
+        TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
+        FRONTEND_PATH: ${{ secrets.FRONTEND_PATH }}
+      run: pytest --tracing=retain-on-failure --output ./test-results/
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-traces
+        path: test-results/
