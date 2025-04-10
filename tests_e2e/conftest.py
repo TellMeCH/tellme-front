@@ -358,14 +358,13 @@ def extended_test_data(test_org_context):
 
     # Helper to create the conversation via POST
     def create_conversation(date_val, topic_idx):
-        sentiment = random.uniform(0, 5)
         duration = random.randint(30, 1800)
         payload = {
           'path': f'/random/path/{secrets.token_hex(4)}',
           'date': date_val.isoformat() + 'Z',
           'duration': duration,
           'transcript': "This is a sample transcript",
-          'sentiment': sentiment,
+          'sentiment': topic_idx,
           'title': f"Conversation with {agent_email}",
           'summary': "This is a sample summary",
           'input_tokens': random.randint(50, 200),

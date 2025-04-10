@@ -5,7 +5,7 @@ from playwright.sync_api import expect
 
 
 class TestMainDashboard:
-    def test_general_overview(self, test_org_context, login_page, frontend_path, extended_test_data):
+    def test_dashboard_overview_general(self, test_org_context, login_page, frontend_path, extended_test_data):
         """
         Test that the generic organization overview is visible in the resulting UI
         """
@@ -50,5 +50,52 @@ class TestMainDashboard:
         # Check most popular topic is shown
         topic_regex = re.compile(rf"^{overview['most_popular_topic'][latest_month]}$")
         expect(login_page.get_by_role("paragraph").filter(has_text=topic_regex)).to_be_visible()
+
+    def test_dashboard_overview_topics(self, test_org_context, login_page, frontend_path, extended_test_data):
+        """
+        Test that the per topic overview is visible in the resulting UI
+        """
+        # Retrieve Organization Overview
+        resp = requests.get(
+          f"{test_org_context['cloud_run_host']}/api/v1/organizations/overview/",
+          params={'per_topic': True},
+          headers=test_org_context['analyst_headers']
+        )
+        resp.raise_for_status()
+        resp_json = resp.json()
+        overview = resp_json.get(test_org_context['org_id'])
+
+        login_page.goto(f"{frontend_path}/dashboard")
+
+        # Check that per-topic KPIs are visible
+        for topic_name, topic_data in overview.items():
+            kpi_order = sorted([month for month in topic_data['count'].keys() if month != 'change'])
+            kpi_order.reverse()
+            frequency = ''.join([f'{topic_data['count'][month]:.0f}' for month in kpi_order])
+            engagement = '51'.join([f"{topic_data['avg_sentiment'][month]:.0f}" for month in kpi_order])
+            expect(login_page.get_by_role("link", name=topic_name)).to_be_visible()
+            expect(login_page.get_by_text(f"Frequency{frequency}")).to_be_visible()
+            expect(login_page.get_by_text(f"Customer Engagement1{engagement}5")).to_be_visible()
+
+    def test_dashboard_summaries(self, test_org_context, login_page, frontend_path, extended_test_data):
+        """
+        Test that topic summaries are visible in the dashboard
+        """
+        # Retrieve all summaries
+        resp = requests.get(
+            f"{test_org_context['cloud_run_host']}/api/v1/topics/all_summaries/",
+            headers=test_org_context['analyst_headers']
+        )
+        resp.raise_for_status()
+        summaries = resp.json()
+
+        login_page.goto(f"{frontend_path}/dashboard")
+
+        # Check that topic summaries are visible
+        for topic_id, summary in summaries.items():
+            if summary['summary_call_count'] > 0:
+                summ_regex = re.compile(rf'^{summary["name"]}{summary["summary"]["Reasons for Calling"][:20]}')
+                expect(login_page.get_by_text(summ_regex)).to_be_visible()
+
 
 
