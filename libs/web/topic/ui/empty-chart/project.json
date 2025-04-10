@@ -1,0 +1,9 @@
+{
+  "name": "web-topic-ui-empty-chart",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/topic/ui/empty-chart/src",
+  "projectType": "library",
+  "tags": ["app:web", "type:ui", "scope:topic"],
+  "// targets": "to see all targets run: nx show project web-topic-ui-empty-chart --web",
+  "targets": {}
+}

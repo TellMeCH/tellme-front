@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { SummaryDetail, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
+import { SummaryDetail, TopicListType, TrendPeriod, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { ChartState } from '../../interfaces/chart-state';
 import { generateTimeline, transformChartData } from '../../utils/';
@@ -18,7 +18,6 @@ interface TopicAnalysisResult {
   selectedTopicId: string | null;
   isLoading: boolean;
   isEmptyList: boolean;
-  isEmptyChart: boolean;
   handleTopicChange: (value: string) => void;
   handlePeriodChange: (value: TrendPeriod) => void;
   selectedTopic?: TopicOption;
@@ -26,10 +25,10 @@ interface TopicAnalysisResult {
 }
 
 interface UseTopicAnalysisProps {
-  topicId: string | null;
+  topicKey: string | null;
 }
 
-export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnalysisResult {
+export function useTopicAnalysis({ topicKey }: UseTopicAnalysisProps): TopicAnalysisResult {
   const profile = useSelector(authSelectors.profile);
   const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [selectedPeriod, setSelectedPeriod] = useState(TrendPeriod.MONTHLY);
@@ -42,7 +41,7 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     data: topicList,
     isLoading: isTopicListLoading,
     isUninitialized: isTopicListUninitialized,
-  } = topicApi.useSearchInfiniteQuery({ isActive: true }, { skip: !profile });
+  } = topicApi.useSearchInfiniteQuery({ listType: TopicListType.RECENT }, { skip: !profile });
 
   const {
     data: { summary } = {},
@@ -60,12 +59,14 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     { skip: !selectedTopicId },
   );
 
-  const isUninitialized = isTopicListUninitialized || isSummaryUninitialized || isChartDataUninitialized;
-  const isResourceLoading = isTopicListLoading || isSummaryLoading || isChartDataLoading;
-  const isLoading = isResourceLoading || isUninitialized;
-
   const isEmptyList = topicList?.results?.length === 0;
-  const isEmptyChart = summary?.length === 0 && rawChartData?.length === 0;
+
+  const isListLoading = isTopicListUninitialized || isTopicListLoading;
+
+  const areDetailsLoading =
+    !isEmptyList && (isSummaryLoading || isChartDataLoading || isSummaryUninitialized || isChartDataUninitialized);
+
+  const isLoading = isListLoading || areDetailsLoading;
 
   const timeline = useMemo(() => generateTimeline(selectedPeriod), [selectedPeriod]);
 
@@ -98,25 +99,29 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
   };
 
   useEffect(() => {
-    const availableIds = topicList?.results.map((topic) => String(topic.id)) || [];
+    const availableTopics = topicList?.results || [];
+    const availableIds = availableTopics.map((topic) => String(topic.id));
 
     const isSelectedIdValid = selectedTopicId && availableIds.includes(selectedTopicId);
-    const isTopicFromUrlValid = topicId && availableIds.includes(topicId);
 
     if (isSelectedIdValid) {
       return;
     }
 
-    if (isTopicFromUrlValid) {
-      setSelectedTopicId(topicId);
+    if (topicKey) {
+      const matchedTopic = availableTopics.find((topic) => String(topic.id) === topicKey || topic.name === topicKey);
 
-      return;
+      if (matchedTopic) {
+        setSelectedTopicId(String(matchedTopic.id));
+
+        return;
+      }
     }
 
-    if (availableIds.length > 0) {
-      setSelectedTopicId(availableIds[0]);
+    if (availableTopics.length > 0) {
+      setSelectedTopicId(String(availableTopics[0].id));
     }
-  }, [selectedTopicId, topicId, topicList?.results]);
+  }, [selectedTopicId, topicKey, topicList?.results]);
 
   useEffect(() => {
     if (!isFetching && chartData.length > 0) {
@@ -135,7 +140,6 @@ export function useTopicAnalysis({ topicId }: UseTopicAnalysisProps): TopicAnaly
     chartState,
     isLoading,
     isEmptyList,
-    isEmptyChart,
     handleTopicChange,
     handlePeriodChange,
   };
