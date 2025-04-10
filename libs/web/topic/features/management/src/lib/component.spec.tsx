@@ -6,6 +6,7 @@ import {
   TestRootComponent,
   topic,
   topicsPaginationResponse,
+  getAllByTestIdAsync,
 } from '@tellme/web/shared/data-access/tests-data';
 import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
@@ -17,15 +18,6 @@ jest.mock('firebase/auth', () => ({
   GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
   OAuthProvider: jest.fn((providerId) => ({ providerId })),
 }));
-
-async function getAllByTestIdAsync(testId: string) {
-  let result;
-  await waitFor(async () => {
-    result = screen.getAllByTestId(testId);
-  });
-
-  return result;
-}
 
 describe('Topics management', () => {
   let requestSpy: SpyInstance;
@@ -106,6 +98,7 @@ describe('Topics management', () => {
 
       expect(items.length).toBe(topicsPaginationResponse.results.length);
     });
+
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',

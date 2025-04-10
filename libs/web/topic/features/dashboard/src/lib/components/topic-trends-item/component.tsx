@@ -27,14 +27,20 @@ export function TopicTrendsItem({
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS_ITEM');
 
   return (
-    <div className='flex flex-row justify-between min-h-[140px] py-4 gap-[60px] border-b border-text-tertiary last:border-none'>
+    <div
+      data-testid='overview-item'
+      className='flex flex-row justify-between min-h-[140px] py-4 gap-[60px] border-b border-text-tertiary last:border-none'>
       <div className='flex flex-col gap-2 w-1/3'>
         <Link
           href={{ pathname: navigationConfig.routes.private.topicAnalysis, query: { topicKey } }}
           className='text-xl hover:underline'>
           {name}
         </Link>
-        <p className='text-sm'>{description}</p>
+        {!!description && (
+          <p data-testid='summary-description' className='text-sm'>
+            {description}
+          </p>
+        )}
       </div>
       <div className='flex flex-col flex-1 w-1/3'>
         <p className='text-text-secondary mb-[22px]'>{t('TEXT_FREQUENCY')}</p>

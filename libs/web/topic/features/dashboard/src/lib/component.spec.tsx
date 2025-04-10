@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { screen, render, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
@@ -31,7 +31,7 @@ describe('Dashboard', () => {
       switch (url) {
         case '/organizations/overview/':
           return Promise.resolve({
-            data: params?.perTopic ? topicsOverviewResponse : generalOverviewResponse,
+            data: params?.per_topic ? topicsOverviewResponse : generalOverviewResponse,
           });
 
         case `/organizations/${organizationId}/`:
@@ -55,16 +55,14 @@ describe('Dashboard', () => {
     );
   });
 
-  it('should load general overview and organization initially', async () => {
-    await waitFor(() => {
-      expect(requestSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: 'get',
-          url: '/organizations/overview/',
-          params: { per_topic: false },
-        }),
-      );
-    });
+  it('should load general overview and organization initially', () => {
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: '/organizations/overview/',
+        params: { per_topic: false },
+      }),
+    );
   });
 
   it('should load organization initially', async () => {
@@ -79,26 +77,44 @@ describe('Dashboard', () => {
   });
 
   it('should load summaries initially', async () => {
-    await waitFor(() => {
-      expect(requestSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: 'get',
-          url: '/topics/all_summaries/',
-        }),
-      );
+    const topicsOverview = Object.values(topicsOverviewResponse)[0];
+
+    const matchingTopics = Object.keys(topicsOverview).filter((topicName) => {
+      const summary = Object.values(summariesResponse).find((summary) => summary.name === topicName);
+
+      const hasReasonsDescription = summary?.summary?.['Reasons for Calling'];
+
+      return Boolean(hasReasonsDescription);
     });
+
+    await waitFor(() => {
+      const items = screen.getAllByTestId('summary-description');
+
+      expect(items.length).toBe(matchingTopics.length);
+    });
+
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: '/topics/all_summaries/',
+      }),
+    );
   });
 
   it('should load topics overview initially', async () => {
     await waitFor(() => {
-      expect(requestSpy).toHaveBeenCalledWith(
-        expect.objectContaining({
-          method: 'get',
-          url: '/organizations/overview/',
-          params: { per_topic: true },
-        }),
-      );
+      const items = screen.getAllByTestId('overview-item');
+
+      expect(items.length).toBe(Object.keys(Object.values(topicsOverviewResponse)[0]).length);
     });
+
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: '/organizations/overview/',
+        params: { per_topic: true },
+      }),
+    );
   });
 
   afterEach(() => {
