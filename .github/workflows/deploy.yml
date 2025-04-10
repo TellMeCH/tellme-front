@@ -107,7 +107,9 @@ jobs:
         poetry sync --directory=tests_e2e
 
     - name: Ensure browsers are installed
-      run: poetry run python -m playwright install --with-deps
+      run: |
+        cd tests_e2e
+        poetry run python -m playwright install --with-deps
 
     - name: Determine Cloud Run URL
       id: extract_urls
