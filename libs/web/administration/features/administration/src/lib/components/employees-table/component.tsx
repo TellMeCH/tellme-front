@@ -44,8 +44,8 @@ export function EmployeesTable(): ReactElement {
             tr: 'border-b-1 border-b-text-tertiary',
           }}>
           <TableHeader>
-            <TableColumn>{t('TEXT_NAME')}</TableColumn>
-            <TableColumn>{t('TEXT_ROLE')}</TableColumn>
+            <TableColumn width={240}>{t('TEXT_NAME')}</TableColumn>
+            <TableColumn width={180}>{t('TEXT_ROLE')}</TableColumn>
             <TableColumn>{t('TEXT_AUTH_DATA')}</TableColumn>
           </TableHeader>
           <TableBody items={data?.results || []}>
