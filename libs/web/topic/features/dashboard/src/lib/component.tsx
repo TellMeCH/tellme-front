@@ -48,7 +48,9 @@ export function Dashboard(): ReactElement {
             rightContent={
               generalOverview.currentMonth &&
               generalOverview.previousMonth && (
-                <p>{formatDateRange(generalOverview.previousMonth, generalOverview.currentMonth)}</p>
+                <p data-testid='date-range'>
+                  {formatDateRange(generalOverview.previousMonth, generalOverview.currentMonth)}
+                </p>
               )
             }
           />

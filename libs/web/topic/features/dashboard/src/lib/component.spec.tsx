@@ -55,7 +55,7 @@ describe('Dashboard', () => {
     );
   });
 
-  it('should load general overview and organization initially', () => {
+  it('should load general overview', () => {
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
@@ -115,6 +115,14 @@ describe('Dashboard', () => {
         params: { per_topic: true },
       }),
     );
+  });
+
+  it('should render formatted date range correctly', async () => {
+    await waitFor(() => {
+      const dateRangeItem = screen.getByTestId('date-range');
+
+      expect(dateRangeItem).toHaveTextContent('Feb—Mar 2025');
+    });
   });
 
   afterEach(() => {
