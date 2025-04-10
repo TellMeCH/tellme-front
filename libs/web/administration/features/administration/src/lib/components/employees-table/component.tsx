@@ -63,6 +63,7 @@ export function EmployeesTable(): ReactElement {
                   <div className='text-text-secondary'>
                     {t(`AUTH_TYPE.TEXT_${employee.user.authType.toUpperCase()}`)}
                   </div>
+                  {/* TODO: add the dropdown with actions */}
                 </TableCell>
               </TableRow>
             )}
