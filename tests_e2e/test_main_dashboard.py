@@ -55,7 +55,7 @@ class TestMainDashboard:
         """
         Test that the per topic overview is visible in the resulting UI
         """
-        # Retrieve Organization Overview
+        # Retrieve Organization Overview per Topic
         resp = requests.get(
           f"{test_org_context['cloud_run_host']}/api/v1/organizations/overview/",
           params={'per_topic': True},

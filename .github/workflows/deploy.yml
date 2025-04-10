@@ -82,6 +82,15 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v4
 
+    - name: Authenticate to Google Cloud
+      id: auth
+      uses: google-github-actions/auth@v2
+      with:
+        token_format: access_token
+        project_id: ${{ secrets.GCP_PROJECT_ID }}
+        credentials_json: ${{ secrets.CICD_SERVICE_ACCOUNT_JSON_KEY }}
+        service_account: ${{ secrets.CICD_SERVICE_ACCOUNT }}
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
@@ -113,7 +122,7 @@ jobs:
         FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
         TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
         FRONTEND_PATH: ${{ secrets.FRONTEND_PATH }}
-      run: pytest --tracing=retain-on-failure
+      run: pytest --tracing=retain-on-failure --output ./test-results/
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

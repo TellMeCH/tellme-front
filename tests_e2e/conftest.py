@@ -129,7 +129,7 @@ def test_org_context(superuser_headers):
         return ''.join(password_chars)
 
     # 1) Check for existing "TestOrg-Suite", delete if found
-    org_name = "TestOrg-Suite"
+    org_name = "Frontend-TestOrg-Suite"
     org_list_resp = requests.get(
         f"{cloud_run_host}/api/v1/organizations/",
         headers=superuser_headers
