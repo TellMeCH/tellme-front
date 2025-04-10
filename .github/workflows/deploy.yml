@@ -103,10 +103,11 @@ jobs:
 
     - name: Install Dependencies
       run: |
-        poetry install --directory=tests_e2e --sync
+        poetry install --directory=tests_e2e
+        poetry sync --directory=tests_e2e
 
     - name: Ensure browsers are installed
-      run: python -m playwright install --with-deps
+      run: poetry run python -m playwright install --with-deps
 
     - name: Determine Cloud Run URL
       id: extract_urls
@@ -122,7 +123,7 @@ jobs:
         FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
         TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
         FRONTEND_PATH: ${{ secrets.FRONTEND_PATH }}
-      run: pytest --tracing=retain-on-failure --output ./test-results/
+      run: poetry run pytest --tracing=retain-on-failure --output ./test-results/
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
