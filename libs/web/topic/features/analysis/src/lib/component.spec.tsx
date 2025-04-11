@@ -1,14 +1,14 @@
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, waitFor } from '@testing-library/react';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import '@testing-library/jest-dom';
 import {
-  getIdFromUrl,
-  TestRootComponent,
-  topic,
   topicsPaginationResponse,
-  getAllByTestIdAsync,
+  TestRootComponent,
+  getIdFromUrl,
+  summaryResponse,
+  chartDataResponse,
 } from '@tellme/web/shared/data-access/tests-data';
+import { TopicAnalysis } from './component';
 
 import SpyInstance = jest.SpyInstance;
 
@@ -18,11 +18,33 @@ jest.mock('firebase/auth', () => ({
   OAuthProvider: jest.fn((providerId) => ({ providerId })),
 }));
 
+jest.mock('next/navigation', () => ({
+  ...jest.requireActual('next/navigation'),
+  useSearchParams: () => new URLSearchParams(''),
+}));
+
 describe('Topic Analysis', () => {
   let requestSpy: SpyInstance;
-  const selectedTopicId = 123;
+  const [topicId, newTopicId] = topicsPaginationResponse.results.map((topic) => getIdFromUrl(topic.url));
 
   beforeAll(() => {
+    global.ResizeObserver = class {
+      observe = jest.fn();
+      unobserve = jest.fn();
+      disconnect = jest.fn();
+    };
+
+    global.matchMedia = jest.fn().mockImplementation((query) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: jest.fn(), // deprecated
+      removeListener: jest.fn(), // deprecated
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      dispatchEvent: jest.fn(),
+    }));
+
     requestSpy = jest.spyOn(apiService.httpClient, 'request').mockImplementation((config) => {
       const { method, url, params } = config;
 
@@ -32,11 +54,13 @@ describe('Topic Analysis', () => {
         case '/topics/list_recent/':
           return Promise.resolve({ data: topicsPaginationResponse });
 
-        case `/organizations/${topicId}/summary_data/`:
-          return Promise.resolve({ data: organizationResponse });
+        case `/topics/${topicId}/summary_data/`:
+        case `/topics/${newTopicId}/summary_data/`:
+          return Promise.resolve({ data: summaryResponse });
 
         case `/topics/${topicId}/trend/`:
-          return Promise.resolve({ data: summariesResponse });
+        case `/topics/${newTopicId}/trend/`:
+          return Promise.resolve({ data: chartDataResponse });
 
         default:
           return Promise.resolve({});
@@ -44,9 +68,40 @@ describe('Topic Analysis', () => {
     });
   });
 
-  // Optional
   beforeEach(() => {
-    // Actions before each test case
+    requestSpy.mockClear();
+    render(
+      <TestRootComponent shouldAuthorize>
+        <TopicAnalysis />
+      </TestRootComponent>,
+    );
+  });
+
+  it('should load recent topics, summary and trend data initially', async () => {
+    //mockUseSearchParams.mockReturnValue(new URLSearchParams(''));
+
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: '/topics/list_recent/',
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/topics/${topicId}/summary_data/`,
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/topics/${topicId}/trend/`,
+        }),
+      );
+    });
   });
 
   // Optional
@@ -60,7 +115,14 @@ describe('Topic Analysis', () => {
   });
 
   // Test cases
-  it('should do something', () => {
-    // Actions with elements and results check
+  afterEach(() => {
+    console.log(
+      '👉 Called API requests:',
+      requestSpy.mock.calls.map(([config]) => ({
+        method: config.method,
+        url: config.url,
+        params: config.params,
+      })),
+    );
   });
 });

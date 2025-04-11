@@ -143,6 +143,8 @@ export const topicApi = createAppApi({
         };
       },
       transformResponse: (response) => {
+        console.log(response);
+
         return plainToInstance(TopicChartEntry, response.results as Array<object>);
       },
     }),
