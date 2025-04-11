@@ -29,7 +29,9 @@ export function Dashboard(): ReactElement {
       skip: !profile,
     },
   );
-  const { isLoading: isAllSummariesLoading } = topicApi.useGetAllSummariesQuery(undefined, { skip: !profile });
+  const { isLoading: isAllSummariesLoading } = topicApi.useGetAllSummariesQuery(undefined, {
+    skip: !profile,
+  });
 
   const isLoading =
     isGeneralOverviewLoading || isOrganizationLoading || isTopicsOverviewLoading || isAllSummariesLoading;
@@ -41,12 +43,15 @@ export function Dashboard(): ReactElement {
       ) : (
         <Fragment>
           <Header
+            titleTestId='organization-name'
             title={organizaton?.name || ''}
             titleClassName='uppercase'
             rightContent={
               generalOverview.currentMonth &&
               generalOverview.previousMonth && (
-                <p>{formatDateRange(generalOverview.previousMonth, generalOverview.currentMonth)}</p>
+                <p data-testid='date-range'>
+                  {formatDateRange(generalOverview.previousMonth, generalOverview.currentMonth)}
+                </p>
               )
             }
           />

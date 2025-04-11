@@ -17,7 +17,9 @@ export function useTopicTrends(): UseTopicTrendsReturn {
   const profile = useSelector(authSelectors.profile);
 
   const { data: topicOverview } = organizationApi.useGetTopicsOverviewQuery(undefined, { skip: !profile });
-  const { data: summaries } = topicApi.useGetAllSummariesQuery(undefined, { skip: !profile });
+  const { data: summaries } = topicApi.useGetAllSummariesQuery(undefined, {
+    skip: !profile,
+  });
 
   const { currentMonth, previousMonth, topicMetrics } = topicOverview || {};
 
