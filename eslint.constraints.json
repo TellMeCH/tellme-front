@@ -42,5 +42,9 @@
   {
     "sourceTag": "app:landing",
     "onlyDependOnLibsWithTags": ["app:landing", "app:shared"]
+  },
+  {
+    "sourceTag": "scope:administration",
+    "onlyDependOnLibsWithTags": ["scope:administration", "scope:shared"]
   }
 ]

@@ -1,0 +1,25 @@
+{
+  "ADMINISTRATION": {
+    "TEXT_TITLE": "{organizationName} Administration",
+    "TEXT_REGISTERED_EMPLOYEES": "Registered employees",
+    "TEXT_MAX_ACCOUNTS_COUNT": "Maximum number of registered accounts",
+    "TEXT_CONVERSATIONS_COUNT": "Conversations count",
+    "EMPLOYEES_TABLE": {
+      "TEXT_EMPLOYEES": "Employees",
+      "BUTTON_ADD_EMPLOYEE": "Add new employee",
+      "TEXT_NAME": "Name",
+      "TEXT_ROLE": "Role",
+      "TEXT_AUTH_DATA": "Email and authentication type",
+      "TEXT_ADMIN": "Admin",
+      "ROLE": {
+        "TEXT_ANALYST": "Analyst",
+        "TEXT_AGENT": "Agent"
+      },
+      "AUTH_TYPE": {
+        "TEXT_MICROSOFT": "Microsoft",
+        "TEXT_GOOGLE": "Google",
+        "TEXT_PASSWORD": "Email"
+      }
+    }
+  }
+}
