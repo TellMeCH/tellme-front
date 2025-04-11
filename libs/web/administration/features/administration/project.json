@@ -1,0 +1,9 @@
+{
+  "name": "web/administration/features/administration",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/administration/features/administration/src",
+  "projectType": "library",
+  "tags": ["app:web", "scope:administration", "type:features"],
+  "// targets": "to see all targets run: nx show project web/administration/features/administration --web",
+  "targets": {}
+}
