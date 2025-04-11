@@ -41,7 +41,7 @@
 
 ## Ready Solutions of Ronas IT
 
-- [Nx Generators](https://www.npmjs.com/package/@ronas-it/nx-generators) - Nx tool.
+- [Nx Generators](https://www.npmjs.com/package/@ronas-it/nx-generators) - Nx tool with code generators working with Ronas IT frontend architecture.
 - [Utilities for working with REST API using Axios](https://www.npmjs.com/package/@ronas-it/axios-api-client).
 - [RTK Query entity API](https://www.npmjs.com/package/@ronas-it/rtkq-entity-api).
 
