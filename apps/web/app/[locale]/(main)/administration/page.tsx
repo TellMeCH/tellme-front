@@ -1,7 +1,6 @@
 import { ReactElement } from 'react';
-import { UnderConstruction } from '@tellme/web/shared/ui/under-construction';
+import { Administration } from '@tellme/web/administration/features/administration';
 
 export default function AdministrationPage(): ReactElement {
-  // TODO: implement administration feature
-  return <UnderConstruction />;
+  return <Administration />;
 }
