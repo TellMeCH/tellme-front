@@ -1,17 +1,25 @@
 'use client';
 
-import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow } from '@heroui/react';
+import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { useShowUnderDevelopment } from '@tellme/shared/ui/toast';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 import { Employee, employeeApi, useInfiniteSearch } from '@tellme/web/shared/data-access/api';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
+import { useAuthTypeTranslation, useEmployeeRoleTranslation } from '../../hooks';
+import { EmployeeModal } from '../employee-modal';
 
-export function EmployeesTable(): ReactElement {
+interface EmployeesTableProps {
+  isCreationButtonDisabled?: boolean;
+}
+
+export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps): ReactElement {
   const t = useTranslations('administration.ADMINISTRATION.EMPLOYEES_TABLE');
-  const showUnderDevelopment = useShowUnderDevelopment();
+  const translateRole = useEmployeeRoleTranslation();
+  const translateAuthType = useAuthTypeTranslation();
+
+  const { isOpen, onOpenChange } = useDisclosure();
 
   const { data, fetchNextPage } = useInfiniteSearch<Employee>({ api: employeeApi, params: { pageSize: 15 } });
 
@@ -21,7 +29,10 @@ export function EmployeesTable(): ReactElement {
         <Heading level={2} className='uppercase text-medium'>
           {t('TEXT_EMPLOYEES')}
         </Heading>
-        <Button onPress={showUnderDevelopment} startContent={<Icon name='plus' />}>
+        <Button
+          onPress={onOpenChange}
+          startContent={<Icon name='plus' />}
+          disabled={isCreationButtonDisabled}>
           {t('BUTTON_ADD_EMPLOYEE')}
         </Button>
       </div>
@@ -56,13 +67,11 @@ export function EmployeesTable(): ReactElement {
                   {employee.isOrganizationAdmin && <p className='text-brand-primary mt-1'>{t('TEXT_ADMIN')}</p>}
                 </TableCell>
                 <TableCell>
-                  <div>{t(`ROLE.TEXT_${employee.role.toUpperCase()}`)}</div>
+                  <div>{translateRole(employee.role)}</div>
                 </TableCell>
                 <TableCell>
                   <div className='mb-2'>{employee.user.email}</div>
-                  <div className='text-text-secondary'>
-                    {t(`AUTH_TYPE.TEXT_${employee.user.authType.toUpperCase()}`)}
-                  </div>
+                  <div className='text-text-secondary'>{translateAuthType(employee.user.authType)}</div>
                   {/* TODO: add the dropdown with actions */}
                 </TableCell>
               </TableRow>
@@ -70,6 +79,7 @@ export function EmployeesTable(): ReactElement {
           </TableBody>
         </Table>
       </InfiniteScroll>
+      <EmployeeModal isOpen={isOpen} onOpenChange={onOpenChange} />
     </div>
   );
 }
