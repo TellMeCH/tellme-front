@@ -8,6 +8,7 @@ import { store } from '@tellme/web/shared/data-access/store';
 /* eslint-disable @nx/enforce-module-boundaries */
 import sharedMessages from '../../../../../../../i18n/shared/en.json';
 import accountMessages from '../../../../../../../i18n/web/account/en.json';
+import administrationMessages from '../../../../../../../i18n/web/administration/en.json';
 import webSharedMessages from '../../../../../../../i18n/web/shared/en.json';
 import topicMessages from '../../../../../../../i18n/web/topic/en.json';
 import { profile } from '../fixtures';
@@ -18,6 +19,7 @@ const messages = {
   'web-shared': webSharedMessages,
   topic: topicMessages,
   shared: sharedMessages,
+  administration: administrationMessages,
 };
 
 interface Props extends PropsWithChildren {

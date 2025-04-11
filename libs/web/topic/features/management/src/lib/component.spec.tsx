@@ -2,12 +2,12 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
-  getIdFromUrl,
   TestRootComponent,
   topic,
   topicsPaginationResponse,
   getAllByTestIdAsync,
 } from '@tellme/web/shared/data-access/tests-data';
+import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
 
