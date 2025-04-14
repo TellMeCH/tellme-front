@@ -53,6 +53,7 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
             <DropdownItem
               key={item.value}
               textValue={item.label}
+              data-testid='dropdown-item'
               onPress={() => onSelect(item.value)}
               className={clsx(
                 'rounded-2 py-3 truncate data-[hover=true]:bg-background-primary',
