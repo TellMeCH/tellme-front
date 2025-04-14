@@ -1,9 +1,14 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
-import { createListTagsProvider, createSearchResponseTransformer, mergeInInfiniteSearch } from '../common/utils';
+import {
+  createListTagsProvider,
+  createMutationQueryWithData,
+  createSearchResponseTransformer,
+  mergeInInfiniteSearch,
+} from '../common/utils';
 import { TopicPaginationRequest } from '../topic';
 import { employeeApiConfig } from './config';
 import { Employee, ModifiedEmployee } from './models';
@@ -33,15 +38,11 @@ export const employeeApi = createAppApi({
       merge: mergeInInfiniteSearch,
     }),
     create: builder.mutation<ModifiedEmployee, Partial<ModifiedEmployee>>({
-      query: (params) => {
-        const request = createEntityInstance(ModifiedEmployee, params, { fromInstancePartial: true });
-
-        return {
-          method: 'post',
-          url: employeeApiConfig.baseEndpoint,
-          data: instanceToPlain(request),
-        };
-      },
+      query: createMutationQueryWithData<ModifiedEmployee>(
+        'post',
+        () => employeeApiConfig.baseEndpoint,
+        ModifiedEmployee,
+      ),
       transformResponse: (response: object) => createEntityInstance<ModifiedEmployee>(ModifiedEmployee, response),
       async onQueryStarted(_, { queryFulfilled, getState, dispatch }) {
         try {
@@ -79,18 +80,11 @@ export const employeeApi = createAppApi({
       }),
     }),
     update: builder.mutation<Partial<ModifiedEmployee>, Partial<ModifiedEmployee>>({
-      query: (params) => {
-        const updatedEntity = createEntityInstance(ModifiedEmployee, params, {
-          fromInstancePartial: true,
-        });
-        const request = instanceToPlain(updatedEntity);
-
-        return {
-          method: 'patch',
-          url: `${employeeApiConfig.baseEndpoint}${request.id}/`,
-          data: request,
-        };
-      },
+      query: createMutationQueryWithData<ModifiedEmployee>(
+        'patch',
+        (params) => `${employeeApiConfig.baseEndpoint}${params.id}/`,
+        ModifiedEmployee,
+      ),
       transformResponse: (response) => createEntityInstance<Employee>(Employee, response),
       async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
         try {
