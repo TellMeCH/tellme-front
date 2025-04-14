@@ -4,22 +4,37 @@
     "TEXT_REGISTERED_EMPLOYEES": "Registered employees",
     "TEXT_MAX_ACCOUNTS_COUNT": "Maximum number of registered accounts",
     "TEXT_CONVERSATIONS_COUNT": "Conversations count",
+    "ROLE": {
+      "TEXT_ANALYST": "Analyst",
+      "TEXT_AGENT": "Agent"
+    },
+    "AUTH_TYPE": {
+      "TEXT_MICROSOFT": "Microsoft",
+      "TEXT_GOOGLE": "Google",
+      "TEXT_PASSWORD": "Email"
+    },
     "EMPLOYEES_TABLE": {
       "TEXT_EMPLOYEES": "Employees",
       "BUTTON_ADD_EMPLOYEE": "Add new employee",
       "TEXT_NAME": "Name",
       "TEXT_ROLE": "Role",
       "TEXT_AUTH_DATA": "Email and authentication type",
-      "TEXT_ADMIN": "Admin",
-      "ROLE": {
-        "TEXT_ANALYST": "Analyst",
-        "TEXT_AGENT": "Agent"
-      },
-      "AUTH_TYPE": {
-        "TEXT_MICROSOFT": "Microsoft",
-        "TEXT_GOOGLE": "Google",
-        "TEXT_PASSWORD": "Email"
-      }
+      "TEXT_ADMIN": "Admin"
+    },
+    "EMPLOYEE_MODAL": {
+      "TEXT_TITLE": "Add new employee",
+      "TEXT_FIRST_NAME": "First Name",
+      "TEXT_LAST_NAME": "Last Name",
+      "TEXT_EMAIL": "Email",
+      "TEXT_AUTHENTICATION_TYPE": "Authentication type",
+      "TEXT_ROLE": "Role",
+      "TEXT_GIVE_ADMIN_PERMISSIONS": "Give admin permissions",
+      "BUTTON_CANCEL": "Cancel",
+      "BUTTON_SAVE": "Save and send invitation",
+      "TEXT_REQUIRED_FIRST_NAME": "First name is required",
+      "TEXT_REQUIRED_LAST_NAME": "Last name is required",
+      "TEXT_REQUIRED_EMAIL": "Email is required",
+      "TEXT_INVALID_EMAIL": "Email is invalid"
     }
   }
 }

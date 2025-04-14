@@ -40,7 +40,7 @@ export function Administration(): ReactElement {
             <OrganizationDetail name={t('TEXT_MAX_ACCOUNTS_COUNT')} value={organization.maxUsersCount || 0} />
             <OrganizationDetail name={t('TEXT_CONVERSATIONS_COUNT')} value={organization.conversationsCount || 0} />
           </div>
-          <EmployeesTable />
+          <EmployeesTable isCreationButtonDisabled={organization.maxUsersCount <= organization.employeesCount} />
         </Fragment>
       )}
     </div>
