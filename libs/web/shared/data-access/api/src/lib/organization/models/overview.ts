@@ -9,12 +9,12 @@ export class Overview {
   @Expose()
   @Type(() => DateTime)
   @TransformDate()
-  public firstDate: DateTime;
+  public currentMonth: DateTime;
 
   @Expose()
   @Type(() => DateTime)
   @TransformDate()
-  public secondDate: DateTime;
+  public previousMonth: DateTime;
 
   constructor(model: Partial<Overview>) {
     Object.assign(this, model);

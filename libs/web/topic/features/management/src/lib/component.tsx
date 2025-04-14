@@ -6,18 +6,18 @@ import { ReactElement } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
-import { Topic, useSearchInfiniteTopics } from '@tellme/web/shared/data-access/api';
+import { Topic, topicApi, TopicPaginationRequest, useInfiniteSearch } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header } from '@tellme/web/shared/ui/ui-kit';
 import styles from './component.module.scss';
-import { Item } from './components';
-import { FormModal } from './components/form-modal';
+import { FormModal, Item } from './components';
 
 export function TopicsManagement(): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
 
   const profile = useSelector(authSelectors.profile);
-  const { data, isLoading, fetchNextPage } = useSearchInfiniteTopics({
+  const { data, isLoading, fetchNextPage } = useInfiniteSearch<Topic, TopicPaginationRequest>({
+    api: topicApi,
     params: { pageSize: 10 },
     skip: !profile,
   });
@@ -43,7 +43,7 @@ export function TopicsManagement(): ReactElement {
           dataLength={data?.results.length || 0}
           next={fetchNextPage}
           scrollableTarget='main'
-          hasMore={!data?.nextCursor}
+          hasMore={!!data?.nextCursor}
           loader={
             <div className='flex justify-center py-6'>
               <Spinner />

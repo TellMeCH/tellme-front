@@ -1,4 +1,4 @@
-import { Expose } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import { EmployeeAuthType } from '../enums';
 
 export class EmployeeUser {
@@ -13,6 +13,11 @@ export class EmployeeUser {
 
   @Expose({ name: 'last_name' })
   public lastName: string;
+
+  @Exclude()
+  public get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
 
   constructor(model: Partial<EmployeeUser>) {
     Object.assign(this, model);

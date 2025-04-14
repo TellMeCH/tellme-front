@@ -2,6 +2,7 @@ import { TransformDate } from '@ronas-it/rtkq-entity-api';
 import { Exclude, Expose } from 'class-transformer';
 import { immerable } from 'immer';
 import { DateTime } from 'luxon';
+import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 
 export class BaseEntity {
   public [immerable] = true;
@@ -23,9 +24,7 @@ export class BaseEntity {
       return -1;
     }
 
-    const segments = this.url.split('/');
-
-    return Number(segments[segments.length - 2]);
+    return getIdFromUrl(this.url);
   }
 
   constructor(model: Partial<BaseEntity>) {
