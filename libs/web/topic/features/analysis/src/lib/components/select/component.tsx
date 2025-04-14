@@ -21,7 +21,7 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
   return (
     <Dropdown className='p-0 w-[300px] shadow-lg' onOpenChange={setIsOpen}>
       <DropdownTrigger>
-        <Button data-testid='dropdown-trigger' className='w-10 min-w-10 h-10 p-0 rounded-xl bg-background-primary'>
+        <Button className='w-10 min-w-10 h-10 p-0 rounded-xl bg-background-primary'>
           <Icon name='arrow_up' className={clsx('transition-transform', isOpen ? 'rotate-180' : 'rotate-0')} />
         </Button>
       </DropdownTrigger>
@@ -53,11 +53,7 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
             <DropdownItem
               key={item.value}
               textValue={item.label}
-              data-testid='dropdown-item'
-              onPress={() => {
-                console.log('[TopicSelect] Selected topic ID:', item.value);
-                onSelect(item.value);
-              }}
+              onPress={() => onSelect(item.value)}
               className={clsx(
                 'rounded-2 py-3 truncate data-[hover=true]:bg-background-primary',
                 selectedValue === item.value && 'bg-background-primary',
