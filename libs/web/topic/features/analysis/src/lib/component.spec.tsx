@@ -106,7 +106,7 @@ describe('Topic Analysis', () => {
 
     const items = await getAllByTestIdAsync('dropdown-item');
     const secondTopic = items[1];
-    console.log(secondTopicId);
+
     fireEvent.click(secondTopic);
 
     expect(requestSpy).toHaveBeenCalledWith(

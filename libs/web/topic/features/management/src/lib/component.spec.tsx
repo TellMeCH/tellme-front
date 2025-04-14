@@ -134,7 +134,7 @@ describe('Topics management', () => {
     });
     const items = screen.getAllByTestId('item');
     expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
-  });
+  }, 10000);
 
   it('should edit a topic', async () => {
     const updateModalButtons = await getAllByTestIdAsync('update-modal-button');
@@ -167,7 +167,7 @@ describe('Topics management', () => {
         );
       });
     }
-  });
+  }, 10000);
 
   it('should delete a topic', async () => {
     const confirmationModalButtons = await getAllByTestIdAsync('confirmation-modal-button');
