@@ -1,16 +1,16 @@
 import {
-  Modal as NextUIModal,
+  Modal as HeroUIModal,
   ModalBody,
   ModalContent,
   ModalFooter,
   ModalHeader,
-  ModalProps as NextUIModalProps,
+  ModalProps as HeroUIModalProps,
   ModalVariantProps,
 } from '@heroui/react';
 import { FormEventHandler, ReactElement, ReactNode } from 'react';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 
-export interface ModalProps extends ModalVariantProps, NextUIModalProps {
+export interface ModalProps extends ModalVariantProps, HeroUIModalProps {
   footerContent?: ReactNode;
   title: string;
   onSubmit?: FormEventHandler<HTMLDivElement>;
@@ -27,7 +27,7 @@ export function Modal({
   ...restProps
 }: ModalProps): ReactElement {
   return (
-    <NextUIModal
+    <HeroUIModal
       placement={placement}
       scrollBehavior={scrollBehavior}
       closeButton={
@@ -51,6 +51,6 @@ export function Modal({
         <ModalBody className='p-0 mb-6'>{children}</ModalBody>
         {!!footerContent && <ModalFooter className='p-0 gap-2.5'>{footerContent}</ModalFooter>}
       </ModalContent>
-    </NextUIModal>
+    </HeroUIModal>
   );
 }
