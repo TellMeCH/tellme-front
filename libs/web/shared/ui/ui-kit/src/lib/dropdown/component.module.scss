@@ -1,0 +1,9 @@
+@import '@tellme/shared/ui/variables';
+
+.dropdown {
+  &__item {border-radius: 0; padding: 0.75rem 0.875rem;
+    &:focus, &[data-focus='true'], &[data-hover='true'] {background-color: $background-secondary !important;
+      outline: none;
+    }
+  }
+}

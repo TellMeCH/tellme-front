@@ -22,7 +22,7 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
   const translateRole = useEmployeeRoleTranslation();
   const translateAuthType = useAuthTypeTranslation();
 
-  const [create, { isLoading, error, isSuccess, data: employee }] = employeeApi.useCreateMutation();
+  const [create, { isLoading, error, isSuccess }] = employeeApi.useCreateMutation();
 
   const formSchema = new EmployeeFormSchema();
   const form = useForm({
