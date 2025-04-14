@@ -28,7 +28,6 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
       <DropdownMenu aria-label={t('TEXT_DROPDOWN_AREA_LABEL')} className='p-2'>
         {/* TODO: Search functionality is hidden now. Remove hidden if necessary */}
         <DropdownItem
-          role='presentation'
           isReadOnly
           key='search'
           className='p-0 m-0 cursor-default data-[hover=true]:bg-inherit hidden'>
@@ -55,7 +54,10 @@ export function TopicSelect({ items, selectedValue, onSelect }: TopicSelectProps
               key={item.value}
               textValue={item.label}
               data-testid='dropdown-item'
-              onPress={() => onSelect(item.value)}
+              onPress={() => {
+                console.log('[TopicSelect] Selected topic ID:', item.value);
+                onSelect(item.value);
+              }}
               className={clsx(
                 'rounded-2 py-3 truncate data-[hover=true]:bg-background-primary',
                 selectedValue === item.value && 'bg-background-primary',

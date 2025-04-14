@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, waitFor, screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import '@testing-library/jest-dom';
@@ -8,12 +8,12 @@ import {
   summaryResponse,
   chartDataResponse,
   getAllByTestIdAsync,
-  getByTestIdAsync,
 } from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { TopicAnalysis } from './component';
 
 import SpyInstance = jest.SpyInstance;
+import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(() => ({})),
@@ -28,7 +28,7 @@ jest.mock('next/navigation', () => ({
 
 describe('Topic Analysis', () => {
   let requestSpy: SpyInstance;
-  const [topicId, newTopicId] = topicsPaginationResponse.results.map((topic) => getIdFromUrl(topic.url));
+  const [initialTopicId, secondTopicId] = topicsPaginationResponse.results.map((topic) => getIdFromUrl(topic.url));
 
   beforeAll(() => {
     global.ResizeObserver = class {
@@ -78,12 +78,12 @@ describe('Topic Analysis', () => {
         case '/topics/list_recent/':
           return Promise.resolve({ data: topicsPaginationResponse });
 
-        case `/topics/${topicId}/summary_data/`:
-        case `/topics/${newTopicId}/summary_data/`:
+        case `/topics/${initialTopicId}/summary_data/`:
+        case `/topics/${secondTopicId}/summary_data/`:
           return Promise.resolve({ data: summaryResponse });
 
-        case `/topics/${topicId}/trend/`:
-        case `/topics/${newTopicId}/trend/`:
+        case `/topics/${initialTopicId}/trend/`:
+        case `/topics/${secondTopicId}/trend/`:
           return Promise.resolve({ data: chartDataResponse });
 
         default:
@@ -101,40 +101,78 @@ describe('Topic Analysis', () => {
     );
   });
 
-  it('should request recent topics list', async () => {
-    const trigger = await getByTestIdAsync('dropdown-trigger');
+  it('should load topic list initially', async () => {
+    const trigger = await waitFor(() => screen.getByTestId('dropdown-trigger'));
     await userEvent.click(trigger);
 
     const items = await getAllByTestIdAsync('dropdown-item');
     expect(items.length).toBe(topicsPaginationResponse.results.length);
 
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: '/topics/list_recent/',
+      }),
+    );
+  });
+
+  it('should load summary initially', async () => {
     await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: '/topics/list_recent/',
+          url: `/topics/${initialTopicId}/summary_data/`,
         }),
       );
     });
   });
 
-  it('should request summary data for the first topic', async () => {
+  it('should load chart data initially', async () => {
     await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: `/topics/${topicId}/summary_data/`,
+          url: `/topics/${initialTopicId}/trend/`,
         }),
       );
     });
   });
 
-  it('should request trend data for the first topic', async () => {
+  it('should load summary and chart data when a new topic is selected', async () => {
+    const trigger = await waitFor(() => screen.getByTestId('dropdown-trigger'));
+    await userEvent.click(trigger);
+
+    const items = await getAllByTestIdAsync('dropdown-item');
+    const secondTopic = items[1];
+    console.log(secondTopicId);
+    fireEvent.click(secondTopic);
+
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: `/topics/${secondTopicId}/summary_data/`,
+      }),
+    );
+
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: `/topics/${secondTopicId}/trend/`,
+      }),
+    );
+  });
+
+  it('should load trend data with updated trendPeriod when changed', async () => {
+    const selectedTrendPeriod = Object.values(TrendPeriod)[1];
+    const periodButton = await screen.findByTestId(`period-button-${selectedTrendPeriod}`);
+    await userEvent.click(periodButton);
+
     await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: `/topics/${topicId}/trend/`,
+          url: `/topics/${initialTopicId}/trend/`,
+          params: expect.objectContaining({ trend_period: selectedTrendPeriod }),
         }),
       );
     });
