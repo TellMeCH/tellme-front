@@ -67,7 +67,7 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
           </TableHeader>
           <TableBody items={employeesResponse?.results || []}>
             {(employee) => (
-              <TableRow key={employee.id}>
+              <TableRow key={employee.id} data-testid='employee-item'>
                 <TableCell>
                   <strong>{employee.user.fullName}</strong>
                   {employee.isOrganizationAdmin && <p className='text-brand-primary mt-1'>{t('TEXT_ADMIN')}</p>}

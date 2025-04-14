@@ -16,6 +16,7 @@ export function Administration(): ReactElement {
   const { data: employeeProfile, isLoading: isEmployeeProfileLoading } = employeeApi.useGetProfileQuery(undefined, {
     skip: !profile,
   });
+  console.log(employeeProfile);
   const { data: organization, isLoading: isOrganizationLoading } = organizationApi.useGetOrganizationQuery(
     { id: Number(employeeProfile?.organizationId) },
     { skip: !employeeProfile },
@@ -34,7 +35,10 @@ export function Administration(): ReactElement {
         <Spinner />
       ) : (
         <Fragment>
-          <Header title={t('TEXT_TITLE', { organizationName: organization.name.toUpperCase() || '' })} />
+          <Header
+            title={t('TEXT_TITLE', { organizationName: organization.name.toUpperCase() || '' })}
+            titleTestId='title'
+          />
           <div className='flex gap-2'>
             <OrganizationDetail name={t('TEXT_REGISTERED_EMPLOYEES')} value={organization.employeesCount || 0} />
             <OrganizationDetail name={t('TEXT_MAX_ACCOUNTS_COUNT')} value={organization.maxUsersCount || 0} />

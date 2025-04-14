@@ -5,7 +5,7 @@ import {
   TestRootComponent,
   generalOverviewResponse,
   topicsOverviewResponse,
-  organizationResponse,
+  organization,
   summariesResponse,
 } from '@tellme/web/shared/data-access/tests-data';
 import { Dashboard } from './component';
@@ -35,7 +35,7 @@ describe('Dashboard', () => {
           });
 
         case `/organizations/${organizationId}/`:
-          return Promise.resolve({ data: organizationResponse });
+          return Promise.resolve({ data: organization });
 
         case '/topics/all_summaries/':
           return Promise.resolve({ data: summariesResponse });
@@ -122,7 +122,7 @@ describe('Dashboard', () => {
       const dateRangeItem = screen.getByTestId('date-range');
       const organizationNameItem = screen.getByTestId('organization-name');
 
-      expect(organizationNameItem).toHaveTextContent(organizationResponse.name);
+      expect(organizationNameItem).toHaveTextContent(organization.name);
       expect(dateRangeItem).toHaveTextContent('Feb—Mar 2025');
     });
   });
