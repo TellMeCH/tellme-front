@@ -1,0 +1,7 @@
+@import '@tellme/shared/ui/variables';
+
+.select {
+  &__item {border-radius: 0; padding: 0.75rem 0.875rem;
+    &:focus, &[data-focus='true'] {background-color: $background-secondary !important; outline: none; color: $text-primary;}
+  }
+}

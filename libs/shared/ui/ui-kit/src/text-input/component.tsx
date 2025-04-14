@@ -26,7 +26,6 @@ export interface TextInputProps extends Omit<InputProps, 'className' | 'errorMes
 export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((props, ref) => {
   const {
     type,
-    label,
     accessoryLeft,
     accessoryRight,
     classNames,
@@ -75,7 +74,6 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
       <Input
         ref={ref}
         type={isPasswordVisible ? 'text' : (type ?? 'text')}
-        label={label}
         aria-describedby={restFormGroupProps.errorID}
         value={value}
         isInvalid={hasError}
