@@ -25,7 +25,7 @@ The codebase is organized into the following directories:
 Application code is located within the grouped `apps` directory.
 
 <!-- prettier-ignore -->
-```ts
+```tsx
 apps/{application}/{*}
 ```
 
@@ -44,7 +44,7 @@ Each application directory contains:
 Most of the code is placed in application libraries – they implement business logic and are designed for reuse. Directory structure inside `libs` follows this pattern:
 
 <!-- prettier-ignore -->
-```ts
+```tsx
 libs/{application}/{scope?}/{type}/{name}
 ```
 
@@ -75,7 +75,7 @@ Where:
 The `i18n` directory contains translations for applications and their libraries. Translation files for different languages are grouped by application and context/group:
 
 <!-- prettier-ignore -->
-```ts
+```tsx
 i18n/{application}/{scope?}/{language}.json
 ```
 
@@ -90,7 +90,7 @@ Assets (images, fonts, and other files) are recommended to be stored in the libr
 Allowed paths:
 
 <!-- prettier-ignore -->
-```ts
+```tsx
 libs/{application}/{scope}/{type}/{name}/assets
 ...
 // Example: assets of the shared `ui-kit` library
