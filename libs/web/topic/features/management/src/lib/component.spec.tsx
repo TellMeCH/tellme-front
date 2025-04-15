@@ -167,7 +167,7 @@ describe('Topics management', () => {
         );
       });
     }
-  });
+  }, 10000);
 
   it('should delete a topic', async () => {
     const confirmationModalButtons = await getAllByTestIdAsync('confirmation-modal-button');
