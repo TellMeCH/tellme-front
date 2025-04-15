@@ -8,12 +8,10 @@ import {
   nonAdmin,
   organization,
   TestRootComponent,
-  topicsPaginationResponse,
 } from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { Administration } from './component';
 import '@testing-library/jest-dom';
-
 import SpyInstance = jest.SpyInstance;
 
 describe('Administration', () => {
@@ -36,8 +34,10 @@ describe('Administration', () => {
           if (config.url?.includes('invite')) {
             return Promise.resolve({});
           } else {
-            const lastEmployeeIndex = topicsPaginationResponse.results.length - 1;
-            const sortedEmployees = topicsPaginationResponse.results.slice().sort((a, b) => a.url.localeCompare(b.url));
+            const lastEmployeeIndex = employeesPaginationResponse.results.length - 1;
+            const sortedEmployees = employeesPaginationResponse.results
+              .slice()
+              .sort((a, b) => a.url.localeCompare(b.url));
 
             return Promise.resolve({
               data: {
@@ -51,7 +51,7 @@ describe('Administration', () => {
 
         case 'patch': {
           const id = getIdFromUrl(config.url as string);
-          const employee = topicsPaginationResponse.results.find((topic) => getIdFromUrl(topic.url) === id);
+          const employee = employeesPaginationResponse.results.find((topic) => getIdFromUrl(topic.url) === id);
 
           return Promise.resolve({
             data: {
@@ -151,7 +151,23 @@ describe('Administration', () => {
       );
     });
     const items = screen.getAllByTestId('employee-item');
-    expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
+    expect(items.length).toBe(employeesPaginationResponse.results.length + 1);
     expect(screen.getByTestId('employees-count')).toHaveTextContent(String(organization.employee_count + 1));
+  });
+
+  it('should resend invitation to an employee', async () => {
+    const employeesActions = await screen.findAllByTestId('employee-actions');
+    await userEvent.click(employeesActions[0]);
+    await userEvent.click(screen.getByTestId('resend-invitation-dropdown-item'));
+
+    await waitFor(() => {
+      const firstEmployeeId = getIdFromUrl(employeesPaginationResponse.results[0].url);
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'post',
+          url: `/employees/${firstEmployeeId}/invite/`,
+        }),
+      );
+    });
   });
 });
