@@ -30,7 +30,8 @@ export type IconName =
   | 'number_3'
   | 'menu_lines'
   | 'switzerland'
-  | 'setting';
+  | 'setting'
+  | 'more';
 
 export interface IconProps {
   name: IconName;

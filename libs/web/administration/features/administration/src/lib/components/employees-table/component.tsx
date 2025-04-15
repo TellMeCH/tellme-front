@@ -8,6 +8,7 @@ import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 import { Employee, employeeApi, useInfiniteSearch } from '@tellme/web/shared/data-access/api';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { useAuthTypeTranslation, useEmployeeRoleTranslation } from '../../hooks';
+import { EmployeeActions } from '../employee-actions';
 import { EmployeeModal } from '../employee-modal';
 
 interface EmployeesTableProps {
@@ -21,7 +22,11 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
 
   const { isOpen, onOpenChange } = useDisclosure();
 
-  const { data, fetchNextPage } = useInfiniteSearch<Employee>({ api: employeeApi, params: { pageSize: 15 } });
+  const { data: employeesResponse, fetchNextPage } = useInfiniteSearch<Employee>({
+    api: employeeApi,
+    params: { pageSize: 15 },
+  });
+  const { data: employeeProfile } = employeeApi.useGetProfileQuery();
 
   return (
     <div className='bg-background-secondary rounded-2xl py-6 px-8'>
@@ -37,10 +42,11 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
         </Button>
       </div>
       <InfiniteScroll
-        dataLength={data?.results.length || 0}
+        dataLength={employeesResponse?.results.length || 0}
         next={fetchNextPage}
         scrollableTarget='main'
-        hasMore={!!data?.nextCursor}
+        hasMore={!!employeesResponse?.nextCursor}
+        className='!overflow-x-hidden'
         loader={
           <div className='flex justify-center py-6'>
             <Spinner />
@@ -59,7 +65,7 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
             <TableColumn width={180}>{t('TEXT_ROLE')}</TableColumn>
             <TableColumn>{t('TEXT_AUTH_DATA')}</TableColumn>
           </TableHeader>
-          <TableBody items={data?.results || []}>
+          <TableBody items={employeesResponse?.results || []}>
             {(employee) => (
               <TableRow key={employee.id}>
                 <TableCell>
@@ -69,10 +75,12 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
                 <TableCell>
                   <div>{translateRole(employee.role)}</div>
                 </TableCell>
-                <TableCell>
-                  <div className='mb-2'>{employee.user.email}</div>
-                  <div className='text-text-secondary'>{translateAuthType(employee.user.authType)}</div>
-                  {/* TODO: add the dropdown with actions */}
+                <TableCell className='flex justify-between'>
+                  <div>
+                    <div className='mb-2'>{employee.user.email}</div>
+                    <div className='text-text-secondary'>{translateAuthType(employee.user.authType)}</div>
+                  </div>
+                  {employeeProfile?.id !== employee.id && <EmployeeActions employee={employee} />}
                 </TableCell>
               </TableRow>
             )}
