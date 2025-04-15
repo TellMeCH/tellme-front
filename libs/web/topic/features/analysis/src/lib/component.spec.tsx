@@ -21,9 +21,11 @@ jest.mock('firebase/auth', () => ({
   OAuthProvider: jest.fn((providerId) => ({ providerId })),
 }));
 
+let mockedSearchParamsValue = new URLSearchParams('');
+
 jest.mock('next/navigation', () => ({
   ...jest.requireActual('next/navigation'),
-  useSearchParams: () => new URLSearchParams(''),
+  useSearchParams: () => mockedSearchParamsValue,
 }));
 
 describe('Topic Analysis', () => {
@@ -64,7 +66,7 @@ describe('Topic Analysis', () => {
   });
 
   it('should load topic list initially', async () => {
-    const trigger = await waitFor(() => screen.getByTestId('dropdown-trigger'));
+    const trigger = await screen.findByTestId('dropdown-trigger');
     await userEvent.click(trigger);
 
     const items = await getAllByTestIdAsync('dropdown-item');
@@ -101,7 +103,7 @@ describe('Topic Analysis', () => {
   });
 
   it('should load summary and chart data when a new topic is selected', async () => {
-    const trigger = await waitFor(() => screen.getByTestId('dropdown-trigger'));
+    const trigger = await screen.findByTestId('dropdown-trigger');
     await userEvent.click(trigger);
 
     const items = await getAllByTestIdAsync('dropdown-item');
@@ -124,7 +126,7 @@ describe('Topic Analysis', () => {
     );
   });
 
-  it('should load trend data with updated trendPeriod when changed', async () => {
+  it('should load trend data when a trend period is updated', async () => {
     const selectedTrendPeriod = Object.values(TrendPeriod)[1];
     const periodButton = await screen.findByTestId(`period-button-${selectedTrendPeriod}`);
     await userEvent.click(periodButton);
@@ -135,6 +137,26 @@ describe('Topic Analysis', () => {
           method: 'get',
           url: `/topics/${initialTopicId}/trend/`,
           params: expect.objectContaining({ trend_period: selectedTrendPeriod }),
+        }),
+      );
+    });
+  });
+
+  it('should make requests with topicKey from searchParams', async () => {
+    mockedSearchParamsValue = new URLSearchParams(`topicKey=${secondTopicId}`);
+
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/topics/${secondTopicId}/summary_data/`,
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/topics/${secondTopicId}/trend/`,
         }),
       );
     });
