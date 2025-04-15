@@ -8,18 +8,11 @@ import {
   TestRootComponent,
   summaryResponse,
   chartDataResponse,
-  getAllByTestIdAsync,
 } from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { TopicAnalysis } from './component';
 
 import SpyInstance = jest.SpyInstance;
-
-jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(() => ({})),
-  GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
-  OAuthProvider: jest.fn((providerId) => ({ providerId })),
-}));
 
 let mockedSearchParamsValue = new URLSearchParams('');
 
@@ -69,7 +62,7 @@ describe('Topic Analysis', () => {
     const trigger = await screen.findByTestId('dropdown-trigger');
     await userEvent.click(trigger);
 
-    const items = await getAllByTestIdAsync('dropdown-item');
+    const items = await screen.findAllByTestId('dropdown-item');
     expect(items.length).toBe(topicsPaginationResponse.results.length);
 
     expect(requestSpy).toHaveBeenCalledWith(
@@ -106,7 +99,7 @@ describe('Topic Analysis', () => {
     const trigger = await screen.findByTestId('dropdown-trigger');
     await userEvent.click(trigger);
 
-    const items = await getAllByTestIdAsync('dropdown-item');
+    const items = await screen.findAllByTestId('dropdown-item');
     const secondTopic = items[1];
 
     fireEvent.click(secondTopic);

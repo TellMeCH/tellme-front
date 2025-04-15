@@ -9,6 +9,7 @@ import {
   createSearchResponseTransformer,
   mergeInInfiniteSearch,
 } from '../common/utils';
+import { organizationApi } from '../organization';
 import { TopicPaginationRequest } from '../topic';
 import { employeeApiConfig } from './config';
 import { Employee, ModifiedEmployee } from './models';
@@ -50,11 +51,13 @@ export const employeeApi = createAppApi({
           const cachedQueries = employeeApi.util.selectInvalidatedBy(getState(), [
             { type: employeeApiConfig.entityName, id: EntityTagID.LIST },
           ]);
+          const employeeProfile = employeeApi.endpoints.getProfile.select()(getState()).data;
 
           const newEmployee = new Employee({
             ...omit(result, 'id'),
             url: `${apiConfig.root}${employeeApiConfig.baseEndpoint}${result.id}/`,
             updated: result.created,
+            organizationUrl: employeeProfile?.organizationUrl,
           });
 
           for (const { endpointName, originalArgs } of cachedQueries) {
@@ -68,6 +71,16 @@ export const employeeApi = createAppApi({
               ),
             );
           }
+
+          dispatch(
+            organizationApi.util.updateQueryData(
+              'getOrganization',
+              { id: newEmployee.organizationId },
+              (endpointData) => {
+                endpointData.employeesCount++;
+              },
+            ),
+          );
           /* eslint-disable no-empty */
         } catch (error) {}
         /* eslint-enable no-empty */
@@ -145,6 +158,17 @@ export const employeeApi = createAppApi({
             }),
           );
         }
+
+        const employeeProfile = employeeApi.endpoints.getProfile.select()(getState()).data;
+        dispatch(
+          organizationApi.util.updateQueryData(
+            'getOrganization',
+            { id: Number(employeeProfile?.organizationId) },
+            (endpointData) => {
+              endpointData.employeesCount--;
+            },
+          ),
+        );
       },
     }),
   }),

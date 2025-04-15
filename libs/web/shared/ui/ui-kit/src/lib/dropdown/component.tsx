@@ -13,13 +13,17 @@ import styles from './component.module.scss';
 
 interface DropdownProps extends Omit<HeroUIDropdownProps, 'children'> {
   options: Array<DropdownItemProps>;
+  testId: string;
 }
 
-export function Dropdown({ options, ...restProps }: DropdownProps): ReactElement {
+export function Dropdown({ options, testId, ...restProps }: DropdownProps): ReactElement {
   return (
     <HeroUIDropdown {...restProps}>
       <DropdownTrigger>
-        <Button variant='bordered' isIconOnly>
+        <Button
+          variant='bordered'
+          isIconOnly
+          data-testid={testId}>
           <Icon name='more' />
         </Button>
       </DropdownTrigger>
@@ -29,6 +33,7 @@ export function Dropdown({ options, ...restProps }: DropdownProps): ReactElement
             key={key}
             {...restProps}
             classNames={{ ...classNames, base: clsx(styles.dropdown__item, classNames?.base) }}
+            data-testid={`${key}-dropdown-item`}
           />
         )}
       </DropdownMenu>
