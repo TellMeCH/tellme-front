@@ -13,12 +13,6 @@ import '@testing-library/jest-dom';
 
 import SpyInstance = jest.SpyInstance;
 
-jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(() => ({})),
-  GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
-  OAuthProvider: jest.fn((providerId) => ({ providerId })),
-}));
-
 describe('Topics management', () => {
   let requestSpy: SpyInstance;
 

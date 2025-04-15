@@ -1,5 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { EmployeeAuthType, EmployeeRole } from '@tellme/web/shared/data-access/api';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
   admin,
@@ -12,14 +13,8 @@ import {
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { Administration } from './component';
 import '@testing-library/jest-dom';
-import { EmployeeAuthType, EmployeeRole } from '@tellme/web/shared/data-access/api';
-import SpyInstance = jest.SpyInstance;
 
-jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(() => ({})),
-  GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
-  OAuthProvider: jest.fn((providerId) => ({ providerId })),
-}));
+import SpyInstance = jest.SpyInstance;
 
 describe('Administration', () => {
   let requestSpy: SpyInstance;

@@ -12,12 +12,6 @@ import { Dashboard } from './component';
 
 import SpyInstance = jest.SpyInstance;
 
-jest.mock('firebase/auth', () => ({
-  getAuth: jest.fn(() => ({})),
-  GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
-  OAuthProvider: jest.fn((providerId) => ({ providerId })),
-}));
-
 describe('Dashboard', () => {
   let requestSpy: SpyInstance;
   const organizationId = Object.keys(generalOverviewResponse)[0];
