@@ -37,7 +37,8 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
         <Button
           onPress={onOpenChange}
           startContent={<Icon name='plus' />}
-          disabled={isCreationButtonDisabled}>
+          disabled={isCreationButtonDisabled}
+          data-testid='employee-modal-button'>
           {t('BUTTON_ADD_EMPLOYEE')}
         </Button>
       </div>

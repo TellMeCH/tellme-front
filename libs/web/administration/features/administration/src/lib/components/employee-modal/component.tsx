@@ -71,7 +71,8 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
             type='submit'
             isDisabled={!isEmpty(form.formState.errors)}
             isLoading={isLoading}
-            className='flex-1'>
+            className='flex-1'
+            data-testid='submit-button'>
             {t('BUTTON_SAVE')}
           </Button>
         </Fragment>
@@ -82,19 +83,23 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
           control={form.control}
           label={t('TEXT_FIRST_NAME')}
           placeholder={t('TEXT_FIRST_NAME')}
+          data-testid='first-name-input'
         />
         <FormTextInput
           name='user.lastName'
           control={form.control}
           label={t('TEXT_LAST_NAME')}
           placeholder={t('TEXT_LAST_NAME')}
+          data-testid='last-name-input'
         />
       </div>
       <FormTextInput
         name='user.email'
         control={form.control}
         label={t('TEXT_EMAIL')}
-        placeholder={t('TEXT_EMAIL')} />
+        placeholder={t('TEXT_EMAIL')}
+        data-testid='email-input'
+      />
       <FormSelect
         name='user.authType'
         control={form.control}
@@ -103,17 +108,20 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
           title: translateAuthType(value),
         }))}
         label={t('TEXT_AUTHENTICATION_TYPE')}
+        data-testid='auth-type-select'
       />
       <FormSelect
         name='role'
         control={form.control}
         options={Object.entries(EmployeeRole).map(([_, value]) => ({ key: value, title: translateRole(value) }))}
         label={t('TEXT_AUTHENTICATION_TYPE')}
+        data-testid='role-select'
       />
       <FormSwitch
         className='mt-5 mb-2'
         name='isOrganizationAdmin'
-        control={form.control}>
+        control={form.control}
+        data-testid='admin-swirch'>
         {t('TEXT_GIVE_ADMIN_PERMISSIONS')}
       </FormSwitch>
     </Modal>

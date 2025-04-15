@@ -14,6 +14,7 @@ export interface AppSelectProps extends Omit<SelectProps, 'children' | 'value'> 
   hasError?: boolean;
   errorMessage?: string;
   errorID?: string;
+  testId?: string;
 }
 
 export const AppSelect = forwardRef<HTMLSelectElement | null, AppSelectProps>(
@@ -29,6 +30,7 @@ export const AppSelect = forwardRef<HTMLSelectElement | null, AppSelectProps>(
       classNames,
       isDisabled,
       size,
+      testId,
       ...restProps
     },
     ref,
@@ -80,7 +82,9 @@ export const AppSelect = forwardRef<HTMLSelectElement | null, AppSelectProps>(
             <SelectItem
               {...option}
               key={option.key}
-              className={clsx(styles.select__item, option.className)} />
+              className={clsx(styles.select__item, option.className)}
+              data-testid={`${String(option.key).toLowerCase()}-select-item`}
+            />
           ))}
         </Select>
       </FormGroup>

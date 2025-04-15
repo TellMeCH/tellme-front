@@ -1,16 +1,18 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
+  admin,
+  employeesPaginationResponse,
+  nonAdmin,
+  organization,
   TestRootComponent,
   topicsPaginationResponse,
-  employeesPaginationResponse,
-  admin,
-  organization,
 } from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
-import '@testing-library/jest-dom';
 import { Administration } from './component';
-
+import '@testing-library/jest-dom';
+import { EmployeeAuthType, EmployeeRole } from '@tellme/web/shared/data-access/api';
 import SpyInstance = jest.SpyInstance;
 
 jest.mock('firebase/auth', () => ({
@@ -119,5 +121,39 @@ describe('Administration', () => {
         params: { page_size: 15 },
       }),
     );
+  });
+
+  it('should create an employee', async () => {
+    const employeeModalButton = await screen.findByTestId('employee-modal-button');
+    await userEvent.click(employeeModalButton);
+    await userEvent.type(screen.getByTestId('first-name-input'), nonAdmin.user.first_name);
+    await userEvent.type(screen.getByTestId('last-name-input'), nonAdmin.user.last_name);
+    await userEvent.type(screen.getByTestId('email-input'), nonAdmin.user.email);
+    await userEvent.click(screen.getByTestId('auth-type-select'));
+    await userEvent.click(screen.getByTestId('password-select-item'));
+    await userEvent.click(screen.getByTestId('role-select'));
+    await userEvent.click(screen.getByTestId('analyst-select-item'));
+    await userEvent.click(screen.getByTestId('admin-switch'));
+    await userEvent.click(screen.getByTestId('submit-button'));
+
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'post',
+          url: '/employees/',
+          data: {
+            first_name: nonAdmin.user.first_name,
+            last_name: nonAdmin.user.last_name,
+            email: nonAdmin.user.email,
+            auth_type: EmployeeAuthType.PASSWORD,
+            role: EmployeeRole.ANALYST,
+            isOrganizationAdmin: true,
+          },
+        }),
+      );
+    });
+    const items = screen.getAllByTestId('employee-item');
+    expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
+    expect(screen.getByTestId('employees-count')).toHaveTextContent(String(organization.employees_count + 1));
   });
 });

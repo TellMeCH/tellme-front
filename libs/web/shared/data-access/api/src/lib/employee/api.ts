@@ -9,6 +9,7 @@ import {
   createSearchResponseTransformer,
   mergeInInfiniteSearch,
 } from '../common/utils';
+import { organizationApi } from '../organization';
 import { TopicPaginationRequest } from '../topic';
 import { employeeApiConfig } from './config';
 import { Employee, ModifiedEmployee } from './models';
@@ -117,6 +118,16 @@ export const employeeApi = createAppApi({
               ),
             );
           }
+
+          dispatch(
+            organizationApi.util.updateQueryData(
+              'getOrganization',
+              { id: newEmployee.organizationId },
+              (endpointData) => {
+                endpointData.employeesCount++;
+              },
+            ),
+          );
           /* eslint-disable no-empty */
         } catch (error) {}
         /* eslint-enable no-empty */
