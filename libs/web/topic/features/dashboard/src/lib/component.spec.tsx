@@ -81,11 +81,8 @@ describe('Dashboard', () => {
       return Boolean(hasReasonsDescription);
     });
 
-    await waitFor(() => {
-      const summaryDescriptions = screen.getAllByTestId('summary-description');
-
-      expect(summaryDescriptions.length).toBe(matchingTopics.length);
-    });
+    const summaryDescriptions = await screen.findAllByTestId('summary-description');
+    expect(summaryDescriptions.length).toBe(matchingTopics.length);
 
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -96,11 +93,8 @@ describe('Dashboard', () => {
   });
 
   it('should load topics overview initially', async () => {
-    await waitFor(() => {
-      const overviewItems = screen.getAllByTestId('overview-item');
-
-      expect(overviewItems.length).toBe(Object.keys(Object.values(topicsOverviewResponse)[0]).length);
-    });
+    const overviewItems = await screen.findAllByTestId('overview-item');
+    expect(overviewItems.length).toBe(Object.keys(Object.values(topicsOverviewResponse)[0]).length);
 
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -112,12 +106,10 @@ describe('Dashboard', () => {
   });
 
   it('should show organization name and render formatted date range correctly', async () => {
-    await waitFor(() => {
-      const dateRangeItem = screen.getByTestId('date-range');
-      const organizationNameItem = screen.getByTestId('organization-name');
+    const dateRangeItem = await screen.findByTestId('date-range');
+    const organizationNameItem = screen.getByTestId('organization-name');
 
-      expect(organizationNameItem).toHaveTextContent(organization.name);
-      expect(dateRangeItem).toHaveTextContent('Feb—Mar 2025');
-    });
+    expect(organizationNameItem).toHaveTextContent(organization.name);
+    expect(dateRangeItem).toHaveTextContent('Feb—Mar 2025');
   });
 });

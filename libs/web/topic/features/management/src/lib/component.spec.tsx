@@ -78,11 +78,8 @@ describe('Topics management', () => {
   });
 
   it('should load topics initially', async () => {
-    await waitFor(() => {
-      const items = screen.getAllByTestId('item');
-
-      expect(items.length).toBe(topicsPaginationResponse.results.length);
-    });
+    const items = await screen.findAllByTestId('item');
+    expect(items.length).toBe(topicsPaginationResponse.results.length);
 
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
