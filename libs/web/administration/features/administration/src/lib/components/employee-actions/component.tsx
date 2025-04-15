@@ -81,7 +81,7 @@ export function EmployeeActions({ employee }: EmployeeActionsProps): ReactElemen
 
   return (
     <div className='mr-1'>
-      <Dropdown options={options} />
+      <Dropdown options={options} testId='employee-actions' />
       <ConfirmationModal
         isOpen={isOpen}
         onOpenChange={onOpenChange}
