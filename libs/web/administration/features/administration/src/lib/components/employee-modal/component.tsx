@@ -115,7 +115,7 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
         name='role'
         control={form.control}
         options={Object.entries(EmployeeRole).map(([_, value]) => ({ key: value, title: translateRole(value) }))}
-        label={t('TEXT_AUTHENTICATION_TYPE')}
+        label={t('TEXT_ROLE')}
         data-testid='role-select'
       />
       <FormSwitch

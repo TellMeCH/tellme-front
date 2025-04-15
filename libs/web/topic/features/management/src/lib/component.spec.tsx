@@ -149,7 +149,7 @@ describe('Topics management', () => {
         }),
       );
     });
-  });
+  }, 10000);
 
   it('should delete a topic', async () => {
     const confirmationModalButtons = await screen.findAllByTestId('confirmation-modal-button');

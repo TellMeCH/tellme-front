@@ -16,7 +16,7 @@ from playwright.sync_api import sync_playwright
 logger = logging.getLogger(__name__)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def firebase_app():
     """
     Initialize Firebase Admin once per session.
@@ -26,7 +26,7 @@ def firebase_app():
     firebase_admin.delete_app(app)
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def frontend_path():
     """
     Simply returns the frontend path from the environment
@@ -53,7 +53,7 @@ def user_id_token(user_email: str, firebase_api_key: str) -> str:
     return resp.json()["idToken"]
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def superuser_headers(firebase_app):
     """
     Grab the superuser ID token once and produce a 'superuser_headers'
@@ -71,7 +71,7 @@ def superuser_headers(firebase_app):
     return {"Authorization": f"Bearer {token}"}
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def test_org_context(superuser_headers):
     """
     Create a single test organization and test analyst user, once per session.
@@ -211,7 +211,7 @@ def test_org_context(superuser_headers):
     delete_surrogate_data(f"{cloud_run_host}/api/v1/organizations/{org_id}/")
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="class")
 def login_page(test_org_context, frontend_path):
     """
     A function-scoped fixture that:
@@ -250,7 +250,7 @@ def login_page(test_org_context, frontend_path):
     playwright.stop()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="class")
 def extended_test_data(test_org_context):
     """
     Creates:
