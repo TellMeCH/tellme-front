@@ -12,6 +12,7 @@ import {
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { Administration } from './component';
 import '@testing-library/jest-dom';
+
 import SpyInstance = jest.SpyInstance;
 
 describe('Administration', () => {
@@ -88,12 +89,8 @@ describe('Administration', () => {
   });
 
   it('should load an organization', async () => {
-    await waitFor(() => {
-      const title = screen.getByTestId('title');
-
-      expect(title).toHaveTextContent(new RegExp(organization.name.toUpperCase()));
-    });
-
+    const title = await screen.findByTestId('title');
+    expect(title).toHaveTextContent(new RegExp(organization.name.toUpperCase()));
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
@@ -103,12 +100,8 @@ describe('Administration', () => {
   });
 
   it('should load employees initially', async () => {
-    await waitFor(() => {
-      const items = screen.getAllByTestId('employee-item');
-
-      expect(items.length).toBe(employeesPaginationResponse.results.length);
-    });
-
+    const items = await screen.findAllByTestId('employee-item');
+    expect(items.length).toBe(employeesPaginationResponse.results.length);
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
@@ -116,6 +109,22 @@ describe('Administration', () => {
         params: { page_size: 15 },
       }),
     );
+  });
+
+  it('should mark have special labels for admins', async () => {
+    const adminLabels = await screen.findAllByTestId('admin-label');
+    const adminsCount = employeesPaginationResponse.results.filter((employee) => employee.is_organization_admin).length;
+    expect(adminLabels.length).toBe(adminsCount);
+  });
+
+  it('shouldn not have the actions for employee profile', async () => {
+    const employeeProfileIndex = employeesPaginationResponse.results.findIndex(
+      (employee) => employee.url === admin.url,
+    );
+    const items = await screen.findAllByTestId('employee-item');
+    const employeeProfileItem = items[employeeProfileIndex];
+    const actions = employeeProfileItem.querySelector('[data-testid="employee-actions"]');
+    expect(actions).toBeNull();
   });
 
   it('should create an employee', async () => {

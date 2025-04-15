@@ -71,7 +71,11 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
               <TableRow key={employee.id} data-testid='employee-item'>
                 <TableCell>
                   <strong>{employee.user.fullName}</strong>
-                  {employee.isOrganizationAdmin && <p className='text-brand-primary mt-1'>{t('TEXT_ADMIN')}</p>}
+                  {employee.isOrganizationAdmin && (
+                    <p className='text-brand-primary mt-1' data-testid='admin-label'>
+                      {t('TEXT_ADMIN')}
+                    </p>
+                  )}
                 </TableCell>
                 <TableCell>
                   <div>{translateRole(employee.role)}</div>
