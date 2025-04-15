@@ -19,7 +19,6 @@ export const employeesPaginationResponse = {
       is_organization_admin: false,
       organization: organization.url,
     },
-    admin,
     {
       url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/employees/1/',
       created: '2025-03-22T13:58:18.347Z',
@@ -34,5 +33,6 @@ export const employeesPaginationResponse = {
       is_organization_admin: true,
       organization: organization.url,
     },
+    admin,
   ],
 };

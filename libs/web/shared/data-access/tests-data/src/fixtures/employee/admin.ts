@@ -7,7 +7,7 @@ export const admin = {
   user: {
     email: 'admin@example.com',
     auth_type: 'password',
-    first_name: 'Alice',
+    first_name: 'Cortney',
     last_name: 'Smith',
   },
   role: 'ANALYST',

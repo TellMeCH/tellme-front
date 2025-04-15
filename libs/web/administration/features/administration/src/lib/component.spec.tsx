@@ -18,6 +18,39 @@ import SpyInstance = jest.SpyInstance;
 describe('Administration', () => {
   let requestSpy: SpyInstance;
 
+  const checkAdminPermissionsToggling = async (
+    employeeIndex: number,
+    actionTestId: string,
+    shouldBeGranted: boolean,
+  ): Promise<void> => {
+    const employeesActions = await screen.findAllByTestId('employee-actions');
+    await userEvent.click(employeesActions[employeeIndex]);
+    await userEvent.click(screen.getByTestId(actionTestId));
+
+    await waitFor(() => {
+      const employeeId = getIdFromUrl(employeesPaginationResponse.results[employeeIndex].url);
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'patch',
+          url: `/employees/${employeeId}/`,
+          data: expect.objectContaining({
+            is_organization_admin: shouldBeGranted,
+          }),
+        }),
+      );
+    });
+
+    const items = screen.getAllByTestId('employee-item');
+    const employeeItem = items[employeeIndex];
+    const adminLabel = employeeItem.querySelector<HTMLElement>('[data-testid="admin-label"]');
+
+    if (shouldBeGranted) {
+      expect(adminLabel).toBeVisible();
+    } else {
+      expect(adminLabel).toBeNull();
+    }
+  };
+
   beforeAll(() => {
     requestSpy = jest.spyOn(apiService.httpClient, 'request').mockImplementation((config) => {
       switch (config.method) {
@@ -178,5 +211,17 @@ describe('Administration', () => {
         }),
       );
     });
+  });
+
+  it('should grant admin permissions', async () => {
+    const nonAdminIndex = employeesPaginationResponse.results.findIndex((employee) => !employee.is_organization_admin);
+    await checkAdminPermissionsToggling(nonAdminIndex, 'grant-permissions-dropdown-item', true);
+  });
+
+  it('should revoke admin permissions', async () => {
+    const adminIndex = employeesPaginationResponse.results.findIndex(
+      (employee) => employee.is_organization_admin && employee.url !== admin.url,
+    );
+    await checkAdminPermissionsToggling(adminIndex, 'revoke-permissions-dropdown-item', false);
   });
 });
