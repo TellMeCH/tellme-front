@@ -121,13 +121,17 @@ describe('Administration', () => {
   it('should create an employee', async () => {
     const employeeModalButton = await screen.findByTestId('employee-modal-button');
     await userEvent.click(employeeModalButton);
+
     await userEvent.type(screen.getByTestId('first-name-input'), nonAdmin.user.first_name);
     await userEvent.type(screen.getByTestId('last-name-input'), nonAdmin.user.last_name);
     await userEvent.type(screen.getByTestId('email-input'), nonAdmin.user.email);
+
     await userEvent.click(screen.getByTestId('auth-type-select'));
     await userEvent.click(screen.getByTestId('password-select-item'));
+
     await userEvent.click(screen.getByTestId('role-select'));
     await userEvent.click(screen.getByTestId('analyst-select-item'));
+
     await userEvent.click(screen.getByTestId('admin-switch'));
     await userEvent.click(screen.getByTestId('submit-button'));
 

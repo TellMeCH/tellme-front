@@ -1,40 +1,31 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
-import {
-  TestRootComponent,
-  topic,
-  topicsPaginationResponse,
-  getAllByTestIdAsync,
-} from '@tellme/web/shared/data-access/tests-data';
+import { TestRootComponent, topic, topicsPaginationResponse } from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
-
 import SpyInstance = jest.SpyInstance;
 
 describe('Topics management', () => {
   let requestSpy: SpyInstance;
 
   const checkTopicActivityToggling = async (shouldEnable: boolean): Promise<void> => {
-    const activitySwitches = await getAllByTestIdAsync('activity-switch');
+    const activitySwitches = await screen.findAllByTestId('activity-switch');
+    const topicIndex = topicsPaginationResponse.results.findIndex((topic) => topic.is_active !== shouldEnable);
+    await userEvent.click(activitySwitches[topicIndex]);
 
-    if (activitySwitches) {
-      const topicIndex = topicsPaginationResponse.results.findIndex((topic) => topic.is_active !== shouldEnable);
-      await userEvent.click(activitySwitches[topicIndex]);
-
-      const topic = topicsPaginationResponse.results[topicIndex];
-      const topicId = getIdFromUrl(topic.url);
-      await waitFor(() => {
-        expect(requestSpy).toHaveBeenCalledWith(
-          expect.objectContaining({
-            method: 'patch',
-            url: `/topics/${topicId}/`,
-            data: expect.objectContaining({ is_active: shouldEnable }),
-          }),
-        );
-      });
-    }
+    const topic = topicsPaginationResponse.results[topicIndex];
+    const topicId = getIdFromUrl(topic.url);
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'patch',
+          url: `/topics/${topicId}/`,
+          data: expect.objectContaining({ is_active: shouldEnable }),
+        }),
+      );
+    });
   };
 
   beforeAll(() => {
@@ -131,57 +122,51 @@ describe('Topics management', () => {
   }, 10000);
 
   it('should edit a topic', async () => {
-    const updateModalButtons = await getAllByTestIdAsync('update-modal-button');
+    const updateModalButtons = await screen.findAllByTestId('update-modal-button');
+    await userEvent.click(updateModalButtons[0]);
 
-    if (updateModalButtons) {
-      await userEvent.click(updateModalButtons[0]);
+    const nameInput = screen.getByTestId('name-input');
+    await userEvent.clear(nameInput);
+    await userEvent.type(nameInput, topic.name);
 
-      const nameInput = screen.getByTestId('name-input');
-      await userEvent.clear(nameInput);
-      await userEvent.type(nameInput, topic.name);
+    const descriptionInput = screen.getByTestId('description-input');
+    await userEvent.clear(descriptionInput);
+    await userEvent.type(screen.getByTestId('description-input'), topic.description);
 
-      const descriptionInput = screen.getByTestId('description-input');
-      await userEvent.clear(descriptionInput);
-      await userEvent.type(screen.getByTestId('description-input'), topic.description);
+    await userEvent.click(screen.getByTestId('submit-button'));
 
-      await userEvent.click(screen.getByTestId('submit-button'));
-
-      const firstTopic = topicsPaginationResponse.results[0];
-      const firstTopicId = getIdFromUrl(firstTopic.url);
-      await waitFor(() => {
-        expect(requestSpy).toHaveBeenCalledWith(
-          expect.objectContaining({
-            method: 'patch',
-            url: `/topics/${firstTopicId}/`,
-            data: expect.objectContaining({
-              name: topic.name,
-              description: topic.description,
-            }),
+    const firstTopic = topicsPaginationResponse.results[0];
+    const firstTopicId = getIdFromUrl(firstTopic.url);
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'patch',
+          url: `/topics/${firstTopicId}/`,
+          data: expect.objectContaining({
+            name: topic.name,
+            description: topic.description,
           }),
-        );
-      });
-    }
+        }),
+      );
+    });
   });
 
   it('should delete a topic', async () => {
-    const confirmationModalButtons = await getAllByTestIdAsync('confirmation-modal-button');
+    const confirmationModalButtons = await screen.findAllByTestId('confirmation-modal-button');
+    await userEvent.click(confirmationModalButtons[0]);
+    await userEvent.click(screen.getByTestId('confirm-button'));
 
-    if (confirmationModalButtons) {
-      await userEvent.click(confirmationModalButtons[0]);
-      await userEvent.click(screen.getByTestId('confirm-button'));
-
-      const firstTopic = topicsPaginationResponse.results[0];
-      const firstTopicId = getIdFromUrl(firstTopic.url);
-      await waitFor(() => {
-        expect(requestSpy).toHaveBeenCalledWith(
-          expect.objectContaining({
-            method: 'delete',
-            url: `/topics/${firstTopicId}/`,
-          }),
-        );
-      });
-      const items = screen.getAllByTestId('item');
-      expect(items.length).toBe(topicsPaginationResponse.results.length - 1);
-    }
+    const firstTopic = topicsPaginationResponse.results[0];
+    const firstTopicId = getIdFromUrl(firstTopic.url);
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'delete',
+          url: `/topics/${firstTopicId}/`,
+        }),
+      );
+    });
+    const items = screen.getAllByTestId('item');
+    expect(items.length).toBe(topicsPaginationResponse.results.length - 1);
   });
 });
