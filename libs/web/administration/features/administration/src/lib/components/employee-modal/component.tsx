@@ -36,6 +36,7 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
       user: new EmployeeUser(values.user),
     });
   };
+
   useEffect(() => {
     if (isSuccess) {
       onOpenChange();
@@ -121,7 +122,7 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
         className='mt-5 mb-2'
         name='isOrganizationAdmin'
         control={form.control}
-        data-testid='admin-swirch'>
+        data-testid='admin-switch'>
         {t('TEXT_GIVE_ADMIN_PERMISSIONS')}
       </FormSwitch>
     </Modal>

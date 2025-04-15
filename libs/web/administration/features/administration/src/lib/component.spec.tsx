@@ -126,9 +126,6 @@ describe('Administration', () => {
     await userEvent.type(screen.getByTestId('last-name-input'), nonAdmin.user.last_name);
     await userEvent.type(screen.getByTestId('email-input'), nonAdmin.user.email);
 
-    await userEvent.click(screen.getByTestId('auth-type-select'));
-    await userEvent.click(screen.getByTestId('password-select-item'));
-
     await userEvent.click(screen.getByTestId('role-select'));
     await userEvent.click(screen.getByTestId('analyst-select-item'));
 
@@ -140,19 +137,21 @@ describe('Administration', () => {
         expect.objectContaining({
           method: 'post',
           url: '/employees/',
-          data: {
-            first_name: nonAdmin.user.first_name,
-            last_name: nonAdmin.user.last_name,
-            email: nonAdmin.user.email,
-            auth_type: EmployeeAuthType.PASSWORD,
+          data: expect.objectContaining({
+            user: {
+              first_name: nonAdmin.user.first_name,
+              last_name: nonAdmin.user.last_name,
+              email: nonAdmin.user.email,
+              auth_type: EmployeeAuthType.PASSWORD,
+            },
             role: EmployeeRole.ANALYST,
-            isOrganizationAdmin: true,
-          },
+            is_organization_admin: true,
+          }),
         }),
       );
     });
     const items = screen.getAllByTestId('employee-item');
     expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
-    expect(screen.getByTestId('employees-count')).toHaveTextContent(String(organization.employees_count + 1));
+    expect(screen.getByTestId('employees-count')).toHaveTextContent(String(organization.employee_count + 1));
   });
 });
