@@ -224,4 +224,25 @@ describe('Administration', () => {
     );
     await checkAdminPermissionsToggling(adminIndex, 'revoke-permissions-dropdown-item', false);
   });
+
+  it('should delete an employee', async () => {
+    const employeesActions = await screen.findAllByTestId('employee-actions');
+    await userEvent.click(employeesActions[0]);
+    await userEvent.click(screen.getByTestId('delete-dropdown-item'));
+    await userEvent.click(screen.getByTestId('confirm-button'));
+
+    const firstEmployeeId = getIdFromUrl(employeesPaginationResponse.results[0].url);
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'delete',
+          url: `/employees/${firstEmployeeId}/`,
+        }),
+      );
+    });
+
+    const items = screen.getAllByTestId('employee-item');
+    expect(items.length).toBe(employeesPaginationResponse.results.length - 1);
+    expect(screen.getByTestId('employees-count')).toHaveTextContent(String(organization.employee_count - 1));
+  });
 });

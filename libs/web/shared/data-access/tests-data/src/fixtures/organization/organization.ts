@@ -3,7 +3,7 @@ export const organization = {
   name: 'ACME Org',
   conversation_count: 50,
   max_user_count: 30,
-  employee_count: 2,
+  employee_count: 3,
   created: '2025-04-08T10:18:13.503290Z',
   updated: '2025-04-08T10:18:13.503308Z',
   transcription_method: 'groq',
