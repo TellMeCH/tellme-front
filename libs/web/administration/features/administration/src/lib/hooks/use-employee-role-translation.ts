@@ -5,7 +5,7 @@ export function useEmployeeRoleTranslation(): typeof result {
   const t = useTranslations('administration.ADMINISTRATION.ROLE');
 
   const result = (role: EmployeeRole): string => {
-    return t(`TEXT_${role.toUpperCase()}`);
+    return t(`TEXT_${role.toUpperCase()}`).toUpperCase();
   };
 
   return result;

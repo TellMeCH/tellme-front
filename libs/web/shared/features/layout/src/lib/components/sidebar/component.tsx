@@ -47,7 +47,7 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
     employeeProfile?.isOrganizationAdmin && {
       href: navigationConfig.routes.private.administration,
       iconName: 'setting',
-      title: t('LINK_ADMINISTRATION'),
+      title: t('LINK_ADMIN_SETTINGS'),
       testId: 'link',
     },
   ]);
