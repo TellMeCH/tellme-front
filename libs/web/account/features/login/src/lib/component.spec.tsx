@@ -43,7 +43,7 @@ function checkCookie(setCookieSpy: SpyInstance, key: string, value: string, shou
     return;
   }
 
-  const expectedExpirationDate = DateTime.local().plus({ days: 2 }).startOf('minute');
+  const expectedExpirationDate = DateTime.local().plus({ days: 14 }).startOf('minute');
   const expirationDateFromArgument = DateTime.fromJSDate(lastCall?.[2]?.expires as Date).startOf('minute');
   expect(expectedExpirationDate.toString()).toEqual(expirationDateFromArgument.toString());
 }
