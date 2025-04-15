@@ -35,6 +35,21 @@
       "TEXT_REQUIRED_LAST_NAME": "Last name is required",
       "TEXT_REQUIRED_EMAIL": "Email is required",
       "TEXT_INVALID_EMAIL": "Email is invalid"
+    },
+    "EMPLOYEE_ACTIONS": {
+      "BUTTON_RESEND_INVITATION": "Resend invitation",
+      "BUTTON_REVOKE_ADMIN_PERMISSIONS": "Revoke admin permissions",
+      "BUTTON_DELETE_PROFILE": "Delete profile",
+      "BUTTON_GIVE_ADMIN_PERMISSIONS": "Give admin permissions",
+      "TEXT_INVITATION_SUCCESS_TITLE": "Invitation sent",
+      "TEXT_INVITATION_SUCCESS_DESCRIPTION": "We have resent an invitation to <highlight>{email}</highlight>",
+      "TEXT_GRANT_SUCCESS_TITLE": "Admin rights granted",
+      "TEXT_GRANT_SUCCESS_DESCRIPTION": "<highlight>{fullName}</highlight> now has access to manage administration panel.",
+      "TEXT_REVOCATION_SUCCESS_TITLE": "Admin rights revoked",
+      "TEXT_REVOCATION_SUCCESS_DESCRIPTION": "<highlight>{fullName}</highlight> no longer has access to manage settings.",
+      "TEXT_CONFIRMATION_MODAL_TITLE": "Delete Employee Profile",
+      "TEXT_CONFIRMATION_MODAL_DESCRIPTION": "Are you sure you want to delete <highlight>{fullName}</highlight>'s employee profile? This action cannot be undone.",
+      "BUTTON_DELETE": "Delete"
     }
   }
 }

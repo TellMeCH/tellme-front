@@ -1,9 +1,14 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
-import { mergeInInfiniteSearch, createSearchResponseTransformer, createListTagsProvider } from '../common/utils';
+import {
+  mergeInInfiniteSearch,
+  createSearchResponseTransformer,
+  createListTagsProvider,
+  createMutationQueryWithData,
+} from '../common/utils';
 import { topicApiConfig } from './config';
 import { TopicListType } from './enums';
 import {
@@ -118,15 +123,7 @@ export const topicApi = createAppApi({
       },
     }),
     create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({
-      query: (params) => {
-        const request = createEntityInstance(ModifiedTopic, params, { fromInstancePartial: true });
-
-        return {
-          method: 'post',
-          url: topicApiConfig.baseEndpoint,
-          data: instanceToPlain(request),
-        };
-      },
+      query: createMutationQueryWithData<ModifiedTopic>('post', () => topicApiConfig.baseEndpoint, ModifiedTopic),
       transformResponse: (response: object) => createEntityInstance<ModifiedTopic>(ModifiedTopic, response),
       transformErrorResponse: transformTopicErrorResponse,
       async onQueryStarted(_, { queryFulfilled, getState, dispatch }) {
@@ -170,18 +167,11 @@ export const topicApi = createAppApi({
       },
     }),
     update: builder.mutation<Partial<ModifiedTopic>, Partial<ModifiedTopic>>({
-      query: (params) => {
-        const updatedEntity = createEntityInstance(ModifiedTopic, params, {
-          fromInstancePartial: true,
-        });
-        const request = instanceToPlain(updatedEntity);
-
-        return {
-          method: 'patch',
-          url: `${topicApiConfig.baseEndpoint}${request.id}/`,
-          data: request,
-        };
-      },
+      query: createMutationQueryWithData<ModifiedTopic>(
+        'patch',
+        (params) => `${topicApiConfig.baseEndpoint}${params.id}/`,
+        ModifiedTopic,
+      ),
       async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
         try {
           const updatedEntityData = (await queryFulfilled).data;
