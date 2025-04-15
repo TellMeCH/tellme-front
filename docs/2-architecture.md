@@ -150,71 +150,78 @@ If a subcomponent is needed outside the library, it should be moved to a separat
 <!-- prettier-ignore -->
 ```sh
 tellme-front
-├── apps/                                        # Applications (Next.js based)
-│   ├── landing/                                 # Landing app (single-page)
-│   │   ├── app/[locale]/                        # Localized routes (Next.js App Router)
-│   │   │   ├── layout.tsx                       # Root layout for all routes
-│   │   │   └── page.tsx                         # Main landing page
-│   │   ├── i18n/request.ts                      # App-specific i18n setup
-│   │   ├── public/favicon.ico                   # Static assets
-│   │   ├── next.config.js, middleware.ts, etc.  # App configuration files
-│   └── web/                                     # Main web application (SPA)
-│       ├── app/[locale]/(main)/                 # Grouped routes under main layout
-│       │   ├── dashboard/page.tsx               # Dashboard screen
-│       │   ├── topic-analysis/page.tsx          # Topic analysis page
-│       │   ├── topics/page.tsx                  # Topics list
-│       │   └── layout.tsx                       # Layout for main routes
-│       ├── providers.tsx                        # Global app providers (e.g. theme, state)
-│       ├── i18n/request.ts                      # i18n initialization for web app
-│       └── ...                                  # Other config files (Jest, tsconfig, etc.)
-├── i18n/                                        # Centralized translations
-│   ├── landing/shared/en.json                   # Translations for landing app
-│   ├── web/account/en.json                      # Translations grouped by domain
-│   ├── web/topic/en.json
-│   └── shared/en.json                           # Common/shared translation keys
-├── libs/                                        # Reusable libraries (Feature-Sliced Design)
-│   ├── landing/shared/
-│   │   ├── features/home/                       # Landing's "home" feature
-│   │   │   ├── lib/components/                  # Visual sections: hero, footer, etc.
-│   │   │   ├── lib/assets/                      # Images used in feature
-│   │   │   ├── lib/component.tsx                # Main feature component
-│   │   │   └── lib/enums/section-id.ts          # Enum for section anchors
-│   │   └── ui/ui-kit/                           # UI kit tailored for landing
-│   │       └── src/heading/component.tsx
-│   ├── shared/                                  # Libraries shared across apps
+├── apps/ # Applications
+│   ├── landing/ # Landing app
+│   │   ├── app/ # Routing structure (Next.js App Router)
+│   │   │   └── [locale]/ # Locale-specific routes (i18n)
+│   │   │       ├── layout.tsx # Shared layout for the landing app
+│   │   │       └── page.tsx # Main landing page
+│   │   └── ... # Project configs (tsconfig, next.config, etc.)
+│   └── web/ # Web application
+│       ├── app/ # Routing structure (Next.js App Router)
+│       │   └── [locale]/ # Locale-specific routes (i18n)
+│       │       ├── (main)/ # Main group layout
+│       │       │   ├── dashboard # Dashboard screen
+│       │       │   ├── topic-analysis # Topic analytics page
+│       │       │   ├── topics # List of topics
+│       │       │   └── layout.tsx # Layout for the (main) group
+│       │       ├── layout.tsx # App-wide layout
+│       │       ├── page.tsx # Root index page
+│       │       └── providers.tsx # Global providers (i18n, theme, etc.)
+│       └── ... # Project configs (middleware, tsconfig, etc.)
+├── i18n/ # Translation files
+│   ├── landing/ # Landing app translations
+│   ├── web/ # Web app translations
+│   └── shared/ # Translations shared across apps
+├── libs/ # Reusable libraries grouped by app/scope/type
+│   ├── landing/ # Landing app libraries
+│   │   └── shared/
+│   │       ├── features/
+│   │       │   └── home/ # Home section for the landing page
+│   │       └── ui/
+│   │           └── ui-kit/ # Reusable UI components
+│   ├── shared/ # Libraries shared across all apps
 │   │   ├── ui/
-│   │   │   ├── toast/                           # Toast notifications (components + logic)
-│   │   │   └── ui-kit/                          # Global reusable UI components
-│   │   └── utils/
-│   │       ├── constants/constants.ts           # Global constants
-│   │       └── i18n/lib/interfaces/             # Interfaces for translation types
-│   └── web/
-│       ├── account/features/login/              # Feature: login form
-│       │   ├── lib/component.tsx                # Smart component
-│       │   ├── lib/forms/login.ts               # Form schema (e.g. zod/yup)
-│       │   └── lib/components/social-button/    # Reusable subcomponent
-│       ├── administration/features/             # Admin features
-│       │   └── employees-table/component.tsx    # Table component in admin
-│       ├── data-access/                         # API clients and RTK Query logic
-│       │   ├── api-client/                      # Base RTK Query setup, interceptors
-│       │   └── topic/                           # Topic-specific API module
-│       ├── features/                            # Feature-layer components
-│       │   ├── dashboard/                       # Statistics, widgets, etc.
-│       │   ├── analysis/                        # Topic analysis charts & hooks
-│       │   └── management/                      # Admin forms & interactions
-│       ├── ui/                                  # Presentational components
-│       │   └── ui-kit/                          # Buttons, modals, inputs, etc.
-│       └── utils/                               # Utility libraries
-│           ├── dates/format-date.ts            # Date formatting
-│           ├── navigation/use-back-navigation-handler.ts
-│           └── strings/get-id-from-url.ts
-├── docs/                                        # Internal documentation
-│   ├── 1-main-tools.md                          # Tools & technologies overview
-│   └── 2-architecture.md                        # Project architecture details
-├── patches/                                     # Patches for 3rd-party packages (patch-package)
-│   ├── @ronas-it+axios-api-client+0.1.1.patch
-│   └── @ronas-it+nx-generators+0.13.4.patch
-├── package.json                                 # Root package definition
-├── tsconfig.base.json                           # Base TS config for all packages
-└── ...
+│   │   │   ├── styles/ # Global SCSS variables and font definitions
+│   │   │   ├── toast/ # Reusable toast component
+│   │   │   └── ui-kit/ # Shared core UI elements (buttons, inputs, etc.)
+│   │   └── utils/ # General-purpose utilities
+│   │       ├── constants/ # Global constants
+│   │       └── i18n/ # i18n helpers and types
+│   └── web/ # Web app libraries
+│       ├── account/ # Account-related domain
+│       │   └── features/
+│       │       └── login/ # Login form and logic
+│       ├── administration/ # Administration domain
+│       │   └── features/
+│       │       └── administration/ # Admin management logics
+│       ├── shared/ # Shared libraries used across all web domains
+│       │   ├── data-access/
+│       │   │   ├── api/ # RTK Query API definitions per domain (endpoints, models)
+│       │   │   ├── api-client/ # API client configuration
+│       │   │   ├── auth/ # Authentication logic and state
+│       │   │   ├── store/ # Redux Toolkit store configuration
+│       │   │   └── tests-data/ # Fake/mock data for testing, helpers
+│       │   ├── features/
+│       │   │   └── layout/ # App shell (sidebar, layout components)
+│       │   ├── ui/
+│       │   │   ├── ui-kit/ # Shared reusable UI components
+│       │   │   └── under-construction/ # Component to show placeholder UI
+│       │   └── utils/
+│       │       ├── class-transformer/ # Utilities for mapping models with decorators
+│       │       ├── dates/ # Date formatting helpers
+│       │       ├── form/ # Form-related helpers/types
+│       │       ├── navigation/ # Routing/navigation-related helpers
+│       │       ├── strings/ # String manipulation utils
+│       │       └── use-responsive-layout/ # Hook for responsive UI rendering
+│       └── topic/ # Topic-related domain
+│           ├── features/
+│           │   ├── analysis/ # Topic analysis
+│           │   ├── dashboard/ # Dashboard
+│           │   └── management/ # Managment
+│           └── ui/ # UI components used across topic domain
+├── docs/ # Developer documentation
+├── patches/ # NPM patches applied via patch-package
+├── package.json # Root dependencies and scripts
+└── ... # Global config files (tsconfig, eslint, etc.)
 ```
