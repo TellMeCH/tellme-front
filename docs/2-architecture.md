@@ -6,9 +6,9 @@ The architecture is based on a [feature-oriented approach](https://www.cs.cmu.ed
 - Business logic is implemented within libraries.
 - Navigation changes should not affect business logic.
 - Libraries must not depend on the application.
-- Libraries can trigger navigation actions, but should avoid depending on specific screens or navigation routes.
+- Libraries can trigger navigation actions, but should avoid depending on specific screens or navigation routes. Exception is links, they can use navigation routes directly.
 - Libraries are divided into several [types](#library-types) and follow strict dependency rules.
-- Bounded contexts from [Domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) are applied for large systems.
+- Bounded scopes from [Domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) are applied for large systems.
 
 ## Repository Structure
 
@@ -29,14 +29,13 @@ Application code is located within the grouped `apps` directory.
 apps/{application}/{*}
 ```
 
-Where application is the name of the app.
+Where `application` is the name of the app.
 
 Each application directory contains:
 
-- `app` - navigation and screens directory.
+- `app` - navigation and pages directory.
 - Configuration files;
-- нNavigation settings;
-- Test environment files;
+- Navigation settings;
 - Any other application-specific files.
 
 ### Libraries
@@ -52,27 +51,25 @@ Where:
 
 1. `application` – the name of one of the applications, or `shared`.
 
-- If there are multiple applications, shared libraries should be placed in the `shared` directory.
-- Inside `shared`, separating by contexts is not required.
+- Shared libraries should be placed in the `shared` directory.
+- Inside `shared`, separating by scopes is not required.
 
-2. `scope` – the name of a [bounded context](https://martinfowler.com/bliki/BoundedContext.html), grouping directory, or `shared`.
+2. `scope` – the name of a [bounded scope](https://martinfowler.com/bliki/BoundedContext.html), grouping directory, or `shared`.
 
-- If the project applies [bounded contexts](https://martinfowler.com/bliki/BoundedContext.html), dependencies **between contexts are not allowed**.
-- If bounded contexts are not used, it's recommended to group libraries by business logic or functionality (e.g., auth, profile, etc.). Dependencies between them are not forbidden, but discouraged.
-- The `shared` scope contains libraries used across multiple contexts or groups.
-- This level can be omitted in small apps where grouping isn’t needed (e.g., single-page apps).
+- If the project applies [bounded scopes](https://martinfowler.com/bliki/BoundedContext.html), dependencies **between scopes are not allowed**.
+- If bounded scopes are not used, it's recommended to group libraries by business logic or functionality (e.g., auth, profile, etc.). Dependencies between them are not forbidden, but discouraged.
+- The `shared` scope contains libraries used across multiple scopes or groups.
 
 . `type` – indicates the [library type](https://nx.dev/more-concepts/library-types) (more on types [below](#library-types)):
 
-- Recommended types: `features`, `data-access`, `ui`, or `utils`.
-- You may introduce additional commonly accepted library types.
+- Available types: `features`, `data-access`, `ui`, or `utils`.
 - `shared` is **not allowed** as a type.
 
 4. `name` – the name of the library.
 
 ### Translations
 
-The `i18n` directory contains translations for applications and their libraries. Translation files for different languages are grouped by application and context/group:
+The `i18n` directory contains translations for applications and their libraries. Translation files for different languages are grouped by application and scope/group:
 
 <!-- prettier-ignore -->
 ```tsx
@@ -80,7 +77,7 @@ i18n/{application}/{scope?}/{language}.json
 ```
 
 - `application` – the name of the application.
-- `scope` – the name of a bounded context/group, `app` (for navigation-related translations), or `shared`. This level is optional.
+- `scope` – the name of a bounded scope/group, `app` (for navigation-related translations), or `shared`. This level is optional.
 - `language` – the language code (e.g., `en`, `ru`, `fi`).
 
 ### Assets
@@ -91,15 +88,15 @@ Allowed paths:
 
 <!-- prettier-ignore -->
 ```tsx
-libs/{application}/{scope}/{type}/{name}/assets
+libs/{application}/{scope}/{type}/{name}/src/lib/assets
 ...
 // Example: assets of the shared `ui-kit` library
-libs/shared/ui/ui-kit/assets
+libs/shared/ui/ui-kit/src/lib/assets
 ```
 
 ## Library Types
 
-Libraries are divided into types that reflect different layers of responsibility: smart and dumb component libraries, data access libraries, utilities, etc.
+Libraries are divided into types that reflect different layers of responsibility: smart and dumb component libraries, data access libraries, utilities.
 
 ### `Util` Libraries
 
@@ -113,7 +110,7 @@ Libraries are divided into types that reflect different layers of responsibility
 - Contain code for interacting with data sources;
 - May include state management, data models, and structures;
 - Must not contain UI components;
-- Data models must not include presentation logic – it should live in utility libraries  
+- Data models must not include presentation logic – it should be in utility libraries  
   (e.g., avoid date formatting getters in models);
 - Can only depend on `data-access` and `util` libraries.
 
@@ -133,7 +130,7 @@ Libraries are divided into types that reflect different layers of responsibility
 - Can use libraries of any other type.
 
 Libraries may include their own subcomponents, utilities, or internal data structures  
-**as long as they are specific to that library**. These should be placed inside subdirectories like `{library}/{components|models|forms|...}`.  
+**as long as they are specific to that library**. These should be placed inside subdirectories like `{library}/src/lib/{components|models|forms|...}`.  
 If a subcomponent is needed outside the library, it should be moved to a separate library.
 
 ### Library Types Table
@@ -161,18 +158,23 @@ tellme-front
 │       ├── app/ # Routing structure (Next.js App Router)
 │       │   └── [locale]/ # Locale-specific routes (i18n)
 │       │       ├── (main)/ # Main group layout
-│       │       │   ├── dashboard # Dashboard screen
-│       │       │   ├── topic-analysis # Topic analytics page
-│       │       │   ├── topics # List of topics
+│       │       │   ├── administration/page.tsx # Administration screen
+│       │       │   ├── dashboard/page.tsx # Dashboard screen
+│       │       │   ├── topic-analysis/page.tsx # Topic analytics page
+│       │       │   ├── topics/page.tsx # List of topics
 │       │       │   └── layout.tsx # Layout for the (main) group
 │       │       ├── layout.tsx # App-wide layout
 │       │       ├── page.tsx # Root index page
 │       │       └── providers.tsx # Global providers (i18n, theme, etc.)
 │       └── ... # Project configs (middleware, tsconfig, etc.)
 ├── i18n/ # Translation files
-│   ├── landing/ # Landing app translations
-│   ├── web/ # Web app translations
-│   └── shared/ # Translations shared across apps
+│   ├── landing/shared/en.json # Landing app translations
+│   └── web/ # Web app translations
+│       ├── account/en.json # Account translations
+│       ├── administration/en.json # Administration translations
+│       ├── shared/en.json # Translations used across all libraries of web app
+│       └── topic/en.json # Topic translations
+│   └── shared/en.json # Translations shared across apps
 ├── libs/ # Reusable libraries grouped by app/scope/type
 │   ├── landing/ # Landing app libraries
 │   │   └── shared/
