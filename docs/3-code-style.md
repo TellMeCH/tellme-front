@@ -25,7 +25,7 @@ All display texts must be extracted into translation files (en.json, fi.json, et
 Below is an example structure.
 
 ```tsx
-{                      // Context
+{                      // Scope (Topic in current example)
   "DASHBOARD": {       // Library
     "STATISTICS": {    // Subcomponent of the library
     ...
