@@ -6,7 +6,7 @@ The architecture is based on a [feature-oriented approach](https://www.cs.cmu.ed
 - Business logic is implemented within libraries.
 - Navigation changes should not affect business logic.
 - Libraries must not depend on the application.
-- Libraries can trigger navigation actions, but should avoid depending on specific screens or navigation routes. Exception is links, they can use navigation routes directly.
+- Libraries can trigger navigation actions, but should avoid depending on specific pages or navigation routes. Exception is links, they can use navigation routes directly.
 - Libraries are divided into several [types](#library-types) and follow strict dependency rules.
 - Bounded scopes from [Domain-driven design](https://en.wikipedia.org/wiki/Domain-driven_design) are applied for large systems.
 
@@ -158,10 +158,10 @@ tellme-front
 │       ├── app/ # Routing structure (Next.js App Router)
 │       │   └── [locale]/ # Locale-specific routes (i18n)
 │       │       ├── (main)/ # Main group layout
-│       │       │   ├── administration/page.tsx # Administration screen
-│       │       │   ├── dashboard/page.tsx # Dashboard screen
+│       │       │   ├── administration/page.tsx # Administration page
+│       │       │   ├── dashboard/page.tsx # Dashboard page
 │       │       │   ├── topic-analysis/page.tsx # Topic analytics page
-│       │       │   ├── topics/page.tsx # List of topics
+│       │       │   ├── topics/page.tsx # Topics page
 │       │       │   └── layout.tsx # Layout for the (main) group
 │       │       ├── layout.tsx # App-wide layout
 │       │       ├── page.tsx # Root index page
