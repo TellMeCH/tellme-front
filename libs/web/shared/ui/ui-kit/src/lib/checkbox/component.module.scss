@@ -6,5 +6,5 @@
     &::after {background-color: $brand-primary!important; border-radius: $radius-xs!important;}
   }
   &_label {color: $text-primary; font-size: $text-small!important; line-height: 16px!important; padding: 0!important;}
-  &_icon {height: 10px;}
+  &_icon {height: 10px; color: $background-primary;}
 }

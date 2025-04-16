@@ -1,6 +1,11 @@
 # Testing rules
 
-To create a test add a file `component.spec.tsx` near a component for testing and add tag "test" to a lib project.json.
+To create a test
+
+1. Add tag "test" to a lib `project.json`
+2. Write path to `jest.setup.js` in `setupFilesAfterEnv` in the lib `jest.config.ts`.
+3. Add a file `component.spec.tsx` near a component for testing
+
 The structure of the file should be the following. It's allowed to use several nested `describe`.
 
 ```tsx

@@ -34,9 +34,16 @@ export function Administration(): ReactElement {
         <Spinner />
       ) : (
         <Fragment>
-          <Header title={t('TEXT_TITLE', { organizationName: organization.name.toUpperCase() || '' })} />
+          <Header
+            title={t('TEXT_TITLE', { organizationName: organization.name.toUpperCase() || '' })}
+            titleTestId='title'
+          />
           <div className='flex gap-2'>
-            <OrganizationDetail name={t('TEXT_REGISTERED_EMPLOYEES')} value={organization.employeesCount || 0} />
+            <OrganizationDetail
+              name={t('TEXT_REGISTERED_EMPLOYEES')}
+              value={organization.employeesCount || 0}
+              valueTestId='employees-count'
+            />
             <OrganizationDetail name={t('TEXT_MAX_ACCOUNTS_COUNT')} value={organization.maxUsersCount || 0} />
             <OrganizationDetail name={t('TEXT_CONVERSATIONS_COUNT')} value={organization.conversationsCount || 0} />
           </div>

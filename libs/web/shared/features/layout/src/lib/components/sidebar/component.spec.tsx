@@ -7,13 +7,6 @@ import { apiService } from '@tellme/web/shared/data-access/api-client';
 import { admin, nonAdmin, TestRootComponent } from '@tellme/web/shared/data-access/tests-data';
 import { Sidebar } from './component';
 
-jest.mock('firebase/auth', () => ({
-  signOut: jest.fn(() => Promise.resolve()),
-  getAuth: jest.fn(() => ({})),
-  GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
-  OAuthProvider: jest.fn((providerId) => ({ providerId })),
-}));
-
 jest.mock('next/navigation', () => ({
   usePathname: () => '/',
 }));

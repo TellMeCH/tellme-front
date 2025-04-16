@@ -22,6 +22,7 @@ export function PeriodFilter({ options, defaultValue, onChange }: PeriodFilterPr
       {options.map((option) => (
         <Button
           key={option.value}
+          data-testid={`period-button-${option.value}`}
           onPress={() => handleSelect(option.value)}
           className={clsx(
             'bg-background-primary transition-colors',
