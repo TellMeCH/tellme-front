@@ -7,7 +7,7 @@ import { useTranslations } from 'next-intl';
 import { ReactElement, useCallback, useState } from 'react';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
-import { ConfirmationModal, Heading, Switch } from '@tellme/web/shared/ui/ui-kit';
+import { ConfirmationModal, Heading, Switch, TooltipWrapper } from '@tellme/web/shared/ui/ui-kit';
 import { formatDate } from '@tellme/web/shared/utils/dates';
 import { FormModal } from '../form-modal';
 
@@ -42,11 +42,13 @@ export function Item({ topic }: ItemProps): ReactElement {
 
   return (
     <div className='flex items-start py-4 border-b border-text-tertiary' data-testid='item'>
-      <Switch
-        isSelected={isActive}
-        onValueChange={changeActivity}
-        className='mr-6'
-        data-testid='activity-switch' />
+      <TooltipWrapper content={t('TEXT_ACTIVITY_SWITCH_TOOLTIP')}>
+        <Switch
+          isSelected={isActive}
+          onValueChange={changeActivity}
+          className='mr-6'
+          data-testid='activity-switch' />
+      </TooltipWrapper>
       <div className={clsx('flex-1 mr-[9%]', !isActive && 'text-text-secondary')}>
         <Heading level={2} className='mb-2 text-xl font-medium'>
           {topic.name}

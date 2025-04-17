@@ -21,6 +21,7 @@ export interface TextInputProps extends Omit<InputProps, 'className' | 'errorMes
   inputSize?: 'big' | 'small';
   inputColor?: 'light' | 'transparent';
   formGroupProps?: FormGroupProps;
+  labelRightAccessory?: ReactNode;
 }
 
 export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((props, ref) => {
@@ -34,6 +35,8 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
     inputColor = 'light',
     value,
     formGroupProps,
+    label,
+    labelRightAccessory,
     ...restProps
   } = props;
   const { className: formGroupClassName, ...restFormGroupProps } = formGroupProps ?? {};
@@ -87,11 +90,22 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
           ),
           mainWrapper: 'form__group__inner',
           input: classNames?.input,
-          label: clsx('form__label', inputColor === 'transparent' && 'form__label_light', classNames?.label),
         }}
         startContent={accessoryLeft}
         endContent={renderEndContent()}
         labelPlacement='outside'
+        label={
+          <div
+            className={clsx(
+              'form__label',
+              inputColor === 'transparent' && 'form__label_light',
+              classNames?.label,
+              'flex items-center gap-2',
+            )}>
+            <span>{label}</span>
+            {labelRightAccessory}
+          </div>
+        }
         {...restProps}
       />
     </FormGroup>
