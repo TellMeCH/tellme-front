@@ -160,46 +160,4 @@ You can execute these commands for the whole project manually:
 
 ## Tests
 
-To create a test
-
-1. Add tag "test" to a lib `project.json`
-2. Write path to `jest.setup.js` in `setupFilesAfterEnv` in the lib `jest.config.ts`.
-3. Add a file `component.spec.tsx` near a component for testing
-   The structure of the file should be the following. It's allowed to use several nested `describe`.
-
-```tsx
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-
-describe('Feature name', () => {
-  // Optional
-  beforeAll(() => {
-    // Set up mocks and make other preparations actual for all test cases
-  });
-
-  // Optional
-  beforeEach(() => {
-    // Actions before each test case
-  });
-
-  // Optional
-  afterAll(() => {
-    // Set up mocks and make other preparations actual for all test cases
-  });
-
-  // Optional
-  afterEach(() => {
-    // Actions after each test case
-  });
-
-  // Test cases
-  it('should do something', () => {
-    // Actions with elements and results check
-  });
-});
-```
-
-Fixtures and test helpers should be in the lib `web/shared/data-access/tests-data`.
-
 To run tests use the command `npm run test` in the root of the repository.
