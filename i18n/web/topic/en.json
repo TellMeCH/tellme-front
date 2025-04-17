@@ -18,6 +18,8 @@
     "TOPIC_TRENDS_ITEM": {
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_FREQUENCY": "Frequency",
+      "TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP": "This score reflects the quality of customer interactions, based on the tone and content of every conversation. Low values indicate a higher risk of churn, while high values suggest stronger customer satisfaction.",
+      "TEXT_FREQUENCY_TOOLTIP": "The number of calls linked to this topic during the given time period.",
       "TEXT_CURRENT_MEASUREMENT_AREA_LABEL": "Current measurement area label",
       "TEXT_PREVIOUS_MEASUREMENT_AREA_LABEL": "Previous measurement area label"
     }
@@ -31,7 +33,9 @@
     "CHART": {
       "TEXT_TRENDS": "Trends",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
-      "TEXT_FREQUENCY": "Frequency"
+      "TEXT_FREQUENCY": "Frequency",
+      "TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP": "This score reflects the quality of customer interactions, based on the tone and content of every conversation. Low values indicate a higher risk of churn, while high values suggest stronger customer satisfaction.",
+      "TEXT_FREQUENCY_TOOLTIP": "The number of calls linked to this topic during the given time period."
     },
     "DATE_PERIOD": {
       "TEXT_MONTHLY": "1 year",

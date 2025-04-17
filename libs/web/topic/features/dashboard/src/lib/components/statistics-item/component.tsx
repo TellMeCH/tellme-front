@@ -17,8 +17,9 @@ export function StatisticsItem({ title, value, change, date, tooltipProps }: Sta
   return (
     <div className='w-full h-[120px] flex flex-col justify-between items-center bg-background-secondary rounded-2xl pt-5 pb-6 px-8'>
       <div className='w-full flex flex-row justify-between items-start gap-2'>
-        <div className='flex flex-row items-center justify-start gap-2'>
-          <p className='text-xs leading-[18px] uppercase flex-shrink-1'>{title}</p>
+        {/* TODO: Fix layout */}
+        <div className='flex items-start gap-2'>
+          <p className='text-xs leading-[18px] uppercase '>{title}</p>
           <IconWithTooltip {...tooltipProps} />
         </div>
         {(change || change === 0) && (
