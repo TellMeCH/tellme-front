@@ -1,6 +1,6 @@
 'use client';
 
-import { Textarea as NextUITextarea, TextAreaProps } from '@heroui/react';
+import { Textarea as HeroUITextarea, TextAreaProps } from '@heroui/react';
 import clsx from 'clsx';
 import { forwardRef, ReactNode } from 'react';
 import { FormGroup, FormGroupProps } from '../form-group/component';
@@ -32,7 +32,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement | null, TextareaProps>((p
 
   return (
     <FormGroup {...formGroupProps}>
-      <NextUITextarea
+      <HeroUITextarea
         ref={ref}
         aria-describedby={formGroupProps?.errorID}
         isInvalid={hasError}

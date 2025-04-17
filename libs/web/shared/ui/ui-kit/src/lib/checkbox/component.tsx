@@ -1,9 +1,9 @@
 'use client';
 
-import { Checkbox as NextUICheckbox, extendVariants } from '@heroui/react';
+import { Checkbox as HeroUICheckbox, extendVariants } from '@heroui/react';
 import styles from './component.module.scss';
 
-export const Checkbox = extendVariants(NextUICheckbox, {
+export const Checkbox = extendVariants(HeroUICheckbox, {
   variants: {
     size: {
       md: {

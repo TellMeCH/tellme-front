@@ -4,32 +4,13 @@ import * as firebase from 'firebase/auth';
 import Cookies from 'js-cookie';
 import { DateTime } from 'luxon';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
+import { authConfig } from '@tellme/web/shared/data-access/auth';
 import { cookieConfig } from '@tellme/web/shared/data-access/cookies';
 import { nonAdmin, TestRootComponent, validCredentials } from '@tellme/web/shared/data-access/tests-data';
 import { Login } from './component';
 import '@testing-library/jest-dom';
 
 import SpyInstance = jest.SpyInstance;
-
-jest.mock('firebase/auth', () => {
-  const authResponse = {
-    user: {
-      email: 'test@example.com',
-      getIdToken: jest.fn(() => Promise.resolve('token')),
-    },
-  };
-
-  return {
-    browserLocalPersistence: { type: 'LOCAL' },
-    browserSessionPersistence: { type: 'SESSION' },
-    getAuth: jest.fn(() => ({})),
-    signInWithEmailAndPassword: jest.fn(() => Promise.resolve(authResponse)),
-    setPersistence: jest.fn(() => Promise.resolve()),
-    signInWithPopup: jest.fn(() => Promise.resolve(authResponse)),
-    GoogleAuthProvider: jest.fn(() => ({ providerId: 'google.com' })),
-    OAuthProvider: jest.fn((providerId) => ({ providerId })),
-  };
-});
 
 function checkCookie(setCookieSpy: SpyInstance, key: string, value: string, shouldRemember?: boolean): void {
   const callIndex = Number(key === cookieConfig.keys.isOrganizationAdmin);
@@ -43,7 +24,7 @@ function checkCookie(setCookieSpy: SpyInstance, key: string, value: string, shou
     return;
   }
 
-  const expectedExpirationDate = DateTime.local().plus({ days: 2 }).startOf('minute');
+  const expectedExpirationDate = DateTime.local().plus({ days: authConfig.authCookiesTttDays }).startOf('minute');
   const expirationDateFromArgument = DateTime.fromJSDate(lastCall?.[2]?.expires as Date).startOf('minute');
   expect(expectedExpirationDate.toString()).toEqual(expirationDateFromArgument.toString());
 }
