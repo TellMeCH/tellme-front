@@ -10,8 +10,8 @@ export const TooltipWrapper = ({ children, ...restProps }: TooltipWrapperProps):
     <Tooltip
       showArrow
       classNames={{
-        base: ['max-w-[300px]'],
-        content: ['shadow-lg rounded-lg text-base px-4 py-2'],
+        base: ['max-w-[302px]'],
+        content: ['shadow-lg rounded-lg px-4 py-2'],
       }}
       {...restProps}>
       {children}
