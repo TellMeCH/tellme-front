@@ -1,12 +1,13 @@
 'use client';
 
 import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
-import { UserCredential } from 'firebase/auth';
+import { browserLocalPersistence, browserSessionPersistence, UserCredential } from 'firebase/auth';
 import { DateTime } from 'luxon';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { employeeApi, ErrorResponse } from '@tellme/web/shared/data-access/api';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
+import { authConfig } from '../config';
 
 export function useLogin(onSuccess: () => void) {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,9 +22,13 @@ export function useLogin(onSuccess: () => void) {
       await login();
       const employeeProfile = await dispatch(employeeApi.endpoints.getProfile.initiate()).unwrap();
 
-      const expirationDate = DateTime.local().plus({ days: 2 }).toJSDate();
+      const expirationDate = DateTime.local().plus({ days: authConfig.authCookiesTttDays }).toJSDate();
       CookieService.set(
-        { isAuthenticated: 'true', isOrganizationAdmin: String(employeeProfile.isOrganizationAdmin) },
+        {
+          isAuthenticated: 'true',
+          isOrganizationAdmin: String(employeeProfile.isOrganizationAdmin),
+          persistence: shouldRemember ? browserLocalPersistence.type : browserSessionPersistence.type,
+        },
         { expires: shouldRemember ? expirationDate : undefined },
       );
       onSuccess();
