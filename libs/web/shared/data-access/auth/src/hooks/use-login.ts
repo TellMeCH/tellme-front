@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { employeeApi, ErrorResponse } from '@tellme/web/shared/data-access/api';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
+import { authConfig } from '../config';
 
 export function useLogin(onSuccess: () => void) {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +22,7 @@ export function useLogin(onSuccess: () => void) {
       await login();
       const employeeProfile = await dispatch(employeeApi.endpoints.getProfile.initiate()).unwrap();
 
-      const expirationDate = DateTime.local().plus({ days: 14 }).toJSDate();
+      const expirationDate = DateTime.local().plus({ days: authConfig.authCookiesTttDays }).toJSDate();
       CookieService.set(
         {
           isAuthenticated: 'true',

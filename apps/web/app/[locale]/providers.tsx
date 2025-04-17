@@ -10,7 +10,7 @@ import { Fragment, PropsWithChildren, ReactElement, ReactNode, useEffect } from 
 import { Provider, useDispatch } from 'react-redux';
 import { ToastContainer } from '@tellme/shared/ui/toast';
 import { employeeApi } from '@tellme/web/shared/data-access/api';
-import { authActions, firebaseAuth, useLocalLogout } from '@tellme/web/shared/data-access/auth';
+import { authActions, authConfig, firebaseAuth, useLocalLogout } from '@tellme/web/shared/data-access/auth';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
 import { store } from '@tellme/web/shared/data-access/store';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
@@ -34,7 +34,7 @@ export function App({ children }: PropsWithChildren): ReactNode {
         if (persistenceType === browserLocalPersistence.type) {
           const employeeProfile = await dispatch(employeeApi.endpoints.getProfile.initiate()).unwrap();
 
-          const expirationDate = DateTime.local().plus({ days: 14 }).toJSDate();
+          const expirationDate = DateTime.local().plus({ days: authConfig.authCookiesTttDays }).toJSDate();
           CookieService.set(
             {
               isAuthenticated: 'true',
