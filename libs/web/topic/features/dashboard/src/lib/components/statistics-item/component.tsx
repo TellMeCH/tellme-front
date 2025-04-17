@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { DateTime } from 'luxon';
 import { type ReactElement } from 'react';
-import { IconWithTooltip } from '@tellme/web/shared/ui/ui-kit';
+import { IconWithTooltip, IconWithTooltipProps } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import styles from './component.module.scss';
 
@@ -10,15 +10,16 @@ export interface StatisticsItemProps {
   value: string | number | null;
   change?: number | null;
   date: DateTime;
+  tooltipProps: IconWithTooltipProps;
 }
 
-export function StatisticsItem({ title, value, change, date }: StatisticsItemProps): ReactElement {
+export function StatisticsItem({ title, value, change, date, tooltipProps }: StatisticsItemProps): ReactElement {
   return (
     <div className='w-full h-[120px] flex flex-col justify-between items-center bg-background-secondary rounded-2xl pt-5 pb-6 px-8'>
       <div className='w-full flex flex-row justify-between items-start gap-2'>
-        <div className='flex flex-row items-start gap-2'>
-          <p className='text-xs leading-[18px] uppercase'>{title}</p>
-          <IconWithTooltip tooltipProps={{ content: 'dfdsfsdf dfsdfsd' }} />
+        <div className='flex flex-row items-center justify-start gap-2'>
+          <p className='text-xs leading-[18px] uppercase flex-shrink-1'>{title}</p>
+          <IconWithTooltip {...tooltipProps} />
         </div>
         {(change || change === 0) && (
           <p

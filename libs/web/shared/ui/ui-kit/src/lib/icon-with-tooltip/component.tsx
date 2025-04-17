@@ -1,19 +1,27 @@
-import React from 'react';
-import { Icon, IconProps } from '@tellme/shared/ui/ui-kit';
-import { TooltipWrapper, TooltipWrapperProps } from '../tooltip-wrapper/component';
+import { TooltipProps } from '@heroui/react';
+import { ReactElement } from 'react';
+import { Icon, IconName, IconTheme } from '@tellme/shared/ui/ui-kit';
+import { TooltipWrapper } from '../tooltip-wrapper/component';
 
-export interface IconWithTooltipProps extends Partial<IconProps> {
-  tooltipProps: Omit<TooltipWrapperProps, 'children'>;
+export interface IconWithTooltipProps extends TooltipProps {
+  iconName?: IconName;
+  iconTheme?: IconTheme;
+  iconClassName?: string;
 }
 
-export const IconWithTooltip = ({ tooltipProps, name = 'info', ...rest }: IconWithTooltipProps): React.ReactElement => {
+export const IconWithTooltip = ({
+  iconName = 'info',
+  iconTheme,
+  iconClassName,
+  ...restTooltipProps
+}: IconWithTooltipProps): ReactElement => {
   return (
-    <TooltipWrapper {...tooltipProps} offset={-6}>
+    <TooltipWrapper {...restTooltipProps}>
       <span tabIndex={0}>
         <Icon
-          name={'info'}
-          theme='primary'
-          {...rest} />
+          name={iconName}
+          theme={iconTheme}
+          className={iconClassName} />
       </span>
     </TooltipWrapper>
   );
