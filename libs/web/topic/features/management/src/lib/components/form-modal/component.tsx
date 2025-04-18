@@ -98,15 +98,15 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         </Fragment>
       }>
       {!isForEdit && (
-        <Tooltip content={t('TEXT_ACTIVITY_SWITCH_TOOLTIP')}>
-          <FormSwitch
-            name='isActive'
-            control={form.control}
-            className='mb-3'
-            data-testid='creation-activity-switch'>
-            {t('TEXT_ACTIVATE_FOR_ANALYSIS')}
-          </FormSwitch>
-        </Tooltip>
+        <div className='flex items-center mb-3 gap-4'>
+          <Tooltip content={t('TEXT_ACTIVITY_SWITCH_TOOLTIP')}>
+            <FormSwitch
+              name='isActive'
+              control={form.control}
+              data-testid='creation-activity-switch' />
+          </Tooltip>
+          <p>{t('TEXT_ACTIVATE_FOR_ANALYSIS')}</p>
+        </div>
       )}
       <FormTextInput
         name='name'

@@ -48,7 +48,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement | null, TextareaProps>((p
               'form__label',
               inputColor === 'transparent' && 'form__label_light',
               classNames?.label,
-              'flex items-center gap-2',
+              '!flex items-center gap-2',
             )}>
             <span>{label}</span>
             {labelRightAccessory}

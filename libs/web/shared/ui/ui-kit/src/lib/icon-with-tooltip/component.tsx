@@ -17,7 +17,7 @@ export const IconWithTooltip = ({
 }: IconWithTooltipProps): ReactElement => {
   return (
     <Tooltip {...restTooltipProps}>
-      <span tabIndex={0}>
+      <span tabIndex={0} className='inline-flex items-center'>
         <Icon
           name={iconName}
           theme={iconTheme}

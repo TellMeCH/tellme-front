@@ -100,7 +100,7 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
               'form__label',
               inputColor === 'transparent' && 'form__label_light',
               classNames?.label,
-              'flex items-center gap-2',
+              '!flex items-center gap-2',
             )}>
             <span>{label}</span>
             {labelRightAccessory}
