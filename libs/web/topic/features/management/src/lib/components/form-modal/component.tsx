@@ -6,14 +6,7 @@ import { Fragment, ReactElement, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Button, FormMessage } from '@tellme/shared/ui/ui-kit';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
-import {
-  FormSwitch,
-  FormTextarea,
-  FormTextInput,
-  IconWithTooltip,
-  Modal,
-  TooltipWrapper,
-} from '@tellme/web/shared/ui/ui-kit';
+import { FormSwitch, FormTextarea, FormTextInput, IconWithTooltip, Modal, Tooltip } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import { TopicFormSchema } from '../../forms';
 
@@ -105,7 +98,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         </Fragment>
       }>
       {!isForEdit && (
-        <TooltipWrapper content={t('TEXT_ACTIVITY_SWITCH_TOOLTIP')}>
+        <Tooltip content={t('TEXT_ACTIVITY_SWITCH_TOOLTIP')}>
           <FormSwitch
             name='isActive'
             control={form.control}
@@ -113,7 +106,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
             data-testid='creation-activity-switch'>
             {t('TEXT_ACTIVATE_FOR_ANALYSIS')}
           </FormSwitch>
-        </TooltipWrapper>
+        </Tooltip>
       )}
       <FormTextInput
         name='name'

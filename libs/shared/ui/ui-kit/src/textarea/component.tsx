@@ -43,7 +43,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement | null, TextareaProps>((p
           input: classNames?.input,
         }}
         label={
-          <div
+          <label
             className={clsx(
               'form__label',
               inputColor === 'transparent' && 'form__label_light',
@@ -52,7 +52,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement | null, TextareaProps>((p
             )}>
             <span>{label}</span>
             {labelRightAccessory}
-          </div>
+          </label>
         }
         labelPlacement='outside'
         {...restProps}

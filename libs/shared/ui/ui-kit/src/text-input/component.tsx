@@ -95,7 +95,7 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
         endContent={renderEndContent()}
         labelPlacement='outside'
         label={
-          <div
+          <label
             className={clsx(
               'form__label',
               inputColor === 'transparent' && 'form__label_light',
@@ -104,7 +104,7 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
             )}>
             <span>{label}</span>
             {labelRightAccessory}
-          </div>
+          </label>
         }
         {...restProps}
       />

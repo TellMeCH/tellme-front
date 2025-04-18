@@ -1,7 +1,7 @@
 import { TooltipProps } from '@heroui/react';
 import { ReactElement } from 'react';
 import { Icon, IconName, IconTheme } from '@tellme/shared/ui/ui-kit';
-import { TooltipWrapper } from '../tooltip-wrapper/component';
+import { Tooltip } from '../tooltip/component';
 
 export interface IconWithTooltipProps extends TooltipProps {
   iconName?: IconName;
@@ -16,13 +16,13 @@ export const IconWithTooltip = ({
   ...restTooltipProps
 }: IconWithTooltipProps): ReactElement => {
   return (
-    <TooltipWrapper {...restTooltipProps}>
+    <Tooltip {...restTooltipProps}>
       <span tabIndex={0}>
         <Icon
           name={iconName}
           theme={iconTheme}
           className={iconClassName} />
       </span>
-    </TooltipWrapper>
+    </Tooltip>
   );
 };
