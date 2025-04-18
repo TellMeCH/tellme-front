@@ -13,12 +13,14 @@ export interface StatisticsItemProps {
   tooltipProps: IconWithTooltipProps;
 }
 
+const longTitleLength = 13;
+
 export function StatisticsItem({ title, value, change, date, tooltipProps }: StatisticsItemProps): ReactElement {
   return (
     <div className='w-full h-[120px] flex flex-col justify-between items-center bg-background-secondary rounded-2xl pt-5 pb-6 px-8'>
       <div className='w-full flex flex-row justify-between items-start gap-2'>
         {/* TODO: Fix layout */}
-        <div className='flex items-start gap-2'>
+        <div className={clsx('flex items-start gap-2', !!change && title.length > longTitleLength && 'basis-[106px]')}>
           <p className='text-xs leading-[18px] uppercase '>{title}</p>
           <IconWithTooltip {...tooltipProps} />
         </div>
