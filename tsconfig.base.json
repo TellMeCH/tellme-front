@@ -46,6 +46,7 @@
       "@tellme/web/shared/ui/under-construction": ["libs/web/shared/ui/under-construction/src/index.ts"],
       "@tellme/web/shared/utils/class-transformer": ["libs/web/shared/utils/class-transformer/src/index.ts"],
       "@tellme/web/shared/utils/dates": ["libs/web/shared/utils/dates/src/index.ts"],
+      "@tellme/web/shared/utils/durations": ["libs/web/shared/utils/durations/src/index.ts"],
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
       "@tellme/web/shared/utils/strings": ["libs/web/shared/utils/strings/src/index.ts"],

@@ -6,7 +6,11 @@
       "TEXT_CALL_COUNT": "Call Count",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_CALL_DURATION": "Call Duration",
-      "TEXT_MOST_POPULAR_TOPIC": "Most Popular Topic"
+      "TEXT_MOST_POPULAR_TOPIC": "Most Popular Topic",
+      "TEXT_CALL_COUNT_TOOLTIP": "The total number of calls your organization received during the given time period.",
+      "TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP": "This score reflects the quality of customer interactions, based on the tone and content of every conversation. Low values indicate a higher risk of churn, while high values suggest stronger customer satisfaction.",
+      "TEXT_CALL_DURATION_TOOLTIP": "The average call duration during the given time period. Longer calls may suggest more complex issues, or more resources spent on troubleshooting.",
+      "TEXT_MOST_POPULAR_TOPIC_TOOLTIP": "The most frequently discussed topic in calls during the given time period."
     },
     "TOPIC_TRENDS": {
       "TEXT_TOPIC_TRENDS": "Topic Trends"
@@ -14,6 +18,8 @@
     "TOPIC_TRENDS_ITEM": {
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_FREQUENCY": "Frequency",
+      "TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP": "This score reflects the quality of customer interactions, based on the tone and content of every conversation. Low values indicate a higher risk of churn, while high values suggest stronger customer satisfaction.",
+      "TEXT_FREQUENCY_TOOLTIP": "The number of calls linked to this topic during the given time period.",
       "TEXT_CURRENT_MEASUREMENT_AREA_LABEL": "Current measurement area label",
       "TEXT_PREVIOUS_MEASUREMENT_AREA_LABEL": "Previous measurement area label"
     }
@@ -27,7 +33,9 @@
     "CHART": {
       "TEXT_TRENDS": "Trends",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
-      "TEXT_FREQUENCY": "Frequency"
+      "TEXT_FREQUENCY": "Frequency",
+      "TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP": "This score reflects the quality of customer interactions, based on the tone and content of every conversation. Low values indicate a higher risk of churn, while high values suggest stronger customer satisfaction.",
+      "TEXT_FREQUENCY_TOOLTIP": "The number of calls linked to this topic during the given time period."
     },
     "DATE_PERIOD": {
       "TEXT_MONTHLY": "1 year",
@@ -39,6 +47,7 @@
     "TEXT_TITLE": "Topics",
     "BUTTON_NEW_TOPIC": "New Topic",
     "ITEM": {
+      "TEXT_ACTIVITY_SWITCH_TOOLTIP": "Toggle the topic’s activity status. Active topics can be assigned to new calls. Inactive topics won’t be used in future call processing but remain visible for analysis.",
       "TEXT_LAST_MODIFIED": "Last modified: {date}",
       "TEXT_CREATED": "Created: {date}",
       "TEXT_DELETE_TOPIC_TITLE": "Delete Topic",
@@ -49,9 +58,12 @@
       "TEXT_CREATE_TOPIC": "Create Topic",
       "TEXT_EDIT_TOPIC": "Edit Topic",
       "TEXT_ACTIVATE_FOR_ANALYSIS": "Activate for Analysis",
+      "TEXT_ACTIVITY_SWITCH_TOOLTIP": "Toggle the topic’s activity status. Active topics can be assigned to new calls. Inactive topics won’t be used in future call processing but remain visible for analysis.",
       "TEXT_TOPIC_NAME": "Topic Name",
+      "TEXT_TOPIC_NAME_TOOLTIP": "Enter a clear, readable name to help identify the topic. Keep it short but specific.",
       "TEXT_NAME": "Name",
       "TEXT_DESCRIPTION": "Description",
+      "TEXT_DESCRIPTION_TOOLTIP": "Describe the content of calls related to this topic. Imagine explaining it to someone unfamiliar with your business—be clear and detailed. What are recurring keywords associated to this topic? What are typical processes followed during this topic's calls?",
       "TEXT_REQUIRED_NAME": "Name is required",
       "TEXT_TOO_LONG_NAME": "Name should have maximum {maxLength} characters",
       "TEXT_REQUIRED_DESCRIPTION": "Description is required",

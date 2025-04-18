@@ -1,0 +1,10 @@
+export default {
+  displayName: 'web/shared/utils/durations',
+  preset: '../../../../../jest.preset.js',
+  transform: {
+    '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nx/react/plugins/jest',
+    '^.+\\.[tj]sx?$': ['babel-jest', { presets: ['@nx/react/babel'] }],
+  },
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+  coverageDirectory: '../../../../../coverage/libs/web/shared/utils/durations',
+};

@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { type ReactElement } from 'react';
-import { CircularProgress, AppProgress } from '@tellme/web/shared/ui/ui-kit';
+import { CircularProgress, AppProgress, IconWithTooltip } from '@tellme/web/shared/ui/ui-kit';
 import { Measurement } from '@tellme/web/shared/utils/class-transformer';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 
@@ -43,7 +43,10 @@ export function TopicTrendsItem({
         )}
       </div>
       <div className='flex flex-col flex-1 w-1/3'>
-        <p className='text-text-secondary mb-[22px]'>{t('TEXT_FREQUENCY')}</p>
+        <div className='flex flex-row gap-2 items-center mb-[22px]'>
+          <p className='text-text-secondary'>{t('TEXT_FREQUENCY')}</p>
+          <IconWithTooltip content={t('TEXT_FREQUENCY_TOOLTIP')} placement='right' />
+        </div>
         <div className='flex flex-col gap-1'>
           <AppProgress
             maxValue={maxCount}
@@ -59,7 +62,10 @@ export function TopicTrendsItem({
         </div>
       </div>
       <div className='flex flex-col flex-1 w-1/5 pl-[5%]'>
-        <p className='text-text-secondary mb-2'>{t('TEXT_CUSTOMER_ENGAGEMENT')}</p>
+        <div className='flex flex-row gap-2 items-center mb-2'>
+          <p className='text-text-secondary '>{t('TEXT_CUSTOMER_ENGAGEMENT')}</p>
+          <IconWithTooltip content={t('TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP')} placement='top-end' />
+        </div>
         <div className='flex flex-row gap-[68px]'>
           <CircularProgress value={Math.round(Number(averageSentiment.currentMeasurement))} />
           <CircularProgress value={Math.round(Number(averageSentiment.previousMeasurement))} color='secondary' />
