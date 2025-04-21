@@ -47,7 +47,8 @@ Branch protection rules will not allow a different order.
 
 ### CI/CD Workflows
 
-- `deploy.yml`: Simple deployment to CloudFlare Pages based on the above mentioned environment variables.
+- `deploy.yml`: Carries out the deployment to CloudFlare Workers of the frontend and landing page. Moreover, triggers a series of end-to-end tests for the frontend.
+- `ci_local.yml`: Unit testing of frontend.
 
 ## Authentication
 
@@ -161,3 +162,23 @@ You can execute these commands for the whole project manually:
 ## Tests
 
 To run tests use the command `npm run test` in the root of the repository.
+
+## Employed API Endpoints
+
+- GET /api/v1/employees/me
+- GET /api/v1/employees
+- POST /api/v1/employees
+- POST /api/v1/employees/{id}/invite
+- PATCH /api/v1/employees/{id}
+- DELETE /api/v1/employees/{id}
+- GET /api/v1/organizations/overview
+- GET /api/v1/organizations/{id}
+- GET /api/v1/topics
+- GET /api/v1/topics/list_recent
+- GET /api/v1/topics/{id}
+- GET /api/v1/topics/{id}/summary_data
+- GET /api/v1/topics/all_summaries
+- GET /api/v1/topics/{id}/trend
+- POST /api/v1/topics
+- PATCH /api/v1/topics/{id}
+- DELETE /api/v1/topics/{id}
