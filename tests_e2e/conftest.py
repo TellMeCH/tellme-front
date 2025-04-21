@@ -162,7 +162,7 @@ def test_org_context(superuser_headers):
     analyst_data = {
         "role": "ANALYST",
         "organization": org_id,
-        "is_organization_admin": False,
+        "is_organization_admin": True,
         "user": {
             "email": analyst_email,
             "first_name": "John",
