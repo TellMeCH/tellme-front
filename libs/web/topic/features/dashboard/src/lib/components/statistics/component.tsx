@@ -11,20 +11,27 @@ import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { formatDuration } from '@tellme/web/shared/utils/durations';
 import { StatisticsItem } from '../statistics-item';
 
-const itemsConfig: Array<{
+interface ConfigItem {
   key: keyof General;
   labelKey: string;
   tooltipKey: string;
   hasChange?: boolean;
-  isDuration?: boolean;
-}> = [
+  formatValue?: (value: unknown) => string | number;
+}
+
+const itemsConfig: Array<ConfigItem> = [
   { key: 'count', labelKey: 'TEXT_CALL_COUNT', tooltipKey: 'TEXT_CALL_COUNT_TOOLTIP' },
-  { key: 'averageSentiment', labelKey: 'TEXT_CUSTOMER_ENGAGEMENT', tooltipKey: 'TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP' },
+  {
+    key: 'averageSentiment',
+    labelKey: 'TEXT_CUSTOMER_ENGAGEMENT',
+    tooltipKey: 'TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP',
+    formatValue: (value) => `${Number(value).toFixed(1)}/5`,
+  },
   {
     key: 'averageDuration',
     labelKey: 'TEXT_CALL_DURATION',
-    isDuration: true,
     tooltipKey: 'TEXT_CALL_DURATION_TOOLTIP',
+    formatValue: (value) => formatDuration(Duration.fromObject({ seconds: Number(value) })),
   },
   {
     key: 'mostPopularTopic',
@@ -46,13 +53,11 @@ export function DashboardStatistics(): ReactElement {
     currentMonth &&
     compact(
       itemsConfig.map(
-        ({ key, labelKey, hasChange = true, isDuration, tooltipKey }, index, arr) =>
+        ({ key, labelKey, hasChange = true, tooltipKey, formatValue }, index, arr) =>
           general[key] && {
             title: t(labelKey),
             change: hasChange ? general[key]?.change : undefined,
-            value: isDuration
-              ? formatDuration(Duration.fromObject({ seconds: general[key].currentMeasurement as number }))
-              : general[key]?.currentMeasurement,
+            value: formatValue ? formatValue(general[key].currentMeasurement) : general[key].currentMeasurement,
             date: currentMonth,
             tooltipProps: {
               content: t(tooltipKey),
