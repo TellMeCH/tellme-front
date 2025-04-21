@@ -67,8 +67,6 @@ export function DashboardStatistics(): ReactElement {
       ),
     );
 
-  console.log('t:', t('TEXT_CALL_COUNT_TOOLTIP'));
-
   return (
     <div className='flex flex-row gap-2'>
       {statisticsItems?.map((itemProps) => <StatisticsItem key={itemProps.title} {...itemProps} />)}
