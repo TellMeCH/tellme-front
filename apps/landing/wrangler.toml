@@ -8,14 +8,14 @@ compatibility_flags = ["nodejs_compat"]
 directory = ".open-next/assets"
 binding = "ASSETS"
 
-# Staging Environment (test.tell-me.ch)
-[env.staging]
-name = "tellme-landing-staging"
+# Production Environment (test.tell-me.ch)
+[env.prod]
+name = "tellme-landing-prod"
 routes = ["https://www.tell-me.ch/*"]
-vars = { ENVIRONMENT = "staging" }
+vars = { ENVIRONMENT = "prod" }
 
 # KV Cache for Staging
-[[env.staging.kv_namespaces]]
+[[env.prod.kv_namespaces]]
 binding = "kv"
-id = "1ef196bfd0ba46f39a79809ec87c8e7e"
+id = "795f88bdfeba4c96a804c9fe9aa180bf"
 
