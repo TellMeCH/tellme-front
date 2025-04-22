@@ -42,7 +42,7 @@ class TestTopicManagement:
         :param page: playwright page to be used for testing
         """
         page.get_by_test_id("creation-modal-button").click()
-        page.get_by_role("switch", name="Activate for Analysis").check()
+        page.get_by_test_id("creation-activity-switch").get_by_label("").check()
         page.get_by_test_id("name-input").fill(topic_name)
         page.get_by_test_id("description-input").fill(topic_description)
         page.get_by_test_id("submit-button").click()
