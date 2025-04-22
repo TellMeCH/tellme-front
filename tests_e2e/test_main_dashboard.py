@@ -1,4 +1,5 @@
 import re
+import time
 from datetime import datetime
 import requests
 from playwright.sync_api import expect
@@ -44,7 +45,13 @@ class TestMainDashboard:
         }
         for kpi, title in kpi_title.items():
             change_str = f'{"+" if overview[kpi]['change'] > 0 else "-"}{abs(overview[kpi]['change']):.0f}'
-            container_str = f"{title}{change_str}%{overview[kpi][latest_month]:.0f}{latest_month_str}"
+            if kpi == 'avg_sentiment':
+                container_str = f"{title}{change_str}%{overview[kpi][latest_month]:.1f}/5{latest_month_str}"
+            elif kpi == 'avg_duration':
+                duration_str = time.strftime('%H:%M:%S', time.gmtime(overview[kpi][latest_month]))
+                container_str = f"{title}{change_str}%{duration_str}{latest_month_str}"
+            else:
+                container_str = f"{title}{change_str}%{overview[kpi][latest_month]:.0f}{latest_month_str}"
             expect(login_page.get_by_text(container_str)).to_be_visible()
 
         # Check most popular topic is shown
