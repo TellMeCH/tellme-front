@@ -1,10 +1,9 @@
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
-import { Button, Icon } from '@tellme/shared/ui/ui-kit';
+import { Button, FormMessage, Icon } from '@tellme/shared/ui/ui-kit';
 import { ErrorResponse } from '@tellme/web/shared/data-access/api';
 import { checkIsApiError } from '@tellme/web/shared/data-access/api-client';
 import { SocialProviderName } from '@tellme/web/shared/data-access/auth';
-import { FormMessage } from '@tellme/web/shared/ui/ui-kit';
 
 interface SocialButtonProps {
   providerName: SocialProviderName;
@@ -16,7 +15,7 @@ interface SocialButtonProps {
 }
 
 export function SocialButton({ providerName, error, testId, ...restProps }: SocialButtonProps): ReactElement {
-  const t = useTranslations('account.LOGIN');
+  const t = useTranslations('account.LOGIN.SOCIAL_BUTTON');
 
   return (
     <div>

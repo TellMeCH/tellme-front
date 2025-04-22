@@ -1,10 +1,11 @@
 'use client';
 
+import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { type ReactElement, Fragment, memo } from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
-import { Heading } from '@tellme/web/shared/ui/ui-kit';
+import { Heading, IconWithTooltip } from '@tellme/web/shared/ui/ui-kit';
 import { useResponsiveLayout } from '@tellme/web/shared/utils/use-responsive-layout';
 import { Legend } from '@tellme/web/topic/ui/legend';
 import { ChartState } from '../../interfaces/chart-state';
@@ -26,12 +27,14 @@ function TopicChartComponent({ chartState }: TopicChartProps): ReactElement {
       key: 'count',
       color: styles.brandPrimary,
       label: t('TEXT_FREQUENCY'),
+      legendTooltipLabel: t('TEXT_FREQUENCY_TOOLTIP'),
       lineStyle: { transform: 'translateY(-2px)' },
     },
     {
       key: 'averageSentiment',
       color: styles.brandTertiary,
       label: t('TEXT_CUSTOMER_ENGAGEMENT'),
+      legendTooltipLabel: t('TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP'),
       axisProps: {
         domain: [0, 5],
       },
@@ -46,14 +49,27 @@ function TopicChartComponent({ chartState }: TopicChartProps): ReactElement {
       <Heading level={3} className='uppercase'>
         {t('TEXT_TRENDS')}
       </Heading>
-      <div className='flex flex-row gap-4 justify-between'>
-        {lines.map(({ key, ...props }, index) => (
-          <Legend key={key} isFlipped={index === lines.length - 1} {...props} />
-        ))}
+      <div className='flex flex-row justify-between'>
+        {lines.map(({ key, legendTooltipLabel, ...props }, index) => {
+          const isFlipped = index === lines.length - 1;
+
+          return (
+            <div key={key} className={clsx('flex items-center gap-2', isFlipped ? 'flex-row-reverse' : 'flex-row')}>
+              <Legend isFlipped={isFlipped} {...props} />
+              <IconWithTooltip content={legendTooltipLabel} placement='bottom' />
+            </div>
+          );
+        })}
       </div>
-      <ResponsiveContainer width='100%' height='100%' className='min-h-[280px]'>
+      <ResponsiveContainer
+        width='100%'
+        height='100%'
+        className='min-h-[280px]'>
         <LineChart data={data} margin={{ left: -40, right: -40 }}>
-          <CartesianGrid stroke='currentColor' className='text-text-tertiary' vertical={false} />
+          <CartesianGrid
+            stroke='currentColor'
+            className='text-text-tertiary'
+            vertical={false} />
           <XAxis
             tickFormatter={tickFormatter}
             tick={{ fontSize: 14, fill: 'currentColor' }}

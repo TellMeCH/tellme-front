@@ -1,8 +1,6 @@
 export * from './lib/heading/component';
 export * from './lib/header/component';
 export * from './lib/divider-with-text/component';
-export * from './lib/text-input/component';
-export * from './lib/form-message/component';
 export * from './lib/form-text-input/component';
 export * from './lib/circular-progress/component';
 export * from './lib/progress/component';
@@ -13,3 +11,7 @@ export * from './lib/modal/component';
 export * from './lib/form-switch/component';
 export * from './lib/form-textarea/component';
 export * from './lib/confirmation-modal/component';
+export * from './lib/form-select/component';
+export * from './lib/dropdown/component';
+export * from './lib/tooltip/component';
+export * from './lib/icon-with-tooltip/component';

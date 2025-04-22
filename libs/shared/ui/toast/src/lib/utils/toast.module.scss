@@ -1,0 +1,7 @@
+@import '@tellme/shared/ui/variables';
+
+.toast {display: flex; gap: 0.75rem; padding: 16px 24px; border-radius: $radius-default;
+  background: $background-secondary; color: $text-primary; font-family: $font; font-size: $text-small;
+  width: 460px; justify-content: space-between;
+  &_success {background: $status-success; color: $background-secondary;}
+}

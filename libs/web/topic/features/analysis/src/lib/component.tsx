@@ -1,15 +1,20 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
+import { useSearchParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement } from 'react';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
-import { TopicSelect, PeriodFilter, TopicChart, EmptyChart, TopicSummary } from './components';
+import { EmptyChart } from '@tellme/web/topic/ui/empty-chart';
+import { TopicSelect, PeriodFilter, TopicChart, TopicSummary } from './components';
 import { useTopicAnalysis } from './hooks';
 
 export function TopicAnalysis(): ReactElement {
   const t = useTranslations('topic.ANALYSIS');
+
+  const searchParams = useSearchParams();
+  const topicKey = searchParams.get('topicKey');
 
   const {
     topicOptions,
@@ -19,10 +24,9 @@ export function TopicAnalysis(): ReactElement {
     chartState,
     isLoading,
     isEmptyList,
-    isEmptyChart,
     handleTopicChange,
     handlePeriodChange,
-  } = useTopicAnalysis();
+  } = useTopicAnalysis({ topicKey });
 
   const periodOptions = Object.values(TrendPeriod).map((value) => ({
     value,
@@ -46,19 +50,15 @@ export function TopicAnalysis(): ReactElement {
                 <Heading level={2} className='text-3xl'>
                   {selectedTopic?.label}
                 </Heading>
-                <TopicSelect items={topicOptions} selectedValue={selectedTopicId} onSelect={handleTopicChange} />
+                <TopicSelect
+                  items={topicOptions}
+                  selectedValue={selectedTopicId}
+                  onSelect={handleTopicChange} />
               </div>
-
-              {!isEmptyChart && <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />}
+              <PeriodFilter options={periodOptions} onChange={handlePeriodChange} />
             </div>
-            {isEmptyChart ? (
-              <EmptyChart />
-            ) : (
-              <Fragment>
-                <TopicChart chartState={chartState} />
-                <TopicSummary summary={summary!} />
-              </Fragment>
-            )}
+            <TopicChart chartState={chartState} />
+            <TopicSummary summary={summary!} />
           </Fragment>
         )}
       </div>

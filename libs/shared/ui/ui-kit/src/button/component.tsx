@@ -1,11 +1,11 @@
 'use client';
 
-import { Button as NextUIButton, ButtonProps, extendVariants } from '@heroui/react';
+import { Button as HeroUIButton, ButtonProps, extendVariants } from '@heroui/react';
 import clsx from 'clsx';
 import { forwardRef, JSXElementConstructor, ReactElement } from 'react';
 import styles from './component.module.scss';
 
-const BaseButton = extendVariants(NextUIButton, {
+const BaseButton = extendVariants(HeroUIButton, {
   variants: {
     variant: {
       solid: clsx(styles.buttonRoot, styles.button),

@@ -1,24 +1,53 @@
 'use client';
 
 import { HeroUIProvider } from '@heroui/react';
+import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 import { storeActions } from '@ronas-it/rtkq-entity-api';
-import { onAuthStateChanged } from 'firebase/auth';
+import { browserLocalPersistence, onAuthStateChanged } from 'firebase/auth';
+import { DateTime } from 'luxon';
+import { useRouter } from 'next/navigation';
 import { Fragment, PropsWithChildren, ReactElement, ReactNode, useEffect } from 'react';
 import { Provider, useDispatch } from 'react-redux';
-import { authActions, firebaseAuth } from '@tellme/web/shared/data-access/auth';
+import { ToastContainer } from '@tellme/shared/ui/toast';
+import { employeeApi } from '@tellme/web/shared/data-access/api';
+import { authActions, authConfig, firebaseAuth, useLocalLogout } from '@tellme/web/shared/data-access/auth';
+import { CookieService } from '@tellme/web/shared/data-access/cookies';
 import { store } from '@tellme/web/shared/data-access/store';
-import { ToastContainer } from '@tellme/web/shared/features/toast-service';
+import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 
 export function App({ children }: PropsWithChildren): ReactNode {
-  const dispatch = useDispatch();
+  const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
+  const logoutLocally = useLocalLogout();
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(storeActions.init());
   }, []);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(firebaseAuth, (profile) => {
+    const unsubscribe = onAuthStateChanged(firebaseAuth, async (profile) => {
       dispatch(authActions.setProfile(profile));
+
+      if (profile) {
+        const persistenceType = CookieService.get('persistence');
+
+        if (persistenceType === browserLocalPersistence.type) {
+          const employeeProfile = await dispatch(employeeApi.endpoints.getProfile.initiate()).unwrap();
+
+          const expirationDate = DateTime.local().plus({ days: authConfig.authCookiesTttDays }).toJSDate();
+          CookieService.set(
+            {
+              isAuthenticated: 'true',
+              isOrganizationAdmin: String(employeeProfile.isOrganizationAdmin),
+              persistence: browserLocalPersistence.type,
+            },
+            { expires: expirationDate },
+          );
+        }
+      } else {
+        logoutLocally();
+        router.replace(navigationConfig.routes.public.root);
+      }
     });
 
     return () => {

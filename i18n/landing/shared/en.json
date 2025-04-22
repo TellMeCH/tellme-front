@@ -1,44 +1,76 @@
 {
   "HOME": {
-    "LINK_ABOUT_US": "About Us",
-    "LINK_OUR_PRODUCTS": "Our Products",
-    "LINK_ADDED_BENEFITS": "Added Benefits",
-    "LINK_CONTACT_US": "Contact Us",
-    "TEXT_TITLE": "Transform Conversations into Valuable Insights",
-    "TEXT_APP_DESCRIPTION": "If data is the new gold, your call center conversations are an unexploited gold mine. We transcribe and analyze your call recordings with AI to provide actionable insights that will boost your understanding of your customers and your call center operations.",
-    "BUTTON_BOOK_DEMO_CALL": "Book a Demo Call",
-    "TEXT_PROCESS_TITLE": "It's This Easy",
-    "TEXT_STEP_1": "Integrate Tellme with your CX Software Provider",
-    "TEXT_STEP_2": "Calls will be automatically processed to extract meaningful data",
-    "TEXT_STEP_3": "Access the results in our dynamic dashboard",
-    "BUTTON_OPEN_MENU": "Open menu",
-    "BUTTON_CLOSE_MENU": "Close menu",
-    "TEXT_OUR_PRODUCTS": "Our Products",
-    "TEXT_PRODUCT_1_TITLE": "Executive View",
-    "TEXT_PRODUCT_1_ALT": "Executive director",
-    "TEXT_PRODUCT_1_DESCRIPTION": "Step into your customer's shoes to understand the key pain points in your customer experience and discover strategies for improvement.",
-    "TEXT_PRODUCT_2_TITLE": "Call Center Performance View",
-    "TEXT_PRODUCT_2_ALT": "Meeting",
-    "TEXT_PRODUCT_2_DESCRIPTION": "Evaluate how well your agents are dealing with customer issues and identify knowledge gaps that could be targeted with further training.",
-    "TEXT_PRODUCT_3_TITLE": "Agent View",
-    "TEXT_PRODUCT_3_ALT": "Entrepreneur with charts",
-    "TEXT_PRODUCT_3_DESCRIPTION": "Boost your agent's knowledge of specific customers and topics with quick access to your conversation data.",
-    "TEXT_ADDED_BENEFITS": "Added Benefits",
-    "TEXT_BENEFIT_1_TITLE": "Data-Driven Customer Insights",
-    "TEXT_BENEFIT_1_ALT": "Topic analysis chart",
-    "TEXT_BENEFIT_1_DESCRIPTION": "Make informed decisions based on real customer interactions rather than subjective opinions. This way, you can ensure that you're moving your company's customer experience in the right direction.",
-    "TEXT_BENEFIT_2_TITLE": "Customizable Conversation Analytics",
-    "TEXT_BENEFIT_2_ALT": "Marker highlighting a text",
-    "TEXT_BENEFIT_2_DESCRIPTION": "Tailor analytics to your business needs—because no two companies are the same. Tellme allows you to target the topics that matter most to you. Simply provide a description of each relevant topic of conversation, \u2028and let our analytics do the rest.",
-    "TEXT_BENEFIT_3_TITLE": "Personalized Call Center Agent Monitoring",
-    "TEXT_BENEFIT_3_ALT": "Call center",
-    "TEXT_BENEFIT_3_DESCRIPTION": "Provide targeted coaching and support for each call center agent with individualized performance insights.",
-    "TEXT_ABOUT_US": "About Us",
-    "TEXT_GOAL": "We want to revolutionize CX analytics",
-    "TEXT_GOAL_DESCRIPTION": "Having worked in airlines, banks, and insurance companies, we are very aware of the important role that call centers play in shaping a company's customer perception. We want to leverage these conversations in order to help companies identify recurring reasons for calling and to then discover potential solutions for these issues.",
-    "TEXT_EXPERTISE_TITLE": "Diverse Expertise, One Vision",
-    "TEXT_EXPERTISE_DESCRIPTION": "Our team blends backgrounds in aerospace engineering, finance, and consultancy, fostering multiple perspectives in our approach to customer satisfaction.",
-    "TEXT_VALUES_TITLE": "Swiss Precision Meets AI Innovation",
-    "TEXT_VALUES_DESCRIPTION": "Rooted in Swiss values of precision, quality, and reliability, we bring a meticulous approach to the ever-evolving world of AI."
+    "MENU": {
+      "LINK_ABOUT_US": "About Us",
+      "LINK_OUR_PRODUCTS": "Our Products",
+      "LINK_ADDED_BENEFITS": "Added Benefits",
+      "LINK_CONTACT_US": "Contact Us"
+    },
+    "HERO": {
+      "TEXT_TITLE": "Transform Conversations into Valuable Insights",
+      "TEXT_APP_DESCRIPTION": "If data is the new gold, your call center conversations are an unexploited gold mine. We transcribe and analyze your call recordings with AI to provide actionable insights that will boost your understanding of your customers and your call center operations.",
+      "BUTTON_BOOK_DEMO_CALL": "Book a Demo Call"
+    },
+    "PROCESS": {
+      "TEXT_PROCESS_TITLE": "It's this easy",
+      "TEXT_STEP_1": "Integrate Tellme with your CX Software Provider",
+      "TEXT_STEP_2": "Calls will be automatically processed to extract meaningful data",
+      "TEXT_STEP_3": "Access the results in our dynamic dashboard"
+    },
+    "HEADER": {
+      "BUTTON_OPEN_MENU": "Open menu",
+      "BUTTON_CLOSE_MENU": "Close menu"
+    },
+    "PRODUCTS": {
+      "TEXT_OUR_PRODUCTS": "Our Products",
+      "TEXT_PRODUCT_1_TITLE": "Executive View",
+      "TEXT_PRODUCT_1_ALT": "Executive director",
+      "TEXT_PRODUCT_1_DESCRIPTION": "Step into your customer's shoes to understand the key pain points in your customer experience and discover strategies for improvement.",
+      "TEXT_PRODUCT_2_TITLE": "Call Center Performance View",
+      "TEXT_PRODUCT_2_ALT": "Meeting",
+      "TEXT_PRODUCT_2_DESCRIPTION": "Evaluate how well your agents are dealing with customer issues and identify knowledge gaps that could be targeted with further training.",
+      "TEXT_PRODUCT_3_TITLE": "Agent View",
+      "TEXT_PRODUCT_3_ALT": "Entrepreneur with charts",
+      "TEXT_PRODUCT_3_DESCRIPTION": "Boost your agent's knowledge of specific customers and topics with quick access to your conversation data."
+    },
+    "BENEFITS": {
+      "TEXT_ADDED_BENEFITS": "Added Benefits",
+      "TEXT_BENEFIT_1_TITLE": "Data-Driven Customer Insights",
+      "TEXT_BENEFIT_1_ALT": "Topic analysis chart",
+      "TEXT_BENEFIT_1_DESCRIPTION": "Make informed decisions based on real customer interactions rather than subjective opinions. This way, you can ensure that you're moving your company's customer experience in the right direction.",
+      "TEXT_BENEFIT_2_TITLE": "Customizable Conversation Analytics",
+      "TEXT_BENEFIT_2_ALT": "Marker highlighting a text",
+      "TEXT_BENEFIT_2_DESCRIPTION": "Tailor analytics to your business needs—because no two companies are the same. Tellme allows you to target the topics that matter most to you. Simply provide a description of each relevant topic of conversation, \u2028and let our analytics do the rest.",
+      "TEXT_BENEFIT_3_TITLE": "Personalized Call Center Agent Monitoring",
+      "TEXT_BENEFIT_3_ALT": "Call center",
+      "TEXT_BENEFIT_3_DESCRIPTION": "Provide targeted coaching and support for each call center agent with individualized performance insights."
+    },
+    "ABOUT_US": {
+      "TEXT_ABOUT_US": "About Us",
+      "TEXT_GOAL": "We want to revolutionize CX analytics",
+      "TEXT_GOAL_DESCRIPTION": "Having worked in airlines, banks, and insurance companies, we are very aware of the important role that call centers play in shaping a company's customer perception. We want to leverage these conversations in order to help companies identify recurring reasons for calling and to then discover potential solutions for these issues.",
+      "TEXT_EXPERTISE_TITLE": "Diverse Expertise, One Vision",
+      "TEXT_EXPERTISE_DESCRIPTION": "Our team blends backgrounds in aerospace engineering, finance, and consultancy, fostering multiple perspectives in our approach to customer satisfaction.",
+      "TEXT_VALUES_TITLE": "Swiss Precision Meets AI Innovation",
+      "TEXT_VALUES_DESCRIPTION": "Rooted in Swiss values of precision, quality, and reliability, we bring a meticulous approach to the ever-evolving world of AI."
+    },
+    "FOOTER": {
+      "TEXT_FOOTER_DESCRIPTION": "We bring a meticulous approach to the ever-evolving world of AI.",
+      "TEXT_COPYRIGHT": "© {year} TellMe GmbH. All rights reserved."
+    },
+    "CONTACT": {
+      "TEXT_CONTACT_TITLE": "Would you like to try out our product?",
+      "TEXT_CONTACT_DESCRIPTION": "The best way to know what tellme can offer to your company is with a live demo. Fill out the following form and we'll get in touch with you soon!",
+      "TEXT_NAME": "Your name",
+      "TEXT_EMAIL": "Email address",
+      "TEXT_PHONE": "Phone number",
+      "TEXT_COMPANY": "Company",
+      "TEXT_CALL_CENTER_SIZE": "Call Center Size",
+      "TEXT_AGENTS": "Agents",
+      "TEXT_MESSAGE": "Message",
+      "TEXT_TYPE_HERE": "Type here",
+      "BUTTON_SEND_MESSAGE": "Send message",
+      "TEXT_SUCCESS_MESSAGE": "Your message has been sent successfully"
+    }
   }
 }

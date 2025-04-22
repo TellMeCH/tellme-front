@@ -1,9 +1,9 @@
 'use client';
 
-import { Switch as NextUISwitch, extendVariants } from '@heroui/react';
+import { Switch as HeroUISwitch, extendVariants } from '@heroui/react';
 import styles from './component.module.scss';
 
-export const Switch = extendVariants(NextUISwitch, {
+export const Switch = extendVariants(HeroUISwitch, {
   variants: {
     size: {
       md: {

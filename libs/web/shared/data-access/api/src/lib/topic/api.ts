@@ -1,9 +1,16 @@
 import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
-import { instanceToPlain, plainToInstance } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
+import {
+  mergeInInfiniteSearch,
+  createSearchResponseTransformer,
+  createListTagsProvider,
+  createMutationQueryWithData,
+} from '../common/utils';
 import { topicApiConfig } from './config';
+import { TopicListType } from './enums';
 import {
   Topic,
   TopicPaginationRequest,
@@ -14,26 +21,29 @@ import {
   TopicSummary,
 } from './models';
 
-const getSearchQuery = ({ isActive, ...params }: TopicPaginationRequest) => ({
-  method: 'get',
-  url: `${topicApiConfig.baseEndpoint}${isActive ? 'list_active/' : ''}`,
-  params: prepareRequestParams(params, PaginationRequest),
-});
+const getSearchQuery = ({
+  listType = TopicListType.DEFAULT,
+  params,
+}: {
+  listType?: TopicListType;
+  params: PaginationRequest;
+}) => {
+  const searchQueryPath = {
+    [TopicListType.DEFAULT]: '',
+    [TopicListType.ACTIVE]: 'list_active/',
+    [TopicListType.RECENT]: 'list_recent/',
+  }[listType];
 
-const getListTags = (response?: PaginationResponse<Topic>) => [
-  { type: topicApiConfig.entityName, id: EntityTagID.LIST },
-  ...(response?.results.map((result) => ({ type: topicApiConfig.entityName, id: result.id })) || []),
-];
-
-const transformSearchResponse = (response: PaginationResponse<Topic>) => {
-  const { results, next, previous } = plainToInstance(PaginationResponse<Topic>, response as object);
-
-  return new PaginationResponse<Topic>({
-    next,
-    previous,
-    results: results.map((result) => createEntityInstance<Topic>(Topic, result)),
-  });
+  return {
+    method: 'get',
+    url: `${topicApiConfig.baseEndpoint}${searchQueryPath}`,
+    params: prepareRequestParams(params, PaginationRequest),
+  };
 };
+
+const getListTags = createListTagsProvider<Topic>(topicApiConfig.entityName);
+
+const transformSearchResponse = createSearchResponseTransformer<Topic>(Topic);
 
 const transformTopicErrorResponse = (response: object): ErrorResponse<TopicErrorData> => {
   const { code, data } = plainToInstance(ErrorResponse<TopicErrorData>, response);
@@ -49,38 +59,19 @@ export const topicApi = createAppApi({
   tagTypes: [topicApiConfig.entityName],
   endpoints: (builder) => ({
     search: builder.query<PaginationResponse<Topic>, PaginationRequest>({
-      query: getSearchQuery,
+      query: (params) => getSearchQuery({ params }),
       serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
     }),
     searchInfinite: builder.query<PaginationResponse<Topic>, TopicPaginationRequest>({
-      query: getSearchQuery,
+      query: ({ listType, ...params }) => getSearchQuery({ params, listType }),
       serializeQueryArgs: ({ queryArgs }) =>
         prepareRequestParams(omit(queryArgs, ['cursor']) as TopicPaginationRequest, TopicPaginationRequest),
       forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
-      merge: (cache, response, { arg }) => {
-        if (!arg.cursor) {
-          cache.results = response.results;
-          cache.next = response.next;
-          cache.previous = response.previous;
-        } else {
-          const fetchedItemsIDs = response.results.map((item) => item.id);
-          cache.results = cache.results.filter((item) => !fetchedItemsIDs.includes(item.id));
-
-          if (arg.cursor === cache.nextCursor) {
-            cache.results.push(...response.results);
-            cache.next = response.next;
-          }
-
-          if (arg.cursor === cache.previousCursor) {
-            cache.results.unshift(...response.results);
-            cache.previous = response.previous;
-          }
-        }
-      },
+      merge: mergeInInfiniteSearch,
     }),
     get: builder.query<Topic, { id: number }>({
       query: ({ id }) => {
@@ -103,6 +94,22 @@ export const topicApi = createAppApi({
         return plainToInstance(TopicSummary, response as object);
       },
     }),
+    getAllSummaries: builder.query<Array<TopicSummary>, void>({
+      query: () => {
+        return {
+          method: 'get',
+          url: `${topicApiConfig.baseEndpoint}all_summaries/`,
+        };
+      },
+      transformResponse: (response) => {
+        const summaries = Object.entries(response).map(([id, rawSummary]) => ({
+          id: Number(id),
+          ...(rawSummary as object),
+        }));
+
+        return plainToInstance(TopicSummary, summaries);
+      },
+    }),
     getChartData: builder.query<Array<TopicChartEntry>, { id: number; params: TopicChartDataRequest }>({
       query: ({ id, params }) => {
         return {
@@ -116,15 +123,7 @@ export const topicApi = createAppApi({
       },
     }),
     create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({
-      query: (params) => {
-        const request = createEntityInstance(ModifiedTopic, params, { fromInstancePartial: true });
-
-        return {
-          method: 'post',
-          url: topicApiConfig.baseEndpoint,
-          data: instanceToPlain(request),
-        };
-      },
+      query: createMutationQueryWithData<ModifiedTopic>('post', () => topicApiConfig.baseEndpoint, ModifiedTopic),
       transformResponse: (response: object) => createEntityInstance<ModifiedTopic>(ModifiedTopic, response),
       transformErrorResponse: transformTopicErrorResponse,
       async onQueryStarted(_, { queryFulfilled, getState, dispatch }) {
@@ -141,6 +140,10 @@ export const topicApi = createAppApi({
           });
 
           for (const { endpointName, originalArgs } of cachedQueries) {
+            if (originalArgs?.listType === TopicListType.RECENT) {
+              continue;
+            }
+
             dispatch(
               topicApi.util.updateQueryData(
                 endpointName as 'search' | 'searchInfinite',
@@ -164,18 +167,11 @@ export const topicApi = createAppApi({
       },
     }),
     update: builder.mutation<Partial<ModifiedTopic>, Partial<ModifiedTopic>>({
-      query: (params) => {
-        const updatedEntity = createEntityInstance(ModifiedTopic, params, {
-          fromInstancePartial: true,
-        });
-        const request = instanceToPlain(updatedEntity);
-
-        return {
-          method: 'patch',
-          url: `${topicApiConfig.baseEndpoint}${request.id}/`,
-          data: request,
-        };
-      },
+      query: createMutationQueryWithData<ModifiedTopic>(
+        'patch',
+        (params) => `${topicApiConfig.baseEndpoint}${params.id}/`,
+        ModifiedTopic,
+      ),
       async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
         try {
           const updatedEntityData = (await queryFulfilled).data;
@@ -206,14 +202,14 @@ export const topicApi = createAppApi({
                       merge(existingItem, omit(updatedEntityData, 'id'));
                       const newIsActive = existingItem.isActive;
 
-                      if (originalArgs?.isActive && oldIsActive && !newIsActive) {
+                      if (originalArgs?.listType === TopicListType.ACTIVE && oldIsActive && !newIsActive) {
                         endpointData.results.splice(existingIndex, 1);
                       }
-                    } else if (originalArgs?.isActive && updatedEntityData.isActive) {
+                    } else if (originalArgs?.listType === TopicListType.ACTIVE && updatedEntityData.isActive) {
                       endpointData.results.push(newTopic);
                     }
 
-                    if (originalArgs?.isActive) {
+                    if (originalArgs?.listType === TopicListType.ACTIVE) {
                       endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
                     }
                   } else {

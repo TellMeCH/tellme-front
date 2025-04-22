@@ -4,9 +4,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
-import { Button } from '@tellme/shared/ui/ui-kit';
+import { Button, FormMessage } from '@tellme/shared/ui/ui-kit';
 import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
-import { FormMessage, FormSwitch, FormTextarea, FormTextInput, Modal } from '@tellme/web/shared/ui/ui-kit';
+import { FormSwitch, FormTextarea, FormTextInput, IconWithTooltip, Modal, Tooltip } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import { TopicFormSchema } from '../../forms';
 
@@ -18,7 +18,7 @@ interface FormModalProps {
 
 export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): ReactElement {
   const isForEdit = !!topic;
-  const t = useTranslations('topic.MANAGEMENT');
+  const t = useTranslations('topic.MANAGEMENT.FORM_MODAL');
 
   const [update, { isLoading: isUpdating, error: updateError, isSuccess: wasUpdatedSuccessfully }] =
     topicApi.useUpdateMutation();
@@ -98,18 +98,21 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         </Fragment>
       }>
       {!isForEdit && (
-        <FormSwitch
-          name='isActive'
-          control={form.control}
-          className='mb-3'
-          data-testid='creation-activity-switch'>
-          {t('TEXT_ACTIVATE_FOR_ANALYSIS')}
-        </FormSwitch>
+        <div className='flex items-center mb-3 gap-4'>
+          <Tooltip content={t('TEXT_ACTIVITY_SWITCH_TOOLTIP')}>
+            <FormSwitch
+              name='isActive'
+              control={form.control}
+              data-testid='creation-activity-switch' />
+          </Tooltip>
+          <p>{t('TEXT_ACTIVATE_FOR_ANALYSIS')}</p>
+        </div>
       )}
       <FormTextInput
         name='name'
         control={form.control}
         label={t('TEXT_TOPIC_NAME')}
+        labelRightAccessory={<IconWithTooltip content={t('TEXT_TOPIC_NAME_TOOLTIP')} placement='right' />}
         placeholder={t('TEXT_NAME')}
         data-testid='name-input'
       />
@@ -117,6 +120,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         name='description'
         control={form.control}
         label={t('TEXT_DESCRIPTION')}
+        labelRightAccessory={<IconWithTooltip content={t('TEXT_DESCRIPTION_TOOLTIP')} placement='right' />}
         placeholder={t('TEXT_DESCRIPTION')}
         data-testid='description-input'
       />

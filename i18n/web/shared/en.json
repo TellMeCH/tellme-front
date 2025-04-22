@@ -1,7 +1,4 @@
 {
-  "HOME_PAGE": {
-    "HOME_PAGE_TEXT": "Tellme home page"
-  },
   "UI_KIT": {
     "CONFIRMATION_MODAL": {
       "BUTTON_CANCEL": "Cancel"
@@ -20,6 +17,8 @@
       "LINK_DASHBOARD": "Dashboard",
       "LINK_TOPICS": "Topics",
       "LINK_TOPIC_ANALYSIS": "Topic Analysis",
+      "LINK_ADMIN_SETTINGS": "Admin Settings",
+      "TEXT_ADMIN": "Admin",
       "BUTTON_LOGOUT": "Logout"
     }
   }

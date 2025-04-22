@@ -47,7 +47,8 @@ Branch protection rules will not allow a different order.
 
 ### CI/CD Workflows
 
-- `deploy.yml`: Simple deployment to CloudFlare Pages based on the above mentioned environment variables.
+- `deploy.yml`: Carries out the deployment to CloudFlare Workers of the frontend and landing page. Moreover, triggers a series of end-to-end tests for the frontend.
+- `ci_local.yml`: Unit testing of frontend.
 
 ## Authentication
 
@@ -160,42 +161,24 @@ You can execute these commands for the whole project manually:
 
 ## Tests
 
-To create a test add a file `component.spec.tsx` near a component for testing and add tag "test" to a lib project.json.
-The structure of the file should be the following. It's allowed to use several nested `describe`.
-
-```tsx
-import { render, screen } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
-
-describe('Feature name', () => {
-  // Optional
-  beforeAll(() => {
-    // Set up mocks and make other preparations actual for all test cases
-  });
-
-  // Optional
-  beforeEach(() => {
-    // Actions before each test case
-  });
-
-  // Optional
-  afterAll(() => {
-    // Set up mocks and make other preparations actual for all test cases
-  });
-
-  // Optional
-  afterEach(() => {
-    // Actions after each test case
-  });
-
-  // Test cases
-  it('should do something', () => {
-    // Actions with elements and results check
-  });
-});
-```
-
-Fixtures and test helpers should be in the lib `web/shared/data-access/tests-data`.
-
 To run tests use the command `npm run test` in the root of the repository.
+
+## Employed API Endpoints
+
+- GET /api/v1/employees/me
+- GET /api/v1/employees
+- POST /api/v1/employees
+- POST /api/v1/employees/{id}/invite
+- PATCH /api/v1/employees/{id}
+- DELETE /api/v1/employees/{id}
+- GET /api/v1/organizations/overview
+- GET /api/v1/organizations/{id}
+- GET /api/v1/topics
+- GET /api/v1/topics/list_recent
+- GET /api/v1/topics/{id}
+- GET /api/v1/topics/{id}/summary_data
+- GET /api/v1/topics/all_summaries
+- GET /api/v1/topics/{id}/trend
+- POST /api/v1/topics
+- PATCH /api/v1/topics/{id}
+- DELETE /api/v1/topics/{id}

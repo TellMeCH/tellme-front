@@ -2,15 +2,14 @@
 
 import { signOut } from 'firebase/auth';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { topicApi, organizationApi, employeeApi, ErrorResponse } from '@tellme/web/shared/data-access/api';
-import { CookieService } from '@tellme/web/shared/data-access/cookies';
+import { ErrorResponse } from '@tellme/web/shared/data-access/api';
 import { firebaseAuth } from '../firebase-auth';
+import { useLocalLogout } from './use-local-logout';
 
 export function useLogout(onSuccess: () => void) {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<undefined | ErrorResponse<any>>(undefined);
-  const dispatch = useDispatch();
+  const logoutLocally = useLocalLogout();
 
   const logout = async (): Promise<void> => {
     try {
@@ -18,11 +17,7 @@ export function useLogout(onSuccess: () => void) {
       setIsLoading(true);
       await signOut(firebaseAuth);
 
-      CookieService.remove(['isAuthenticated']);
-      dispatch(topicApi.util.resetApiState());
-      dispatch(organizationApi.util.resetApiState());
-      dispatch(employeeApi.util.resetApiState());
-
+      logoutLocally();
       onSuccess();
     } catch (error: any) {
       setError(error);
