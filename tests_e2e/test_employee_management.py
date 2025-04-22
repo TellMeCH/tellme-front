@@ -128,7 +128,11 @@ class TestEmployeeManagement:
 
         # Set as admin in the UI
         login_page.get_by_role("row", name=full_name).get_by_test_id("employee-actions").click()
-        login_page.get_by_text("Give admin permissions").click()
+
+        with login_page.expect_response(
+            lambda r: "api/v1/employees/" in r.url and r.request.method == "PATCH" and r.status == 200
+        ):
+            login_page.get_by_text("Give admin permissions").click()
 
         # Check that the admin label appears
         expect(login_page.get_by_role("row", name=f"{full_name} Admin").get_by_test_id("admin-label")).to_be_visible()
@@ -139,7 +143,11 @@ class TestEmployeeManagement:
 
         # Unset the admin rights
         login_page.get_by_role("row", name=f"{full_name} Admin").get_by_test_id("employee-actions").click()
-        login_page.get_by_text("Revoke admin permissions").click()
+
+        with login_page.expect_response(
+            lambda r: "api/v1/employees/" in r.url and r.request.method == "PATCH" and r.status == 200
+        ):
+            login_page.get_by_text("Revoke admin permissions").click()
 
         # Check that the changes are visible
         expect(login_page.get_by_text(f"{full_name} no longer has access")).to_be_visible()
@@ -162,7 +170,13 @@ class TestEmployeeManagement:
         # Delete in the UI
         login_page.get_by_role("row", name=full_name).get_by_test_id("employee-actions").click()
         login_page.get_by_text("Delete profile").click()
-        login_page.get_by_test_id("confirm-button").click()
+
+        with login_page.expect_response(
+            lambda r: "api/v1/employees/" in r.url and r.request.method == "DELETE" and r.status == 204
+        ):
+            login_page.get_by_test_id("confirm-button").click()
+
+        expect(login_page.get_by_role("rowheader", name=full_name)).not_to_be_visible()
 
         # Confirm deletion in the DB
         updated_employees = self.get_employees(test_org_context)
