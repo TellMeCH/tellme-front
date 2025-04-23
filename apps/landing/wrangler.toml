@@ -15,7 +15,7 @@ binding = "ASSETS"
 [env.prod]
 name = "tellme-landing-prod"
 routes = [
-  { pattern = "www.tell-me.ch/*", custom_domain = true }
+  { pattern = "www.tell-me.ch", custom_domain = true }
 ]
 vars = { ENVIRONMENT = "prod" }
 
