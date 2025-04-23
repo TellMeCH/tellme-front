@@ -3,6 +3,9 @@ main = ".open-next/worker.js"
 compatibility_date = "2024-09-23"
 compatibility_flags = ["nodejs_compat"]
 
+# Enable Logpush for exporting logs
+logpush = true
+
 # Static assets for SSR app
 [assets]
 directory = ".open-next/assets"
@@ -11,8 +14,15 @@ binding = "ASSETS"
 # Staging Environment (test.tell-me.ch)
 [env.staging]
 name = "tellme-front-staging"
-routes = ["https://test.tell-me.ch/*"]
+routes = [
+  { pattern = "test.tell-me.ch/*", custom_domain = true }
+]
 vars = { ENVIRONMENT = "staging" }
+
+# Enable Workers Logs with optional sampling rate
+[env.staging.observability]
+enabled = true
+head_sampling_rate = 1  # Logs 100% of requests; adjust as needed
 
 # KV Cache for Staging
 [[env.staging.kv_namespaces]]
@@ -22,10 +32,17 @@ id = "e4245fa569aa4c4f958ebdeb5a5988e6"
 # Production Environment (app.tell-me.ch)
 [env.prod]
 name = "tellme-front-prod"
-routes = ["https://app.tell-me.ch/*"]
+routes = [
+  { pattern = "app.tell-me.ch/*", custom_domain = true }
+]
 vars = { ENVIRONMENT = "prod" }
 
-# KV Cache for Staging
+# Enable Workers Logs with optional sampling rate
+[env.prod.observability]
+enabled = true
+head_sampling_rate = 1  # Logs 100% of requests; adjust as needed
+
+# KV Cache for Production
 [[env.prod.kv_namespaces]]
 binding = "kv"
 id = "8203e5196bfa4ea4a19a1138fab4226b"
