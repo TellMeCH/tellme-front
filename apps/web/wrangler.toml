@@ -15,7 +15,7 @@ binding = "ASSETS"
 [env.staging]
 name = "tellme-front-staging"
 routes = [
-  { pattern = "test.tell-me.ch/*", custom_domain = true }
+  { pattern = "test.tell-me.ch", custom_domain = true }
 ]
 vars = { ENVIRONMENT = "staging" }
 
@@ -33,7 +33,7 @@ id = "e4245fa569aa4c4f958ebdeb5a5988e6"
 [env.prod]
 name = "tellme-front-prod"
 routes = [
-  { pattern = "app.tell-me.ch/*", custom_domain = true }
+  { pattern = "app.tell-me.ch", custom_domain = true }
 ]
 vars = { ENVIRONMENT = "prod" }
 
