@@ -11,9 +11,9 @@ import { StructuredData } from '../_components/StructuredData';
 import type { Metadata } from 'next';
 
 const SITE_NAME = 'tellme';
-const TAGLINE = 'The right call to get to know your customers';
+const TAGLINE = 'The right call to know your customers';
 const DESCRIPTION =
-  'We transcribe and analyze your call recordings with AI to provide actionable insights that will boost your understanding of your customers and your call center operations.';
+  'Tellme transcribes and analyzes your call recordings with AI to provide actionable insights that will boost your understanding of your customers and the efficiency of your call center.';
 const ALT_TEXT = 'Turn conversations into actionable insights.';
 const KEYWORDS = [
   'call-center analytics',
