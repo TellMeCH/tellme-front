@@ -26,6 +26,7 @@ const KEYWORDS = [
 ];
 const ogImage = '/call-center.png';
 const BASE_URL = process.env.NEXT_PUBLIC_ENV === 'prod' ? 'https://tell-me.ch' : 'http://localhost:3000';
+const TWITTER_HANDLE = '@tellme_ch';
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -54,8 +55,8 @@ export const metadata: Metadata = {
     title: `${SITE_NAME} – ${TAGLINE}`,
     description: DESCRIPTION,
     images: [ogImage],
-    site: '@tellmeai', // if you have a handle
-    creator: '@tellmeai',
+    site: TWITTER_HANDLE,
+    creator: TWITTER_HANDLE,
   },
   robots: {
     index: process.env.NEXT_PUBLIC_ENV === 'prod',
