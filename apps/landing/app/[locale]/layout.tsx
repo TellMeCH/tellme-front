@@ -1,18 +1,70 @@
+import '@tellme/shared/ui/styles/global';
+import * as process from 'node:process';
 import { notFound } from 'next/navigation';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ReactElement, ReactNode } from 'react';
+import { ToastContainer } from '@tellme/shared/ui/toast';
 import { constants } from '@tellme/shared/utils/constants';
 import { Locale } from '@tellme/shared/utils/i18n';
-import '@tellme/shared/ui/styles/global';
-import * as process from 'node:process';
-import { ToastContainer } from '@tellme/shared/ui/toast';
+import { StructuredData } from '../_components/StructuredData';
+import type { Metadata } from 'next';
 
-export const metadata = {
-  title: 'tellme',
-  description: `If data is the new gold, your call center conversations are an unexploited gold mine. \
-    We transcribe and analyze your call recordings with AI to provide actionable insights \
-    that will boost your understanding of your customers and your call center operations.`,
+const SITE_NAME = 'tellme';
+const TAGLINE = 'The right call to get to know your customers';
+const DESCRIPTION =
+  'We transcribe and analyze your call recordings with AI to provide actionable insights that will boost your understanding of your customers and your call center operations.';
+const ALT_TEXT = 'Turn conversations into actionable insights.';
+const KEYWORDS = [
+  'call-center analytics',
+  'speech analytics',
+  'AI transcription',
+  'customer experience',
+  'B2B SaaS',
+  'CX',
+  'AI',
+];
+const ogImage = '/call-center.png';
+const BASE_URL = process.env.NEXT_PUBLIC_ENV === 'prod' ? 'https://tell-me.ch' : 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
+  alternates: {
+    canonical: '/',
+    languages: {
+      en: '/en',
+    },
+  },
+  title: {
+    default: `${SITE_NAME} - ${TAGLINE}`,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: DESCRIPTION,
+  keywords: KEYWORDS,
+  openGraph: {
+    title: `${SITE_NAME} – ${TAGLINE}`,
+    description: DESCRIPTION,
+    url: `${BASE_URL}/`,
+    siteName: SITE_NAME,
+    images: [{ url: ogImage, width: 1200, height: 630, alt: ALT_TEXT }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${SITE_NAME} – ${TAGLINE}`,
+    description: DESCRIPTION,
+    images: [ogImage],
+    site: '@tellmeai', // if you have a handle
+    creator: '@tellmeai',
+  },
+  robots: {
+    index: process.env.NEXT_PUBLIC_ENV === 'prod',
+    follow: true,
+  },
+  icons: {
+    icon: '/favicon.ico',
+  },
+  manifest: '/site.webmanifest',
 };
 
 export interface RootLayoutProps {
@@ -37,12 +89,10 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
 
   return (
     <html lang={locale}>
-      <head>
-        <meta name='robots' content={process.env.NEXT_PUBLIC_ENV === 'prod' ? 'index' : 'noindex'} />
-      </head>
       <body>
         <NextIntlClientProvider messages={messages} locale={locale}>
           <ToastContainer />
+          <StructuredData />
           <div className='bg-background-landing text-lg max-lg:text-base'>{children}</div>
         </NextIntlClientProvider>
       </body>

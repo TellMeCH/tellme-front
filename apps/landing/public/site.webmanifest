@@ -1,0 +1,11 @@
+{
+  "name": "tellme",
+  "short_name": "tellme",
+  "description": "We transcribe and analyze your call recordings with AI to provide actionable insights that will boost your understanding of your customers and your call center operations.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#0060ff",
+  "background_color": "#ffffff",
+}
