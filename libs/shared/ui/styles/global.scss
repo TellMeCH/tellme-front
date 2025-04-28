@@ -5,9 +5,10 @@
 @import 'fonts';
 @import 'variables';
 @import 'forms';
+@import 'react-toastify/dist/ReactToastify.css';
 
 * {box-sizing: border-box;}
-html, body {height: 100%; padding: 0; margin: 0; font-size: $text-default; color: $text-primary; 
+html, body {height: 100%; padding: 0; margin: 0; font-size: $text-default; color: $text-primary;
   font-family: $font; min-width: 360px; background-color: $background-primary; scroll-behavior: smooth;
 }
 fieldset {margin: 0; padding: 0; outline: none; border: none;}
