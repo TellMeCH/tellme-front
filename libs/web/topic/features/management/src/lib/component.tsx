@@ -4,34 +4,18 @@ import { Spinner, useDisclosure } from '@heroui/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useState } from 'react';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
-import {
-  suggestedTopicApi,
-  Topic,
-  topicApi,
-  TopicPaginationRequest,
-  useInfiniteSearch,
-} from '@tellme/web/shared/data-access/api';
+import { suggestedTopicApi, Topic, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header, Tooltip } from '@tellme/web/shared/ui/ui-kit';
-import styles from './component.module.scss';
 import { FormModal, Item, SuggestedTopics } from './components';
 
 export function TopicsManagement(): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
 
   const profile = useSelector(authSelectors.profile);
-  const {
-    data: topicsResponse,
-    isLoading: areTopicsLoading,
-    fetchNextPage,
-  } = useInfiniteSearch<Topic, TopicPaginationRequest>({
-    api: topicApi,
-    params: { pageSize: 10 },
-    skip: !profile,
-  });
+  const { data: topicsResponse, isLoading: areTopicsLoading } = topicApi.useSearchQuery({}, { skip: !profile });
   const { data: suggestedTopicsResponse, isLoading: areSuggestedTopicsLoading } = suggestedTopicApi.useSearchQuery(
     {},
     { skip: !profile },
@@ -67,20 +51,7 @@ export function TopicsManagement(): ReactElement {
               areSuggestedTopicsOpen && areSuggestedTopicsReady && 'w-[calc(74%-0.75rem)]',
               !areSuggestedTopicsOpen && areSuggestedTopicsReady && 'w-[calc(100%-32px-0.5rem)]',
             )}>
-            <InfiniteScroll
-              className={styles.management__list}
-              dataLength={topicsResponse?.results.length || 0}
-              next={fetchNextPage}
-              scrollableTarget='main'
-              hasMore={!!topicsResponse?.nextCursor}
-              loader={
-                <div className='flex justify-center py-6'>
-                  <Spinner />
-                </div>
-              }>
-              {isLoading && <Spinner />}
-              {topicsResponse?.results.map((topic: Topic) => <Item topic={topic} key={topic.idFromUrl} />)}
-            </InfiniteScroll>
+            {topicsResponse?.results.map((topic: Topic) => <Item topic={topic} key={topic.id} />)}
           </div>
         )}
         {areSuggestedTopicsOpen && areSuggestedTopicsReady && (
