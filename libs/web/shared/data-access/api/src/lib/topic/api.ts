@@ -4,20 +4,20 @@ import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import {
-  mergeInInfiniteSearch,
-  createSearchResponseTransformer,
   createListTagsProvider,
   createMutationQueryWithData,
+  createSearchResponseTransformer,
+  mergeInInfiniteSearch,
 } from '../common/utils';
 import { topicApiConfig } from './config';
 import { TopicListType } from './enums';
 import {
-  Topic,
-  TopicPaginationRequest,
   ModifiedTopic,
+  Topic,
   TopicChartDataRequest,
   TopicChartEntry,
   TopicErrorData,
+  TopicPaginationRequest,
   TopicSummary,
 } from './models';
 
