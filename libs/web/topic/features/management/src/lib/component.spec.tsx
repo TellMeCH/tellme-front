@@ -12,6 +12,13 @@ import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
 import SpyInstance = jest.SpyInstance;
 
+const getNewTopicId = (): number => {
+  const sortedTopics = topicsPaginationResponse.results.slice().sort((a, b) => a.url.localeCompare(b.url));
+  const lastTopicId = getIdFromUrl(sortedTopics[sortedTopics.length - 1].url);
+
+  return lastTopicId + 1;
+};
+
 describe('Topics management', () => {
   let requestSpy: SpyInstance;
 
@@ -41,19 +48,32 @@ describe('Topics management', () => {
         return Promise.resolve({ data: suggestedTopicsPaginationResponse });
       }
 
+      if (method === 'post' && url?.includes('/suggested-topics/')) {
+        const suggestedTopicId = Number(url.split('/')[2]);
+        const suggestedTopic = suggestedTopicsPaginationResponse.results.find((topic) => topic.id === suggestedTopicId);
+        const creationDate = new Date().toISOString();
+        topicsPaginationResponse.results.push({
+          name: suggestedTopic?.name as string,
+          description: suggestedTopic?.description as string,
+          created: creationDate,
+          updated: creationDate,
+          is_active: true,
+          url: `https://tellme-service-716439647851.europe-west6.run.app/api/v1/topics/${getNewTopicId()}/`,
+        });
+
+        return Promise.resolve({});
+      }
+
       switch (method) {
         case 'get': {
           return Promise.resolve({ data: topicsPaginationResponse });
         }
 
         case 'post': {
-          const lastTopicIndex = topicsPaginationResponse.results.length - 1;
-          const sortedTopics = topicsPaginationResponse.results.slice().sort((a, b) => a.url.localeCompare(b.url));
-
           return Promise.resolve({
             data: {
               ...(config.data as object),
-              id: getIdFromUrl(sortedTopics[lastTopicIndex].url) + 1,
+              id: getNewTopicId(),
               created: new Date().toISOString(),
             },
           });
@@ -122,8 +142,11 @@ describe('Topics management', () => {
       );
     });
 
-    const items = screen.getAllByTestId('suggested-item');
-    expect(items.length).toBe(suggestedTopicsPaginationResponse.results.length - 1);
+    const suggestedItems = screen.getAllByTestId('suggested-item');
+    expect(suggestedItems.length).toBe(suggestedTopicsPaginationResponse.results.length - 1);
+
+    const items = screen.getAllByTestId('item');
+    expect(items.length).toBe(topicsPaginationResponse.results.length);
   });
 
   it('should disable topic', async () => {
