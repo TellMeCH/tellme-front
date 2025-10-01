@@ -1,5 +1,8 @@
+'use client';
+
 import { useTranslations } from 'next-intl';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect } from 'react';
+import { ToastContent, ToastService } from '@tellme/shared/ui/toast';
 import { Button } from '@tellme/shared/ui/ui-kit';
 import { SuggestedTopic, suggestedTopicApi } from '@tellme/web/shared/data-access/api';
 
@@ -9,11 +12,34 @@ interface SuggestedItemProps {
 
 export function SuggestedItem({ suggestedTopic }: SuggestedItemProps): ReactElement {
   const t = useTranslations('topic.MANAGEMENT.SUGGESTED_ITEM');
-  const [accept, { isLoading }] = suggestedTopicApi.useAcceptMutation();
+  const [accept, { isLoading, isSuccess, error }] = suggestedTopicApi.useAcceptMutation();
 
   const acceptSuggestedTopic = () => {
     accept(suggestedTopic.id as number);
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      ToastService.showSuccess(
+        <ToastContent
+          title={t('TEXT_TOAST_SUCCESS_TITLE', { name: suggestedTopic.name })}
+          description={t.rich('TEXT_TOAST_SUCCESS_DESCRIPTION')}
+        />,
+      );
+    }
+  }, [isSuccess]);
+
+  useEffect(() => {
+    if (error) {
+      const hasLimitError = error?.data.nonFieldErrors?.includes(
+        'Cannot add more topics to this organization; maximum topic count reached.',
+      );
+
+      if (hasLimitError) {
+        ToastService.showError(t('TEXT_TOPICS_LIMIT'));
+      }
+    }
+  }, [error]);
 
   return (
     <div className='border-b border-separator py-2 flex flex-col gap-2 mb-2'>

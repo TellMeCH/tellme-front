@@ -4,4 +4,5 @@
   background: $background-secondary; color: $text-primary; font-family: $font; font-size: $text-small;
   width: 460px; justify-content: space-between;
   &_success {background: $status-success; color: $background-secondary;}
+  &_error {background: $status-danger; color: $background-secondary;}
 }

@@ -78,7 +78,10 @@
     },
     "SUGGESTED_ITEM": {
       "BUTTON_ACCEPT": "Accept",
-      "TEXT_CONVERSATION_COUNT": "Conversation count"
+      "TEXT_CONVERSATION_COUNT": "Conversation count",
+      "TEXT_SUCCESS_TOAST_TITLE": "{name} topic accepted",
+      "TEXT_SUCCESS_TOAST_DESCRIPTION": "Now it is available in the main list of topics",
+      "TEXT_TOPICS_LIMIT": "You cannot to add more topics, because maximal topics count is reached"
     }
   },
   "EMPTY_CHART": {

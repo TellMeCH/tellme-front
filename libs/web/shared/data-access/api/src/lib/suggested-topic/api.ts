@@ -1,15 +1,25 @@
-import { EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
+import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
+import { plainToInstance } from 'class-transformer';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
-import { PaginationRequest, PaginationResponse } from '../common';
+import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import { createListTagsProvider, createSearchResponseTransformer } from '../common/utils';
 import { organizationApi, OrganizationTagType } from '../organization';
 import { topicApi, topicApiConfig } from '../topic';
 import { suggestedTopicApiConfig } from './config';
-import { SuggestedTopic } from './models';
+import { SuggestedTopic, SuggestedTopicErrorData } from './models';
 
 const getListTags = createListTagsProvider<SuggestedTopic>(suggestedTopicApiConfig.entityName);
 
 const transformSearchResponse = createSearchResponseTransformer<SuggestedTopic>(SuggestedTopic);
+
+const transformSuggestedTopicErrorResponse = (response: object): ErrorResponse<SuggestedTopicErrorData> => {
+  const { code, data } = plainToInstance(ErrorResponse<SuggestedTopicErrorData>, response);
+
+  return new ErrorResponse<SuggestedTopicErrorData>({
+    code,
+    data: createEntityInstance(SuggestedTopicErrorData, data),
+  });
+};
 
 export const suggestedTopicApi = createAppApi({
   reducerPath: suggestedTopicApiConfig.entityName,
@@ -30,6 +40,7 @@ export const suggestedTopicApi = createAppApi({
         method: 'post',
         url: `${suggestedTopicApiConfig.baseEndpoint}${id}/accept/`,
       }),
+      transformErrorResponse: transformSuggestedTopicErrorResponse,
       async onQueryStarted(id, { queryFulfilled, getState, dispatch }) {
         try {
           await queryFulfilled;

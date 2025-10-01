@@ -15,7 +15,11 @@ export function TopicsManagement(): ReactElement {
   const t = useTranslations('topic.MANAGEMENT');
 
   const profile = useSelector(authSelectors.profile);
-  const { data: topicsResponse, isLoading: areTopicsLoading } = topicApi.useSearchQuery({}, { skip: !profile });
+  // hardcoded, 20 topics per page allow to get all possible topics
+  const { data: topicsResponse, isLoading: areTopicsLoading } = topicApi.useSearchQuery(
+    { pageSize: 20 },
+    { skip: !profile },
+  );
   const { data: suggestedTopicsResponse, isLoading: areSuggestedTopicsLoading } = suggestedTopicApi.useSearchQuery(
     {},
     { skip: !profile },
@@ -51,7 +55,7 @@ export function TopicsManagement(): ReactElement {
               areSuggestedTopicsOpen && areSuggestedTopicsReady && 'w-[calc(74%-0.75rem)]',
               !areSuggestedTopicsOpen && areSuggestedTopicsReady && 'w-[calc(100%-32px-0.5rem)]',
             )}>
-            {topicsResponse?.results.map((topic: Topic) => <Item topic={topic} key={topic.id} />)}
+            {topicsResponse?.results.map((topic: Topic) => <Item topic={topic} key={topic.idFromUrl} />)}
           </div>
         )}
         {areSuggestedTopicsOpen && areSuggestedTopicsReady && (
