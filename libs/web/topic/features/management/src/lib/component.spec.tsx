@@ -1,7 +1,12 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
-import { TestRootComponent, topic, topicsPaginationResponse } from '@tellme/web/shared/data-access/tests-data';
+import {
+  suggestedTopicsPaginationResponse,
+  TestRootComponent,
+  topic,
+  topicsPaginationResponse,
+} from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
@@ -30,7 +35,13 @@ describe('Topics management', () => {
 
   beforeAll(() => {
     requestSpy = jest.spyOn(apiService.httpClient, 'request').mockImplementation((config) => {
-      switch (config.method) {
+      const { method, url } = config;
+
+      if (method === 'get' && url?.includes('/suggested-topics/')) {
+        return Promise.resolve({ data: suggestedTopicsPaginationResponse });
+      }
+
+      switch (method) {
         case 'get': {
           return Promise.resolve({ data: topicsPaginationResponse });
         }
@@ -85,9 +96,34 @@ describe('Topics management', () => {
       expect.objectContaining({
         method: 'get',
         url: '/topics/',
-        params: { page_size: 10 },
+        params: { page_size: 20 },
       }),
     );
+  });
+
+  it('should load suggested topics initially', async () => {
+    await userEvent.click(await screen.findByTestId('suggested-topics-button'));
+    const items = await screen.findAllByTestId('suggested-item');
+    expect(items.length).toBe(suggestedTopicsPaginationResponse.results.length);
+  });
+
+  it('should accept a suggested topic', async () => {
+    await userEvent.click(await screen.findByTestId('suggested-topics-button'));
+    const acceptButtons = await screen.findAllByTestId('accept-button');
+    await userEvent.click(acceptButtons[0]);
+
+    const firstSuggestedTopicId = suggestedTopicsPaginationResponse.results[0].id;
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'post',
+          url: `/suggested-topics/${firstSuggestedTopicId}/accept/`,
+        }),
+      );
+    });
+
+    const items = screen.getAllByTestId('suggested-item');
+    expect(items.length).toBe(suggestedTopicsPaginationResponse.results.length - 1);
   });
 
   it('should disable topic', async () => {

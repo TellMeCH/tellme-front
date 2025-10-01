@@ -69,7 +69,8 @@ export function TopicsManagement(): ReactElement {
               onPress={openSuggestedTopics}
               isIconOnly
               size='sm'
-              className='sticky top-2'>
+              className='sticky top-2'
+              data-testid='suggested-topics-button'>
               <Icon name='expand' theme='secondary' />
             </Button>
           </Tooltip>

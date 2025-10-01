@@ -42,7 +42,7 @@ export function SuggestedItem({ suggestedTopic }: SuggestedItemProps): ReactElem
   }, [error]);
 
   return (
-    <div className='border-b border-separator py-2 flex flex-col gap-2 mb-2'>
+    <div className='border-b border-separator py-2 flex flex-col gap-2 mb-2' data-testid='suggested-item'>
       <div className='flex items-center justify-between'>
         <h3>{suggestedTopic.name}</h3>
         <Button
@@ -50,7 +50,8 @@ export function SuggestedItem({ suggestedTopic }: SuggestedItemProps): ReactElem
           isLoading={isLoading}
           variant='bordered'
           size='sm'
-          radius='full'>
+          radius='full'
+          data-testid='accept-button'>
           {t('BUTTON_ACCEPT')}
         </Button>
       </div>
