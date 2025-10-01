@@ -12,7 +12,7 @@ export function SuggestedItem({ suggestedTopic }: SuggestedItemProps): ReactElem
   const [accept, { isLoading }] = suggestedTopicApi.useAcceptMutation();
 
   const acceptSuggestedTopic = () => {
-    accept(suggestedTopic.id);
+    accept(suggestedTopic.id as number);
   };
 
   return (

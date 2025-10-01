@@ -81,7 +81,7 @@ export const topicApi = createAppApi({
         };
       },
       transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
-      providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.id })) as any,
+      providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.idFromUrl })) as any,
     }),
     getSummary: builder.query<TopicSummary, { id: number }>({
       query: ({ id }) => {

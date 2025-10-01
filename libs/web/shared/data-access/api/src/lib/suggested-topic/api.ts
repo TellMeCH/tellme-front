@@ -3,7 +3,7 @@ import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import { createListTagsProvider, createSearchResponseTransformer } from '../common/utils';
 import { organizationApi, OrganizationTagType } from '../organization';
-import { topicApi } from '../topic';
+import { topicApi, topicApiConfig } from '../topic';
 import { suggestedTopicApiConfig } from './config';
 import { SuggestedTopic } from './models';
 
@@ -28,12 +28,12 @@ export const suggestedTopicApi = createAppApi({
     accept: builder.mutation<void, number>({
       query: (id: number) => ({
         method: 'post',
-        url: `${suggestedTopicApiConfig.baseEndpoint}/${id}/accept/`,
+        url: `${suggestedTopicApiConfig.baseEndpoint}${id}/accept/`,
       }),
       async onQueryStarted(id, { queryFulfilled, getState, dispatch }) {
         try {
           await queryFulfilled;
-          dispatch(topicApi.util.invalidateTags([{ type: suggestedTopicApiConfig.entityName, id: EntityTagID.LIST }]));
+          dispatch(topicApi.util.invalidateTags([{ type: topicApiConfig.entityName, id: EntityTagID.LIST }]));
           dispatch(organizationApi.util.invalidateTags([OrganizationTagType.OVERVIEW]));
 
           const cachedQueries = suggestedTopicApi.util.selectInvalidatedBy(getState(), [

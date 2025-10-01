@@ -22,19 +22,19 @@ export function EmployeeActions({ employee }: EmployeeActionsProps): ReactElemen
   const [remove, { isLoading: isDeleting }] = employeeApi.useDeleteMutation();
 
   const inviteEmployee = (): void => {
-    invite(employee.id);
+    invite(employee.idFromUrl);
   };
 
   const revokeAdminPermissions = (): void => {
-    update({ id: employee.id, isOrganizationAdmin: false });
+    update({ id: employee.idFromUrl, isOrganizationAdmin: false });
   };
 
   const grantAdminPermissions = (): void => {
-    update({ id: employee.id, isOrganizationAdmin: true });
+    update({ id: employee.idFromUrl, isOrganizationAdmin: true });
   };
 
   const removeEmployee = (): void => {
-    remove(employee.id);
+    remove(employee.idFromUrl);
   };
 
   useEffect(() => {
