@@ -193,7 +193,7 @@ export const topicApi = createAppApi({
                 originalArgs as any,
                 (endpointData) => {
                   if ('results' in endpointData && Array.isArray(endpointData.results)) {
-                    const existingIndex = endpointData.results.findIndex((item) => item.id === arg.id);
+                    const existingIndex = endpointData.results.findIndex((item) => item.idFromUrl === arg.id);
 
                     if (existingIndex !== -1) {
                       const existingItem = endpointData.results[existingIndex];
@@ -244,7 +244,7 @@ export const topicApi = createAppApi({
               endpointName as 'search' | 'searchInfinite',
               originalArgs as any,
               (endpointData) => {
-                const existingItemIndex = endpointData.results.findIndex((item) => item.id === id);
+                const existingItemIndex = endpointData.results.findIndex((item) => item.idFromUrl === id);
 
                 if (existingItemIndex !== -1) {
                   endpointData.results.splice(existingItemIndex, 1);
