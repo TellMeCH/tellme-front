@@ -1,11 +1,32 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
-import { TestRootComponent, topic, topicsPaginationResponse } from '@tellme/web/shared/data-access/tests-data';
+import {
+  suggestedTopicsPaginationResponse,
+  TestRootComponent,
+  topic,
+  topicsPaginationResponse,
+} from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { TopicsManagement } from './component';
 import '@testing-library/jest-dom';
 import SpyInstance = jest.SpyInstance;
+
+const getNewTopicId = (): number => {
+  const sortedTopics = topicsPaginationResponse.results.slice().sort((a, b) => a.url.localeCompare(b.url));
+
+  if (sortedTopics.length === 0) {
+    return 1;
+  }
+
+  if (sortedTopics.length === 1) {
+    return getIdFromUrl(sortedTopics[0].url) + 1;
+  }
+
+  const lastTopicId = getIdFromUrl(sortedTopics[sortedTopics.length - 1].url);
+
+  return lastTopicId + 1;
+};
 
 describe('Topics management', () => {
   let requestSpy: SpyInstance;
@@ -30,19 +51,38 @@ describe('Topics management', () => {
 
   beforeAll(() => {
     requestSpy = jest.spyOn(apiService.httpClient, 'request').mockImplementation((config) => {
-      switch (config.method) {
+      const { method, url } = config;
+
+      if (method === 'get' && url?.includes('/suggested-topics/')) {
+        return Promise.resolve({ data: suggestedTopicsPaginationResponse });
+      }
+
+      if (method === 'post' && url?.includes('/suggested-topics/')) {
+        const suggestedTopicId = Number(url.split('/')[2]);
+        const suggestedTopic = suggestedTopicsPaginationResponse.results.find((topic) => topic.id === suggestedTopicId);
+        const creationDate = new Date().toISOString();
+        topicsPaginationResponse.results.push({
+          name: suggestedTopic?.name as string,
+          description: suggestedTopic?.description as string,
+          created: creationDate,
+          updated: creationDate,
+          is_active: true,
+          url: `https://tellme-service-716439647851.europe-west6.run.app/api/v1/topics/${getNewTopicId()}/`,
+        });
+
+        return Promise.resolve({});
+      }
+
+      switch (method) {
         case 'get': {
           return Promise.resolve({ data: topicsPaginationResponse });
         }
 
         case 'post': {
-          const lastTopicIndex = topicsPaginationResponse.results.length - 1;
-          const sortedTopics = topicsPaginationResponse.results.slice().sort((a, b) => a.url.localeCompare(b.url));
-
           return Promise.resolve({
             data: {
               ...(config.data as object),
-              id: getIdFromUrl(sortedTopics[lastTopicIndex].url) + 1,
+              id: getNewTopicId(),
               created: new Date().toISOString(),
             },
           });
@@ -85,9 +125,37 @@ describe('Topics management', () => {
       expect.objectContaining({
         method: 'get',
         url: '/topics/',
-        params: { page_size: 10 },
+        params: { page_size: 20 },
       }),
     );
+  });
+
+  it('should load suggested topics initially', async () => {
+    await userEvent.click(await screen.findByTestId('suggested-topics-button'));
+    const items = await screen.findAllByTestId('suggested-item');
+    expect(items.length).toBe(suggestedTopicsPaginationResponse.results.length);
+  });
+
+  it('should accept a suggested topic', async () => {
+    await userEvent.click(await screen.findByTestId('suggested-topics-button'));
+    const acceptButtons = await screen.findAllByTestId('accept-button');
+    await userEvent.click(acceptButtons[0]);
+
+    const firstSuggestedTopicId = suggestedTopicsPaginationResponse.results[0].id;
+    await waitFor(() => {
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'post',
+          url: `/suggested-topics/${firstSuggestedTopicId}/accept/`,
+        }),
+      );
+    });
+
+    const suggestedItems = screen.getAllByTestId('suggested-item');
+    expect(suggestedItems.length).toBe(suggestedTopicsPaginationResponse.results.length - 1);
+
+    const items = screen.getAllByTestId('item');
+    expect(items.length).toBe(topicsPaginationResponse.results.length);
   });
 
   it('should disable topic', async () => {

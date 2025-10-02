@@ -26,12 +26,12 @@ export function Item({ topic }: ItemProps): ReactElement {
   const [remove, { isLoading: isDeleting }] = topicApi.useDeleteMutation();
 
   const removeTopic = async (): Promise<void> => {
-    await remove(topic.id);
+    await remove(topic.idFromUrl);
     onConfirmationModalOpenChange();
   };
 
   const updateTopicWithDebounce = useCallback(
-    debounce((isActive: boolean) => update({ id: topic.id, isActive }), 400),
+    debounce((isActive: boolean) => update({ id: topic.idFromUrl, isActive }), 400),
     [topic],
   );
 
