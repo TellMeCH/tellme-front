@@ -8,7 +8,7 @@
     "build:worker": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx nx build web --skip-nx-cache && cd apps/web && npx @opennextjs/cloudflare build --skipBuild"
+        "command": "npx nx build web --skip-nx-cache && cd ./apps/web && opennextjs-cloudflare -s"
       }
     },
     "dev:worker": {
