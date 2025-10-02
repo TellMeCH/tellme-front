@@ -32,17 +32,13 @@ jobs:
       - name: Build
         run: npx nx run web:build:worker
 
-
-      - name: Verify worker file exists
-        run: ls -la ./apps/web/.open-next/worker.js
-
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           wranglerVersion: '4.41.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy ./apps/web/.open-next/worker.js --env=${{ env.TELLME_ENV }}
+          command: deploy ./.open-next/worker.js --env=${{ env.TELLME_ENV }}
 
   deploy_landing:
     if: ${{ github.ref_name == 'main' }}
