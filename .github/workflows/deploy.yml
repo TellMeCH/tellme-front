@@ -32,6 +32,10 @@ jobs:
       - name: Build
         run: npx nx run web:build:worker
 
+
+      - name: Verify worker file exists
+        run: ls -la ./apps/web/.open-next/worker.js
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
