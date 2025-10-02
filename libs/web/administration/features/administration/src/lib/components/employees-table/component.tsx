@@ -68,7 +68,7 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
           </TableHeader>
           <TableBody items={employeesResponse?.results || []}>
             {(employee) => (
-              <TableRow key={employee.id} data-testid='employee-item'>
+              <TableRow key={employee.idFromUrl} data-testid='employee-item'>
                 <TableCell>
                   <strong>{employee.user.fullName}</strong>
                   {employee.isOrganizationAdmin && (
@@ -85,7 +85,7 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
                     <div className='mb-2'>{employee.user.email}</div>
                     <div className='text-text-secondary'>{translateAuthType(employee.user.authType)}</div>
                   </div>
-                  {employeeProfile?.id !== employee.id && <EmployeeActions employee={employee} />}
+                  {employeeProfile?.idFromUrl !== employee.idFromUrl && <EmployeeActions employee={employee} />}
                 </TableCell>
               </TableRow>
             )}

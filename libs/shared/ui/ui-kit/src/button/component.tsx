@@ -1,8 +1,8 @@
 'use client';
 
-import { Button as HeroUIButton, ButtonProps, extendVariants } from '@heroui/react';
+import { Button as HeroUIButton, extendVariants } from '@heroui/react';
 import clsx from 'clsx';
-import { forwardRef, JSXElementConstructor, ReactElement } from 'react';
+import { ComponentProps, forwardRef, JSXElementConstructor, ReactElement } from 'react';
 import styles from './component.module.scss';
 
 const BaseButton = extendVariants(HeroUIButton, {
@@ -14,7 +14,7 @@ const BaseButton = extendVariants(HeroUIButton, {
     },
     color: {
       primary: '',
-      light: '',
+      tertiary: '',
     },
     isDisabled: {
       true: '',
@@ -23,6 +23,7 @@ const BaseButton = extendVariants(HeroUIButton, {
       true: '',
     },
     size: {
+      sm: styles.button_sm,
       md: styles.button_md,
       lg: styles.button_lg,
     },
@@ -63,6 +64,11 @@ const BaseButton = extendVariants(HeroUIButton, {
       variant: 'solid',
       color: 'secondary',
       class: clsx(styles.button_solid, styles.button_solid_secondary),
+    },
+    {
+      variant: 'solid',
+      color: 'tertiary',
+      class: clsx(styles.button_solid, styles.button_solid_tertiary),
     },
     {
       isDisabled: true,
@@ -107,14 +113,15 @@ const BaseButton = extendVariants(HeroUIButton, {
   ],
 });
 
-export const Button = forwardRef<ReactElement<unknown, string | JSXElementConstructor<any>> | null, ButtonProps>(
-  (props, ref) => {
-    return <BaseButton
-      disableRipple
-      {...props}
-      ref={ref} />;
-  },
-);
+export const Button = forwardRef<
+  ReactElement<unknown, string | JSXElementConstructor<any>> | null,
+  ComponentProps<typeof BaseButton>
+>((props, ref) => {
+  return <BaseButton
+    disableRipple
+    {...props}
+    ref={ref} />;
+});
 
 Button.displayName = 'Button';
 

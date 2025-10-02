@@ -37,7 +37,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
 
   const submit = (values: FormValues<TopicFormSchema>): void => {
     if (isForEdit) {
-      update({ id: topic.id, ...values });
+      update({ id: topic.idFromUrl, ...values });
     } else {
       create(values);
     }
