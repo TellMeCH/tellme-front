@@ -80,7 +80,7 @@ export function useTopicAnalysis({ topicKey }: UseTopicAnalysisProps): TopicAnal
 
   const topicOptions =
     topicList?.results?.map((item) => ({
-      value: String(item.idFromUrl),
+      value: String(item.id),
       label: item.name,
     })) || [];
 
@@ -100,7 +100,7 @@ export function useTopicAnalysis({ topicKey }: UseTopicAnalysisProps): TopicAnal
 
   useEffect(() => {
     const availableTopics = topicList?.results || [];
-    const availableIds = availableTopics.map((topic) => String(topic.idFromUrl));
+    const availableIds = availableTopics.map((topic) => String(topic.id));
 
     const isSelectedIdValid = selectedTopicId && availableIds.includes(selectedTopicId);
 
@@ -109,19 +109,17 @@ export function useTopicAnalysis({ topicKey }: UseTopicAnalysisProps): TopicAnal
     }
 
     if (topicKey) {
-      const matchedTopic = availableTopics.find(
-        (topic) => String(topic.idFromUrl) === topicKey || topic.name === topicKey,
-      );
+      const matchedTopic = availableTopics.find((topic) => String(topic.id) === topicKey || topic.name === topicKey);
 
       if (matchedTopic) {
-        setSelectedTopicId(String(matchedTopic.idFromUrl));
+        setSelectedTopicId(String(matchedTopic.id));
 
         return;
       }
     }
 
     if (availableTopics.length > 0) {
-      setSelectedTopicId(String(availableTopics[0].idFromUrl));
+      setSelectedTopicId(String(availableTopics[0].id));
     }
   }, [selectedTopicId, topicKey, topicList?.results]);
 

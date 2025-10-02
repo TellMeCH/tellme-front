@@ -34,8 +34,6 @@ module.exports = {
         'background-elevated': '#ffffff',
         'background-elevated-shadow': '#1a456d10',
         'background-landing': '#fbfaf9',
-        'background-highlighted': '#dceeff',
-        separator: '#b8bec7,',
         'status-danger': '#d83a4a',
         'status-success': '#3dc55b',
         'status-warning': '#feb62b',
