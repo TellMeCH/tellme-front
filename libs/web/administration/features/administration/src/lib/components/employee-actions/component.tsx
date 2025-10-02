@@ -4,9 +4,10 @@ import { DropdownItemProps, useDisclosure } from '@heroui/react';
 import { compact } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useEffect } from 'react';
-import { ToastContent, ToastService } from '@tellme/shared/ui/toast';
+import { ToastService } from '@tellme/shared/ui/toast';
 import { Employee, employeeApi } from '@tellme/web/shared/data-access/api';
 import { ConfirmationModal, Dropdown } from '@tellme/web/shared/ui/ui-kit';
+import { ToastContent } from '../toast-content';
 
 interface EmployeeActionsProps {
   employee: Employee;
@@ -21,19 +22,19 @@ export function EmployeeActions({ employee }: EmployeeActionsProps): ReactElemen
   const [remove, { isLoading: isDeleting }] = employeeApi.useDeleteMutation();
 
   const inviteEmployee = (): void => {
-    invite(employee.idFromUrl);
+    invite(employee.id);
   };
 
   const revokeAdminPermissions = (): void => {
-    update({ id: employee.idFromUrl, isOrganizationAdmin: false });
+    update({ id: employee.id, isOrganizationAdmin: false });
   };
 
   const grantAdminPermissions = (): void => {
-    update({ id: employee.idFromUrl, isOrganizationAdmin: true });
+    update({ id: employee.id, isOrganizationAdmin: true });
   };
 
   const removeEmployee = (): void => {
-    remove(employee.idFromUrl);
+    remove(employee.id);
   };
 
   useEffect(() => {

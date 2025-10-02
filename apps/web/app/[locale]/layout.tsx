@@ -38,7 +38,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
         <meta name='robots' content={process.env.NEXT_PUBLIC_ENV === 'prod' ? 'index' : 'noindex'} />
       </head>
       <body>
-        <div className='min-w-[1280px]'>
+        <div className='min-w-[1024px]'>
           <NextIntlClientProvider messages={messages}>
             <Providers>{children}</Providers>
           </NextIntlClientProvider>
