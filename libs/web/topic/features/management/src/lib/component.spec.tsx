@@ -14,6 +14,15 @@ import SpyInstance = jest.SpyInstance;
 
 const getNewTopicId = (): number => {
   const sortedTopics = topicsPaginationResponse.results.slice().sort((a, b) => a.url.localeCompare(b.url));
+
+  if (sortedTopics.length === 0) {
+    return 1;
+  }
+
+  if (sortedTopics.length === 1) {
+    return getIdFromUrl(sortedTopics[0].url) + 1;
+  }
+
   const lastTopicId = getIdFromUrl(sortedTopics[sortedTopics.length - 1].url);
 
   return lastTopicId + 1;
