@@ -32,9 +32,6 @@ jobs:
       - name: Build
         run: npx nx run web:build:worker
 
-      - name: Find
-        run: find . -name "worker.js"
-
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
