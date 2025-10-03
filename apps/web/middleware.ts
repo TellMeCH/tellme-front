@@ -28,12 +28,13 @@ const redirectToPage = (request: NextRequest, route: string): NextResponse => {
 };
 
 const postHogProxyPath = '/relay-FJ0S/';
+const postHogHost = process.env.NEXT_PUBLIC_POSTHOG_HOST as string;
+const regularPostHogDomain = postHogHost.replace(/^https?:\/\//, '');
+const assetsPostHogDomain = regularPostHogDomain.replace(/^eu/, 'eu-assets');
 
 const redirectToPosthog = (request: NextRequest): NextResponse => {
   const url = request.nextUrl.clone();
-  const hostname = url.pathname.startsWith(postHogProxyPath + 'static/')
-    ? 'eu-assets.i.posthog.com'
-    : 'eu.i.posthog.com';
+  const hostname = url.pathname.startsWith(postHogProxyPath + 'static/') ? assetsPostHogDomain : regularPostHogDomain;
 
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('host', hostname);
