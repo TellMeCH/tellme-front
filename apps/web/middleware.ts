@@ -27,8 +27,34 @@ const redirectToPage = (request: NextRequest, route: string): NextResponse => {
   return NextResponse.redirect(newUrl);
 };
 
+const postHogProxyPath = '/relay-FJ0S/';
+
+const redirectToPosthog = (request: NextRequest): NextResponse => {
+  const url = request.nextUrl.clone();
+  const hostname = url.pathname.startsWith(postHogProxyPath + 'static/')
+    ? 'eu-assets.i.posthog.com'
+    : 'eu.i.posthog.com';
+
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('host', hostname);
+
+  url.protocol = 'https';
+  url.hostname = hostname;
+  url.port = '443';
+  url.pathname = url.pathname.replace(new RegExp(`^${postHogProxyPath}`), '');
+
+  return NextResponse.rewrite(url, {
+    headers: requestHeaders,
+  });
+};
+
 export default async function middleware(request: NextRequest): Promise<NextResponse> {
   const pathname = request.nextUrl.pathname;
+
+  if (pathname.startsWith(postHogProxyPath)) {
+    return redirectToPosthog(request);
+  }
+
   const isAuthenticated = request.cookies.get(cookieConfig.keys.isAuthenticated)?.value === 'true';
   const isOrganizationAdmin = request.cookies.get(cookieConfig.keys.isOrganizationAdmin)?.value === 'true';
 
@@ -47,5 +73,5 @@ export default async function middleware(request: NextRequest): Promise<NextResp
 }
 
 export const config = {
-  matcher: ['/((?!api|_next|.*\\..*).*)'],
+  matcher: ['/relay-FJ0S/:path*', '/((?!api|_next|.*\\..*).*)'],
 };
