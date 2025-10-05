@@ -32,8 +32,7 @@ export type IconName =
   | 'switzerland'
   | 'setting'
   | 'more'
-  | 'info'
-  | 'expand';
+  | 'info';
 
 export interface IconProps {
   name: IconName;

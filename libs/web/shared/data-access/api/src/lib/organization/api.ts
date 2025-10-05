@@ -2,13 +2,11 @@ import { prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { plainToInstance } from 'class-transformer';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { organizationApiConfig } from './config';
-import { OrganizationTagType } from './enums';
 import { GeneralOverview, Organization, TopicsOverview } from './models';
 import { OverviewRequest } from './models/overview-request';
 
 export const organizationApi = createAppApi({
   reducerPath: organizationApiConfig.entityName,
-  tagTypes: [OrganizationTagType.OVERVIEW],
   endpoints: (builder) => ({
     getGeneralOverview: builder.query<GeneralOverview, void>({
       query: () => ({
@@ -33,7 +31,6 @@ export const organizationApi = createAppApi({
 
         return plainToInstance(GeneralOverview, overviewData as object);
       },
-      providesTags: [OrganizationTagType.OVERVIEW],
     }),
     getTopicsOverview: builder.query<TopicsOverview | null, void>({
       query: () => ({
@@ -69,7 +66,6 @@ export const organizationApi = createAppApi({
           topicMetrics,
         });
       },
-      providesTags: [OrganizationTagType.OVERVIEW],
     }),
     getOrganization: builder.query<Organization, { id: number }>({
       query: ({ id }) => ({
