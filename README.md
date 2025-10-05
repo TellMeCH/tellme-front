@@ -163,6 +163,64 @@ You can execute these commands for the whole project manually:
 
 To run tests use the command `npm run test` in the root of the repository.
 
+### End-to-End Testing with Playwright
+
+The project includes end-to-end tests using Playwright located in the `tests_e2e/` directory.
+
+#### Prerequisites
+
+1. **Make sure FRONTEND_PATH is set correctly:**
+
+   ```bash
+   export FRONTEND_PATH=http://localhost:3000
+   ```
+
+2. **Install test dependencies:**
+   ```bash
+   cd tests_e2e
+   poetry install
+   poetry run python -m playwright install --with-deps
+   ```
+
+#### Creating Tests
+
+To generate new tests interactively:
+
+```bash
+poetry run playwright codegen http://localhost:3000
+```
+
+#### Running Tests in Debug Mode
+
+1. **Set required environment variables:**
+
+   ```bash
+   export CLOUD_RUN_HOST=your-backend-url
+   export FIREBASE_WEB_API_KEY=your-firebase-api-key
+   export FRONTEND_PATH=http://localhost:3000
+   export GOOGLE_APPLICATION_CREDENTIALS=path/to/service-account.json
+   export TELLME_ENV=staging
+   export TEST_USER_EMAIL=test.user@tell-me.ch
+   ```
+
+2. **Run tests with debugging enabled:**
+   ```bash
+   cd tests_e2e
+   PWDEBUG=1 poetry run pytest --headed test_script.py
+   ```
+
+#### Quick Testing with PyCharm
+
+For faster test execution using PyCharm:
+
+1. **Start the frontend:**
+
+   ```bash
+   npx nx start web
+   ```
+
+2. **Configure PyCharm** with the environment variables above and run tests using the PyCharm test configuration.
+
 ## Employed API Endpoints
 
 - GET /api/v1/employees/me

@@ -265,3 +265,21 @@ class TestTopicManagement:
         assert len(current_topics) == 1
         assert targeted_topic not in [topic['name'] for topic in current_topics]
 
+    def test_suggested_topics_visibility(self, test_org_context, login_page, frontend_path):
+        """
+        Verify that the suggested topics functionality works correctly:
+        - Button is not visible since no suggested topics exist
+        """
+        # Navigate to the topics page
+        login_page.goto(f"{frontend_path}/topics")
+
+        # Verify the suggested topics button is not visible
+        expect(login_page.get_by_test_id("suggested-topics-button")).not_to_be_visible()
+
+        # Note: If there was a way to create suggested topics, this would be what we would test
+        # Click the suggested topics button
+        # login_page.get_by_test_id("suggested-topics-button").click()
+
+        # Verify that "Suggested Topics" text appears in the main section
+        # expect(login_page.locator("#main")).to_contain_text("Suggested Topics")
+
