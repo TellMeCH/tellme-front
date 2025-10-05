@@ -371,7 +371,8 @@ def extended_test_data(test_org_context):
           'output_tokens': random.randint(20, 100),
           'customer': customer_id,
           'agent': agent_id,
-          'topics': [topic_id_mapping[topic_idx]]
+          'topics': [topic_id_mapping[topic_idx]],
+          'suggested_topics': [],
         }
         resp = requests.post(
           f"{cloud_run_host}/api/v1/conversations/",
