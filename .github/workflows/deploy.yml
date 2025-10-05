@@ -32,13 +32,17 @@ jobs:
       - name: Build
         run: npx nx run web:build:worker
 
+      - name: Find
+        run: find . -name "worker.js"
+
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          wranglerVersion: '4.7.0'
+          wranglerVersion: '4.41.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy ./apps/web/.open-next/worker.js --env=${{ env.TELLME_ENV }}
+          command: deploy --env=${{ env.TELLME_ENV }}
+          workingDirectory: apps/web
 
   deploy_landing:
     if: ${{ github.ref_name == 'main' }}
@@ -62,10 +66,11 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          wranglerVersion: '4.7.0'
+          wranglerVersion: '4.41.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy ./apps/landing/.open-next/worker.js --env=${{ env.TELLME_ENV }}
+          command: deploy --env=${{ env.TELLME_ENV }}
+          workingDirectory: apps/landing
 
   e2e_testing:
     name: End-to-end Testing of Deployed Application

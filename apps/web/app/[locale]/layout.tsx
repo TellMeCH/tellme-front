@@ -1,12 +1,12 @@
+import process from 'node:process';
 import { notFound } from 'next/navigation';
+import { NextIntlClientProvider } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { ReactElement, ReactNode } from 'react';
-import { Locale } from '@tellme/shared/utils/i18n';
-import { Providers } from './providers';
-import '@tellme/shared/ui/styles/global';
-import { NextIntlClientProvider } from 'next-intl';
 import { constants } from '@tellme/shared/utils/constants';
-import process from 'node:process';
+import { Locale } from '@tellme/shared/utils/i18n';
+import '@tellme/shared/ui/styles/global';
+import { Providers } from './providers';
 
 export const metadata = {
   title: 'tellme',
@@ -14,7 +14,7 @@ export const metadata = {
 
 export interface RootLayoutProps {
   children: ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }
 
 const locales = constants.locales;
@@ -24,7 +24,7 @@ export const generateStaticParams = (): Array<{ locale: Locale }> => locales.map
 export default async function RootLayout({ children, params }: RootLayoutProps): Promise<ReactElement> {
   const { locale } = await params;
 
-  if (!locales.includes(locale)) {
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
 
@@ -38,7 +38,7 @@ export default async function RootLayout({ children, params }: RootLayoutProps):
         <meta name='robots' content={process.env.NEXT_PUBLIC_ENV === 'prod' ? 'index' : 'noindex'} />
       </head>
       <body>
-        <div className='min-w-[1024px]'>
+        <div className='min-w-[1280px]'>
           <NextIntlClientProvider messages={messages}>
             <Providers>{children}</Providers>
           </NextIntlClientProvider>
