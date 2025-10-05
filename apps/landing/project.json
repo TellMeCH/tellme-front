@@ -9,7 +9,7 @@
     "build:worker": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "npx nx build landing --skip-nx-cache && cd ./apps/landing && opennextjs-cloudflare -s"
+        "command": "npx nx build landing --skip-nx-cache && cd apps/landing && npx @opennextjs/cloudflare build --skipBuild"
       }
     },
     "dev:worker": {
