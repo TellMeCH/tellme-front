@@ -4,20 +4,20 @@ import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import {
+  mergeInInfiniteSearch,
+  createSearchResponseTransformer,
   createListTagsProvider,
   createMutationQueryWithData,
-  createSearchResponseTransformer,
-  mergeInInfiniteSearch,
 } from '../common/utils';
 import { topicApiConfig } from './config';
 import { TopicListType } from './enums';
 import {
-  ModifiedTopic,
   Topic,
+  TopicPaginationRequest,
+  ModifiedTopic,
   TopicChartDataRequest,
   TopicChartEntry,
   TopicErrorData,
-  TopicPaginationRequest,
   TopicSummary,
 } from './models';
 
@@ -81,7 +81,7 @@ export const topicApi = createAppApi({
         };
       },
       transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
-      providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.idFromUrl })) as any,
+      providesTags: ((response?: Topic) => ({ type: topicApiConfig.entityName, id: response?.id })) as any,
     }),
     getSummary: builder.query<TopicSummary, { id: number }>({
       query: ({ id }) => {
@@ -193,7 +193,7 @@ export const topicApi = createAppApi({
                 originalArgs as any,
                 (endpointData) => {
                   if ('results' in endpointData && Array.isArray(endpointData.results)) {
-                    const existingIndex = endpointData.results.findIndex((item) => item.idFromUrl === arg.id);
+                    const existingIndex = endpointData.results.findIndex((item) => item.id === arg.id);
 
                     if (existingIndex !== -1) {
                       const existingItem = endpointData.results[existingIndex];
@@ -244,7 +244,7 @@ export const topicApi = createAppApi({
               endpointName as 'search' | 'searchInfinite',
               originalArgs as any,
               (endpointData) => {
-                const existingItemIndex = endpointData.results.findIndex((item) => item.idFromUrl === id);
+                const existingItemIndex = endpointData.results.findIndex((item) => item.id === id);
 
                 if (existingItemIndex !== -1) {
                   endpointData.results.splice(existingItemIndex, 1);

@@ -13,11 +13,8 @@ export const mergeInInfiniteSearch = <
     cache.next = response.next;
     cache.previous = response.previous;
   } else {
-    const haveItemsOwnIDs = !!response.results[0].id;
-    const fetchedItemsIDs = response.results.map((item) => (haveItemsOwnIDs ? item.id : item.idFromUrl));
-    cache.results = cache.results.filter(
-      (item) => !fetchedItemsIDs.includes(haveItemsOwnIDs ? item.id : item.idFromUrl),
-    );
+    const fetchedItemsIDs = response.results.map((item) => item.id);
+    cache.results = cache.results.filter((item) => !fetchedItemsIDs.includes(item.id));
 
     if (arg.cursor === cache.nextCursor) {
       cache.results.push(...response.results);

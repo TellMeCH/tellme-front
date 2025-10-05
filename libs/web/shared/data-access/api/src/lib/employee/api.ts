@@ -120,7 +120,7 @@ export const employeeApi = createAppApi({
                 originalArgs as any,
                 (endpointData) => {
                   if ('results' in endpointData && Array.isArray(endpointData.results)) {
-                    const existingIndex = endpointData.results.findIndex((item) => item.idFromUrl === arg.id);
+                    const existingIndex = endpointData.results.findIndex((item) => item.id === arg.id);
 
                     if (existingIndex !== -1) {
                       endpointData.results[existingIndex] = merge(endpointData.results[existingIndex], newEmployee);
@@ -150,7 +150,7 @@ export const employeeApi = createAppApi({
         for (const { endpointName, originalArgs } of cachedQueries) {
           dispatch(
             employeeApi.util.updateQueryData(endpointName as 'searchInfinite', originalArgs as any, (endpointData) => {
-              const existingItemIndex = endpointData.results.findIndex((item) => item.idFromUrl === id);
+              const existingItemIndex = endpointData.results.findIndex((item) => item.id === id);
 
               if (existingItemIndex !== -1) {
                 endpointData.results.splice(existingItemIndex, 1);
