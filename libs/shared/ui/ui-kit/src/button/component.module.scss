@@ -7,7 +7,6 @@
     &_full {width: 100%}
     &_icon {
       &.button {
-        &_sm {padding: 0.25rem; max-width: 32px; max-height: 32px;}
         &_md {padding: 0.5rem; max-width: 40px; max-height: 40px;}
         &_radius_md {border-radius: $radius-small;}
       }
@@ -23,7 +22,7 @@
       border-radius: $radius-small; @apply transition-colors;
     }
 
-    &_solid {border: 1px solid transparent;
+    &_solid {
       &[data-hover='true'] {background-color: var(--hover-color);}
       &[data-focus='true'] {background-color: var(--hover-color);}
       &[data-pressed='true'] {background-color: var(--pressed-color);}
@@ -39,11 +38,6 @@
       }
       &_secondary {background-color: $brand-secondary; color: $background-secondary; --hover-color: #{$brand-secondary-hover};
         --pressed-color: #{$brand-secondary-pressed}; --focus-shadow: #{rgba($brand-secondary, 0.5)};
-      }
-      &_tertiary {background-color: $background-secondary; color: $text-secondary; --hover-color: #{$background-secondary};
-        --pressed-color: #{$background-secondary}; --focus-shadow: #{$background-secondary};
-        &:hover, &:active {border-color: $brand-primary-transparent;}
-        &:hover [class*='icon_secondary'], &:active [class*='icon_secondary'] {background: $brand-primary;}
       }
       &_disabled {background-color: $background-tertiary; color: $text-secondary;}
       &.button_icon {
@@ -104,7 +98,6 @@
       }
     }
 
-    &_sm {min-height: 2rem; padding-left: 16px; padding-right: 16px; font-size: $text-small;}
     &_md {min-height: 2.5rem; padding-left: 20px; padding-right: 20px;}
     &_lg {min-height: 3rem; padding-left: 34px; padding-right: 34px;}
 
