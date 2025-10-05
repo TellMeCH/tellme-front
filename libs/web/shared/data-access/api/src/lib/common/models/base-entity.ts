@@ -8,7 +8,10 @@ export class BaseEntity {
   public [immerable] = true;
 
   @Expose()
-  public url: string; // Example https://tellme-service-716439647851.europe-west6.run.app/api/v1/topics/28/
+  public url?: string; // Example https://tellme-service-716439647851.europe-west6.run.app/api/v1/topics/28/
+
+  @Expose()
+  public id?: number;
 
   @Expose()
   @TransformDate()
@@ -19,7 +22,7 @@ export class BaseEntity {
   public updated: DateTime;
 
   @Exclude()
-  public get id(): number {
+  public get idFromUrl(): number {
     if (!this.url) {
       return -1;
     }
