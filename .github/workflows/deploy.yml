@@ -19,6 +19,8 @@ jobs:
       NEXT_PUBLIC_FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
       NEXT_PUBLIC_BACKEND_URL: ${{ secrets.BACKEND_URL }}
       NEXT_PUBLIC_ENV: ${{ github.ref == 'refs/heads/main' && 'prod' || 'staging' }}
+      NEXT_PUBLIC_POSTHOG_KEY: ${{ secrets.POSTHOG_KEY }}
+      NEXT_PUBLIC_POSTHOG_HOST: ${{ secrets.POSTHOG_HOST }}
 
     runs-on: ubuntu-latest
     steps:

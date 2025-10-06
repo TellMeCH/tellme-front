@@ -1,6 +1,7 @@
 'use client';
 
 import { signOut } from 'firebase/auth';
+import posthog from 'posthog-js';
 import { useState } from 'react';
 import { ErrorResponse } from '@tellme/web/shared/data-access/api';
 import { firebaseAuth } from '../firebase-auth';
@@ -17,6 +18,7 @@ export function useLogout(onSuccess: () => void) {
       setIsLoading(true);
       await signOut(firebaseAuth);
 
+      posthog.reset();
       logoutLocally();
       onSuccess();
     } catch (error: any) {

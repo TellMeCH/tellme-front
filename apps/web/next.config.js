@@ -14,6 +14,7 @@ const nextConfig = {
   async redirects() {
     return [];
   },
+  skipTrailingSlashRedirect: true,
 };
 
 module.exports = withNx(withNextIntl(nextConfig));
