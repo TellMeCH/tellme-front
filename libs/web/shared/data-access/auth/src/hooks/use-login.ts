@@ -32,7 +32,7 @@ export function useLogin(onSuccess: () => void) {
         },
         { expires: shouldRemember ? expirationDate : undefined },
       );
-      posthog.identify('distinct_id', { email: employeeProfile.user.email });
+      posthog.identify('distinct_id', undefined, { email: employeeProfile.user.email });
       onSuccess();
     } catch (error: any) {
       setError(error);
