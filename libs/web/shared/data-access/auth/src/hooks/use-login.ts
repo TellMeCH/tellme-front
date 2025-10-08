@@ -3,6 +3,7 @@
 import { ThunkDispatch, UnknownAction } from '@reduxjs/toolkit';
 import { browserLocalPersistence, browserSessionPersistence, UserCredential } from 'firebase/auth';
 import { DateTime } from 'luxon';
+import posthog from 'posthog-js';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { employeeApi, ErrorResponse } from '@tellme/web/shared/data-access/api';
@@ -31,6 +32,7 @@ export function useLogin(onSuccess: () => void) {
         },
         { expires: shouldRemember ? expirationDate : undefined },
       );
+      posthog.identify('distinct_id', undefined, { email: employeeProfile.user.email });
       onSuccess();
     } catch (error: any) {
       setError(error);
