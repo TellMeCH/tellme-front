@@ -37,7 +37,7 @@ export function TopicTrendsItem({
           {name}
         </Link>
         {!!description && (
-          <p data-testid='summary-description' className='text-sm'>
+          <p data-testid='summary-description' className='text-sm whitespace-pre-wrap'>
             {description}
           </p>
         )}
