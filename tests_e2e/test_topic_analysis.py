@@ -41,6 +41,6 @@ class TestTopicAnalysis:
                 if summ['name'] == topic_name:
                     # Check that every topic title is visible
                     for title, report in summ['summary'].items():
-                        summ_regex = re.compile(rf'^{title}{report[:10]}')
+                        summ_regex = re.compile(rf'^{re.escape(title)}{re.escape(report[:10])}')
                         expect(login_page.get_by_text(summ_regex)).to_be_visible()
                     break
