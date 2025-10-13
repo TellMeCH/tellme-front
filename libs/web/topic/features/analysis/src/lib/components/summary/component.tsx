@@ -17,7 +17,7 @@ export function TopicSummary({ summary }: TopicSummaryProps): ReactElement {
     <Fragment>
       {highlighted.map(({ key, name, description }) => (
         <CardSection key={key} title={name}>
-          <p>{description}</p>
+          <p className='whitespace-pre-wrap'>{description}</p>
         </CardSection>
       ))}
 
@@ -25,7 +25,7 @@ export function TopicSummary({ summary }: TopicSummaryProps): ReactElement {
         {general.map(({ key, name, description }) => (
           <div key={key}>
             <p className='font-medium text-xl mb-2'>{name}</p>
-            <p className='text-gray-600 whitespace-normal text-clip'>{description}</p>
+            <p className='text-gray-600 whitespace-pre-wrap text-clip'>{description}</p>
           </div>
         ))}
       </div>
