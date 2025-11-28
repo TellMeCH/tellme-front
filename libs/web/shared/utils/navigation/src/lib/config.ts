@@ -1,4 +1,5 @@
-// TODO: Add more routes as needed
+import { getResourcePaths } from './utils';
+
 export const navigationConfig = {
   routes: {
     public: {
@@ -9,6 +10,7 @@ export const navigationConfig = {
       topics: '/topics',
       topicAnalysis: '/topic-analysis',
       administration: '/administration',
+      customerExperiences: getResourcePaths('/customer-experiences'),
     },
   },
 };

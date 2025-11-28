@@ -33,7 +33,8 @@ export type IconName =
   | 'setting'
   | 'more'
   | 'info'
-  | 'expand';
+  | 'expand'
+  | 'users';
 
 export interface IconProps {
   name: IconName;
