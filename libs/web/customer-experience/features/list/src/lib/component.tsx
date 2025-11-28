@@ -1,17 +1,15 @@
 import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
-import { ReactElement } from 'react';
+import { ReactElement, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Customer, customerApi, useInfiniteSearch } from '@tellme/web/shared/data-access/api';
+import { customerApi } from '@tellme/web/shared/data-access/api';
 import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
 import { Item } from './components';
 
 export function CustomerExperiencesList(): ReactElement {
   const t = useTranslations('customer-experience.LIST');
-  const { data: customersResponse, fetchNextPage } = useInfiniteSearch<Customer>({
-    api: customerApi,
-    params: { pageSize: 10 },
-  });
+  const { data, hasNextPage, fetchNextPage } = customerApi.useSearchInfiniteQuery({});
+  const customers = useMemo(() => data?.pages.flatMap((page) => page.results) || [], [data]);
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -24,17 +22,19 @@ export function CustomerExperiencesList(): ReactElement {
           {/* TODO: add filters */}
         </div>
         <InfiniteScroll
-          dataLength={customersResponse?.results.length || 0}
+          dataLength={customers.length}
           next={fetchNextPage}
           scrollableTarget='main'
-          hasMore={!!customersResponse?.nextCursor}
+          hasMore={hasNextPage}
           /*className='!overflow-x-hidden'*/
           loader={
             <div className='flex justify-center py-6'>
               <Spinner />
             </div>
           }>
-          {customersResponse?.results.map((customer) => <Item key={customer.idFromUrl} customer={customer} />)}
+          {customers.map((customer) => (
+            <Item key={customer.idFromUrl} customer={customer} />
+          ))}
         </InfiniteScroll>
       </div>
     </div>
