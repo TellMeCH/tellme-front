@@ -9,6 +9,7 @@ import {
   createSearchResponseTransformer,
   mergeInInfiniteSearch,
 } from '../common/utils';
+import { conversationApi, conversationApiConfig } from '../converation';
 import { topicApiConfig } from './config';
 import { TopicListType } from './enums';
 import {
@@ -175,6 +176,7 @@ export const topicApi = createAppApi({
       async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
         try {
           const updatedEntityData = (await queryFulfilled).data;
+          dispatch(conversationApi.util.invalidateTags([{ type: conversationApiConfig.entityName }]));
 
           const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
             { type: topicApiConfig.entityName, id: arg.id },
@@ -233,6 +235,8 @@ export const topicApi = createAppApi({
       }),
       async onQueryStarted(id, { queryFulfilled, getState, dispatch }) {
         await queryFulfilled;
+
+        dispatch(conversationApi.util.invalidateTags([{ type: conversationApiConfig.entityName }]));
 
         const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
           { type: topicApiConfig.entityName, id: EntityTagID.LIST },

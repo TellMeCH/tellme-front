@@ -1,6 +1,7 @@
 import { TransformDate } from '@ronas-it/rtkq-entity-api';
 import { Exclude, Expose } from 'class-transformer';
 import { DateTime } from 'luxon';
+import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { BaseEntity } from '../../common';
 
 export class Customer extends BaseEntity {
@@ -36,6 +37,11 @@ export class Customer extends BaseEntity {
   @Exclude()
   public get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
+  }
+
+  @Exclude()
+  public get latestConversationId(): number {
+    return getIdFromUrl(this.latestConversationUrl);
   }
 
   constructor(model: Partial<Customer>) {

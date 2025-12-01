@@ -3,6 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
 import { createListTagsProvider, createSearchResponseTransformer } from '../common/utils';
+import { conversationApi, conversationApiConfig } from '../converation';
 import { organizationApi, OrganizationTagType } from '../organization';
 import { topicApi, topicApiConfig } from '../topic';
 import { suggestedTopicApiConfig } from './config';
@@ -46,6 +47,7 @@ export const suggestedTopicApi = createAppApi({
           await queryFulfilled;
           dispatch(topicApi.util.invalidateTags([{ type: topicApiConfig.entityName, id: EntityTagID.LIST }]));
           dispatch(organizationApi.util.invalidateTags([OrganizationTagType.OVERVIEW]));
+          dispatch(conversationApi.util.invalidateTags([{ type: conversationApiConfig.entityName }]));
 
           const cachedQueries = suggestedTopicApi.util.selectInvalidatedBy(getState(), [
             { type: suggestedTopicApiConfig.entityName, id: EntityTagID.LIST },
