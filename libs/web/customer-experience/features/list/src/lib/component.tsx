@@ -1,3 +1,5 @@
+'use client';
+
 import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useMemo } from 'react';
