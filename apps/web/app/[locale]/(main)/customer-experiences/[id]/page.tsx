@@ -1,5 +1,6 @@
 import { ReactElement } from 'react';
+import { UnderConstruction } from '@tellme/web/shared/ui/under-construction';
 
 export default function CustomerExperienceDetailsPage(): ReactElement {
-  return <div>Customer Experience Details</div>;
+  return <UnderConstruction />;
 }

@@ -11,7 +11,7 @@ export const customerApi = createAppApi({
     search: builder.infiniteQuery<PaginationResponse<Customer>, CustomerPaginationRequest, string | undefined>({
       infiniteQueryOptions: {
         initialPageParam: undefined,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
+        getNextPageParam: (lastPage) => lastPage.nextCursor || undefined,
       },
       query: ({ queryArg, pageParam }) => {
         return {
@@ -23,10 +23,10 @@ export const customerApi = createAppApi({
       transformResponse: (response) => {
         const { results, ...rest } = plainToInstance(PaginationResponse<Customer>, response as object);
 
-        return {
+        return new PaginationResponse<Customer>({
           results: results.map((item) => createEntityInstance<Customer>(Customer, item)),
           ...rest,
-        } as PaginationResponse<Customer>;
+        });
       },
     }),
   }),
