@@ -13,6 +13,12 @@ export class CustomerSummary {
   @Expose({ name: 'Disliked Features' })
   public dislikedFeatures: string;
 
+  @Expose({ name: 'Suggested Email Subject' })
+  public suggestedEmailSubject: string;
+
+  @Expose({ name: 'Suggested Email Body' })
+  public suggestedEmailBody: string;
+
   constructor(model: Partial<CustomerSummary>) {
     Object.assign(this, model);
   }

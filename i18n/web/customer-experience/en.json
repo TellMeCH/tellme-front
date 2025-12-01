@@ -22,6 +22,10 @@
       "TEXT_IMPROVEMENT_SUGGESTIONS": "Improvement Suggestions",
       "TEXT_LIKED_FEATURES": "Liked Features",
       "TEXT_DISLIKED_FEATURES": "Disliked Features"
+    },
+    "SUGGESTED_EMAIL": {
+      "TEXT_TITLE": "Suggested Email Response",
+      "BUTTON_SEND_EMAIL": "Send email"
     }
   }
 }

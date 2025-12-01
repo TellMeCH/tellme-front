@@ -5,7 +5,7 @@ import { Fragment, ReactElement } from 'react';
 import { customerApi } from '@tellme/web/shared/data-access/api';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
-import { CustomerInfo } from './components';
+import { CustomerInfo, SuggestedEmail } from './components';
 
 interface CustomerExperienceDetailsProps {
   id: number;
@@ -31,6 +31,7 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
             title={customer.latestConversationTitle}
           />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
+          <SuggestedEmail summary={summaryResponse.summary} />
         </Fragment>
       )}
     </div>
