@@ -3,7 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationResponse } from '../common';
 import { customerApiConfig } from './config';
-import { Customer, CustomerPaginationRequest } from './models';
+import { Customer, CustomerPaginationRequest, CustomerSummaryResponse } from './models';
 
 export const customerApi = createAppApi({
   reducerPath: customerApiConfig.entityName,
@@ -28,6 +28,25 @@ export const customerApi = createAppApi({
           ...rest,
         } as PaginationResponse<Customer>;
       },
+    }),
+    get: builder.query<Customer, { id: number }>({
+      query: ({ id }) => {
+        return {
+          method: 'get',
+          url: `${customerApiConfig.baseEndpoint}${id}/`,
+        };
+      },
+      transformResponse: (response: object) => createEntityInstance<Customer>(Customer, response),
+    }),
+    getSummary: builder.query<CustomerSummaryResponse, number>({
+      query: (customerId) => {
+        return {
+          method: 'get',
+          url: `${customerApiConfig.baseEndpoint}${customerId}/summary_data/`,
+        };
+      },
+      transformResponse: (response: object) =>
+        createEntityInstance<CustomerSummaryResponse>(CustomerSummaryResponse, response),
     }),
   }),
 });

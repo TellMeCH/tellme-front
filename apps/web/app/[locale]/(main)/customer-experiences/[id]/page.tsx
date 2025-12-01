@@ -1,5 +1,14 @@
 import { ReactElement } from 'react';
+import { CustomerExperienceDetails } from '@tellme/web/customer-experience/features/details';
 
-export default function CustomerExperienceDetailsPage(): ReactElement {
-  return <div>Customer Experience Details</div>;
+interface CustomerExperienceDetailsPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function CustomerExperienceDetailsPage({
+  params,
+}: CustomerExperienceDetailsPageProps): Promise<ReactElement> {
+  const { id } = await params;
+
+  return <CustomerExperienceDetails id={Number(id)} />;
 }

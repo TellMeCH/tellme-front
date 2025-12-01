@@ -10,5 +10,18 @@
       "TEXT_REVENUE": "Revenue at stake",
       "BUTTON_VIEW_DETAILS": "View details"
     }
+  },
+  "DETAILS": {
+    "CUSTOMER_INFO": {
+      "TEXT_TITLE": "About the customer",
+      "TEXT_NAME": "Customer name",
+      "TEXT_EARLIEST_CONVERSATION": "Earliest conversation",
+      "TEXT_CALLS_OVERALL": "Calls overall",
+      "TEXT_REVENUE": "Revenue at stake",
+      "TEXT_EXPECTATIONS_MET": "Expectations Met",
+      "TEXT_IMPROVEMENT_SUGGESTIONS": "Improvement Suggestions",
+      "TEXT_LIKED_FEATURES": "Liked Features",
+      "TEXT_DISLIKED_FEATURES": "Disliked Features"
+    }
   }
 }
