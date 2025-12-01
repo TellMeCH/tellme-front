@@ -1,3 +1,5 @@
+'use client';
+
 import { SwitchProps } from '@heroui/react';
 import { ReactElement } from 'react';
 import { FieldValues, useController } from 'react-hook-form';

@@ -1,6 +1,6 @@
 import { Expose } from 'class-transformer';
 import { PaginationRequest } from '../../common';
-import { CustomerOrdering } from '../types';
+import type { CustomerOrdering } from '../types';
 
 export class CustomerPaginationRequest extends PaginationRequest {
   @Expose()
