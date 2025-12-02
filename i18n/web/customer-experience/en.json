@@ -1,0 +1,14 @@
+{
+  "LIST": {
+    "TEXT_TITLE": "Customer experiences",
+    "TEXT_SUBTITLE": "Conversations",
+    "ITEM": {
+      "TEXT_DATE": "Conversation Date",
+      "TEXT_CUSTOMER_NAME": "Customer Name",
+      "TEXT_CONVERSATION_TITLE": "Conversation Title",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
+      "TEXT_REVENUE": "Revenue at stake",
+      "BUTTON_VIEW_DETAILS": "View details"
+    }
+  }
+}

@@ -46,5 +46,9 @@
   {
     "sourceTag": "scope:administration",
     "onlyDependOnLibsWithTags": ["scope:administration", "scope:shared"]
+  },
+  {
+    "sourceTag": "scope:customer-experience",
+    "onlyDependOnLibsWithTags": ["scope:customer-experience", "scope:shared"]
   }
 ]
