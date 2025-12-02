@@ -33,14 +33,14 @@ export function Item({ customer }: ItemProps): ReactElement {
       <div className='basis-[17%]'>
         <div className={columnTitleClassName}>{t('TEXT_CUSTOMER_ENGAGEMENT')}</div>
         <div>
-          {customer.averageSentiment.toFixed(1)}
-          <span className='text-text-secondary'>/{appConstants.maxCustomerEngagement.toFixed(1)}</span>
+          {customer.averageSentiment.toFixed(2)}
+          <span className='text-text-secondary'>/{appConstants.maxCustomerEngagement.toFixed(2)}</span>
         </div>
       </div>
       <div className='basis-[14%]'>
         <div className={columnTitleClassName}>{t('TEXT_REVENUE')}</div>
         <div>
-          {customer.totalRevenue} {appConstants.currencyCode}
+          {Math.round(customer.totalRevenue)} {appConstants.currencyCode}
         </div>
       </div>
       <div className='basis-[15%] flex justify-end'>
