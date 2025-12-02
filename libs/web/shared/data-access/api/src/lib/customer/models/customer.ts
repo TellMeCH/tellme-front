@@ -1,0 +1,41 @@
+import { TransformDate } from '@ronas-it/rtkq-entity-api';
+import { Exclude, Expose } from 'class-transformer';
+import { DateTime } from 'luxon';
+import { BaseEntity } from '../../common';
+
+export class Customer extends BaseEntity {
+  @Expose({ name: 'last_conversation_date' })
+  @TransformDate()
+  public lastConversationDate: DateTime;
+
+  @Expose({ name: 'first_name' })
+  public firstName: string;
+
+  @Expose({ name: 'last_name' })
+  public lastName: string;
+
+  @Expose({ name: 'latest_conversation_title' })
+  public latestConversationTitle: string;
+
+  @Expose({ name: 'latest_conversation_url' })
+  public latestConversationUrl: string;
+
+  @Expose({ name: 'avg_sentiment' })
+  public averageSentiment: number;
+
+  @Expose({ name: 'total_revenue' })
+  public totalRevenue: number;
+
+  @Expose({ name: 'conversation_count' })
+  public conversationsCount: number;
+
+  @Exclude()
+  public get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+
+  constructor(model: Partial<Customer>) {
+    super(model);
+    Object.assign(this, model);
+  }
+}

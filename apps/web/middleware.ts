@@ -12,10 +12,18 @@ const intlMiddleware = createMiddleware({
 });
 
 const publicRoutes = Object.values(navigationConfig.routes.public);
-const privateRoutes = Object.values(navigationConfig.routes.private);
+const privateRoutes = [
+  navigationConfig.routes.private.dashboard,
+  navigationConfig.routes.private.topics,
+  navigationConfig.routes.private.topicAnalysis,
+  navigationConfig.routes.private.administration,
+  navigationConfig.routes.private.customerExperiences.list(),
+];
 
 const isPathnameMatchingRoutes = (pathnameToCompare: string, routes: Array<string>): boolean => {
-  return routes.some((route) => pathnameToCompare === route);
+  return routes.some((route) =>
+    [pathnameToCompare, route].includes('/') ? pathnameToCompare === route : pathnameToCompare.startsWith(route),
+  );
 };
 
 const redirectToPage = (request: NextRequest, route: string): NextResponse => {

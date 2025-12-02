@@ -35,6 +35,7 @@
       "@tellme/web/administration/features/administration": [
         "libs/web/administration/features/administration/src/index.ts"
       ],
+      "@tellme/web/customer-experience/features/list": ["libs/web/customer-experience/features/list/src/index.ts"],
       "@tellme/web/shared/data-access/api": ["libs/web/shared/data-access/api/src/index.ts"],
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
       "@tellme/web/shared/data-access/auth": ["libs/web/shared/data-access/auth/src/index.ts"],
@@ -45,6 +46,7 @@
       "@tellme/web/shared/ui/ui-kit": ["libs/web/shared/ui/ui-kit/src/index.ts"],
       "@tellme/web/shared/ui/under-construction": ["libs/web/shared/ui/under-construction/src/index.ts"],
       "@tellme/web/shared/utils/class-transformer": ["libs/web/shared/utils/class-transformer/src/index.ts"],
+      "@tellme/web/shared/utils/constants": ["libs/web/shared/utils/constants/src/index.ts"],
       "@tellme/web/shared/utils/dates": ["libs/web/shared/utils/dates/src/index.ts"],
       "@tellme/web/shared/utils/durations": ["libs/web/shared/utils/durations/src/index.ts"],
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
