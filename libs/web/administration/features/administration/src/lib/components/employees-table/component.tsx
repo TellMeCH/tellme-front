@@ -2,10 +2,10 @@
 
 import { Spinner, Table, TableBody, TableCell, TableColumn, TableHeader, TableRow, useDisclosure } from '@heroui/react';
 import { useTranslations } from 'next-intl';
-import { ReactElement } from 'react';
+import { ReactElement, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
-import { Employee, employeeApi, useInfiniteSearch } from '@tellme/web/shared/data-access/api';
+import { employeeApi } from '@tellme/web/shared/data-access/api';
 import { Heading } from '@tellme/web/shared/ui/ui-kit';
 import { useAuthTypeTranslation, useEmployeeRoleTranslation } from '../../hooks';
 import { EmployeeActions } from '../employee-actions';
@@ -22,11 +22,9 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
 
   const { isOpen, onOpenChange } = useDisclosure();
 
-  const { data: employeesResponse, fetchNextPage } = useInfiniteSearch<Employee>({
-    api: employeeApi,
-    params: { pageSize: 15 },
-  });
   const { data: employeeProfile } = employeeApi.useGetProfileQuery();
+  const { data, fetchNextPage, hasNextPage } = employeeApi.useSearchInfiniteQuery({ pageSize: 15 });
+  const employees = useMemo(() => data?.pages.flatMap((page) => page.results) || [], [data]);
 
   return (
     <div className='bg-background-secondary rounded-2xl py-6 px-8'>
@@ -43,10 +41,10 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
         </Button>
       </div>
       <InfiniteScroll
-        dataLength={employeesResponse?.results.length || 0}
+        dataLength={employees.length}
         next={fetchNextPage}
         scrollableTarget='main'
-        hasMore={!!employeesResponse?.nextCursor}
+        hasMore={hasNextPage}
         className='!overflow-x-hidden'
         loader={
           <div className='flex justify-center py-6'>
@@ -66,7 +64,7 @@ export function EmployeesTable({ isCreationButtonDisabled }: EmployeesTableProps
             <TableColumn width={180}>{t('TEXT_ROLE')}</TableColumn>
             <TableColumn>{t('TEXT_AUTH_DATA')}</TableColumn>
           </TableHeader>
-          <TableBody items={employeesResponse?.results || []}>
+          <TableBody items={employees}>
             {(employee) => (
               <TableRow key={employee.idFromUrl} data-testid='employee-item'>
                 <TableCell>
