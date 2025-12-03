@@ -20,14 +20,14 @@ describe('Customer experiences list', () => {
     );
   });
 
-  it('Should load customers', async () => {
+  it('should load initial customers initially', async () => {
     const items = await screen.findAllByTestId('customer-item');
     expect(items.length).toBe(customersPaginationResponse.results.length);
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
         url: '/customers/',
-        params: { page_size: 10 },
+        params: { page_size: 10, ordering: '-last_conversation_date' },
       }),
     );
   });

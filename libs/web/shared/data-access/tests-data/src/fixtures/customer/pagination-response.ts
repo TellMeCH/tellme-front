@@ -11,9 +11,9 @@ export const customersPaginationResponse = {
       last_name: 'Black',
       latest_conversation_title: 'Customer asked about a delayed order',
       latest_conversation_url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/conversations/137/',
-      average_sentiment: 4.9,
+      avg_sentiment: 4.9,
       total_revenue: 100,
-      conversations_count: 3,
+      conversation_count: 3,
     },
     {
       url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/customers/1/',
@@ -24,9 +24,9 @@ export const customersPaginationResponse = {
       last_name: 'Cooper',
       latest_conversation_title: 'Customer requested an exchange for shoes ',
       latest_conversation_url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/conversations/113/',
-      average_sentiment: 3.5,
+      avg_sentiment: 3.5,
       total_revenue: 105,
-      conversations_count: 1,
+      conversation_count: 1,
     },
   ],
 };
