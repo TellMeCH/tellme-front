@@ -16,3 +16,4 @@ export * from './lib/dropdown/component';
 export * from './lib/tooltip/component';
 export * from './lib/icon-with-tooltip/component';
 export * from './lib/select/component';
+export * from './lib/search-input/component';

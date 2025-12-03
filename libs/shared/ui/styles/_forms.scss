@@ -1,7 +1,7 @@
 @import 'variables';
 
 .form {$self: &;
-  &__group {position: relative; width: 100%;
+  &__group {position: relative;
     &__inner {position: relative;}
     &__message {margin-top: 0.25rem; color: $status-danger; font-size: $text-small;}
     &_password {

@@ -2,6 +2,7 @@
   "LIST": {
     "TEXT_TITLE": "Customer experiences",
     "TEXT_SUBTITLE": "Conversations",
+    "TEXT_NO_RESULTS_FOUND": "No results found",
     "SORTING_SELECT": {
       "TEXT_SORT_BY": "Sort by: {ordering}",
       "TEXT_NEWEST_FIRST": "Newest first",

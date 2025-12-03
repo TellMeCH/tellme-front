@@ -7,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { useSelector } from 'react-redux';
 import { customerApi, CustomerOrdering, CustomerPaginationRequest } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
-import { Header, Heading } from '@tellme/web/shared/ui/ui-kit';
+import { Header, Heading, SearchInput } from '@tellme/web/shared/ui/ui-kit';
 import { CustomerSearchParams } from '@tellme/web/shared/utils/filtering-search-params';
 import { Item, SortingSelect } from './components';
 
@@ -29,15 +29,23 @@ export function CustomerExperiencesList({
     ...initialFilters,
     ordering: (initialFilters.ordering as CustomerOrdering) || '-last_conversation_date',
   };
-  const { data, hasNextPage, fetchNextPage, isLoading } = customerApi.useSearchInfiniteQuery(params, {
-    skip: !profile,
-  });
+  const { data, hasNextPage, fetchNextPage, error, isFetching, isFetchingNextPage } =
+    customerApi.useSearchInfiniteQuery(params, {
+      skip: !profile,
+    });
   const customers = useMemo(() => data?.pages.flatMap((page) => page.results) || [], [data]);
 
   const changeOrdering = (ordering: CustomerOrdering): void => {
     onChangeFilters({
       ...params,
       ordering,
+    });
+  };
+
+  const changeQuery = (query: string): void => {
+    onChangeFilters({
+      ...params,
+      query,
     });
   };
 
@@ -49,28 +57,37 @@ export function CustomerExperiencesList({
           <Heading level={2} className='text-base'>
             {t('TEXT_SUBTITLE')}
           </Heading>
-          <SortingSelect value={params.ordering} onChange={changeOrdering} />
+          <div className='flex gap-6'>
+            <SortingSelect value={params.ordering} onChange={changeOrdering} />
+            <SearchInput
+              defaultValue={params.query}
+              onChange={changeQuery}
+              classNames={{ base: 'w-[327px]' }} />
+          </div>
         </div>
-        {isLoading && (
+        {isFetching && !isFetchingNextPage ? (
           <div className='flex justify-center py-6'>
             <Spinner />
           </div>
+        ) : error ? (
+          <p className='text-center mt-6'>{t('TEXT_NO_RESULTS_FOUND')}</p>
+        ) : (
+          <InfiniteScroll
+            dataLength={customers.length}
+            next={fetchNextPage}
+            scrollableTarget='main'
+            hasMore={hasNextPage}
+            className='!overflow-x-hidden'
+            loader={
+              <div className='flex justify-center py-6'>
+                <Spinner />
+              </div>
+            }>
+            {customers.map((customer) => (
+              <Item key={customer.idFromUrl} customer={customer} />
+            ))}
+          </InfiniteScroll>
         )}
-        <InfiniteScroll
-          dataLength={customers.length}
-          next={fetchNextPage}
-          scrollableTarget='main'
-          hasMore={hasNextPage}
-          className='!overflow-x-hidden'
-          loader={
-            <div className='flex justify-center py-6'>
-              <Spinner />
-            </div>
-          }>
-          {customers.map((customer) => (
-            <Item key={customer.idFromUrl} customer={customer} />
-          ))}
-        </InfiniteScroll>
       </div>
     </div>
   );
