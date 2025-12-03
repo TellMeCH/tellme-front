@@ -1,3 +1,4 @@
+import { CustomerSearchParams } from '@tellme/web/shared/utils/filtering-search-params';
 import { getResourcePaths } from './utils';
 
 export const navigationConfig = {
@@ -10,7 +11,7 @@ export const navigationConfig = {
       topics: '/topics',
       topicAnalysis: '/topic-analysis',
       administration: '/administration',
-      customerExperiences: getResourcePaths('/customer-experiences'),
+      customerExperiences: getResourcePaths<CustomerSearchParams>('/customer-experiences'),
     },
   },
 };

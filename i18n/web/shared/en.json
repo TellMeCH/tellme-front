@@ -2,6 +2,9 @@
   "UI_KIT": {
     "CONFIRMATION_MODAL": {
       "BUTTON_CANCEL": "Cancel"
+    },
+    "SEARCH_INPUT": {
+      "TEXT_PLACEHOLDER": "Search"
     }
   },
   "UNDER_CONSTRUCTION": {
