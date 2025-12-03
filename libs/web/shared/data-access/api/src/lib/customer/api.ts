@@ -1,33 +1,40 @@
 import { createEntityInstance, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
-import { plainToInstance } from 'class-transformer';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationResponse } from '../common';
+import { createInfiniteQueryOptions, createSearchResponseTransformer } from '../common/utils';
 import { customerApiConfig } from './config';
-import { Customer, CustomerPaginationRequest } from './models';
+import { Customer, CustomerPaginationRequest, CustomerSummaryResponse } from './models';
 
 export const customerApi = createAppApi({
   reducerPath: customerApiConfig.entityName,
   endpoints: (builder) => ({
     search: builder.infiniteQuery<PaginationResponse<Customer>, CustomerPaginationRequest, string | undefined>({
-      infiniteQueryOptions: {
-        initialPageParam: undefined,
-        getNextPageParam: (lastPage) => lastPage.nextCursor || undefined,
-      },
-      query: ({ queryArg, pageParam }) => {
+      infiniteQueryOptions: createInfiniteQueryOptions<Customer>(),
+      query: ({ queryArg, pageParam }) => ({
+        method: 'get',
+        url: `${customerApiConfig.baseEndpoint}${queryArg.query ? 'search/' : ''}`,
+        params: prepareRequestParams({ ...queryArg, cursor: pageParam }, CustomerPaginationRequest),
+      }),
+      transformResponse: createSearchResponseTransformer<Customer>(Customer),
+    }),
+    get: builder.query<Customer, { id: number }>({
+      query: ({ id }) => {
         return {
           method: 'get',
-          url: customerApiConfig.baseEndpoint,
-          params: prepareRequestParams({ ...queryArg, cursor: pageParam }, CustomerPaginationRequest),
+          url: `${customerApiConfig.baseEndpoint}${id}/`,
         };
       },
-      transformResponse: (response) => {
-        const { results, ...rest } = plainToInstance(PaginationResponse<Customer>, response as object);
-
-        return new PaginationResponse<Customer>({
-          results: results.map((item) => createEntityInstance<Customer>(Customer, item)),
-          ...rest,
-        });
+      transformResponse: (response: object) => createEntityInstance<Customer>(Customer, response),
+    }),
+    getSummary: builder.query<CustomerSummaryResponse, number>({
+      query: (customerId) => {
+        return {
+          method: 'get',
+          url: `${customerApiConfig.baseEndpoint}${customerId}/summary_data/`,
+        };
       },
+      transformResponse: (response: object) =>
+        createEntityInstance<CustomerSummaryResponse>(CustomerSummaryResponse, response),
     }),
   }),
 });

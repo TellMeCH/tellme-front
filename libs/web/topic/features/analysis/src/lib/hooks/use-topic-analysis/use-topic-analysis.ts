@@ -41,7 +41,7 @@ export function useTopicAnalysis({ topicKey }: UseTopicAnalysisProps): TopicAnal
     data: topicList,
     isLoading: isTopicListLoading,
     isUninitialized: isTopicListUninitialized,
-  } = topicApi.useSearchInfiniteQuery({ listType: TopicListType.RECENT }, { skip: !profile });
+  } = topicApi.useSearchQuery({ listType: TopicListType.RECENT }, { skip: !profile });
 
   const {
     data: { summary } = {},

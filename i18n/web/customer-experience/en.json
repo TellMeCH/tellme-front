@@ -2,6 +2,16 @@
   "LIST": {
     "TEXT_TITLE": "Customer experiences",
     "TEXT_SUBTITLE": "Conversations",
+    "TEXT_NO_RESULTS_FOUND": "No results found",
+    "SORTING_SELECT": {
+      "TEXT_SORT_BY": "Sort by: {ordering}",
+      "TEXT_NEWEST_FIRST": "Newest first",
+      "TEXT_OLDEST_FIRST": "Oldest first",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
+      "TEXT_BIGGEST_REVENUE": "Biggest Revenue",
+      "TEXT_SMALLEST_REVENUE": "Smallest Revenue",
+      "TEXT_SORTING": "Sorting"
+    },
     "ITEM": {
       "TEXT_DATE": "Conversation Date",
       "TEXT_CUSTOMER_NAME": "Customer Name",
@@ -9,6 +19,20 @@
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
       "TEXT_REVENUE": "Revenue at stake",
       "BUTTON_VIEW_DETAILS": "View details"
+    }
+  },
+  "DETAILS": {
+    "CUSTOMER_INFO": {
+      "TEXT_TITLE": "About the customer",
+      "TEXT_NAME": "Customer name",
+      "TEXT_EARLIEST_CONVERSATION": "Earliest conversation",
+      "TEXT_CALLS_OVERALL": "Calls overall",
+      "TEXT_REVENUE": "Revenue at stake",
+      "TEXT_EXPECTATIONS_MET": "Expectations Met",
+      "TEXT_IMPROVEMENT_SUGGESTIONS": "Improvement Suggestions",
+      "TEXT_LIKED_FEATURES": "Liked Features",
+      "TEXT_DISLIKED_FEATURES": "Disliked Features",
+      "TEXT_GENERATING": "Generating customer summaries..."
     }
   }
 }

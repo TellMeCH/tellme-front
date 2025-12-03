@@ -47,6 +47,7 @@ export function Item({ customer }: ItemProps): ReactElement {
         <Button
           as={Link}
           href={navigationConfig.routes.private.customerExperiences.view(customer.idFromUrl)}
+          isDisabled={!customer.conversationsCount}
           variant='bordered'>
           {t('BUTTON_VIEW_DETAILS')}
         </Button>

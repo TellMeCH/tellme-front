@@ -8,6 +8,10 @@ export class Customer extends BaseEntity {
   @TransformDate()
   public lastConversationDate: DateTime;
 
+  @Expose({ name: 'first_conversation_date' })
+  @TransformDate()
+  public firstConversationDate: DateTime;
+
   @Expose({ name: 'first_name' })
   public firstName: string;
 

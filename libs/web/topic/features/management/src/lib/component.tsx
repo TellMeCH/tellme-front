@@ -9,6 +9,7 @@ import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 import { suggestedTopicApi, Topic, topicApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { Header, Tooltip } from '@tellme/web/shared/ui/ui-kit';
+import { appConstants } from '@tellme/web/shared/utils/constants';
 import { FormModal, Item, SuggestedTopics } from './components';
 
 export function TopicsManagement(): ReactElement {
@@ -17,7 +18,7 @@ export function TopicsManagement(): ReactElement {
   const profile = useSelector(authSelectors.profile);
   // hardcoded, 20 topics per page allow to get all possible topics
   const { data: topicsResponse, isLoading: areTopicsLoading } = topicApi.useSearchQuery(
-    { pageSize: 20 },
+    { pageSize: appConstants.maxTopicsCount },
     { skip: !profile },
   );
   const { data: suggestedTopicsResponse, isLoading: areSuggestedTopicsLoading } = suggestedTopicApi.useSearchQuery(

@@ -35,6 +35,9 @@
       "@tellme/web/administration/features/administration": [
         "libs/web/administration/features/administration/src/index.ts"
       ],
+      "@tellme/web/customer-experience/features/details": [
+        "libs/web/customer-experience/features/details/src/index.ts"
+      ],
       "@tellme/web/customer-experience/features/list": ["libs/web/customer-experience/features/list/src/index.ts"],
       "@tellme/web/shared/data-access/api": ["libs/web/shared/data-access/api/src/index.ts"],
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],
@@ -49,6 +52,9 @@
       "@tellme/web/shared/utils/constants": ["libs/web/shared/utils/constants/src/index.ts"],
       "@tellme/web/shared/utils/dates": ["libs/web/shared/utils/dates/src/index.ts"],
       "@tellme/web/shared/utils/durations": ["libs/web/shared/utils/durations/src/index.ts"],
+      "@tellme/web/shared/utils/filtering-search-params": [
+        "libs/web/shared/utils/filtering-search-params/src/index.ts"
+      ],
       "@tellme/web/shared/utils/form": ["libs/web/shared/utils/form/src/index.ts"],
       "@tellme/web/shared/utils/navigation": ["libs/web/shared/utils/navigation/src/index.ts"],
       "@tellme/web/shared/utils/strings": ["libs/web/shared/utils/strings/src/index.ts"],

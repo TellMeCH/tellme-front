@@ -6,6 +6,9 @@ export class CustomerPaginationRequest extends PaginationRequest {
   @Expose()
   public ordering?: CustomerOrdering;
 
+  @Expose()
+  public query?: string;
+
   constructor(model: Partial<CustomerPaginationRequest>) {
     super(model);
     Object.assign(this, model);
