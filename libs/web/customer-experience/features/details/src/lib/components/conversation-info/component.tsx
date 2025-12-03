@@ -11,7 +11,7 @@ interface ConversationInfoProps {
   conversation: Conversation;
 }
 
-const keyClassName = 'text-sm text-text-secondary mb-2';
+const keyClassName = 'text-sm text-text-secondary mb-2 font-normal';
 
 export function ConversationInfo({ conversation }: ConversationInfoProps): ReactElement {
   const t = useTranslations('customer-experience.DETAILS.CONVERSATION_INFO');
@@ -52,12 +52,12 @@ export function ConversationInfo({ conversation }: ConversationInfoProps): React
         <div className='flex flex-wrap gap-2'>
           {conversation.suggestedTopics.map((suggestedTopic) => (
             <TopicChip
-              key={suggestedTopic.id}
+              key={suggestedTopic.name}
               name={suggestedTopic.name}
               isSuggested />
           ))}
           {conversation.topics.map((topic) => (
-            <TopicChip key={topic.id} name={topic.name} />
+            <TopicChip key={topic.idFromUrl} name={topic.name} />
           ))}
         </div>
       </div>

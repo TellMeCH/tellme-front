@@ -1,6 +1,6 @@
-import { Chip } from '@heroui/react';
 import { ReactElement } from 'react';
 import { Icon } from '@tellme/shared/ui/ui-kit';
+import { Chip } from '@tellme/web/shared/ui/ui-kit';
 
 interface TopicChipProps {
   name: string;
@@ -12,7 +12,10 @@ export function TopicChip({ name, isSuggested }: TopicChipProps): ReactElement {
     <Chip
       color='primary'
       variant='bordered'
-      startContent={isSuggested && <Icon name='sparkle' theme='brand_primary' />}>
+      startContent={isSuggested && <Icon
+        name='sparkle'
+        theme='brand_primary'
+        className='mr-2' />}>
       {name}
     </Chip>
   );

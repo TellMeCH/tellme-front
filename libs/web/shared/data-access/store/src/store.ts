@@ -19,7 +19,7 @@ const rootReducer = {
   [employeeApi.reducerPath]: employeeApi.reducer,
   [suggestedTopicApi.reducerPath]: suggestedTopicApi.reducer,
   [customerApi.reducerPath]: customerApi.reducer,
-  [conversationApi.reducerPath]: customerApi.reducer,
+  [conversationApi.reducerPath]: conversationApi.reducer,
 };
 
 const middlewares: Array<Middleware> = [

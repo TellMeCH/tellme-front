@@ -5,7 +5,6 @@ import { Conversation } from './models';
 
 export const conversationApi = createAppApi({
   reducerPath: conversationApiConfig.entityName,
-  tagTypes: [conversationApiConfig.entityName],
   endpoints: (builder) => ({
     get: builder.query<Conversation, { id: number }>({
       query: ({ id }) => ({
@@ -13,10 +12,6 @@ export const conversationApi = createAppApi({
         url: `${conversationApiConfig.baseEndpoint}${id}/`,
       }),
       transformResponse: (response: object) => createEntityInstance<Conversation>(Conversation, response),
-      providesTags: ((response?: Conversation) => ({
-        type: conversationApiConfig.entityName,
-        id: response?.idFromUrl,
-      })) as any,
     }),
   }),
 });
