@@ -1,9 +1,9 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
-import { Fragment, ReactElement } from 'react';
+import { Fragment, ReactElement, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { customerApi } from '@tellme/web/shared/data-access/api';
+import { customerApi, CustomerSummaryStatus } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
 import { CustomerInfo } from './components';
@@ -13,11 +13,22 @@ interface CustomerExperienceDetailsProps {
 }
 
 export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps): ReactElement {
+  const [shouldRefetchSummary, setShouldRefetchSummary] = useState(true);
+
   const profile = useSelector(authSelectors.profile);
   const { data: customer, isLoading: isCustomerLoading } = customerApi.useGetQuery({ id }, { skip: !profile });
-  const { data: summaryResponse, isLoading: isSummaryLoading } = customerApi.useGetSummaryQuery(id, { skip: !profile });
+  const { data: summaryResponse, isLoading: isSummaryLoading } = customerApi.useGetSummaryQuery(id, {
+    skip: !profile || !shouldRefetchSummary,
+    pollingInterval: 20 * 1000,
+  });
 
   const isLoading = isCustomerLoading || isSummaryLoading;
+
+  useEffect(() => {
+    if (summaryResponse?.status === CustomerSummaryStatus.READY) {
+      setShouldRefetchSummary(false);
+    }
+  }, [summaryResponse]);
 
   return (
     <div className='min-h-full flex flex-col gap-2'>

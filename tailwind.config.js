@@ -59,6 +59,7 @@ module.exports = {
           colors: {
             danger: '#db4e5c',
             primary: '#569ee2',
+            default: '#7e858a',
           },
         },
       },

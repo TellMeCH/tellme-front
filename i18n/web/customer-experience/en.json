@@ -31,7 +31,8 @@
       "TEXT_EXPECTATIONS_MET": "Expectations Met",
       "TEXT_IMPROVEMENT_SUGGESTIONS": "Improvement Suggestions",
       "TEXT_LIKED_FEATURES": "Liked Features",
-      "TEXT_DISLIKED_FEATURES": "Disliked Features"
+      "TEXT_DISLIKED_FEATURES": "Disliked Features",
+      "TEXT_GENERATING": "Generating customer summaries..."
     }
   }
 }
