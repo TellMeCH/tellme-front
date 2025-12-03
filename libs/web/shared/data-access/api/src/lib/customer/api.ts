@@ -1,4 +1,4 @@
-import { prepareRequestParams } from '@ronas-it/rtkq-entity-api';
+import { createEntityInstance, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationResponse } from '../common';
 import { createInfiniteQueryOptions, createSearchResponseTransformer } from '../common/utils';

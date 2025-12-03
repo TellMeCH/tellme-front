@@ -21,9 +21,9 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         {t('TEXT_TITLE')}
       </Heading>
 
-      <div className='flex mb-6'>
+      <div className='flex mb-6 gap-6'>
         <div className='basis-1/4'>
-          <div className={keyClassName}>{t('TEXT_CUSTOMER_NAME')}</div>
+          <div className={keyClassName}>{t('TEXT_NAME')}</div>
           <div>{customer.fullName}</div>
         </div>
         <div className='basis-1/4'>
@@ -37,12 +37,12 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         <div className='basis-1/4'>
           <div className={keyClassName}>{t('TEXT_REVENUE')}</div>
           <div>
-            {customer.totalRevenue} {appConstants.currencyCode}
+            {Math.round(customer.totalRevenue)} {appConstants.currencyCode}
           </div>
         </div>
       </div>
 
-      <div className='rounded-2xl bg-background-tertiary p-4 flex mb-4'>
+      <div className='rounded-2xl bg-background-tertiary p-4 flex mb-4 gap-6'>
         <div className='basis-1/2'>
           <Heading level={3} className='text-sm mb-1'>
             {t('TEXT_EXPECTATIONS_MET')}
@@ -57,7 +57,7 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         </div>
       </div>
 
-      <div className='flex'>
+      <div className='flex gap-6'>
         <div className='basis-1/2'>
           <div className={keyClassName}>{t('TEXT_LIKED_FEATURES')}</div>
           <p>{summary.likedFeatures}</p>
