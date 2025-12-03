@@ -41,7 +41,7 @@
       "BUTTON_SEND_EMAIL": "Send email",
       "TEXT_GENERATING": "Generating email..."
     },
-    "CONVERSATIONS_INFO": {
+    "CONVERSATION_INFO": {
       "TEXT_CONVERSATION": "Conversation",
       "TEXT_DATE": "Conversation Date",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
@@ -49,8 +49,10 @@
       "TEXT_RESOLVED": "Resolved",
       "TEXT_YES": "Yes",
       "TEXT_NO": "No",
-      "TEXT_SUMMARY": "Conversation Summary",
-      "TEXT_OTHER_CONVERSATIONS": "Other customer’s conversations:"
+      "TEXT_SUMMARY": "Conversation Summary"
+    },
+    "OTHER_CONVERSATIONS": {
+      "TEXT_TITLE": "Other customer’s conversations:"
     }
   }
 }

@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { conversationApi, customerApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
-import { ConversationsInfo, CustomerInfo, SuggestedEmail } from './components';
+import { ConversationInfo, CustomerInfo, OtherConversations, SuggestedEmail } from './components';
 import { useCustomerSummary } from './hooks';
 
 interface CustomerExperienceDetailsProps {
@@ -26,7 +26,13 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
     { skip: !profile },
   );
 
-  const conversations = useMemo(() => conversationsResponse?.results || [], [conversationsResponse]);
+  const otherConversations = useMemo(
+    () =>
+      conversationsResponse?.results.filter(
+        (conversation) => conversation.idFromUrl !== latestConversation?.idFromUrl,
+      ) || [],
+    [conversationsResponse],
+  );
   const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
 
   return (
@@ -36,14 +42,13 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
           <Spinner />
         </div>
       )}
-      {customer && summaryResponse && conversationsResponse && (
+      {customer && summaryResponse && (
         <Fragment>
           <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
           <SuggestedEmail summary={summaryResponse.summary} />
-          {latestConversation && (
-            <ConversationsInfo initialSelectedConversation={latestConversation} conversations={conversations} />
-          )}
+          {latestConversation && <ConversationInfo conversation={latestConversation} />}
+          {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} />}
         </Fragment>
       )}
     </div>
