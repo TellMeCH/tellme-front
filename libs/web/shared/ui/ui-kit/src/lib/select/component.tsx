@@ -31,6 +31,7 @@ export const AppSelect = forwardRef<HTMLSelectElement | null, AppSelectProps>(
       isDisabled,
       size,
       testId,
+      listboxProps,
       ...restProps
     },
     ref,
@@ -57,12 +58,16 @@ export const AppSelect = forwardRef<HTMLSelectElement | null, AppSelectProps>(
             containerPadding: 0,
             className: clsx('outline-none', popoverProps?.className),
             classNames: {
-              content: 'border-none outline-none py-2 text-medium',
+              content: 'border-none outline-none py-2 px-0 text-medium',
             },
           }}
           {...restProps}
           selectedKeys={selectedKeys}
           size={size}
+          listboxProps={{
+            ...listboxProps,
+            hideSelectedIcon: true,
+          }}
           classNames={{
             ...classNames,
             trigger: clsx(
