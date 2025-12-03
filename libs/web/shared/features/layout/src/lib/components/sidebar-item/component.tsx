@@ -54,7 +54,7 @@ export function SidebarItem({
   return (
     <div className={clsx(baseClass, isDisabled ? disabledClass : isActive ? activeClass : hoverClass, className)}>
       <Icon name={iconName} theme={isDisabled ? 'secondary' : 'primary'} />
-      <span className='ml-3'>{title}</span>
+      <span className='ml-3 flex-1'>{title}</span>
       {!!href && <Link
         data-testid={testId}
         href={href}

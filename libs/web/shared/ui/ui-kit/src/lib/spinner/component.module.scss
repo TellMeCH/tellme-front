@@ -1,0 +1,6 @@
+@import '@tellme/shared/ui/variables';
+
+.spinner {
+  &_md {width: 32px; height: 32px;}
+  &_sm {width: 24px; height: 24px;}
+}

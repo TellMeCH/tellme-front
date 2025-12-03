@@ -85,6 +85,9 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
           label={t('TEXT_FIRST_NAME')}
           placeholder={t('TEXT_FIRST_NAME')}
           data-testid='first-name-input'
+          formGroupProps={{
+            className: 'w-full',
+          }}
         />
         <FormTextInput
           name='user.lastName'
@@ -92,6 +95,9 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
           label={t('TEXT_LAST_NAME')}
           placeholder={t('TEXT_LAST_NAME')}
           data-testid='last-name-input'
+          formGroupProps={{
+            className: 'w-full',
+          }}
         />
       </div>
       <FormTextInput
