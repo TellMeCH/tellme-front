@@ -22,7 +22,7 @@ const privateRoutes = [
 
 const isPathnameMatchingRoutes = (pathnameToCompare: string, routes: Array<string>): boolean => {
   return routes.some((route) =>
-    pathnameToCompare === '/' ? pathnameToCompare === route : pathnameToCompare.startsWith(route),
+    [pathnameToCompare, route].includes('/') ? pathnameToCompare === route : pathnameToCompare.startsWith(route),
   );
 };
 

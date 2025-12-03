@@ -1,10 +1,11 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
-import { Fragment, ReactElement } from 'react';
-import { conversationApi, customerApi } from '@tellme/web/shared/data-access/api';
+import { Fragment, ReactElement, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { conversationApi, customerApi, CustomerSummaryStatus } from '@tellme/web/shared/data-access/api';
+import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
-import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 import { ConversationInfo, CustomerInfo, SuggestedEmail } from './components';
 
 interface CustomerExperienceDetailsProps {
@@ -12,14 +13,26 @@ interface CustomerExperienceDetailsProps {
 }
 
 export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps): ReactElement {
-  const { data: customer, isLoading: isCustomerLoading } = customerApi.useGetQuery({ id });
-  const { data: summaryResponse, isLoading: isSummaryLoading } = customerApi.useGetSummaryQuery(id);
+  const [shouldRefetchSummary, setShouldRefetchSummary] = useState(true);
+
+  const profile = useSelector(authSelectors.profile);
+  const { data: customer, isLoading: isCustomerLoading } = customerApi.useGetQuery({ id }, { skip: !profile });
+  const { data: summaryResponse, isLoading: isSummaryLoading } = customerApi.useGetSummaryQuery(id, {
+    skip: !profile || !shouldRefetchSummary,
+    pollingInterval: 20 * 1000,
+  });
   const { data: latestConversation } = conversationApi.useGetQuery(
     { id: customer?.latestConversationId as number },
     { skip: !customer?.latestConversationId },
   );
 
   const isLoading = isCustomerLoading || isSummaryLoading;
+
+  useEffect(() => {
+    if (summaryResponse?.status === CustomerSummaryStatus.READY) {
+      setShouldRefetchSummary(false);
+    }
+  }, [summaryResponse]);
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -30,10 +43,7 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
       )}
       {customer && summaryResponse && (
         <Fragment>
-          <Header
-            leftContent={<BackButton link={navigationConfig.routes.private.customerExperiences.list()} />}
-            title={customer.latestConversationTitle}
-          />
+          <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
           <SuggestedEmail summary={summaryResponse.summary} />
           {latestConversation && <ConversationInfo conversation={latestConversation} />}

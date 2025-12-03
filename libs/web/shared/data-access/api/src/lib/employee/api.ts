@@ -1,16 +1,16 @@
-import { createEntityInstance, EntityTagID, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
+import { createEntityInstance, EntityTagID } from '@ronas-it/rtkq-entity-api';
 import { plainToInstance } from 'class-transformer';
 import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationRequest, PaginationResponse } from '../common';
 import {
-  createListTagsProvider,
+  createInfiniteQuery,
+  createInfiniteQueryOptions,
   createMutationQueryWithData,
   createSearchResponseTransformer,
-  mergeInInfiniteSearch,
+  findEntityInPages,
 } from '../common/utils';
 import { organizationApi } from '../organization';
-import { TopicPaginationRequest } from '../topic';
 import { employeeApiConfig } from './config';
 import { Employee, ModifiedEmployee } from './models';
 
@@ -25,18 +25,25 @@ export const employeeApi = createAppApi({
       }),
       transformResponse: (response) => plainToInstance(Employee, response as object),
     }),
-    searchInfinite: builder.query<PaginationResponse<Employee>, PaginationRequest>({
-      query: (params: TopicPaginationRequest) => ({
-        method: 'get',
-        url: employeeApiConfig.baseEndpoint,
-        params: prepareRequestParams(params, PaginationRequest),
-      }),
-      serializeQueryArgs: ({ queryArgs }) =>
-        prepareRequestParams(omit(queryArgs, ['cursor']) as PaginationRequest, PaginationRequest),
-      forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
+    search: builder.infiniteQuery<PaginationResponse<Employee>, PaginationRequest, string | undefined>({
+      infiniteQueryOptions: createInfiniteQueryOptions<Employee>(),
+      query: createInfiniteQuery(employeeApiConfig.baseEndpoint, PaginationRequest),
       transformResponse: createSearchResponseTransformer<Employee>(Employee),
-      providesTags: createListTagsProvider<Employee>(employeeApiConfig.entityName),
-      merge: mergeInInfiniteSearch,
+      providesTags: (data) => {
+        return data
+          ? [
+              { type: employeeApiConfig.entityName, id: EntityTagID.LIST },
+              ...data.pages
+                .map((response) =>
+                  response.results.map((item) => ({
+                    type: employeeApiConfig.entityName,
+                    id: item.id || item.idFromUrl,
+                  })),
+                )
+                .flat(),
+            ]
+          : [];
+      },
     }),
     create: builder.mutation<ModifiedEmployee, Partial<ModifiedEmployee>>({
       query: createMutationQueryWithData<ModifiedEmployee>(
@@ -48,29 +55,15 @@ export const employeeApi = createAppApi({
       async onQueryStarted(_, { queryFulfilled, getState, dispatch }) {
         try {
           const result = (await queryFulfilled).data;
-          const cachedQueries = employeeApi.util.selectInvalidatedBy(getState(), [
-            { type: employeeApiConfig.entityName, id: EntityTagID.LIST },
-          ]);
-          const employeeProfile = employeeApi.endpoints.getProfile.select()(getState()).data;
+          dispatch(employeeApi.util.invalidateTags([{ type: employeeApiConfig.entityName, id: EntityTagID.LIST }]));
 
+          const employeeProfile = employeeApi.endpoints.getProfile.select()(getState()).data;
           const newEmployee = new Employee({
             ...omit(result, 'id'),
             url: `${apiConfig.root}${employeeApiConfig.baseEndpoint}${result.id}/`,
             updated: result.created,
             organizationUrl: employeeProfile?.organizationUrl,
           });
-
-          for (const { endpointName, originalArgs } of cachedQueries) {
-            dispatch(
-              employeeApi.util.updateQueryData(
-                endpointName as 'searchInfinite',
-                originalArgs as any,
-                (endpointData) => {
-                  endpointData.results.unshift(newEmployee);
-                },
-              ),
-            );
-          }
 
           dispatch(
             organizationApi.util.updateQueryData(
@@ -115,19 +108,19 @@ export const employeeApi = createAppApi({
 
           for (const { endpointName, originalArgs } of cachedQueries) {
             dispatch(
-              employeeApi.util.updateQueryData(
-                endpointName as 'searchInfinite',
-                originalArgs as any,
-                (endpointData) => {
-                  if ('results' in endpointData && Array.isArray(endpointData.results)) {
-                    const existingIndex = endpointData.results.findIndex((item) => item.idFromUrl === arg.id);
+              employeeApi.util.updateQueryData(endpointName as 'search', originalArgs as any, (endpointData) => {
+                if ('pages' in endpointData && Array.isArray(endpointData.pages)) {
+                  const { pageIndex, itemIndex } = findEntityInPages(endpointData.pages, arg.id);
+                  console.log(pageIndex, itemIndex);
 
-                    if (existingIndex !== -1) {
-                      endpointData.results[existingIndex] = merge(endpointData.results[existingIndex], newEmployee);
-                    }
+                  if (pageIndex > -1 && itemIndex > -1) {
+                    endpointData.pages[pageIndex].results[itemIndex] = merge(
+                      endpointData.pages[pageIndex].results[itemIndex],
+                      newEmployee,
+                    );
                   }
-                },
-              ),
+                }
+              }),
             );
           }
           /* eslint-disable no-empty */
@@ -149,11 +142,12 @@ export const employeeApi = createAppApi({
 
         for (const { endpointName, originalArgs } of cachedQueries) {
           dispatch(
-            employeeApi.util.updateQueryData(endpointName as 'searchInfinite', originalArgs as any, (endpointData) => {
-              const existingItemIndex = endpointData.results.findIndex((item) => item.idFromUrl === id);
+            employeeApi.util.updateQueryData(endpointName as 'search', originalArgs as any, (endpointData) => {
+              const { pageIndex, itemIndex } = findEntityInPages(endpointData.pages, id);
 
-              if (existingItemIndex !== -1) {
-                endpointData.results.splice(existingItemIndex, 1);
+              if (pageIndex > -1 && itemIndex > -1) {
+                endpointData.pages[pageIndex].results.splice(itemIndex, 1);
+                endpointData.pages.filter((pages) => !!pages.results.length);
               }
             }),
           );

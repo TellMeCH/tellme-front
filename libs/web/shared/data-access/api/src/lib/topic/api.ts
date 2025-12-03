@@ -3,12 +3,7 @@ import { plainToInstance } from 'class-transformer';
 import { merge, omit } from 'lodash';
 import { apiConfig, createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { ErrorResponse, PaginationRequest, PaginationResponse } from '../common';
-import {
-  createListTagsProvider,
-  createMutationQueryWithData,
-  createSearchResponseTransformer,
-  mergeInInfiniteSearch,
-} from '../common/utils';
+import { createListTagsProvider, createMutationQueryWithData, createSearchResponseTransformer } from '../common/utils';
 import { conversationApi, conversationApiConfig } from '../converation';
 import { topicApiConfig } from './config';
 import { TopicListType } from './enums';
@@ -59,20 +54,11 @@ export const topicApi = createAppApi({
   reducerPath: topicApiConfig.entityName,
   tagTypes: [topicApiConfig.entityName],
   endpoints: (builder) => ({
-    search: builder.query<PaginationResponse<Topic>, PaginationRequest>({
-      query: (params) => getSearchQuery({ params }),
+    search: builder.query<PaginationResponse<Topic>, TopicPaginationRequest>({
+      query: ({ listType, ...params }) => getSearchQuery({ params, listType }),
       serializeQueryArgs: ({ queryArgs }) => prepareRequestParams(queryArgs, PaginationRequest),
       transformResponse: transformSearchResponse,
       providesTags: getListTags,
-    }),
-    searchInfinite: builder.query<PaginationResponse<Topic>, TopicPaginationRequest>({
-      query: ({ listType, ...params }) => getSearchQuery({ params, listType }),
-      serializeQueryArgs: ({ queryArgs }) =>
-        prepareRequestParams(omit(queryArgs, ['cursor']) as TopicPaginationRequest, TopicPaginationRequest),
-      forceRefetch: ({ currentArg, previousArg }) => currentArg?.cursor !== previousArg?.cursor,
-      transformResponse: transformSearchResponse,
-      providesTags: getListTags,
-      merge: mergeInInfiniteSearch,
     }),
     get: builder.query<Topic, { id: number }>({
       query: ({ id }) => {
@@ -127,41 +113,10 @@ export const topicApi = createAppApi({
       query: createMutationQueryWithData<ModifiedTopic>('post', () => topicApiConfig.baseEndpoint, ModifiedTopic),
       transformResponse: (response: object) => createEntityInstance<ModifiedTopic>(ModifiedTopic, response),
       transformErrorResponse: transformTopicErrorResponse,
-      async onQueryStarted(_, { queryFulfilled, getState, dispatch }) {
+      async onQueryStarted(_, { queryFulfilled, dispatch }) {
         try {
-          const result = (await queryFulfilled).data;
-          const cachedQueries = topicApi.util.selectInvalidatedBy(getState(), [
-            { type: topicApiConfig.entityName, id: EntityTagID.LIST },
-          ]);
-
-          const newTopic = new Topic({
-            ...omit(result, 'id'),
-            url: `${apiConfig.root}${topicApiConfig.baseEndpoint}${result.id}/`,
-            updated: result.created,
-          });
-
-          for (const { endpointName, originalArgs } of cachedQueries) {
-            if (originalArgs?.listType === TopicListType.RECENT) {
-              continue;
-            }
-
-            dispatch(
-              topicApi.util.updateQueryData(
-                endpointName as 'search' | 'searchInfinite',
-                originalArgs as any,
-                (endpointData) => {
-                  endpointData.results.push(newTopic);
-                  endpointData.results.sort((a, b) => {
-                    if (a.isActive !== b.isActive) {
-                      return a.isActive ? -1 : 1;
-                    }
-
-                    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-                  });
-                },
-              ),
-            );
-          }
+          await queryFulfilled;
+          dispatch(topicApi.util.invalidateTags([{ type: topicApiConfig.entityName, id: EntityTagID.LIST }]));
           /* eslint-disable no-empty */
         } catch (error) {} //TODO: fix throwing errors here
         /* eslint-enable no-empty */
@@ -190,35 +145,27 @@ export const topicApi = createAppApi({
 
           for (const { endpointName, originalArgs } of cachedQueries) {
             dispatch(
-              topicApi.util.updateQueryData(
-                endpointName as 'search' | 'searchInfinite' | 'get',
-                originalArgs as any,
-                (endpointData) => {
-                  if ('results' in endpointData && Array.isArray(endpointData.results)) {
-                    const existingIndex = endpointData.results.findIndex((item) => item.idFromUrl === arg.id);
+              topicApi.util.updateQueryData(endpointName as 'search' | 'get', originalArgs as any, (endpointData) => {
+                if ('results' in endpointData && Array.isArray(endpointData.results)) {
+                  const existingIndex = endpointData.results.findIndex((item) => item.idFromUrl === arg.id);
 
-                    if (existingIndex !== -1) {
-                      const existingItem = endpointData.results[existingIndex];
-                      const oldIsActive = existingItem.isActive;
+                  if (existingIndex !== -1) {
+                    const existingItem = endpointData.results[existingIndex];
+                    const oldIsActive = existingItem.isActive;
 
-                      merge(existingItem, omit(updatedEntityData, 'id'));
-                      const newIsActive = existingItem.isActive;
+                    merge(existingItem, omit(updatedEntityData, 'id'));
+                    const newIsActive = existingItem.isActive;
 
-                      if (originalArgs?.listType === TopicListType.ACTIVE && oldIsActive && !newIsActive) {
-                        endpointData.results.splice(existingIndex, 1);
-                      }
-                    } else if (originalArgs?.listType === TopicListType.ACTIVE && updatedEntityData.isActive) {
-                      endpointData.results.push(newTopic);
+                    if (originalArgs?.listType === TopicListType.ACTIVE && oldIsActive && !newIsActive) {
+                      endpointData.results.splice(existingIndex, 1);
                     }
-
-                    if (originalArgs?.listType === TopicListType.ACTIVE) {
-                      endpointData.results.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
-                    }
-                  } else {
-                    merge(endpointData as Topic, omit(updatedEntityData, 'id'));
+                  } else if (originalArgs?.listType === TopicListType.ACTIVE && updatedEntityData.isActive) {
+                    endpointData.results.push(newTopic);
                   }
-                },
-              ),
+                } else {
+                  merge(endpointData as Topic, omit(updatedEntityData, 'id'));
+                }
+              }),
             );
           }
           /* eslint-disable no-empty */
@@ -244,17 +191,13 @@ export const topicApi = createAppApi({
 
         for (const { endpointName, originalArgs } of cachedQueries) {
           dispatch(
-            topicApi.util.updateQueryData(
-              endpointName as 'search' | 'searchInfinite',
-              originalArgs as any,
-              (endpointData) => {
-                const existingItemIndex = endpointData.results.findIndex((item) => item.idFromUrl === id);
+            topicApi.util.updateQueryData(endpointName as 'search', originalArgs as any, (endpointData) => {
+              const existingItemIndex = endpointData.results.findIndex((item) => item.idFromUrl === id);
 
-                if (existingItemIndex !== -1) {
-                  endpointData.results.splice(existingItemIndex, 1);
-                }
-              },
-            ),
+              if (existingItemIndex !== -1) {
+                endpointData.results.splice(existingItemIndex, 1);
+              }
+            }),
           );
         }
       },

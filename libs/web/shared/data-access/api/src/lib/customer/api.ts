@@ -1,7 +1,7 @@
 import { createEntityInstance, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
-import { plainToInstance } from 'class-transformer';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationResponse } from '../common';
+import { createInfiniteQueryOptions, createSearchResponseTransformer } from '../common/utils';
 import { customerApiConfig } from './config';
 import { Customer, CustomerPaginationRequest, CustomerSummaryResponse } from './models';
 
@@ -9,25 +9,13 @@ export const customerApi = createAppApi({
   reducerPath: customerApiConfig.entityName,
   endpoints: (builder) => ({
     search: builder.infiniteQuery<PaginationResponse<Customer>, CustomerPaginationRequest, string | undefined>({
-      infiniteQueryOptions: {
-        initialPageParam: undefined,
-        getNextPageParam: (lastPage) => lastPage.nextCursor,
-      },
-      query: ({ queryArg, pageParam }) => {
-        return {
-          method: 'get',
-          url: customerApiConfig.baseEndpoint,
-          params: prepareRequestParams({ ...queryArg, cursor: pageParam }, CustomerPaginationRequest),
-        };
-      },
-      transformResponse: (response) => {
-        const { results, ...rest } = plainToInstance(PaginationResponse<Customer>, response as object);
-
-        return {
-          results: results.map((item) => createEntityInstance<Customer>(Customer, item)),
-          ...rest,
-        } as PaginationResponse<Customer>;
-      },
+      infiniteQueryOptions: createInfiniteQueryOptions<Customer>(),
+      query: ({ queryArg, pageParam }) => ({
+        method: 'get',
+        url: `${customerApiConfig.baseEndpoint}${queryArg.query ? 'search/' : ''}`,
+        params: prepareRequestParams({ ...queryArg, cursor: pageParam }, CustomerPaginationRequest),
+      }),
+      transformResponse: createSearchResponseTransformer<Customer>(Customer),
     }),
     get: builder.query<Customer, { id: number }>({
       query: ({ id }) => {
