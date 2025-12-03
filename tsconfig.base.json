@@ -35,6 +35,9 @@
       "@tellme/web/administration/features/administration": [
         "libs/web/administration/features/administration/src/index.ts"
       ],
+      "@tellme/web/customer-experience/features/details": [
+        "libs/web/customer-experience/features/details/src/index.ts"
+      ],
       "@tellme/web/customer-experience/features/list": ["libs/web/customer-experience/features/list/src/index.ts"],
       "@tellme/web/shared/data-access/api": ["libs/web/shared/data-access/api/src/index.ts"],
       "@tellme/web/shared/data-access/api-client": ["libs/web/shared/data-access/api-client/src/index.ts"],

@@ -17,3 +17,5 @@ export * from './lib/tooltip/component';
 export * from './lib/icon-with-tooltip/component';
 export * from './lib/select/component';
 export * from './lib/search-input/component';
+export * from './lib/back-button/component';
+export * from './lib/spinner/component';

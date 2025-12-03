@@ -1,3 +1,5 @@
+'use client';
+
 import { debounce } from 'lodash';
 import { useTranslations } from 'next-intl';
 import { ChangeEvent, ReactElement, useCallback, useState } from 'react';
