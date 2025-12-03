@@ -1,38 +1,33 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
-import { Fragment, ReactElement, useEffect, useState } from 'react';
+import { Fragment, ReactElement, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { conversationApi, customerApi, CustomerSummaryStatus } from '@tellme/web/shared/data-access/api';
+import { conversationApi, customerApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
-import { ConversationInfo, CustomerInfo, SuggestedEmail } from './components';
+import { ConversationsInfo, CustomerInfo, SuggestedEmail } from './components';
+import { useCustomerSummary } from './hooks';
 
 interface CustomerExperienceDetailsProps {
   id: number;
 }
 
 export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps): ReactElement {
-  const [shouldRefetchSummary, setShouldRefetchSummary] = useState(true);
-
   const profile = useSelector(authSelectors.profile);
   const { data: customer, isLoading: isCustomerLoading } = customerApi.useGetQuery({ id }, { skip: !profile });
-  const { data: summaryResponse, isLoading: isSummaryLoading } = customerApi.useGetSummaryQuery(id, {
-    skip: !profile || !shouldRefetchSummary,
-    pollingInterval: 20 * 1000,
-  });
+  const { summaryResponse, isSummaryLoading } = useCustomerSummary(id);
   const { data: latestConversation } = conversationApi.useGetQuery(
     { id: customer?.latestConversationId as number },
-    { skip: !customer?.latestConversationId },
+    { skip: !customer },
+  );
+  const { data: conversationsResponse, isLoading: areConversationsLoading } = conversationApi.useSearchByCustomerQuery(
+    id,
+    { skip: !profile },
   );
 
-  const isLoading = isCustomerLoading || isSummaryLoading;
-
-  useEffect(() => {
-    if (summaryResponse?.status === CustomerSummaryStatus.READY) {
-      setShouldRefetchSummary(false);
-    }
-  }, [summaryResponse]);
+  const conversations = useMemo(() => conversationsResponse?.results || [], [conversationsResponse]);
+  const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -41,12 +36,14 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
           <Spinner />
         </div>
       )}
-      {customer && summaryResponse && (
+      {customer && summaryResponse && conversationsResponse && (
         <Fragment>
           <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
           <SuggestedEmail summary={summaryResponse.summary} />
-          {latestConversation && <ConversationInfo conversation={latestConversation} />}
+          {latestConversation && (
+            <ConversationsInfo initialSelectedConversation={latestConversation} conversations={conversations} />
+          )}
         </Fragment>
       )}
     </div>
