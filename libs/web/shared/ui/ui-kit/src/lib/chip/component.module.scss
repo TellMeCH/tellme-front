@@ -1,0 +1,7 @@
+@import '@tellme/shared/ui/variables';
+
+.chip {
+  &_bordered {border-width: 1px;}
+  &_md {padding: 6px 12px; height: 32px;}
+  &__content {padding: 0;}
+}

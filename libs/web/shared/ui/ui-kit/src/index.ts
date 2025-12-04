@@ -19,3 +19,4 @@ export * from './lib/select/component';
 export * from './lib/search-input/component';
 export * from './lib/back-button/component';
 export * from './lib/spinner/component';
+export * from './lib/chip/component';

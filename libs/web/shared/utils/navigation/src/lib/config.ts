@@ -1,6 +1,7 @@
 import { CustomerSearchParams } from '@tellme/web/shared/utils/filtering-search-params';
-import { getResourcePaths } from './utils';
+import { getLinkBuilder } from './utils';
 
+const customerExperiencesBasePath = '/customer-experiences';
 export const navigationConfig = {
   routes: {
     public: {
@@ -11,7 +12,11 @@ export const navigationConfig = {
       topics: '/topics',
       topicAnalysis: '/topic-analysis',
       administration: '/administration',
-      customerExperiences: getResourcePaths<CustomerSearchParams>('/customer-experiences'),
+      customerExperiences: {
+        list: getLinkBuilder<CustomerSearchParams>(customerExperiencesBasePath),
+        view: (id: number, conversationId?: number) =>
+          `${customerExperiencesBasePath}/${id}${conversationId ? `?conversationId=${conversationId}` : ''}`,
+      },
     },
   },
 };

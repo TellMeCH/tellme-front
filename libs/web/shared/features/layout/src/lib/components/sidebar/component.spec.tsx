@@ -44,27 +44,27 @@ describe('Sidebar', () => {
   });
 
   describe('non-admin', () => {
-    it('should have three links', async () => {
+    it('should have four links', async () => {
       jest.spyOn(apiService.httpClient, 'request').mockReturnValue(Promise.resolve({ data: nonAdmin }));
 
       renderComponent(onLogoutSuccess);
 
       await waitFor(() => {
         const links = screen.getAllByTestId('link');
-        expect(links).toHaveLength(3);
+        expect(links).toHaveLength(4);
       });
     });
   });
 
   describe('admin', () => {
-    it('should have four links', async () => {
+    it('should have five links', async () => {
       jest.spyOn(apiService.httpClient, 'request').mockReturnValue(Promise.resolve({ data: admin }));
 
       renderComponent(onLogoutSuccess);
 
       await waitFor(() => {
         const links = screen.getAllByTestId('link');
-        expect(links).toHaveLength(4);
+        expect(links).toHaveLength(5);
       });
     });
   });

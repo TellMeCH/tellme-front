@@ -1,0 +1,32 @@
+export const customersPaginationResponse = {
+  next: null,
+  previous: null,
+  results: [
+    {
+      url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/customers/2/',
+      created: '2025-03-24T13:58:18.347Z',
+      updated: '2025-03-24T13:58:18.347Z',
+      last_conversation_date: '2025-12-07T13:58:18.347Z',
+      first_name: 'Albert',
+      last_name: 'Black',
+      latest_conversation_title: 'Customer asked about a delayed order',
+      latest_conversation_url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/conversations/137/',
+      avg_sentiment: 4.9,
+      total_revenue: 100,
+      conversation_count: 3,
+    },
+    {
+      url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/customers/1/',
+      created: '2025-03-22T13:58:18.347Z',
+      updated: '2025-03-22T13:58:18.347Z',
+      last_conversation_date: '2025-12-06T13:58:18.347Z',
+      first_name: 'Bessie',
+      last_name: 'Cooper',
+      latest_conversation_title: 'Customer requested an exchange for shoes ',
+      latest_conversation_url: 'https://tellme-service-716439647851.europe-west6.run.app/api/v1/conversations/113/',
+      avg_sentiment: 3.5,
+      total_revenue: 105,
+      conversation_count: 1,
+    },
+  ],
+};
