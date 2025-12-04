@@ -37,6 +37,7 @@ export function SortingSelect({ value, onChange }: SortingSelectProps): ReactEle
         selectedKeys={value ? [value] : []}
         onSelectionChange={handleChange}
         renderValue={(selectedItems) => t('TEXT_SORT_BY', { ordering: selectedItems[0].textValue?.toLowerCase() })}
+        data-testid='ordering-select'
       />
     </div>
   );

@@ -62,7 +62,9 @@ export function CustomerExperiencesList({
             <SearchInput
               defaultValue={params.query}
               onChange={changeQuery}
-              classNames={{ base: 'w-[327px]' }} />
+              classNames={{ base: 'w-[327px]' }}
+              data-testid='search-input'
+            />
           </div>
         </div>
         {isFetching && !isFetchingNextPage ? (

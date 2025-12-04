@@ -79,11 +79,23 @@ describe('Topics management', () => {
         }
 
         case 'post': {
+          const newTopicId = getNewTopicId();
+          const creationDate = new Date().toISOString();
+          const newTopic = {
+            ...(config.data as any),
+            created: creationDate,
+            updated: creationDate,
+          };
+
+          topicsPaginationResponse.results.push({
+            ...newTopic,
+            url: `https://tellme-service-716439647851.europe-west6.run.app/api/v1/topics/${newTopicId}/`,
+          });
+
           return Promise.resolve({
             data: {
               ...(config.data as object),
-              id: getNewTopicId(),
-              created: new Date().toISOString(),
+              id: newTopicId,
             },
           });
         }
@@ -183,7 +195,7 @@ describe('Topics management', () => {
       );
     });
     const items = screen.getAllByTestId('item');
-    expect(items.length).toBe(topicsPaginationResponse.results.length + 1);
+    expect(items.length).toBe(topicsPaginationResponse.results.length);
   }, 10000);
 
   it('should edit a topic', async () => {

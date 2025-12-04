@@ -17,7 +17,7 @@ export function Item({ customer }: ItemProps): ReactElement {
   const t = useTranslations('customer-experience.LIST.ITEM');
 
   return (
-    <div className='flex py-4 border-b border-b-text-tertiary text-sm items-start gap-6'>
+    <div className='flex py-4 border-b border-b-text-tertiary text-sm items-start gap-6' data-testid='customer-item'>
       <div className='basis-[13%]'>
         <div className={columnTitleClassName}>{t('TEXT_DATE')}</div>
         <div>{formatDate(customer.lastConversationDate, DateTimeFormat.DAY_NUMBER_MONTH_YEAR)}</div>
