@@ -33,6 +33,11 @@
       "TEXT_LIKED_FEATURES": "Liked Features",
       "TEXT_DISLIKED_FEATURES": "Disliked Features",
       "TEXT_GENERATING": "Generating customer summaries..."
+    },
+    "SUGGESTED_EMAIL": {
+      "TEXT_TITLE": "Suggested Email Response",
+      "BUTTON_SEND_EMAIL": "Send email",
+      "TEXT_GENERATING": "Generating email..."
     }
   }
 }

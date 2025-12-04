@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { customerApi, CustomerSummaryStatus } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
-import { CustomerInfo } from './components';
+import { CustomerInfo, SuggestedEmail } from './components';
 
 interface CustomerExperienceDetailsProps {
   id: number;
@@ -41,6 +41,7 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
         <Fragment>
           <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
+          <SuggestedEmail summary={summaryResponse.summary} />
         </Fragment>
       )}
     </div>
