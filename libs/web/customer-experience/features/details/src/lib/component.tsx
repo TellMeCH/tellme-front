@@ -11,15 +11,18 @@ import { useCustomerSummary } from './hooks';
 
 interface CustomerExperienceDetailsProps {
   id: number;
+  conversationId?: number;
 }
 
-export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps): ReactElement {
+export function CustomerExperienceDetails({ id, conversationId }: CustomerExperienceDetailsProps): ReactElement {
   const profile = useSelector(authSelectors.profile);
   const { data: customer, isLoading: isCustomerLoading } = customerApi.useGetQuery({ id }, { skip: !profile });
+  const detailedConversationId = conversationId || customer?.latestConversationId;
+
   const { summaryResponse, isSummaryLoading } = useCustomerSummary(id);
-  const { data: latestConversation } = conversationApi.useGetQuery(
-    { id: customer?.latestConversationId as number },
-    { skip: !customer },
+  const { data: detailedConversations } = conversationApi.useGetQuery(
+    { id: detailedConversationId as number },
+    { skip: !detailedConversationId && !profile },
   );
   const { data: conversationsResponse, isLoading: areConversationsLoading } = conversationApi.useSearchByCustomerQuery(
     id,
@@ -28,9 +31,7 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
 
   const otherConversations = useMemo(
     () =>
-      conversationsResponse?.results.filter(
-        (conversation) => conversation.idFromUrl !== latestConversation?.idFromUrl,
-      ) || [],
+      conversationsResponse?.results.filter((conversation) => conversation.idFromUrl !== detailedConversationId) || [],
     [conversationsResponse],
   );
   const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
@@ -47,8 +48,8 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
           <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
           <SuggestedEmail summary={summaryResponse.summary} />
-          {latestConversation && <ConversationInfo conversation={latestConversation} />}
-          {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} />}
+          {detailedConversations && <ConversationInfo conversation={detailedConversations} />}
+          {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} customerId={id} />}
         </Fragment>
       )}
     </div>

@@ -8,9 +8,10 @@ import { navigationConfig } from '@tellme/web/shared/utils/navigation';
 
 interface OtherConversationsProps {
   conversations: Array<Conversation>;
+  customerId: number;
 }
 
-export function OtherConversations({ conversations }: OtherConversationsProps): ReactElement {
+export function OtherConversations({ conversations, customerId }: OtherConversationsProps): ReactElement {
   const t = useTranslations('customer-experience.DETAILS.OTHER_CONVERSATIONS');
 
   return (
@@ -24,7 +25,7 @@ export function OtherConversations({ conversations }: OtherConversationsProps): 
             {formatDate(conversation.date, DateTimeFormat.DAY_NUMBER_MONTH_YEAR)}
           </p>
           <Link
-            href={navigationConfig.routes.private.customerExperiences.view(conversation.idFromUrl)}
+            href={navigationConfig.routes.private.customerExperiences.view(customerId, conversation.idFromUrl)}
             className='underline text-brand-primary'>
             {conversation.title}
           </Link>
