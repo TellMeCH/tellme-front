@@ -20,7 +20,7 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
   const detailedConversationId = conversationId || customer?.latestConversationId;
 
   const { summaryResponse, isSummaryLoading } = useCustomerSummary(id);
-  const { data: detailedConversations } = conversationApi.useGetQuery(
+  const { data: detailedConversation } = conversationApi.useGetQuery(
     { id: detailedConversationId as number },
     { skip: !detailedConversationId && !profile },
   );
@@ -48,7 +48,7 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
           <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
           <SuggestedEmail summary={summaryResponse.summary} />
-          {detailedConversations && <ConversationInfo conversation={detailedConversations} />}
+          {detailedConversation && <ConversationInfo conversation={detailedConversation} />}
           {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} customerId={id} />}
         </Fragment>
       )}
