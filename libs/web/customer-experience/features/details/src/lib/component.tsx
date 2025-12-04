@@ -1,34 +1,40 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
-import { Fragment, ReactElement, useEffect, useState } from 'react';
+import { Fragment, ReactElement, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { customerApi, CustomerSummaryStatus } from '@tellme/web/shared/data-access/api';
+import { conversationApi, customerApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
-import { CustomerInfo, SuggestedEmail } from './components';
+import { ConversationInfo, CustomerInfo, OtherConversations, SuggestedEmail } from './components';
+import { useCustomerSummary } from './hooks';
 
 interface CustomerExperienceDetailsProps {
   id: number;
+  conversationId?: number;
 }
 
-export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps): ReactElement {
-  const [shouldRefetchSummary, setShouldRefetchSummary] = useState(true);
-
+export function CustomerExperienceDetails({ id, conversationId }: CustomerExperienceDetailsProps): ReactElement {
   const profile = useSelector(authSelectors.profile);
   const { data: customer, isLoading: isCustomerLoading } = customerApi.useGetQuery({ id }, { skip: !profile });
-  const { data: summaryResponse, isLoading: isSummaryLoading } = customerApi.useGetSummaryQuery(id, {
-    skip: !profile || !shouldRefetchSummary,
-    pollingInterval: 20 * 1000,
-  });
+  const detailedConversationId = conversationId || customer?.latestConversationId;
 
-  const isLoading = isCustomerLoading || isSummaryLoading;
+  const { summaryResponse, isSummaryLoading } = useCustomerSummary(id);
+  const { data: detailedConversation } = conversationApi.useGetQuery(
+    { id: detailedConversationId as number },
+    { skip: !detailedConversationId && !profile },
+  );
+  const { data: conversationsResponse, isLoading: areConversationsLoading } = conversationApi.useSearchByCustomerQuery(
+    id,
+    { skip: !profile },
+  );
 
-  useEffect(() => {
-    if (summaryResponse?.status === CustomerSummaryStatus.READY) {
-      setShouldRefetchSummary(false);
-    }
-  }, [summaryResponse]);
+  const otherConversations = useMemo(
+    () =>
+      conversationsResponse?.results.filter((conversation) => conversation.idFromUrl !== detailedConversationId) || [],
+    [conversationsResponse],
+  );
+  const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
@@ -42,6 +48,8 @@ export function CustomerExperienceDetails({ id }: CustomerExperienceDetailsProps
           <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
           <SuggestedEmail summary={summaryResponse.summary} />
+          {detailedConversation && <ConversationInfo conversation={detailedConversation} />}
+          {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} customerId={id} />}
         </Fragment>
       )}
     </div>

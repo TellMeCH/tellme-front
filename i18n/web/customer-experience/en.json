@@ -22,6 +22,8 @@
     }
   },
   "DETAILS": {
+    "TEXT_MINUTES": "min",
+    "TEXT_SECONDS": "sec",
     "CUSTOMER_INFO": {
       "TEXT_TITLE": "About the customer",
       "TEXT_NAME": "Customer name",
@@ -38,6 +40,19 @@
       "TEXT_TITLE": "Suggested Email Response",
       "BUTTON_SEND_EMAIL": "Send email",
       "TEXT_GENERATING": "Generating email..."
+    },
+    "CONVERSATION_INFO": {
+      "TEXT_CONVERSATION": "Conversation",
+      "TEXT_DATE": "Conversation Date",
+      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
+      "TEXT_CALL_DURATION": "Call duration",
+      "TEXT_RESOLVED": "Resolved",
+      "TEXT_YES": "Yes",
+      "TEXT_NO": "No",
+      "TEXT_SUMMARY": "Conversation Summary"
+    },
+    "OTHER_CONVERSATIONS": {
+      "TEXT_TITLE": "Other customer’s conversations:"
     }
   }
 }

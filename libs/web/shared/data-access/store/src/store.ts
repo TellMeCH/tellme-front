@@ -6,6 +6,7 @@ import {
   employeeApi,
   suggestedTopicApi,
   customerApi,
+  conversationApi,
 } from '@tellme/web/shared/data-access/api';
 import { authListenerMiddleware, authReducer, authReducerPath } from '@tellme/web/shared/data-access/auth';
 
@@ -18,6 +19,7 @@ const rootReducer = {
   [employeeApi.reducerPath]: employeeApi.reducer,
   [suggestedTopicApi.reducerPath]: suggestedTopicApi.reducer,
   [customerApi.reducerPath]: customerApi.reducer,
+  [conversationApi.reducerPath]: conversationApi.reducer,
 };
 
 const middlewares: Array<Middleware> = [
@@ -27,6 +29,7 @@ const middlewares: Array<Middleware> = [
   employeeApi.middleware,
   suggestedTopicApi.middleware,
   customerApi.middleware,
+  conversationApi.middleware,
 ];
 
 const initStore = createStoreInitializer({

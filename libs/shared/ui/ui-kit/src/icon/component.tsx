@@ -36,7 +36,8 @@ export type IconName =
   | 'expand'
   | 'users'
   | 'back'
-  | 'email';
+  | 'email'
+  | 'sparkle';
 
 export interface IconProps {
   name: IconName;
