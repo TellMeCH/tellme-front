@@ -53,6 +53,9 @@
     },
     "OTHER_CONVERSATIONS": {
       "TEXT_TITLE": "Other customer’s conversations:"
+    },
+    "TRANSCRIPT": {
+      "BUTTON_VIEW": "View call transcript"
     }
   }
 }

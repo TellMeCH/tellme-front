@@ -43,12 +43,12 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
           <Spinner />
         </div>
       )}
-      {customer && summaryResponse && (
+      {customer && summaryResponse && detailedConversation && (
         <Fragment>
-          <Header leftContent={<BackButton />} title={customer.latestConversationTitle} />
+          <Header leftContent={<BackButton />} title={detailedConversation?.title} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
           <SuggestedEmail summary={summaryResponse.summary} />
-          {detailedConversation && <ConversationInfo conversation={detailedConversation} />}
+          <ConversationInfo conversation={detailedConversation} />
           {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} customerId={id} />}
         </Fragment>
       )}

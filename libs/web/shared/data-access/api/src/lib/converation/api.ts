@@ -1,10 +1,11 @@
-import { createEntityInstance } from '@ronas-it/rtkq-entity-api';
+import { createEntityInstance, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
-import { PaginationResponse } from '../common';
-import { createSearchResponseTransformer } from '../common/utils';
+import { PaginationRequest, PaginationResponse } from '../common';
+import { createInfiniteQueryOptions, createSearchResponseTransformer } from '../common/utils';
 import { customerApiConfig } from '../customer';
 import { conversationApiConfig } from './config';
 import { Conversation, DetailedConversation } from './models';
+import { TranscriptItem } from './models/transcript-item';
 
 export const conversationApi = createAppApi({
   reducerPath: conversationApiConfig.entityName,
@@ -28,6 +29,19 @@ export const conversationApi = createAppApi({
         url: `${customerApiConfig.baseEndpoint}${customerId}/conversations`,
       }),
       transformResponse: createSearchResponseTransformer<Conversation>(Conversation),
+    }),
+    searchTranscript: builder.infiniteQuery<
+      PaginationResponse<TranscriptItem>,
+      { conversationId: number; params: PaginationRequest },
+      string | undefined
+    >({
+      infiniteQueryOptions: createInfiniteQueryOptions<TranscriptItem>(),
+      query: ({ queryArg: { conversationId, params }, pageParam }) => ({
+        method: 'get',
+        url: `${conversationApiConfig.baseEndpoint}${conversationId}/transcript?`,
+        params: prepareRequestParams({ ...params, cursor: pageParam }, PaginationRequest),
+      }),
+      transformResponse: createSearchResponseTransformer<TranscriptItem>(TranscriptItem),
     }),
   }),
 });
