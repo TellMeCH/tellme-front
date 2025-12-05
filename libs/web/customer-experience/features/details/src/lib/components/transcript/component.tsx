@@ -1,11 +1,12 @@
-import { Spinner } from '@heroui/react';
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
 import { ReactElement, useMemo, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { Button, Icon } from '@tellme/shared/ui/ui-kit';
 import { conversationApi } from '@tellme/web/shared/data-access/api';
+import { Spinner } from '@tellme/web/shared/ui/ui-kit';
 import { Message } from '../message';
+import styles from './component.module.scss';
 
 interface TranscriptProps {
   conversationId: number;
@@ -44,8 +45,10 @@ export function Transcript({ conversationId, customerFullName }: TranscriptProps
         {t('BUTTON_VIEW')}
       </Button>
       {isTranscriptVisible && (
-        <div className='mt-6 rounded-xl bg-background-tertiary p-6 pr-4 h-[1064px]'>
+        <div className='mt-6 rounded-xl bg-background-tertiary p-6 pr-4'>
           <InfiniteScroll
+            height={515}
+            className={styles.transcript__wrapper}
             dataLength={transcriptItems.length}
             next={fetchNextPage}
             hasMore={hasNextPage}
@@ -54,6 +57,11 @@ export function Transcript({ conversationId, customerFullName }: TranscriptProps
                 <Spinner />
               </div>
             }>
+            {isFetching && !isFetchingNextPage && (
+              <div className='flex justify-center py-6'>
+                <Spinner />
+              </div>
+            )}
             {transcriptItems.map((transcriptItem) => (
               <Message
                 transcriptItem={transcriptItem}

@@ -13,11 +13,11 @@ export function Message({ transcriptItem, customerFullName }: MessageProps): Rea
   return (
     <div
       className={clsx(
-        'rounded-xl px-3 py-2 mb-4 last:mb-0',
-        isCustomerMessage ? 'bg-background-secondary rounded-bl-0' : 'bg-brand-primary rounded-br-0',
+        'rounded-xl px-3 py-2 mb-4 last:mb-0 max-w-[475px]',
+        isCustomerMessage ? 'bg-background-secondary rounded-bl-none' : 'bg-brand-primary rounded-br-none ml-auto',
       )}>
       {isCustomerMessage && <p className='font-bold mb-1 text-xs'>{customerFullName}</p>}
-      <p className={clsx('text-sm', !isCustomerMessage && 'bg-background-secondary')}>{transcriptItem.message}</p>
+      <p className={clsx('text-sm', !isCustomerMessage && 'text-background-secondary')}>{transcriptItem.message}</p>
     </div>
   );
 }
