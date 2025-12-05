@@ -14,8 +14,17 @@ import { CustomerExperienceDetails } from './component';
 import '@testing-library/jest-dom';
 import SpyInstance = jest.SpyInstance;
 
+function renderComponent(customerId: number, conversationId?: number): void {
+  render(
+    <TestRootComponent shouldAuthorize>
+      <CustomerExperienceDetails id={customerId} conversationId={conversationId} />
+    </TestRootComponent>,
+  );
+}
+
 describe('Customer experience details', () => {
   const customerId = getIdFromUrl(customer.url);
+  const latestConversationId = getIdFromUrl(customer.latest_conversation_url);
   let requestSpy: SpyInstance;
 
   beforeAll(() => {
@@ -46,64 +55,98 @@ describe('Customer experience details', () => {
     });
   });
 
-  beforeEach(() => {
-    requestSpy.mockClear();
+  describe('common', () => {
+    beforeEach(() => {
+      requestSpy.mockClear();
+      renderComponent(customerId);
+    });
 
-    render(
-      <TestRootComponent shouldAuthorize>
-        <CustomerExperienceDetails id={customerId} />
-      </TestRootComponent>,
-    );
-  });
+    it('should load initial data', async () => {
+      await waitFor(() => {
+        expect(requestSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'get',
+            url: `/customers/${customerId}/`,
+          }),
+        );
+      });
 
-  it('should load initial data with latest conversation', async () => {
-    await waitFor(() => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: `/customers/${customerId}/`,
+          url: `/customers/${customerId}/summary_data/`,
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/conversations/${latestConversationId}/`,
+        }),
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/customers/${customerId}/conversations/`,
         }),
       );
     });
 
-    expect(requestSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        method: 'get',
-        url: `/customers/${customerId}/summary_data/`,
-      }),
-    );
-
-    expect(requestSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        method: 'get',
-        url: `/conversations/${getIdFromUrl(customer.latest_conversation_url)}/`,
-      }),
-    );
-
-    expect(requestSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        method: 'get',
-        url: `/customers/${customerId}/conversations/`,
-      }),
-    );
+    it('should not have a detailed conversation among other conversations', async () => {
+      const otherConversationsItems = await screen.findAllByTestId('other-conversation-item');
+      expect(otherConversationsItems.length).toBe(conversationsPaginationResponse.results.length - 1);
+    });
   });
 
-  it('should not have a selected conversation among other conversations', async () => {
-    const otherConversationsItems = await screen.findAllByTestId('other-conversation-item');
-    expect(otherConversationsItems.length).toBe(conversationsPaginationResponse.results.length - 1);
+  describe('with latest conversations', () => {
+    it('should load transcript of the latest conversation', async () => {
+      requestSpy.mockClear();
+      renderComponent(customerId);
+
+      await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+
+      const messagesItems = await screen.findAllByTestId('message');
+      expect(messagesItems.length).toBe(transcriptPaginationResponse.results.length);
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/conversations/${getIdFromUrl(customer.latest_conversation_url)}/transcript/`,
+          params: { page_size: 10 },
+        }),
+      );
+    });
   });
 
-  it('should load transcript', async () => {
-    await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+  describe('with selected conversation', () => {
+    const selectedConversationId = getIdFromUrl(conversationsPaginationResponse.results[1].url);
 
-    const messagesItems = await screen.findAllByTestId('message');
-    expect(messagesItems.length).toBe(transcriptPaginationResponse.results.length);
-    expect(requestSpy).toHaveBeenCalledWith(
-      expect.objectContaining({
-        method: 'get',
-        url: `/conversations/${getIdFromUrl(customer.latest_conversation_url)}/transcript/`,
-        params: { page_size: 10 },
-      }),
-    );
+    beforeEach(() => {
+      requestSpy.mockClear();
+      renderComponent(customerId, selectedConversationId);
+    });
+
+    it('should load a detailed selected conversation', async () => {
+      await waitFor(() => {
+        expect(requestSpy).toHaveBeenCalledWith(
+          expect.objectContaining({
+            method: 'get',
+            url: `/conversations/${selectedConversationId}/`,
+          }),
+        );
+      });
+    });
+
+    it('should load transcript of the selected conversation', async () => {
+      await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/conversations/${selectedConversationId}/transcript/`,
+          params: { page_size: 10 },
+        }),
+      );
+    });
   });
 });
