@@ -9,7 +9,11 @@ export function useCustomerSummary(id: number) {
   const [shouldRefetchSummary, setShouldRefetchSummary] = useState(true);
   const profile = useSelector(authSelectors.profile);
 
-  const { data: summaryResponse, isLoading: isSummaryLoading } = customerApi.useGetSummaryQuery(id, {
+  const {
+    data: summaryResponse,
+    isLoading: isSummaryLoading,
+    error,
+  } = customerApi.useGetSummaryQuery(id, {
     skip: !profile || !shouldRefetchSummary,
     pollingInterval: 20 * 1000,
   });
@@ -20,5 +24,5 @@ export function useCustomerSummary(id: number) {
     }
   }, [summaryResponse]);
 
-  return { summaryResponse, isSummaryLoading };
+  return { summaryResponse, isSummaryLoading, error };
 }

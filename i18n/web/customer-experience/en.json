@@ -24,6 +24,7 @@
   "DETAILS": {
     "TEXT_MINUTES": "min",
     "TEXT_SECONDS": "sec",
+    "TEXT_NOT_FOUND": "No customer experience found",
     "CUSTOMER_INFO": {
       "TEXT_TITLE": "About the customer",
       "TEXT_NAME": "Customer name",
@@ -53,6 +54,9 @@
     },
     "OTHER_CONVERSATIONS": {
       "TEXT_TITLE": "Other customer’s conversations:"
+    },
+    "TRANSCRIPT": {
+      "BUTTON_VIEW": "View call transcript"
     }
   }
 }
