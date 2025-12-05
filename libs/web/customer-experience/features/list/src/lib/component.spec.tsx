@@ -1,9 +1,9 @@
 import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import { customersPaginationResponse, TestRootComponent } from '@tellme/web/shared/data-access/tests-data';
 import { CustomerExperiencesList } from './component';
 import SpyInstance = jest.SpyInstance;
-import userEvent from '@testing-library/user-event';
 
 describe('Customer experiences list', () => {
   let requestSpy: SpyInstance;

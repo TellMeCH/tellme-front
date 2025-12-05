@@ -1,4 +1,5 @@
-import { render, waitFor } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
   conversationsPaginationResponse,
@@ -6,9 +7,11 @@ import {
   detailedConversation,
   readyCustomerSummaryResponse,
   TestRootComponent,
+  transcriptPaginationResponse,
 } from '@tellme/web/shared/data-access/tests-data';
 import { getIdFromUrl } from '@tellme/web/shared/utils/strings';
 import { CustomerExperienceDetails } from './component';
+import '@testing-library/jest-dom';
 import SpyInstance = jest.SpyInstance;
 
 describe('Customer experience details', () => {
@@ -23,6 +26,10 @@ describe('Customer experience details', () => {
         return Promise.resolve({ data: conversationsPaginationResponse });
       }
 
+      if (url?.includes('/transcript/')) {
+        return Promise.resolve({ data: transcriptPaginationResponse });
+      }
+
       if (url?.includes('/conversations/')) {
         return Promise.resolve({ data: detailedConversation });
       }
@@ -31,7 +38,11 @@ describe('Customer experience details', () => {
         return Promise.resolve({ data: readyCustomerSummaryResponse });
       }
 
-      return Promise.resolve({ data: customer });
+      if (url?.includes('/customers/')) {
+        return Promise.resolve({ data: customer });
+      }
+
+      return Promise.resolve({});
     });
   });
 
@@ -73,6 +84,25 @@ describe('Customer experience details', () => {
       expect.objectContaining({
         method: 'get',
         url: `/customers/${customerId}/conversations/`,
+      }),
+    );
+  });
+
+  it('should not have a selected conversation among other conversations', async () => {
+    const otherConversationsItems = await screen.findAllByTestId('other-conversation-item');
+    expect(otherConversationsItems.length).toBe(conversationsPaginationResponse.results.length - 1);
+  });
+
+  it('should load transcript', async () => {
+    await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+
+    const messagesItems = await screen.findAllByTestId('message');
+    expect(messagesItems.length).toBe(transcriptPaginationResponse.results.length);
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        method: 'get',
+        url: `/conversations/${getIdFromUrl(customer.latest_conversation_url)}/transcript/`,
+        params: { page_size: 10 },
       }),
     );
   });

@@ -20,7 +20,10 @@ export function OtherConversations({ conversations, customerId }: OtherConversat
         {t('TEXT_TITLE')}
       </Heading>
       {conversations.map((conversation) => (
-        <div key={conversation.idFromUrl} className='flex gap-2 mb-4 last:mb-0 text-sm'>
+        <div
+          key={conversation.idFromUrl}
+          className='flex gap-2 mb-4 last:mb-0 text-sm'
+          data-testid='other-conversation-item'>
           <p className='text-text-secondary min-w-[90px]'>
             {formatDate(conversation.date, DateTimeFormat.DAY_NUMBER_MONTH_YEAR)}
           </p>
