@@ -22,7 +22,7 @@ export const conversationApi = createAppApi({
     searchByCustomer: builder.query<PaginationResponse<Conversation>, number>({
       query: (customerId) => ({
         method: 'get',
-        url: `${customerApiConfig.baseEndpoint}${customerId}/conversations`,
+        url: `${customerApiConfig.baseEndpoint}${customerId}/conversations/`,
       }),
       transformResponse: createSearchResponseTransformer<Conversation>(Conversation),
     }),
@@ -34,7 +34,7 @@ export const conversationApi = createAppApi({
       infiniteQueryOptions: createInfiniteQueryOptions<TranscriptItem>(),
       query: ({ queryArg: { conversationId, params }, pageParam }) => ({
         method: 'get',
-        url: `${conversationApiConfig.baseEndpoint}${conversationId}/transcript?`,
+        url: `${conversationApiConfig.baseEndpoint}${conversationId}/transcript/`,
         params: prepareRequestParams({ ...params, cursor: pageParam }, PaginationRequest),
       }),
       transformResponse: createSearchResponseTransformer<TranscriptItem>(TranscriptItem),
