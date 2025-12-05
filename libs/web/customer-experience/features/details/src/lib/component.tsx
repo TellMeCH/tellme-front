@@ -22,7 +22,7 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
   const { summaryResponse, isSummaryLoading } = useCustomerSummary(id);
   const { data: detailedConversation } = conversationApi.useGetQuery(
     { id: detailedConversationId as number },
-    { skip: !detailedConversationId && !profile },
+    { skip: !detailedConversationId || !profile },
   );
   const { data: conversationsResponse, isLoading: areConversationsLoading } = conversationApi.useSearchByCustomerQuery(
     id,
@@ -32,7 +32,7 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
   const otherConversations = useMemo(
     () =>
       conversationsResponse?.results.filter((conversation) => conversation.idFromUrl !== detailedConversationId) || [],
-    [conversationsResponse],
+    [conversationsResponse, detailedConversation],
   );
   const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
 

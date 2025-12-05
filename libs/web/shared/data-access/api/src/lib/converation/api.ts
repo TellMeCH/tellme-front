@@ -18,10 +18,10 @@ export const conversationApi = createAppApi({
       }),
       transformResponse: (response: object) =>
         createEntityInstance<DetailedConversation>(DetailedConversation, response),
-      providesTags: ((response?: DetailedConversation) => ({
+      /*providesTags: ((response?: DetailedConversation) => ({
         type: conversationApiConfig.entityName,
         id: response?.idFromUrl,
-      })) as any,
+      })) as any,*/
     }),
     searchByCustomer: builder.query<PaginationResponse<Conversation>, number>({
       query: (customerId) => ({
