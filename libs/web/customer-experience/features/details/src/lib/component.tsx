@@ -1,6 +1,8 @@
 'use client';
 
 import { Spinner } from '@heroui/react';
+import { HttpStatusCode } from 'axios';
+import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { conversationApi, customerApi } from '@tellme/web/shared/data-access/api';
@@ -15,19 +17,26 @@ interface CustomerExperienceDetailsProps {
 }
 
 export function CustomerExperienceDetails({ id, conversationId }: CustomerExperienceDetailsProps): ReactElement {
+  const t = useTranslations('customer-experience.DETAILS');
+
   const profile = useSelector(authSelectors.profile);
-  const { data: customer, isLoading: isCustomerLoading } = customerApi.useGetQuery({ id }, { skip: !profile });
+  const {
+    data: customer,
+    isLoading: isCustomerLoading,
+    error: customerError,
+  } = customerApi.useGetQuery({ id }, { skip: !profile });
   const detailedConversationId = conversationId || customer?.latestConversationId;
 
-  const { summaryResponse, isSummaryLoading } = useCustomerSummary(id);
-  const { data: detailedConversation } = conversationApi.useGetQuery(
+  const { summaryResponse, isSummaryLoading, error: summaryError } = useCustomerSummary(id);
+  const { data: detailedConversation, error: detailedConversationError } = conversationApi.useGetQuery(
     { id: detailedConversationId as number },
     { skip: !detailedConversationId || !profile },
   );
-  const { data: conversationsResponse, isLoading: areConversationsLoading } = conversationApi.useSearchByCustomerQuery(
-    id,
-    { skip: !profile },
-  );
+  const {
+    data: conversationsResponse,
+    isLoading: areConversationsLoading,
+    error: conversationsError,
+  } = conversationApi.useSearchByCustomerQuery(id, { skip: !profile });
 
   const otherConversations = useMemo(
     () =>
@@ -35,12 +44,15 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
     [conversationsResponse, detailedConversation],
   );
   const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
+  const error = customerError || summaryError || detailedConversationError || conversationsError;
+  const isNotFound = error && Number(error.code) === HttpStatusCode.NotFound;
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
-      {isLoading && (
+      {(isLoading || isNotFound) && (
         <div className='flex flex-1 items-center justify-center'>
-          <Spinner />
+          {isLoading && <Spinner />}
+          {isNotFound && <p>{t('TEXT_NOT_FOUND')}</p>}
         </div>
       )}
       {customer && summaryResponse && detailedConversation && (
