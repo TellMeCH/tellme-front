@@ -22,7 +22,7 @@ export function SuggestedEmail({ summary }: SuggestedEmailProps): ReactElement {
       {summary ? (
         <Fragment>
           <p className='mb-3 text-text-secondary'>{summary.suggestedEmailSubject}</p>
-          <p className='max-w-[900px] mb-6'>{summary.suggestedEmailBody}</p>
+          <pre className='max-w-[900px] mb-6'>{summary.suggestedEmailBody}</pre>
           <Button
             as='a'
             href={emailLink}
