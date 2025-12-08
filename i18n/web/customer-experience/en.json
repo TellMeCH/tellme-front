@@ -7,7 +7,8 @@
       "TEXT_SORT_BY": "Sort by: {ordering}",
       "TEXT_NEWEST_FIRST": "Newest first",
       "TEXT_OLDEST_FIRST": "Oldest first",
-      "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
+      "TEXT_HIGHEST_CUSTOMER_ENGAGEMENT": "Highest Customer Engagement",
+      "TEXT_LOWEST_CUSTOMER_ENGAGEMENT": "Lowest Customer Engagement",
       "TEXT_BIGGEST_REVENUE": "Biggest Revenue",
       "TEXT_SMALLEST_REVENUE": "Smallest Revenue",
       "TEXT_SORTING": "Sorting"
