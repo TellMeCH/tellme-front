@@ -2,8 +2,8 @@ import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement } from 'react';
 import { Customer, CustomerSummary } from '@tellme/web/shared/data-access/api';
 import { Heading, Spinner } from '@tellme/web/shared/ui/ui-kit';
-import { appConstants } from '@tellme/web/shared/utils/constants';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
+import { formatCurrency } from '@tellme/web/shared/utils/strings';
 
 interface CustomerInfoProps {
   customer: Customer;
@@ -36,9 +36,7 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         </div>
         <div className='basis-1/4'>
           <div className={keyClassName}>{t('TEXT_REVENUE')}</div>
-          <div>
-            {Math.round(customer.totalRevenue)} {appConstants.currencyCode}
-          </div>
+          <div>{formatCurrency(Math.round(customer.totalRevenue))}</div>
         </div>
       </div>
 

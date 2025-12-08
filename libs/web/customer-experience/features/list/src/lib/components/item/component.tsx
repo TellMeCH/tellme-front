@@ -6,6 +6,7 @@ import { Customer } from '@tellme/web/shared/data-access/api';
 import { appConstants } from '@tellme/web/shared/utils/constants';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { navigationConfig } from '@tellme/web/shared/utils/navigation';
+import { formatCurrency } from '@tellme/web/shared/utils/strings';
 
 interface ItemProps {
   customer: Customer;
@@ -39,9 +40,7 @@ export function Item({ customer }: ItemProps): ReactElement {
       </div>
       <div className='basis-[14%]'>
         <div className={columnTitleClassName}>{t('TEXT_REVENUE')}</div>
-        <div>
-          {Math.round(customer.totalRevenue)} {appConstants.currencyCode}
-        </div>
+        <div>{formatCurrency(Math.round(customer.totalRevenue))}</div>
       </div>
       <div className='basis-[15%] flex justify-end'>
         <Button
