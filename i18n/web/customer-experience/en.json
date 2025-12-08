@@ -5,8 +5,8 @@
     "TEXT_NO_RESULTS_FOUND": "No results found",
     "SORTING_SELECT": {
       "TEXT_SORT_BY": "Sort by: {ordering}",
-      "TEXT_NEWEST_FIRST": "Newest first",
-      "TEXT_OLDEST_FIRST": "Oldest first",
+      "TEXT_NEWEST_FIRST": "Newest First",
+      "TEXT_OLDEST_FIRST": "Oldest First",
       "TEXT_HIGHEST_CUSTOMER_ENGAGEMENT": "Highest Customer Engagement",
       "TEXT_LOWEST_CUSTOMER_ENGAGEMENT": "Lowest Customer Engagement",
       "TEXT_BIGGEST_REVENUE": "Biggest Revenue",
@@ -18,8 +18,8 @@
       "TEXT_CUSTOMER_NAME": "Customer Name",
       "TEXT_CONVERSATION_TITLE": "Conversation Title",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
-      "TEXT_REVENUE": "Revenue at stake",
-      "BUTTON_VIEW_DETAILS": "View details"
+      "TEXT_REVENUE": "Revenue at Stake",
+      "BUTTON_VIEW_DETAILS": "View Details"
     }
   },
   "DETAILS": {
@@ -27,11 +27,11 @@
     "TEXT_SECONDS": "sec",
     "TEXT_NOT_FOUND": "No customer experience found",
     "CUSTOMER_INFO": {
-      "TEXT_TITLE": "About the customer",
-      "TEXT_NAME": "Customer name",
-      "TEXT_EARLIEST_CONVERSATION": "Earliest conversation",
-      "TEXT_CALLS_OVERALL": "Calls overall",
-      "TEXT_REVENUE": "Revenue at stake",
+      "TEXT_TITLE": "About the Customer",
+      "TEXT_NAME": "Customer Name",
+      "TEXT_EARLIEST_CONVERSATION": "Earliest Conversation",
+      "TEXT_CALLS_OVERALL": "Calls Overall",
+      "TEXT_REVENUE": "Revenue at Stake",
       "TEXT_EXPECTATIONS_MET": "Expectations Met",
       "TEXT_IMPROVEMENT_SUGGESTIONS": "Improvement Suggestions",
       "TEXT_LIKED_FEATURES": "Liked Features",
@@ -40,24 +40,24 @@
     },
     "SUGGESTED_EMAIL": {
       "TEXT_TITLE": "Suggested Email Response",
-      "BUTTON_SEND_EMAIL": "Send email",
+      "BUTTON_SEND_EMAIL": "Send Email",
       "TEXT_GENERATING": "Generating email..."
     },
     "CONVERSATION_INFO": {
       "TEXT_CONVERSATION": "Conversation",
       "TEXT_DATE": "Conversation Date",
       "TEXT_CUSTOMER_ENGAGEMENT": "Customer Engagement",
-      "TEXT_CALL_DURATION": "Call duration",
+      "TEXT_CALL_DURATION": "Call Duration",
       "TEXT_RESOLVED": "Resolved",
       "TEXT_YES": "Yes",
       "TEXT_NO": "No",
       "TEXT_SUMMARY": "Conversation Summary"
     },
     "OTHER_CONVERSATIONS": {
-      "TEXT_TITLE": "Other customer’s conversations:"
+      "TEXT_TITLE": "Other Conversations:"
     },
     "TRANSCRIPT": {
-      "BUTTON_VIEW": "View call transcript"
+      "BUTTON_VIEW": "View Call Transcript"
     }
   }
 }
