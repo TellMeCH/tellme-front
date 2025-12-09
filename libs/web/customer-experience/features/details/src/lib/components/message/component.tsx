@@ -15,7 +15,8 @@ export function Message({ transcriptItem, customerFullName }: MessageProps): Rea
       className={clsx(
         'rounded-xl px-3 py-2 mb-4 last:mb-0 max-w-[475px]',
         isCustomerMessage ? 'bg-background-secondary rounded-bl-none' : 'bg-brand-primary rounded-br-none ml-auto',
-      )}>
+      )}
+      data-testid='message'>
       {isCustomerMessage && <p className='font-bold mb-1 text-xs'>{customerFullName}</p>}
       <p className={clsx('text-sm', !isCustomerMessage && 'text-background-secondary')}>{transcriptItem.message}</p>
     </div>
