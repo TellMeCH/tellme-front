@@ -9,6 +9,7 @@ import { store } from '@tellme/web/shared/data-access/store';
 import sharedMessages from '../../../../../../../i18n/shared/en.json';
 import accountMessages from '../../../../../../../i18n/web/account/en.json';
 import administrationMessages from '../../../../../../../i18n/web/administration/en.json';
+import customerExperienceMessages from '../../../../../../../i18n/web/customer-experience/en.json';
 import webSharedMessages from '../../../../../../../i18n/web/shared/en.json';
 import topicMessages from '../../../../../../../i18n/web/topic/en.json';
 import { profile } from '../fixtures';
@@ -20,6 +21,7 @@ const messages = {
   topic: topicMessages,
   shared: sharedMessages,
   administration: administrationMessages,
+  'customer-experience': customerExperienceMessages,
 };
 
 interface Props extends PropsWithChildren {

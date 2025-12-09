@@ -35,6 +35,7 @@ export function Transcript({ conversationId, customerFullName }: TranscriptProps
       <Button
         onPress={toggleTranscript}
         variant='bordered'
+        data-testid='toggle-transcript-button'
         endContent={
           <Icon
             name='arrow_up'

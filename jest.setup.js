@@ -25,6 +25,10 @@ jest.mock('firebase/auth', () => {
   };
 });
 
+jest.mock('next/navigation', () => ({
+  useRouter: jest.fn(),
+}));
+
 global.ResizeObserver = class {
   constructor(cb) {
     this.callback = cb;
