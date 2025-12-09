@@ -47,24 +47,24 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
               <Heading level={3} className='text-sm mb-1'>
                 {t('TEXT_EXPECTATIONS_MET')}
               </Heading>
-              <p>{summary.expectationsMet}</p>
+              <p className='whitespace-pre-wrap'>{summary.expectationsMet}</p>
             </div>
             <div className='basis-1/2'>
               <Heading level={3} className='text-sm mb-1'>
                 {t('TEXT_IMPROVEMENT_SUGGESTIONS')}
               </Heading>
-              <p>{summary.improvementSuggestions}</p>
+              <p className='whitespace-pre-wrap'>{summary.improvementSuggestions}</p>
             </div>
           </div>
 
           <div className='flex gap-6'>
             <div className='basis-1/2'>
               <div className={keyClassName}>{t('TEXT_LIKED_FEATURES')}</div>
-              <p>{summary.likedFeatures}</p>
+              <p className='whitespace-pre-wrap'>{summary.likedFeatures}</p>
             </div>
             <div className='basis-1/2'>
               <div className={keyClassName}>{t('TEXT_DISLIKED_FEATURES')}</div>
-              <p>{summary.dislikedFeatures}</p>
+              <p className='whitespace-pre-wrap'>{summary.dislikedFeatures}</p>
             </div>
           </div>
         </Fragment>

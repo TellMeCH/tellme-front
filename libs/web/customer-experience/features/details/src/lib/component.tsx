@@ -45,7 +45,7 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
   );
   const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
   const error = customerError || summaryError || detailedConversationError || conversationsError;
-  const isNotFound = error && Number(error.code) === HttpStatusCode.NotFound;
+  const isNotFound = (error && Number(error.code) === HttpStatusCode.NotFound) || customer?.conversationsCount === 0;
 
   return (
     <div className='min-h-full flex flex-col gap-2'>
