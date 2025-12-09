@@ -21,7 +21,9 @@ export function SuggestedEmail({ summary }: SuggestedEmailProps): ReactElement {
       </Heading>
       {summary ? (
         <Fragment>
+          {/* Suggested Email Subject */}
           <p className='mb-3 text-text-secondary'>{summary.suggestedEmailSubject}</p>
+          {/* Suggested Email Body */}
           <p className='max-w-[900px] mb-6 whitespace-pre-wrap'>{summary.suggestedEmailBody}</p>
           <Button
             as='a'

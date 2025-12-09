@@ -44,12 +44,14 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         <Fragment>
           <div className='rounded-2xl bg-background-tertiary p-4 flex mb-4 gap-6'>
             <div className='basis-1/2'>
+              {/* Expectations Met */}
               <Heading level={3} className='text-sm mb-1'>
                 {t('TEXT_EXPECTATIONS_MET')}
               </Heading>
               <p className='whitespace-pre-wrap'>{summary.expectationsMet}</p>
             </div>
             <div className='basis-1/2'>
+              {/* Improvement Suggestions */}
               <Heading level={3} className='text-sm mb-1'>
                 {t('TEXT_IMPROVEMENT_SUGGESTIONS')}
               </Heading>
@@ -59,10 +61,12 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
 
           <div className='flex gap-6'>
             <div className='basis-1/2'>
+              {/* Liked Features */}
               <div className={keyClassName}>{t('TEXT_LIKED_FEATURES')}</div>
               <p className='whitespace-pre-wrap'>{summary.likedFeatures}</p>
             </div>
             <div className='basis-1/2'>
+              {/* Disliked Features */}
               <div className={keyClassName}>{t('TEXT_DISLIKED_FEATURES')}</div>
               <p className='whitespace-pre-wrap'>{summary.dislikedFeatures}</p>
             </div>
