@@ -36,7 +36,7 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         </div>
         <div className='basis-1/4'>
           <div className={keyClassName}>{t('TEXT_REVENUE')}</div>
-          <div>{formatCurrency(Math.round(customer.totalRevenue))}</div>
+          <div>{customer.totalRevenue === null ? '-' : formatCurrency(Math.round(customer.totalRevenue))}</div>
         </div>
       </div>
 

@@ -40,7 +40,7 @@ export function Item({ customer }: ItemProps): ReactElement {
       </div>
       <div className='basis-[14%]'>
         <div className={columnTitleClassName}>{t('TEXT_REVENUE')}</div>
-        <div>{formatCurrency(Math.round(customer.totalRevenue))}</div>
+        <div>{customer.totalRevenue === null ? '-' : formatCurrency(Math.round(customer.totalRevenue))}</div>
       </div>
       <div className='basis-[15%] flex justify-end'>
         <Button
