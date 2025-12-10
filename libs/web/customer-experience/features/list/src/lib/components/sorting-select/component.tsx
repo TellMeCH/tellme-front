@@ -15,7 +15,8 @@ export function SortingSelect({ value, onChange }: SortingSelectProps): ReactEle
   const optionsData: Record<CustomerOrdering, string> = {
     '-last_conversation_date': t('TEXT_NEWEST_FIRST'),
     last_conversation_date: t('TEXT_OLDEST_FIRST'),
-    '-avg_sentiment': t('TEXT_CUSTOMER_ENGAGEMENT'),
+    '-avg_sentiment': t('TEXT_HIGHEST_CUSTOMER_ENGAGEMENT'),
+    avg_sentiment: t('TEXT_LOWEST_CUSTOMER_ENGAGEMENT'),
     '-total_revenue': t('TEXT_BIGGEST_REVENUE'),
     total_revenue: t('TEXT_SMALLEST_REVENUE'),
   };
@@ -30,7 +31,7 @@ export function SortingSelect({ value, onChange }: SortingSelectProps): ReactEle
   };
 
   return (
-    <div className='w-[220px]'>
+    <div className='w-[240px]'>
       <AppSelect
         aria-label={t('TEXT_SORTING')}
         options={options}

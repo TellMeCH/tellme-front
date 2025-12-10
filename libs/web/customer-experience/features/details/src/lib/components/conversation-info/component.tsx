@@ -48,7 +48,7 @@ export function ConversationInfo({ conversation }: ConversationInfoProps): React
         <Heading level={3} className={keyClassName}>
           {t('TEXT_SUMMARY')}
         </Heading>
-        <p className='mb-6'>{conversation.summary}</p>
+        <p className='mb-6 whitespace-pre-wrap'>{conversation.summary}</p>
         <div className='flex flex-wrap gap-2'>
           {conversation.suggestedTopics.map((suggestedTopic) => (
             <TopicChip
