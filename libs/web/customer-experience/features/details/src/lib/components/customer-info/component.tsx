@@ -2,8 +2,8 @@ import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement } from 'react';
 import { Customer, CustomerSummary } from '@tellme/web/shared/data-access/api';
 import { Heading, Spinner } from '@tellme/web/shared/ui/ui-kit';
-import { appConstants } from '@tellme/web/shared/utils/constants';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
+import { formatCurrency } from '@tellme/web/shared/utils/strings';
 
 interface CustomerInfoProps {
   customer: Customer;
@@ -36,9 +36,7 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         </div>
         <div className='basis-1/4'>
           <div className={keyClassName}>{t('TEXT_REVENUE')}</div>
-          <div>
-            {Math.round(customer.totalRevenue)} {appConstants.currencyCode}
-          </div>
+          <div>{customer.totalRevenue === null ? '-' : formatCurrency(Math.round(customer.totalRevenue))}</div>
         </div>
       </div>
 
@@ -46,27 +44,31 @@ export function CustomerInfo({ customer, summary }: CustomerInfoProps): ReactEle
         <Fragment>
           <div className='rounded-2xl bg-background-tertiary p-4 flex mb-4 gap-6'>
             <div className='basis-1/2'>
+              {/* Expectations Met */}
               <Heading level={3} className='text-sm mb-1'>
                 {t('TEXT_EXPECTATIONS_MET')}
               </Heading>
-              <p>{summary.expectationsMet}</p>
+              <p className='whitespace-pre-wrap'>{summary.expectationsMet}</p>
             </div>
             <div className='basis-1/2'>
+              {/* Improvement Suggestions */}
               <Heading level={3} className='text-sm mb-1'>
                 {t('TEXT_IMPROVEMENT_SUGGESTIONS')}
               </Heading>
-              <p>{summary.improvementSuggestions}</p>
+              <p className='whitespace-pre-wrap'>{summary.improvementSuggestions}</p>
             </div>
           </div>
 
           <div className='flex gap-6'>
             <div className='basis-1/2'>
+              {/* Liked Features */}
               <div className={keyClassName}>{t('TEXT_LIKED_FEATURES')}</div>
-              <p>{summary.likedFeatures}</p>
+              <p className='whitespace-pre-wrap'>{summary.likedFeatures}</p>
             </div>
             <div className='basis-1/2'>
+              {/* Disliked Features */}
               <div className={keyClassName}>{t('TEXT_DISLIKED_FEATURES')}</div>
-              <p>{summary.dislikedFeatures}</p>
+              <p className='whitespace-pre-wrap'>{summary.dislikedFeatures}</p>
             </div>
           </div>
         </Fragment>
