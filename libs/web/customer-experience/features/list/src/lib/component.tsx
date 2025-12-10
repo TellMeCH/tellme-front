@@ -52,8 +52,8 @@ export function CustomerExperiencesList({
   return (
     <div className='min-h-full flex flex-col gap-2'>
       <Header title={t('TEXT_TITLE')} />
-      <div className='flex-1 flex flex-col bg-background-secondary rounded-2xl py-6 px-8 gap-5'>
-        <div className='flex items-center justify-between w-full'>
+      <div className='flex-1 flex flex-col bg-background-secondary rounded-2xl py-6 gap-5'>
+        <div className='flex items-center justify-between w-full px-8'>
           <Heading level={2} className='text-base'>
             {t('TEXT_SUBTITLE')}
           </Heading>
