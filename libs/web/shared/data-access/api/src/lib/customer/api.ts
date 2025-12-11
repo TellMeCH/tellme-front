@@ -1,7 +1,7 @@
-import { createEntityInstance, prepareRequestParams } from '@ronas-it/rtkq-entity-api';
+import { createEntityInstance } from '@ronas-it/rtkq-entity-api';
 import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationResponse } from '../common';
-import { createInfiniteQueryOptions, createSearchResponseTransformer } from '../common/utils';
+import { createInfiniteQuery, createInfiniteQueryOptions, createSearchResponseTransformer } from '../common/utils';
 import { customerApiConfig } from './config';
 import { Customer, CustomerPaginationRequest, CustomerSummaryResponse } from './models';
 
@@ -10,11 +10,10 @@ export const customerApi = createAppApi({
   endpoints: (builder) => ({
     search: builder.infiniteQuery<PaginationResponse<Customer>, CustomerPaginationRequest, string | undefined>({
       infiniteQueryOptions: createInfiniteQueryOptions<Customer>(),
-      query: ({ queryArg, pageParam }) => ({
-        method: 'get',
-        url: `${customerApiConfig.baseEndpoint}${queryArg.query ? 'search/' : ''}`,
-        params: prepareRequestParams({ ...queryArg, cursor: pageParam }, CustomerPaginationRequest),
-      }),
+      query: createInfiniteQuery<CustomerPaginationRequest>(
+        `${customerApiConfig.baseEndpoint}search/`,
+        CustomerPaginationRequest,
+      ),
       transformResponse: createSearchResponseTransformer<Customer>(Customer),
     }),
     get: builder.query<Customer, { id: number }>({
