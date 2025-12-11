@@ -48,6 +48,7 @@ module.exports = {
       fontSize: {
         h1: '2.75rem',
         'h1-mobile': '2rem',
+        xs: '0.69rem',
       },
     },
   },
@@ -59,6 +60,7 @@ module.exports = {
           colors: {
             danger: '#db4e5c',
             primary: '#569ee2',
+            default: '#7e858a',
           },
         },
       },

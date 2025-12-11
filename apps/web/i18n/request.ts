@@ -17,6 +17,7 @@ export default getRequestConfig(async ({ requestLocale }) => {
       account: (await import(`../../../i18n/web/account/${locale}.json`)).default,
       shared: (await import(`../../../i18n/shared/${locale}.json`)).default,
       administration: (await import(`../../../i18n/web/administration/${locale}.json`)).default,
+      'customer-experience': (await import(`../../../i18n/web/customer-experience/${locale}.json`)).default,
     },
   };
 });

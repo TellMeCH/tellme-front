@@ -1,0 +1,6 @@
+import { CustomerSearchParams } from '../models';
+
+// It should be a union type of search params classes of different pages
+// These classes should contain only primitives and arrays of primitives
+// Example: UsersSearchParams | ProductsSearchParams
+export type FilteringSearchParams = CustomerSearchParams;

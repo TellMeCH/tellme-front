@@ -72,12 +72,23 @@ describe('Administration', () => {
             const sortedEmployees = employeesPaginationResponse.results
               .slice()
               .sort((a, b) => a.url.localeCompare(b.url));
+            const newEmployeeId = getIdFromUrl(sortedEmployees[lastEmployeeIndex].url) + 1;
+            const creationDate = new Date().toISOString();
+            const newEmployee = {
+              ...(config.data as any),
+              created: creationDate,
+              updated: creationDate,
+            };
+
+            employeesPaginationResponse.results.push({
+              ...newEmployee,
+              url: `https://tellme-service-716439647851.europe-west6.run.app/api/v1/employees/${newEmployeeId}/`,
+            });
 
             return Promise.resolve({
               data: {
                 ...(config.data as object),
-                id: getIdFromUrl(sortedEmployees[lastEmployeeIndex].url) + 1,
-                created: new Date().toISOString(),
+                id: newEmployeeId,
               },
             });
           }
@@ -193,7 +204,7 @@ describe('Administration', () => {
       );
     });
     const items = screen.getAllByTestId('employee-item');
-    expect(items.length).toBe(employeesPaginationResponse.results.length + 1);
+    expect(items.length).toBe(employeesPaginationResponse.results.length);
     expect(screen.getByTestId('employees-count')).toHaveTextContent(String(organization.employee_count + 1));
   });
 

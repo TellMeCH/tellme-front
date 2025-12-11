@@ -10,6 +10,7 @@ interface TextInputClassNames {
   label?: string;
   input?: string;
   containerInner?: string;
+  base?: string;
 }
 
 export interface TextInputProps extends Omit<InputProps, 'className' | 'errorMessage'> {
@@ -90,21 +91,24 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
           ),
           mainWrapper: 'form__group__inner',
           input: classNames?.input,
+          base: classNames?.base,
         }}
         startContent={accessoryLeft}
         endContent={renderEndContent()}
         labelPlacement='outside'
         label={
-          <label
-            className={clsx(
-              'form__label',
-              inputColor === 'transparent' && 'form__label_light',
-              classNames?.label,
-              '!flex items-center gap-2',
-            )}>
-            <span>{label}</span>
-            {labelRightAccessory}
-          </label>
+          label && (
+            <label
+              className={clsx(
+                'form__label',
+                inputColor === 'transparent' && 'form__label_light',
+                classNames?.label,
+                '!flex items-center gap-2',
+              )}>
+              <span>{label}</span>
+              {labelRightAccessory}
+            </label>
+          )
         }
         {...restProps}
       />

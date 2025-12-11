@@ -1,0 +1,9 @@
+{
+  "name": "web/customer-experience/features/details",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/customer-experience/features/details/src",
+  "projectType": "library",
+  "tags": ["app:web", "scope:customer-experience", "type:features", "test"],
+  "// targets": "to see all targets run: nx show project web/customer-experience/features/details --web",
+  "targets": {}
+}

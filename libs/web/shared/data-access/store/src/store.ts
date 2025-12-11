@@ -1,6 +1,13 @@
 import { Middleware, Reducer } from '@reduxjs/toolkit';
 import { AppStateFromRootReducer, createStoreInitializer } from '@ronas-it/rtkq-entity-api';
-import { topicApi, organizationApi, employeeApi, suggestedTopicApi } from '@tellme/web/shared/data-access/api';
+import {
+  topicApi,
+  organizationApi,
+  employeeApi,
+  suggestedTopicApi,
+  customerApi,
+  conversationApi,
+} from '@tellme/web/shared/data-access/api';
 import { authListenerMiddleware, authReducer, authReducerPath } from '@tellme/web/shared/data-access/auth';
 
 export type AppState = AppStateFromRootReducer<typeof rootReducer>;
@@ -11,6 +18,8 @@ const rootReducer = {
   [organizationApi.reducerPath]: organizationApi.reducer,
   [employeeApi.reducerPath]: employeeApi.reducer,
   [suggestedTopicApi.reducerPath]: suggestedTopicApi.reducer,
+  [customerApi.reducerPath]: customerApi.reducer,
+  [conversationApi.reducerPath]: conversationApi.reducer,
 };
 
 const middlewares: Array<Middleware> = [
@@ -19,6 +28,8 @@ const middlewares: Array<Middleware> = [
   organizationApi.middleware,
   employeeApi.middleware,
   suggestedTopicApi.middleware,
+  customerApi.middleware,
+  conversationApi.middleware,
 ];
 
 const initStore = createStoreInitializer({

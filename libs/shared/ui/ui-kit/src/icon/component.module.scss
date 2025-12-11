@@ -8,6 +8,7 @@
   &_secondary {background-color: $text-secondary;}
   &_tertiary {background-color: $text-tertiary;}
   &_bg_primary {background-color: $background-primary;}
+  &_brand_primary {background-color: $brand-primary;}
 
   &_calendar {--bg-position: 433px -22px;}
   &_logout {--bg-position: 372px -22px;}
@@ -36,6 +37,10 @@
   &_more {--bg-position: -158px -502px;}
   &_info {--bg-position: -341px  -502px; width: 16px; height: 16px;}
   &_expand {--bg-position: -394px -502px;}
+  &_users {--bg-position: -333px -578px;}
+  &_back {--bg-position: -394px -578px;}
+  &_email {--bg-position: -97px -578px;}
+  &_sparkle {--bg-position: -394px -502px;}
 
   &_number {
     &_1 {--bg-position: -36px -270px; width: 80px; height: 80px;}

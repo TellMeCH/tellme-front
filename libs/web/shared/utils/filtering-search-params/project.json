@@ -1,0 +1,9 @@
+{
+  "name": "web/shared/utils/filtering-search-params",
+  "$schema": "../../../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/web/shared/utils/filtering-search-params/src",
+  "projectType": "library",
+  "tags": ["app:web", "scope:shared", "type:utils"],
+  "// targets": "to see all targets run: nx show project web/shared/utils/filtering-search-params --web",
+  "targets": {}
+}

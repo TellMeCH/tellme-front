@@ -1,0 +1,24 @@
+import clsx from 'clsx';
+import { ReactElement } from 'react';
+import { TranscriptItem, TranscriptItemClass } from '@tellme/web/shared/data-access/api';
+
+interface MessageProps {
+  transcriptItem: TranscriptItem;
+  customerFullName: string;
+}
+
+export function Message({ transcriptItem, customerFullName }: MessageProps): ReactElement {
+  const isCustomerMessage = transcriptItem.class === TranscriptItemClass.CUSTOMER_MESSAGE;
+
+  return (
+    <div
+      className={clsx(
+        'rounded-xl px-3 py-2 mb-4 last:mb-0 max-w-[475px]',
+        isCustomerMessage ? 'bg-background-secondary rounded-bl-none' : 'bg-brand-primary rounded-br-none ml-auto',
+      )}
+      data-testid='message'>
+      {isCustomerMessage && <p className='font-bold mb-1 text-xs'>{customerFullName}</p>}
+      <p className={clsx('text-sm', !isCustomerMessage && 'text-background-secondary')}>{transcriptItem.message}</p>
+    </div>
+  );
+}

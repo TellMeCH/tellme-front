@@ -33,6 +33,12 @@ export function Sidebar({ className, onLogoutSuccess }: SidebarProps): ReactElem
       testId: 'link',
     },
     {
+      href: navigationConfig.routes.private.customerExperiences.list(),
+      iconName: 'users',
+      title: t('LINK_CUSTOMER_EXPERIENCES'),
+      testId: 'link',
+    },
+    {
       href: navigationConfig.routes.private.topicAnalysis,
       iconName: 'chart',
       title: t('LINK_TOPIC_ANALYSIS'),

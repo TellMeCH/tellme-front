@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { ReactElement } from 'react';
 import styles from './component.module.scss';
 
-export type IconTheme = 'primary' | 'secondary' | 'tertiary' | 'bg_primary';
+export type IconTheme = 'primary' | 'secondary' | 'tertiary' | 'bg_primary' | 'brand_primary';
 
 export type IconName =
   | 'calendar'
@@ -33,7 +33,11 @@ export type IconName =
   | 'setting'
   | 'more'
   | 'info'
-  | 'expand';
+  | 'expand'
+  | 'users'
+  | 'back'
+  | 'email'
+  | 'sparkle';
 
 export interface IconProps {
   name: IconName;

@@ -15,3 +15,8 @@ export * from './lib/form-select/component';
 export * from './lib/dropdown/component';
 export * from './lib/tooltip/component';
 export * from './lib/icon-with-tooltip/component';
+export * from './lib/select/component';
+export * from './lib/search-input/component';
+export * from './lib/back-button/component';
+export * from './lib/spinner/component';
+export * from './lib/chip/component';
