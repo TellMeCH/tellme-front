@@ -19,6 +19,9 @@ export class CustomerSummary {
   @Expose({ name: 'Suggested Email Body' })
   public suggestedEmailBody: string;
 
+  @Expose({ name: 'Suggested Email Mailto' })
+  public suggestedEmailLink: string;
+
   constructor(model: Partial<CustomerSummary>) {
     Object.assign(this, model);
   }

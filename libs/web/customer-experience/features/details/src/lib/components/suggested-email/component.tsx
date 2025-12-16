@@ -8,11 +8,8 @@ interface SuggestedEmailProps {
   summary?: CustomerSummary;
 }
 
-const customerCommonEmail = 'your_customer@wherever.com';
-
 export function SuggestedEmail({ summary }: SuggestedEmailProps): ReactElement {
   const t = useTranslations('customer-experience.DETAILS.SUGGESTED_EMAIL');
-  const emailLink = `mailto:${customerCommonEmail}?subject=${summary?.suggestedEmailSubject}&body=${summary?.suggestedEmailBody}`;
 
   return (
     <div className='bg-background-secondary rounded-2xl py-6 px-8'>
@@ -27,7 +24,7 @@ export function SuggestedEmail({ summary }: SuggestedEmailProps): ReactElement {
           <p className='max-w-[900px] mb-6 whitespace-pre-wrap'>{summary.suggestedEmailBody}</p>
           <Button
             as='a'
-            href={emailLink}
+            href={summary.suggestedEmailLink}
             variant='bordered'
             startContent={<Icon name='email' theme='brand_primary' />}>
             {t('BUTTON_SEND_EMAIL')}
