@@ -25,6 +25,7 @@ export function SuggestedEmail({ summary }: SuggestedEmailProps): ReactElement {
           <Button
             as='a'
             href={summary.suggestedEmailLink}
+            target='_blank'
             variant='bordered'
             startContent={<Icon name='email' theme='brand_primary' />}>
             {t('BUTTON_SEND_EMAIL')}
