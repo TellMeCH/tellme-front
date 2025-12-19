@@ -40,12 +40,10 @@
     },
     "SUGGESTED": {
       "TEXT_EMAIL": "Email",
-      "TEXT_JIRA": "Jira"
-    },
-    "SUGGESTED_EMAIL": {
-      "TEXT_TITLE": "Suggested Email Response",
+      "TEXT_JIRA": "Jira",
+      "TEXT_EMAIL_TITLE": "Suggested Email Response",
       "BUTTON_SEND_EMAIL": "Send Email",
-      "TEXT_GENERATING": "Generating email..."
+      "TEXT_GENERATING_EMAIL": "Generating email..."
     },
     "CONVERSATION_INFO": {
       "TEXT_CONVERSATION": "Conversation",
