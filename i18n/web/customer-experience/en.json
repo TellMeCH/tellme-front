@@ -38,6 +38,10 @@
       "TEXT_DISLIKED_FEATURES": "Disliked Features",
       "TEXT_GENERATING": "Generating customer summaries..."
     },
+    "SUGGESTED": {
+      "TEXT_EMAIL": "Email",
+      "TEXT_JIRA": "Jira"
+    },
     "SUGGESTED_EMAIL": {
       "TEXT_TITLE": "Suggested Email Response",
       "BUTTON_SEND_EMAIL": "Send Email",

@@ -7,8 +7,15 @@ import { Fragment, ReactElement, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { conversationApi, customerApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
+import { useOrganization } from '@tellme/web/shared/data-access/organization';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
-import { ConversationInfo, CustomerInfo, OtherConversations, SuggestedEmail, Transcript } from './components';
+import {
+  ConversationInfo,
+  CustomerInfo,
+  OtherConversations,
+  Suggested,
+  Transcript,
+} from './components';
 import { useCustomerSummary } from './hooks';
 
 interface CustomerExperienceDetailsProps {
@@ -27,6 +34,7 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
   } = customerApi.useGetQuery({ id }, { skip: !profile });
   const detailedConversationId = conversationId || customer?.latestConversationId;
 
+  const { organization, isLoading: isOrganizationLoading, error: organizationError } = useOrganization();
   const { summaryResponse, isSummaryLoading, error: summaryError } = useCustomerSummary(id);
   const { data: detailedConversation, error: detailedConversationError } = conversationApi.useGetQuery(
     { id: detailedConversationId as number },
@@ -43,8 +51,8 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
       conversationsResponse?.results.filter((conversation) => conversation.idFromUrl !== detailedConversationId) || [],
     [conversationsResponse, detailedConversation],
   );
-  const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading;
-  const error = customerError || summaryError || detailedConversationError || conversationsError;
+  const isLoading = isCustomerLoading || isSummaryLoading || areConversationsLoading || isOrganizationLoading;
+  const error = customerError || summaryError || detailedConversationError || conversationsError || organizationError;
   const isNotFound = (error && Number(error.code) === HttpStatusCode.NotFound) || customer?.conversationsCount === 0;
 
   return (
@@ -55,11 +63,11 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
           {isNotFound && <p>{t('TEXT_NOT_FOUND')}</p>}
         </div>
       )}
-      {customer && summaryResponse && detailedConversation && (
+      {customer && summaryResponse && detailedConversation && organization && (
         <Fragment>
           <Header leftContent={<BackButton />} title={detailedConversation?.title} />
           <CustomerInfo customer={customer} summary={summaryResponse.summary} />
-          <SuggestedEmail summary={summaryResponse.summary} />
+          <Suggested summary={summaryResponse.summary} hasTabs={!!organization.ticketServer} />
           <ConversationInfo conversation={detailedConversation} />
           {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} customerId={id} />}
           {detailedConversationId && (

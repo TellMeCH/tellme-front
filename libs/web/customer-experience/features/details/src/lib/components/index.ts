@@ -5,3 +5,4 @@ export * from './topic-chip';
 export * from './other-conversations';
 export * from './transcript';
 export * from './message';
+export * from './suggested';

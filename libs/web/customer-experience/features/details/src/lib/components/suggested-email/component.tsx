@@ -12,7 +12,7 @@ export function SuggestedEmail({ summary }: SuggestedEmailProps): ReactElement {
   const t = useTranslations('customer-experience.DETAILS.SUGGESTED_EMAIL');
 
   return (
-    <div className='bg-background-secondary rounded-2xl py-6 px-8'>
+    <article className='pt-2'>
       <Heading level={2} className='text-base mb-6'>
         {t('TEXT_TITLE')}
       </Heading>
@@ -37,6 +37,6 @@ export function SuggestedEmail({ summary }: SuggestedEmailProps): ReactElement {
           <p className='text-text-secondary'>{t('TEXT_GENERATING')}</p>
         </div>
       )}
-    </div>
+    </article>
   );
 }
