@@ -1,4 +1,4 @@
-import { Tab } from '@heroui/react';
+import { As, Tab } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { Key, ReactElement, useState } from 'react';
 import { Icon } from '@tellme/shared/ui/ui-kit';
@@ -15,6 +15,25 @@ interface SuggestedProps {
 export function Suggested({ summary, hasTabs }: SuggestedProps): ReactElement {
   const t = useTranslations('customer-experience.DETAILS.SUGGESTED');
   const [selectedTabKey, setSelectedTabKey] = useState(SuggestedTabKey.EMAIL);
+
+  const isEmailSelected = selectedTabKey === SuggestedTabKey.EMAIL;
+  const title = isEmailSelected ? t('TEXT_EMAIL_TITLE') : t('TEXT_SUGGESTED_TICKET');
+  const subtitle = isEmailSelected ? summary?.suggestedEmailSubject : summary?.jiraTicketTitle;
+  const description = isEmailSelected ? summary?.suggestedEmailBody : summary?.jiraTicketBody;
+  const generatingText = isEmailSelected ? t('TEXT_GENERATING_EMAIL') : t('TEXT_GENERATING_SUGGESTED_TICKET');
+  const buttonProps = isEmailSelected
+    ? {
+        as: 'a' as As,
+        href: summary?.suggestedEmailLink,
+        target: '_blank',
+        startContent: <Icon name='email' theme='brand_primary' />,
+        children: t('BUTTON_SEND_EMAIL'),
+      }
+    : {
+        onClick: () => console.log('Create'),
+        children: t('BUTTON_CREATE_TICKET'),
+        startContent: <Icon name='file' theme='brand_primary' />,
+      };
 
   const changeTabKey = (key: Key) => {
     setSelectedTabKey(key as SuggestedTabKey);
@@ -33,21 +52,13 @@ export function Suggested({ summary, hasTabs }: SuggestedProps): ReactElement {
           </Tabs>
         </div>
       )}
-      {selectedTabKey === SuggestedTabKey.EMAIL ? (
-        <SuggestedContent
-          title={t('TEXT_EMAIL_TITLE')}
-          subtitle={summary?.suggestedEmailSubject}
-          description={summary?.suggestedEmailBody}
-          generatingText={t('TEXT_GENERATING_EMAIL')}
-          buttonProps={{
-            as: 'a',
-            href: summary?.suggestedEmailLink,
-            target: '_blank',
-            startContent: <Icon name='email' theme='brand_primary' />,
-            children: t('BUTTON_SEND_EMAIL'),
-          }}
-        />
-      ) : null}
+      <SuggestedContent
+        title={title}
+        subtitle={subtitle}
+        description={description}
+        generatingText={generatingText}
+        buttonProps={buttonProps}
+      />
     </div>
   );
 }

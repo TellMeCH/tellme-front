@@ -43,7 +43,14 @@
       "TEXT_JIRA": "Jira",
       "TEXT_EMAIL_TITLE": "Suggested Email Response",
       "BUTTON_SEND_EMAIL": "Send Email",
-      "TEXT_GENERATING_EMAIL": "Generating email..."
+      "TEXT_GENERATING_EMAIL": "Generating email...",
+      "TEXT_GENERATING_SUGGESTED_TICKET": "Generating suggested ticket...",
+      "TEXT_SUGGESTED_TICKET": "Suggested Ticket",
+      "TEXT_TICKET": "Ticket",
+      "BUTTON_CREATE_TICKET": "Create ticket",
+      "BUTTON_CREATING_TICKET": "Creating ticket...",
+      "BUTTON_VIEW_TICKET": "View ticket",
+      "LINK_RESOURCE": "Resource: conversation from 7/12/2025 "
     },
     "CONVERSATION_INFO": {
       "TEXT_CONVERSATION": "Conversation",
