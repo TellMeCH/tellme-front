@@ -35,11 +35,11 @@ export class Customer extends BaseEntity {
   public conversationsCount: number;
 
   @Expose({ name: 'ticket_link' })
-  public ticketLink?: string;
+  public ticketLink: string | null;
 
   @Expose({ name: 'ticket_date' })
   @TransformDate()
-  public ticketDate?: DateTime;
+  public ticketDate: DateTime | null;
 
   @Exclude()
   public get fullName(): string {

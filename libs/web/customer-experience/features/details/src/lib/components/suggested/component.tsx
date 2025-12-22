@@ -2,29 +2,24 @@ import { As, Tab } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { Key, ReactElement, useState } from 'react';
 import { Icon } from '@tellme/shared/ui/ui-kit';
-import { Customer, customerApi, CustomerSummary } from '@tellme/web/shared/data-access/api';
+import { Customer, CustomerSummary } from '@tellme/web/shared/data-access/api';
 import { Tabs } from '@tellme/web/shared/ui/ui-kit';
 import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { SuggestedTabKey } from '../../enums';
+import { useTicket } from '../../hooks';
 import { SuggestedContent } from '../suggested-content';
 
 interface SuggestedProps {
   customer: Customer;
   summary?: CustomerSummary;
   hasTabs?: boolean;
-  onCreateTicket: () => void;
 }
 
-export function Suggested({ customer, summary, hasTabs, onCreateTicket }: SuggestedProps): ReactElement {
+export function Suggested({ customer, summary, hasTabs }: SuggestedProps): ReactElement {
   const t = useTranslations('customer-experience.DETAILS.SUGGESTED');
   const [selectedTabKey, setSelectedTabKey] = useState(SuggestedTabKey.EMAIL);
 
-  const [createTicket, { isLoading }] = customerApi.useCreateTicketMutation();
-
-  const create = async (): Promise<void> => {
-    await createTicket(customer.idFromUrl).unwrap();
-    onCreateTicket();
-  };
+  const { createTicket, isLoading } = useTicket(customer.idFromUrl);
 
   const changeTabKey = (key: Key) => {
     setSelectedTabKey(key as SuggestedTabKey);
@@ -50,10 +45,10 @@ export function Suggested({ customer, summary, hasTabs, onCreateTicket }: Sugges
         children: t('BUTTON_SEND_EMAIL'),
       }
     : {
-        onClick: customer.hasTicket ? undefined : create,
+        onClick: customer.hasTicket ? undefined : createTicket,
         as: customer.hasTicket ? ('a' as As) : undefined,
         target: customer.hasTicket ? '_blank' : undefined,
-        href: customer.hasTicket ? customer.ticketLink : undefined,
+        href: customer.ticketLink || undefined,
         isLoading,
         children: isLoading
           ? t('BUTTON_CREATING_TICKET')

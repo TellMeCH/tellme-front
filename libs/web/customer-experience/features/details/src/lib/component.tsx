@@ -5,12 +5,12 @@ import { HttpStatusCode } from 'axios';
 import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement, useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import { conversationApi } from '@tellme/web/shared/data-access/api';
+import { conversationApi, customerApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 import { useOrganization } from '@tellme/web/shared/data-access/organization';
 import { BackButton, Header } from '@tellme/web/shared/ui/ui-kit';
 import { ConversationInfo, CustomerInfo, OtherConversations, Suggested, Transcript } from './components';
-import { useCustomer, useCustomerSummary } from './hooks';
+import { useCustomerSummary } from './hooks';
 
 interface CustomerExperienceDetailsProps {
   id: number;
@@ -22,11 +22,10 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
 
   const profile = useSelector(authSelectors.profile);
   const {
-    customer,
+    data: customer,
     isLoading: isCustomerLoading,
     error: customerError,
-    startPolling: startCustomerPolling,
-  } = useCustomer(id);
+  } = customerApi.useGetQuery({ id }, { skip: !profile });
   const detailedConversationId = conversationId || customer?.latestConversationId;
 
   const { organization, isLoading: isOrganizationLoading, error: organizationError } = useOrganization();
@@ -65,9 +64,7 @@ export function CustomerExperienceDetails({ id, conversationId }: CustomerExperi
           <Suggested
             summary={summaryResponse.summary}
             hasTabs={!!organization.ticketServer}
-            customer={customer}
-            onCreateTicket={startCustomerPolling}
-          />
+            customer={customer} />
           <ConversationInfo conversation={detailedConversation} />
           {otherConversations.length > 0 && <OtherConversations conversations={otherConversations} customerId={id} />}
           {detailedConversationId && (
