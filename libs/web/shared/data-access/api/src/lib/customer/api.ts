@@ -35,6 +35,12 @@ export const customerApi = createAppApi({
       transformResponse: (response: object) =>
         createEntityInstance<CustomerSummaryResponse>(CustomerSummaryResponse, response),
     }),
+    createSummary: builder.mutation<void, number>({
+      query: (customerId) => ({
+        method: 'post',
+        url: `${customerApiConfig.baseEndpoint}${customerId}/summary_data/`,
+      }),
+    }),
     createTicket: builder.mutation<void, number>({
       query: (customerId) => ({
         method: 'get',
