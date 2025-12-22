@@ -37,6 +37,10 @@ export class Customer extends BaseEntity {
   @Expose({ name: 'ticket_link' })
   public ticketLink?: string;
 
+  @Expose({ name: 'ticket_date' })
+  @TransformDate()
+  public ticketDate?: DateTime;
+
   @Exclude()
   public get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -49,7 +53,7 @@ export class Customer extends BaseEntity {
 
   @Exclude()
   public get hasTicket(): boolean {
-    return !!this.ticketLink;
+    return !!this.ticketLink && !!this.ticketDate;
   }
 
   constructor(model: Partial<Customer>) {

@@ -2,23 +2,43 @@ import { As, Tab } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { Key, ReactElement, useState } from 'react';
 import { Icon } from '@tellme/shared/ui/ui-kit';
-import { CustomerSummary } from '@tellme/web/shared/data-access/api';
+import { Customer, customerApi, CustomerSummary } from '@tellme/web/shared/data-access/api';
 import { Tabs } from '@tellme/web/shared/ui/ui-kit';
+import { DateTimeFormat, formatDate } from '@tellme/web/shared/utils/dates';
 import { SuggestedTabKey } from '../../enums';
 import { SuggestedContent } from '../suggested-content';
 
 interface SuggestedProps {
+  customer: Customer;
   summary?: CustomerSummary;
   hasTabs?: boolean;
+  onCreateTicket: () => void;
 }
 
-export function Suggested({ summary, hasTabs }: SuggestedProps): ReactElement {
+export function Suggested({ customer, summary, hasTabs, onCreateTicket }: SuggestedProps): ReactElement {
   const t = useTranslations('customer-experience.DETAILS.SUGGESTED');
   const [selectedTabKey, setSelectedTabKey] = useState(SuggestedTabKey.EMAIL);
 
+  const [createTicket, { isLoading }] = customerApi.useCreateTicketMutation();
+
+  const create = async (): Promise<void> => {
+    await createTicket(customer.idFromUrl).unwrap();
+    onCreateTicket();
+  };
+
+  const changeTabKey = (key: Key) => {
+    setSelectedTabKey(key as SuggestedTabKey);
+  };
+
   const isEmailSelected = selectedTabKey === SuggestedTabKey.EMAIL;
-  const title = isEmailSelected ? t('TEXT_EMAIL_TITLE') : t('TEXT_SUGGESTED_TICKET');
-  const subtitle = isEmailSelected ? summary?.suggestedEmailSubject : summary?.jiraTicketTitle;
+  const title = isEmailSelected
+    ? t('TEXT_EMAIL_TITLE')
+    : customer.hasTicket
+      ? t('TEXT_TICKET')
+      : t('TEXT_SUGGESTED_TICKET');
+  const subtitle = isEmailSelected
+    ? summary?.suggestedEmailSubject
+    : `${summary?.jiraTicketTitle}${customer.ticketDate ? `, ${formatDate(customer.ticketDate, DateTimeFormat.DAY_NUMBER_MONTH_YEAR)}` : ''}`;
   const description = isEmailSelected ? summary?.suggestedEmailBody : summary?.jiraTicketBody;
   const generatingText = isEmailSelected ? t('TEXT_GENERATING_EMAIL') : t('TEXT_GENERATING_SUGGESTED_TICKET');
   const buttonProps = isEmailSelected
@@ -30,14 +50,19 @@ export function Suggested({ summary, hasTabs }: SuggestedProps): ReactElement {
         children: t('BUTTON_SEND_EMAIL'),
       }
     : {
-        onClick: () => console.log('Create'),
-        children: t('BUTTON_CREATE_TICKET'),
-        startContent: <Icon name='file' theme='brand_primary' />,
+        onClick: customer.hasTicket ? undefined : create,
+        as: customer.hasTicket ? ('a' as As) : undefined,
+        target: customer.hasTicket ? '_blank' : undefined,
+        href: customer.hasTicket ? customer.ticketLink : undefined,
+        isLoading,
+        children: isLoading
+          ? t('BUTTON_CREATING_TICKET')
+          : customer.hasTicket
+            ? t('BUTTON_VIEW_TICKET')
+            : t('BUTTON_CREATE_TICKET'),
+        isDisabled: isLoading,
+        startContent: isLoading ? undefined : <Icon name='file' theme='brand_primary' />,
       };
-
-  const changeTabKey = (key: Key) => {
-    setSelectedTabKey(key as SuggestedTabKey);
-  };
 
   return (
     <div className='bg-background-secondary rounded-2xl py-6 px-8 relative'>
