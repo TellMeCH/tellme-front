@@ -45,7 +45,7 @@ export function Suggested({ customer, summary, hasTabs }: SuggestedProps): React
         children: t('BUTTON_SEND_EMAIL'),
       }
     : {
-        onClick: customer.hasTicket ? undefined : createTicket,
+        onPress: customer.hasTicket ? undefined : createTicket,
         as: customer.hasTicket ? ('a' as As) : undefined,
         target: customer.hasTicket ? '_blank' : undefined,
         href: customer.ticketLink || undefined,
@@ -66,9 +66,16 @@ export function Suggested({ customer, summary, hasTabs }: SuggestedProps): React
           <Tabs
             selectedKey={selectedTabKey}
             onSelectionChange={changeTabKey}
-            fullWidth>
-            <Tab key={SuggestedTabKey.EMAIL} title={t('TEXT_EMAIL')} />
-            <Tab key={SuggestedTabKey.JIRA} title={t('TEXT_JIRA')} />
+            fullWidth
+            data-testid='suggested-tabs'>
+            <Tab
+              key={SuggestedTabKey.EMAIL}
+              title={t('TEXT_EMAIL')}
+              data-testid='email-tab' />
+            <Tab
+              key={SuggestedTabKey.JIRA}
+              title={t('TEXT_JIRA')}
+              data-testid='jira-tab' />
           </Tabs>
         </div>
       )}

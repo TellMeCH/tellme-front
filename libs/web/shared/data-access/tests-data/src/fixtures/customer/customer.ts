@@ -11,4 +11,6 @@ export const customer = {
   avg_sentiment: 4.9,
   total_revenue: 100,
   conversation_count: 3,
+  ticket_date: null,
+  ticket_link: null,
 };

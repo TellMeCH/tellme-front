@@ -24,15 +24,25 @@ export function SuggestedContent({
 
   return (
     <article className='pt-2'>
-      <Heading level={2} className='text-base mb-6'>
+      <Heading
+        level={2}
+        className='text-base mb-6'
+        testId='suggested-content-title'>
         {title}
       </Heading>
       {hasContent ? (
         <Fragment>
-          <p className='mb-3 text-text-secondary'>{subtitle}</p>
-          <p className='max-w-[900px] mb-6 whitespace-pre-wrap'>{description}</p>
+          <p className='mb-3 text-text-secondary' data-testid='suggested-content-subtitle'>
+            {subtitle}
+          </p>
+          <p className='max-w-[900px] mb-6 whitespace-pre-wrap' data-testid='suggested-content-description'>
+            {description}
+          </p>
           <div className='flex items-center gap-4'>
-            <Button variant='bordered' {...buttonProps} />
+            <Button
+              variant='bordered'
+              data-testid='suggested-content-button'
+              {...buttonProps} />
             {!!error && <p className='text-brand-danger'>{error}</p>}
           </div>
         </Fragment>
