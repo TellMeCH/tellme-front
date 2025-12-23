@@ -19,7 +19,7 @@ export function Suggested({ customer, summary, hasTabs }: SuggestedProps): React
   const t = useTranslations('customer-experience.DETAILS.SUGGESTED');
   const [selectedTabKey, setSelectedTabKey] = useState(SuggestedTabKey.EMAIL);
 
-  const { createTicket, isLoading } = useTicket(customer.idFromUrl);
+  const { createTicket, isLoading, isError } = useTicket(customer.idFromUrl);
 
   const changeTabKey = (key: Key) => {
     setSelectedTabKey(key as SuggestedTabKey);
@@ -85,6 +85,7 @@ export function Suggested({ customer, summary, hasTabs }: SuggestedProps): React
         description={description}
         generatingText={generatingText}
         buttonProps={buttonProps}
+        error={isError ? t('TEXT_SOMETHING_WENT_WRONG') : undefined}
       />
     </div>
   );

@@ -2,7 +2,13 @@ import { User } from 'firebase/auth';
 import { NextIntlClientProvider } from 'next-intl';
 import { PropsWithChildren, ReactElement, ReactNode, useEffect } from 'react';
 import { Provider, useDispatch } from 'react-redux';
-import { employeeApi, organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
+import {
+  conversationApi,
+  customerApi,
+  employeeApi,
+  organizationApi,
+  topicApi,
+} from '@tellme/web/shared/data-access/api';
 import { authActions } from '@tellme/web/shared/data-access/auth';
 import { store } from '@tellme/web/shared/data-access/store';
 /* eslint-disable @nx/enforce-module-boundaries */
@@ -41,6 +47,8 @@ function TestApp({ children, shouldAuthorize }: Props): ReactNode {
       dispatch(employeeApi.util.resetApiState());
       dispatch(organizationApi.util.resetApiState());
       dispatch(topicApi.util.resetApiState());
+      dispatch(customerApi.util.resetApiState());
+      dispatch(conversationApi.util.resetApiState());
     };
   }, []);
 
