@@ -3,7 +3,8 @@ import { createAppApi } from '@tellme/web/shared/data-access/api-client';
 import { PaginationResponse } from '../common';
 import { createInfiniteQuery, createInfiniteQueryOptions, createSearchResponseTransformer } from '../common/utils';
 import { customerApiConfig } from './config';
-import { Customer, CustomerPaginationRequest, CustomerSummaryResponse } from './models';
+import { CustomerTicketStatus } from './enums';
+import { Customer, CustomerPaginationRequest, CustomerSummaryResponse, CustomerTicket } from './models';
 
 export const customerApi = createAppApi({
   reducerPath: customerApiConfig.entityName,
@@ -34,6 +35,39 @@ export const customerApi = createAppApi({
       },
       transformResponse: (response: object) =>
         createEntityInstance<CustomerSummaryResponse>(CustomerSummaryResponse, response),
+    }),
+    createSummary: builder.mutation<void, number>({
+      query: (customerId) => ({
+        method: 'post',
+        url: `${customerApiConfig.baseEndpoint}${customerId}/summary_data/`,
+      }),
+    }),
+    getTicket: builder.query<CustomerTicket, number>({
+      query: (customerId) => {
+        return {
+          method: 'get',
+          url: `${customerApiConfig.baseEndpoint}${customerId}/ticket/`,
+        };
+      },
+      transformResponse: (response: object) => createEntityInstance<CustomerTicket>(CustomerTicket, response),
+      async onQueryStarted(arg, { queryFulfilled, dispatch }) {
+        const ticket = (await queryFulfilled).data;
+
+        if (ticket.status === CustomerTicketStatus.READY) {
+          dispatch(
+            customerApi.util.updateQueryData('get', { id: arg }, (endpointData) => {
+              endpointData.ticketDate = ticket.date;
+              endpointData.ticketLink = ticket.link;
+            }),
+          );
+        }
+      },
+    }),
+    createTicket: builder.mutation<void, number>({
+      query: (customerId) => ({
+        method: 'post',
+        url: `${customerApiConfig.baseEndpoint}${customerId}/ticket/`,
+      }),
     }),
   }),
 });

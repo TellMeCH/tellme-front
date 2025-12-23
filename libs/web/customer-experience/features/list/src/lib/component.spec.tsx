@@ -30,7 +30,7 @@ describe('Customer experiences list', () => {
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({
         method: 'get',
-        url: '/customers/',
+        url: '/customers/search/',
         params: { page_size: 10, ordering: '-last_conversation_date' },
       }),
     );
