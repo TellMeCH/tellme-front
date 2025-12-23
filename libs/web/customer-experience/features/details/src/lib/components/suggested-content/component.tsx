@@ -9,6 +9,7 @@ interface SuggestedContentProps {
   description?: string;
   buttonProps: Omit<ButtonProps, 'ref'>;
   generatingText: string;
+  error?: string;
 }
 
 export function SuggestedContent({
@@ -17,6 +18,7 @@ export function SuggestedContent({
   generatingText,
   buttonProps,
   description,
+  error,
 }: SuggestedContentProps): ReactElement {
   const hasContent = subtitle && description;
 
@@ -29,7 +31,10 @@ export function SuggestedContent({
         <Fragment>
           <p className='mb-3 text-text-secondary'>{subtitle}</p>
           <p className='max-w-[900px] mb-6 whitespace-pre-wrap'>{description}</p>
-          <Button variant='bordered' {...buttonProps} />
+          <div className='flex items-center gap-4'>
+            <Button variant='bordered' {...buttonProps} />
+            {!!error && <p className='text-brand-danger'>{error}</p>}
+          </div>
         </Fragment>
       ) : (
         <div className='flex gap-4 items-center'>

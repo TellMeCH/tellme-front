@@ -52,7 +52,7 @@
       "BUTTON_CREATE_TICKET": "Create ticket",
       "BUTTON_CREATING_TICKET": "Creating ticket...",
       "BUTTON_VIEW_TICKET": "View ticket",
-      "LINK_RESOURCE": "Resource: conversation from 7/12/2025 "
+      "TEXT_SOMETHING_WENT_WRONG": "Something went wrong, please try later"
     },
     "CONVERSATION_INFO": {
       "TEXT_CONVERSATION": "Conversation",

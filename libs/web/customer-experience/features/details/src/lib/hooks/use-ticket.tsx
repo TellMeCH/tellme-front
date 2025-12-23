@@ -11,8 +11,12 @@ export function useTicket(customerId: number): typeof result {
   const t = useTranslations('customer-experience.DETAILS');
   const [shouldPoll, setShouldPoll] = useState(false);
 
-  const [create, { isLoading: isCreating }] = customerApi.useCreateTicketMutation();
-  const { data: ticket, isFetching } = customerApi.useGetTicketQuery(customerId, {
+  const [create, { isLoading: isCreating, isError: isCreatingError }] = customerApi.useCreateTicketMutation();
+  const {
+    data: ticket,
+    isFetching,
+    isError: isLoadingError,
+  } = customerApi.useGetTicketQuery(customerId, {
     skip: !shouldPoll,
     pollingInterval,
   });
@@ -34,6 +38,7 @@ export function useTicket(customerId: number): typeof result {
   const result = {
     createTicket,
     isLoading: isCreating || isFetching || ticket?.isCreating,
+    isError: isCreatingError || isLoadingError,
   };
 
   return result;
