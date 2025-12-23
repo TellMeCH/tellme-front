@@ -1,5 +1,11 @@
 import { useDispatch } from 'react-redux';
-import { customerApi, employeeApi, organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
+import {
+  conversationApi,
+  customerApi,
+  employeeApi,
+  organizationApi,
+  topicApi,
+} from '@tellme/web/shared/data-access/api';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
 
 export function useLocalLogout(): typeof logoutLocally {
@@ -11,6 +17,7 @@ export function useLocalLogout(): typeof logoutLocally {
     dispatch(organizationApi.util.resetApiState());
     dispatch(employeeApi.util.resetApiState());
     dispatch(customerApi.util.resetApiState());
+    dispatch(conversationApi.util.resetApiState());
   };
 
   return logoutLocally;

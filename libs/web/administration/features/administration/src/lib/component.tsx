@@ -4,8 +4,9 @@ import { Spinner } from '@heroui/react';
 import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement } from 'react';
 import { useSelector } from 'react-redux';
-import { employeeApi, organizationApi } from '@tellme/web/shared/data-access/api';
+import { employeeApi } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
+import { useOrganization } from '@tellme/web/shared/data-access/organization';
 import { Header } from '@tellme/web/shared/ui/ui-kit';
 import { EmployeesTable, OrganizationDetail } from './components';
 
@@ -13,19 +14,13 @@ export function Administration(): ReactElement {
   const t = useTranslations('administration.ADMINISTRATION');
 
   const profile = useSelector(authSelectors.profile);
-  const { data: employeeProfile, isLoading: isEmployeeProfileLoading } = employeeApi.useGetProfileQuery(undefined, {
-    skip: !profile,
-  });
-  const { data: organization, isLoading: isOrganizationLoading } = organizationApi.useGetOrganizationQuery(
-    { id: Number(employeeProfile?.organizationId) },
-    { skip: !employeeProfile },
-  );
+  const { organization, isLoading: isOrganizationLoading } = useOrganization();
   const { data: employeesResponses, isLoading: areEmployeesLoading } = employeeApi.useSearchInfiniteQuery(
     { pageSize: 15 },
     { skip: !profile },
   );
 
-  const isLoading = isOrganizationLoading || isEmployeeProfileLoading || areEmployeesLoading;
+  const isLoading = isOrganizationLoading || areEmployeesLoading;
 
   return (
     <div className='min-h-full flex flex-col gap-2 justify-center'>

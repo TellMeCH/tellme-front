@@ -2,9 +2,11 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
+  admin,
   conversationsPaginationResponse,
   customer,
   detailedConversation,
+  organization,
   readyCustomerSummaryResponse,
   TestRootComponent,
   transcriptPaginationResponse,
@@ -51,6 +53,14 @@ describe('Customer experience details', () => {
         return Promise.resolve({ data: customer });
       }
 
+      if (url?.includes('/organizations/')) {
+        return Promise.resolve({ data: organization });
+      }
+
+      if (url?.includes('/me/')) {
+        return Promise.resolve({ data: admin });
+      }
+
       return Promise.resolve({});
     });
   });
@@ -91,6 +101,21 @@ describe('Customer experience details', () => {
           url: `/customers/${customerId}/conversations/`,
         }),
       );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/employees/me/`,
+        }),
+      );
+
+      const organizationId = getIdFromUrl(organization.url);
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/organizations/${organizationId}/`,
+        }),
+      );
     });
 
     it('should not have a detailed conversation among other conversations', async () => {
@@ -104,7 +129,7 @@ describe('Customer experience details', () => {
       requestSpy.mockClear();
       renderComponent(customerId);
 
-      await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+      await userEvent.click(await screen.findByTestId('toggle-transcript-button'));
 
       const messagesItems = await screen.findAllByTestId('message');
       expect(messagesItems.length).toBe(transcriptPaginationResponse.results.length);
@@ -138,7 +163,7 @@ describe('Customer experience details', () => {
     });
 
     it('should load transcript of the selected conversation', async () => {
-      await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+      await userEvent.click(await screen.findByTestId('toggle-transcript-button'));
 
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({

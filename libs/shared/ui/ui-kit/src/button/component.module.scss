@@ -94,6 +94,7 @@
       transition-property: transform, color, background, background-color, border-color, text-decoration-color, fill, stroke, opacity, outline-color;
       &[data-disabled='true'] {
         [class*='icon_primary'] {background-color: $text-secondary;}
+        [class*='icon_brand_primary'] {background-color: $text-secondary;}
       }
       &:not([data-pressed='true']) {
         &[data-hover='true'],

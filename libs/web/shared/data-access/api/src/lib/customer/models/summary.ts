@@ -22,6 +22,12 @@ export class CustomerSummary {
   @Expose({ name: 'Suggested Email Mailto' })
   public suggestedEmailLink: string;
 
+  @Expose({ name: 'Jira Ticket Title' })
+  public jiraTicketTitle?: string;
+
+  @Expose({ name: 'Jira Ticket Body' })
+  public jiraTicketBody?: string;
+
   constructor(model: Partial<CustomerSummary>) {
     Object.assign(this, model);
   }

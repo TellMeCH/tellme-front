@@ -14,6 +14,9 @@ export class Organization extends BaseEntity {
   @Expose({ name: 'employee_count' })
   public employeesCount: number;
 
+  @Expose({ name: 'ticket_server' })
+  public ticketServer: string;
+
   constructor(model: Partial<Organization>) {
     super(model);
     Object.assign(this, model);

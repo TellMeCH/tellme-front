@@ -7,4 +7,5 @@ export const organization = {
   created: '2025-04-08T10:18:13.503290Z',
   updated: '2025-04-08T10:18:13.503308Z',
   transcription_method: 'groq',
+  ticket_server: 'https://atlassian.net/',
 };
