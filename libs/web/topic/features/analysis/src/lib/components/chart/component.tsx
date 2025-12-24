@@ -69,6 +69,7 @@ function TopicChartComponent({ chartState }: TopicChartProps): ReactElement {
         className='min-h-[280px]'>
         <LineChart data={data} margin={{ left: -40, right: -40 }}>
           <CartesianGrid
+            yAxisId={lines[0].key}
             stroke='currentColor'
             className='text-text-tertiary'
             vertical={false} />
@@ -107,6 +108,7 @@ function TopicChartComponent({ chartState }: TopicChartProps): ReactElement {
               strokeWidth={2}
               dot={false}
               style={line.lineStyle}
+              activeDot={false}
             />
           ))}
         </LineChart>
