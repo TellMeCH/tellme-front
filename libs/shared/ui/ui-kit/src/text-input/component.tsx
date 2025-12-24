@@ -42,6 +42,7 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
   } = props;
   const { className: formGroupClassName, ...restFormGroupProps } = formGroupProps ?? {};
   const [isPasswordVisible, setPasswordVisible] = useState<boolean>(false);
+  console.log(formGroupProps);
 
   const togglePasswordVisibility = (): void => {
     setPasswordVisible((currentValue) => !currentValue);

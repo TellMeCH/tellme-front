@@ -11,6 +11,7 @@ export function FormTextInput<T extends FieldValues>({
   name,
   control,
   onChange,
+  formGroupProps,
   ...restProps
 }: FormTextInputProps<T>): ReactElement {
   const { field, fieldState } = useController({ control, name });
@@ -24,6 +25,7 @@ export function FormTextInput<T extends FieldValues>({
       formGroupProps={{
         errorMessage: fieldState.error?.message,
         errorID: fieldState.error ? `${name}-error` : undefined,
+        ...formGroupProps,
       }}
       ref={field.ref}
       {...restProps}

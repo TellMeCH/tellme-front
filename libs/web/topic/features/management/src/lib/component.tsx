@@ -34,8 +34,6 @@ export function TopicsManagement(): ReactElement {
   const openSuggestedTopics = (): void => setAreSuggestedTopicsOpen(true);
   const closeSuggestedTopics = (): void => setAreSuggestedTopicsOpen(false);
 
-  console.log(areSuggestedTopicsReady);
-
   return (
     <div className='flex flex-col min-h-full gap-2'>
       <Header
