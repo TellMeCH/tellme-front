@@ -1,4 +1,4 @@
-@import '@tellme/shared/ui/variables';
+@use '@tellme/shared/ui/variables' as *;
 
 $desktop-image: url(../../assets/app-dashboard.jpg) no-repeat;
 $mobile-image: url(../../assets/app-dashboard.jpg) no-repeat 67% 100%;

@@ -1,10 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@import 'fonts';
-@import 'variables';
-@import 'forms';
+@use 'tailwind';
+@use 'variables' as *;
+@use 'fonts';
+@use 'forms';
 
 * {box-sizing: border-box;}
 html, body {height: 100%; padding: 0; margin: 0; font-size: $text-default; color: $text-primary;

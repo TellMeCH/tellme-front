@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as *;
 
 .form {$self: &;
   &__group {position: relative;

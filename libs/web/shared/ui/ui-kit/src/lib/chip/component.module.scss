@@ -1,4 +1,4 @@
-@import '@tellme/shared/ui/variables';
+@use '@tellme/shared/ui/variables' as *;
 
 .chip {
   &_bordered {border-width: 1px;}
