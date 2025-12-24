@@ -9,6 +9,9 @@ import { useTopicTrends } from '../../hooks';
 import { TopicTrendsItem } from '../topic-trends-item';
 import styles from './component.module.scss';
 
+const currentMonthColor = '#62aaed';
+const previousMonthColor = '#bec9d4';
+
 export function DashboardTopicTrends(): ReactElement {
   const t = useTranslations('topic.DASHBOARD.TOPIC_TRENDS');
 
@@ -22,8 +25,8 @@ export function DashboardTopicTrends(): ReactElement {
         </Heading>
         {currentMonth && previousMonth && (
           <div className='flex flex-row gap-4 items-center'>
-            <Legend label={formatDate(currentMonth, DateTimeFormat.MONTH_ONLY)} color={styles.controlPrimary} />
-            <Legend label={formatDate(previousMonth, DateTimeFormat.MONTH_ONLY)} color={styles.controlSecondary} />
+            <Legend label={formatDate(currentMonth, DateTimeFormat.MONTH_ONLY)} color={currentMonthColor} />
+            <Legend label={formatDate(previousMonth, DateTimeFormat.MONTH_ONLY)} color={previousMonthColor} />
           </div>
         )}
       </div>

@@ -2,19 +2,21 @@
 
 import clsx from 'clsx';
 import { useTranslations } from 'next-intl';
-import { type ReactElement, Fragment, memo } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts';
+import { Fragment, memo, type ReactElement } from 'react';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, XAxis, YAxis } from 'recharts';
 import { TrendPeriod } from '@tellme/web/shared/data-access/api';
 import { Heading, IconWithTooltip } from '@tellme/web/shared/ui/ui-kit';
 import { useResponsiveLayout } from '@tellme/web/shared/utils/use-responsive-layout';
 import { Legend } from '@tellme/web/topic/ui/legend';
 import { ChartState } from '../../interfaces/chart-state';
 import { formatTick } from '../../utils';
-import styles from './component.module.scss';
 
 interface TopicChartProps {
   chartState: ChartState;
 }
+
+const frequencyColor = '#569ee2';
+const sentimentColor = '#ee7016';
 
 function TopicChartComponent({ chartState }: TopicChartProps): ReactElement {
   const t = useTranslations('topic.ANALYSIS.CHART');
@@ -25,14 +27,14 @@ function TopicChartComponent({ chartState }: TopicChartProps): ReactElement {
   const lines = [
     {
       key: 'count',
-      color: styles.brandPrimary,
+      color: frequencyColor,
       label: t('TEXT_FREQUENCY'),
       legendTooltipLabel: t('TEXT_FREQUENCY_TOOLTIP'),
       lineStyle: { transform: 'translateY(-2px)' },
     },
     {
       key: 'averageSentiment',
-      color: styles.brandTertiary,
+      color: sentimentColor,
       label: t('TEXT_CUSTOMER_ENGAGEMENT'),
       legendTooltipLabel: t('TEXT_CUSTOMER_ENGAGEMENT_TOOLTIP'),
       axisProps: {
