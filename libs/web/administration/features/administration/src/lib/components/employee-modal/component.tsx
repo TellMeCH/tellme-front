@@ -6,7 +6,14 @@ import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button } from '@tellme/shared/ui/ui-kit';
-import { employeeApi, EmployeeAuthType, EmployeeRole, EmployeeUser } from '@tellme/web/shared/data-access/api';
+import {
+  employeeApi,
+  EmployeeAuthType,
+  EmployeeErrorData,
+  EmployeeRole,
+  EmployeeUser,
+  ErrorResponse,
+} from '@tellme/web/shared/data-access/api';
 import { FormSelect, FormSwitch, FormTextInput, Modal } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import { EmployeeFormSchema } from '../../forms';
@@ -45,7 +52,7 @@ export function EmployeeModal({ isOpen, onOpenChange }: EmployeeModalProps): Rea
   }, [isSuccess]);
 
   useEffect(() => {
-    const emailError = error?.data.user?.email;
+    const emailError = (error as ErrorResponse<EmployeeErrorData>)?.data.user?.email;
 
     if (emailError) {
       form.setError('user.email', { message: capitalize(emailError[0]) });

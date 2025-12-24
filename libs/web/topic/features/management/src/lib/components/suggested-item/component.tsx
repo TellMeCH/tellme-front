@@ -4,7 +4,12 @@ import { useTranslations } from 'next-intl';
 import { ReactElement, useEffect } from 'react';
 import { ToastContent, ToastService } from '@tellme/shared/ui/toast';
 import { Button } from '@tellme/shared/ui/ui-kit';
-import { SuggestedTopic, suggestedTopicApi } from '@tellme/web/shared/data-access/api';
+import {
+  ErrorResponse,
+  SuggestedTopic,
+  suggestedTopicApi,
+  SuggestedTopicErrorData,
+} from '@tellme/web/shared/data-access/api';
 
 interface SuggestedItemProps {
   suggestedTopic: SuggestedTopic;
@@ -31,7 +36,7 @@ export function SuggestedItem({ suggestedTopic }: SuggestedItemProps): ReactElem
 
   useEffect(() => {
     if (error) {
-      const hasLimitError = error?.data.nonFieldErrors?.includes(
+      const hasLimitError = (error as ErrorResponse<SuggestedTopicErrorData>)?.data.nonFieldErrors?.includes(
         'Cannot add more topics to this organization; maximum topic count reached.',
       );
 
