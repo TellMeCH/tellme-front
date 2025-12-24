@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web/topic/ui/legend',
   preset: '../../../../../jest.preset.js',
   transform: {

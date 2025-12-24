@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web-topic-ui-empty-chart',
   preset: '../../../../../jest.preset.js',
   transform: {

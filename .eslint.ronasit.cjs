@@ -6,8 +6,6 @@ const reactHooks = require('eslint-plugin-react-hooks');
 const _import = require('eslint-plugin-import');
 const tseslint = require('typescript-eslint');
 
-const { fixupPluginRules } = require('@eslint/compat');
-
 const globals = require('globals');
 const tsParser = require('@typescript-eslint/parser');
 const eslint = require('@eslint/js');

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web-shared-utils-use-responsive-layout',
   preset: '../../../../../jest.preset.js',
   transform: {

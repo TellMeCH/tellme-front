@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web/topic/features/management',
   preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/../../../../../jest.setup.js'],
