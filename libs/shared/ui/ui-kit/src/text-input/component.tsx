@@ -42,17 +42,13 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
   } = props;
   const { className: formGroupClassName, ...restFormGroupProps } = formGroupProps ?? {};
   const [isPasswordVisible, setPasswordVisible] = useState<boolean>(false);
-  console.log(formGroupProps);
 
   const togglePasswordVisibility = (): void => {
     setPasswordVisible((currentValue) => !currentValue);
   };
 
   const renderPasswordToggle = (): ReactNode => (
-    <button
-      type='button'
-      onClick={togglePasswordVisibility}
-      className='form__control__password'>
+    <button type='button' onClick={togglePasswordVisibility} className='form__control__password'>
       <Icon name={isPasswordVisible ? 'eye_closed' : 'eye'} />
     </button>
   );
