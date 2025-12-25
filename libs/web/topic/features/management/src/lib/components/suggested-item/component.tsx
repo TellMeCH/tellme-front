@@ -19,7 +19,7 @@ export function SuggestedItem({ suggestedTopic }: SuggestedItemProps): ReactElem
   const t = useTranslations('topic.MANAGEMENT.SUGGESTED_ITEM');
   const [accept, { isLoading, isSuccess, error }] = suggestedTopicApi.useAcceptMutation();
 
-  const acceptSuggestedTopic = () => {
+  const acceptSuggestedTopic = (): void => {
     accept(suggestedTopic.id as number);
   };
 

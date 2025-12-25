@@ -14,6 +14,12 @@ export class LoginFormSchema implements BaseFormSchema<LoginFormSchema> {
     };
   }
 
+  constructor() {
+    this.email = '';
+    this.password = '';
+    this.shouldRemember = false;
+  }
+
   public static validationSchema(
     t: (key: string) => string | undefined,
   ): Yup.ObjectSchema<FormValues<LoginFormSchema>> {
@@ -22,11 +28,5 @@ export class LoginFormSchema implements BaseFormSchema<LoginFormSchema> {
       password: Yup.string().required(t('TEXT_REQUIRED_PASSWORD')),
       shouldRemember: Yup.boolean().required(),
     });
-  }
-
-  constructor() {
-    this.email = '';
-    this.password = '';
-    this.shouldRemember = false;
   }
 }

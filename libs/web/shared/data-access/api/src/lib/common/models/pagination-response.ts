@@ -24,6 +24,10 @@ export class PaginationResponse<TEntity extends BaseEntity = BaseEntity> {
     return this.getCursor(this.previous);
   }
 
+  constructor(model: Partial<PaginationResponse<TEntity>>) {
+    Object.assign(this, model);
+  }
+
   private getCursor(url: string): string {
     if (!url) {
       return '';
@@ -32,9 +36,5 @@ export class PaginationResponse<TEntity extends BaseEntity = BaseEntity> {
     const parsedUrl = new URL(url);
 
     return parsedUrl.searchParams.get('cursor') as string;
-  }
-
-  constructor(model: Partial<PaginationResponse<TEntity>>) {
-    Object.assign(this, model);
   }
 }

@@ -1,8 +1,8 @@
 import { Interval } from 'luxon';
 import { TopicChartEntry } from '@tellme/web/shared/data-access/api';
 
-export const transformChartData = (rawChartData: Array<TopicChartEntry>, timeline: Array<Interval>) => {
-  return timeline.map((interval) => {
+export const transformChartData = (rawChartData: Array<TopicChartEntry>, timeline: Array<Interval>): typeof result => {
+  const result = timeline.map((interval) => {
     const items = rawChartData.filter((item) => interval.contains(item.date));
 
     const count = items.reduce((sum, i) => sum + Number(i.count), 0);
@@ -16,4 +16,6 @@ export const transformChartData = (rawChartData: Array<TopicChartEntry>, timelin
       averageSentiment,
     };
   });
+
+  return result;
 };

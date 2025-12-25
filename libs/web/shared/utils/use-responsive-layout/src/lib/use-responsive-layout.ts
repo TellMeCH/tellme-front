@@ -1,6 +1,6 @@
 import { useMediaQuery } from '@react-hooks-library/core';
 
-export const useResponsiveLayout = () => {
+export const useResponsiveLayout = (): typeof result => {
   const isMobile = useMediaQuery(`(max-width: 480px)`);
   const isTablet = useMediaQuery(`(max-width: 768px)`);
   const isTabletMedium = useMediaQuery(`(max-width: 880px)`);
@@ -10,7 +10,7 @@ export const useResponsiveLayout = () => {
   const isDesktop = useMediaQuery(`(max-width: 1440px)`);
   const isDesktopLarge = useMediaQuery(`(max-width: 1700px)`);
 
-  return {
+  const result = {
     isMobile,
     isTablet,
     isTabletMedium,
@@ -20,4 +20,6 @@ export const useResponsiveLayout = () => {
     isDesktop,
     isDesktopLarge,
   };
+
+  return result;
 };

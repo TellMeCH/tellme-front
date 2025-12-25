@@ -1,5 +1,5 @@
 const nx = require('@nx/eslint-plugin');
-//const eslintConfigPrettier = require('eslint-config-prettier');
+const eslintConfigPrettier = require('eslint-config-prettier');
 
 const ronasitConfig = require('./.eslint.ronasit.cjs');
 const constraints = require('./eslint.constraints.json');
@@ -41,5 +41,5 @@ module.exports = [
       '@stylistic/function-call-argument-newline': 'off',
     },
   },
-  //eslintConfigPrettier,
+  eslintConfigPrettier,
 ];

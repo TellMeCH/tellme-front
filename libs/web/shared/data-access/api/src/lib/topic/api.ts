@@ -23,18 +23,20 @@ const getSearchQuery = ({
 }: {
   listType?: TopicListType;
   params: PaginationRequest;
-}) => {
+}): typeof result => {
   const searchQueryPath = {
     [TopicListType.DEFAULT]: '',
     [TopicListType.ACTIVE]: 'list_active/',
     [TopicListType.RECENT]: 'list_recent/',
   }[listType];
 
-  return {
+  const result = {
     method: 'get',
     url: `${topicApiConfig.baseEndpoint}${searchQueryPath}`,
     params: prepareRequestParams(params, PaginationRequest),
   };
+
+  return result;
 };
 
 const getListTags = createListTagsProvider<Topic>(topicApiConfig.entityName);
