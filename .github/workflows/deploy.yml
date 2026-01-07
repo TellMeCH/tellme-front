@@ -40,7 +40,7 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          wranglerVersion: '4.41.0'
+          wranglerVersion: '4.54.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --env=${{ env.TELLME_ENV }}
@@ -68,7 +68,7 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          wranglerVersion: '4.41.0'
+          wranglerVersion: '4.54.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --env=${{ env.TELLME_ENV }}
