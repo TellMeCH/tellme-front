@@ -1,4 +1,4 @@
-@import '@tellme/shared/ui/variables';
+@use '@tellme/shared/ui/variables' as *;
 
 .transcript {
   &__wrapper {scrollbar-width: thin; scrollbar-color: $text-secondary $background-secondary; padding-right: 1.5rem;

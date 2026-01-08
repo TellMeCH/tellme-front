@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { customerApi, CustomerSummaryStatus } from '@tellme/web/shared/data-access/api';
 import { authSelectors } from '@tellme/web/shared/data-access/auth';
 
-export function useCustomerSummary(customerId: number) {
+export function useCustomerSummary(customerId: number): typeof result {
   const [shouldRefetchSummary, setShouldRefetchSummary] = useState(true);
   const profile = useSelector(authSelectors.profile);
 
@@ -44,5 +44,7 @@ export function useCustomerSummary(customerId: number) {
     }
   }, [summaryResponse?.status]);
 
-  return { summaryResponse, isSummaryLoading, error: loadingError || creatingError };
+  const result = { summaryResponse, isSummaryLoading, error: loadingError || creatingError };
+
+  return result;
 }

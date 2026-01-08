@@ -14,7 +14,7 @@ export const navigationConfig = {
       administration: '/administration',
       customerExperiences: {
         list: getLinkBuilder<CustomerSearchParams>(customerExperiencesBasePath),
-        view: (id: number, conversationId?: number) =>
+        view: (id: number, conversationId?: number): string =>
           `${customerExperiencesBasePath}/${id}${conversationId ? `?conversationId=${conversationId}` : ''}`,
       },
     },

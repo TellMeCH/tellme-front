@@ -21,7 +21,7 @@ export function Suggested({ customer, summary, hasTabs }: SuggestedProps): React
 
   const { createTicket, isLoading, isError } = useTicket(customer.idFromUrl);
 
-  const changeTabKey = (key: Key) => {
+  const changeTabKey = (key: Key): void => {
     setSelectedTabKey(key as SuggestedTabKey);
   };
 
@@ -63,19 +63,9 @@ export function Suggested({ customer, summary, hasTabs }: SuggestedProps): React
     <div className='bg-background-secondary rounded-2xl py-6 px-8 relative'>
       {hasTabs && (
         <div className='w-[190px] absolute right-8 top-6'>
-          <Tabs
-            selectedKey={selectedTabKey}
-            onSelectionChange={changeTabKey}
-            fullWidth
-            data-testid='suggested-tabs'>
-            <Tab
-              key={SuggestedTabKey.EMAIL}
-              title={t('TEXT_EMAIL')}
-              data-testid='email-tab' />
-            <Tab
-              key={SuggestedTabKey.JIRA}
-              title={t('TEXT_JIRA')}
-              data-testid='jira-tab' />
+          <Tabs selectedKey={selectedTabKey} onSelectionChange={changeTabKey} fullWidth data-testid='suggested-tabs'>
+            <Tab key={SuggestedTabKey.EMAIL} title={t('TEXT_EMAIL')} data-testid='email-tab' />
+            <Tab key={SuggestedTabKey.JIRA} title={t('TEXT_JIRA')} data-testid='jira-tab' />
           </Tabs>
         </div>
       )}

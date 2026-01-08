@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'landing/shared/features/home',
   preset: '../../../../../jest.preset.js',
   transform: {

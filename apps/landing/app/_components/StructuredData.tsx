@@ -1,4 +1,6 @@
-export const StructuredData = () => (
+import { ReactElement } from 'react';
+
+export const StructuredData = (): ReactElement => (
   <script
     type='application/ld+json'
     dangerouslySetInnerHTML={{

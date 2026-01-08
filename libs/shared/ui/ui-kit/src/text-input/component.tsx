@@ -48,10 +48,7 @@ export const TextInput = forwardRef<HTMLInputElement | null, TextInputProps>((pr
   };
 
   const renderPasswordToggle = (): ReactNode => (
-    <button
-      type='button'
-      onClick={togglePasswordVisibility}
-      className='form__control__password'>
+    <button type='button' onClick={togglePasswordVisibility} className='form__control__password'>
       <Icon name={isPasswordVisible ? 'eye_closed' : 'eye'} />
     </button>
   );

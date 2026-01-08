@@ -23,18 +23,20 @@ const getSearchQuery = ({
 }: {
   listType?: TopicListType;
   params: PaginationRequest;
-}) => {
+}): typeof result => {
   const searchQueryPath = {
     [TopicListType.DEFAULT]: '',
     [TopicListType.ACTIVE]: 'list_active/',
     [TopicListType.RECENT]: 'list_recent/',
   }[listType];
 
-  return {
+  const result = {
     method: 'get',
     url: `${topicApiConfig.baseEndpoint}${searchQueryPath}`,
     params: prepareRequestParams(params, PaginationRequest),
   };
+
+  return result;
 };
 
 const getListTags = createListTagsProvider<Topic>(topicApiConfig.entityName);
@@ -88,7 +90,7 @@ export const topicApi = createAppApi({
           url: `${topicApiConfig.baseEndpoint}all_summaries/`,
         };
       },
-      transformResponse: (response) => {
+      transformResponse: (response: object) => {
         const summaries = Object.entries(response).map(([id, rawSummary]) => ({
           id: Number(id),
           ...(rawSummary as object),
@@ -105,8 +107,8 @@ export const topicApi = createAppApi({
           params: prepareRequestParams(params, TopicChartDataRequest),
         };
       },
-      transformResponse: (response) => {
-        return plainToInstance(TopicChartEntry, response.results as Array<object>);
+      transformResponse: (response: { results: Array<object> }) => {
+        return plainToInstance(TopicChartEntry, response.results);
       },
     }),
     create: builder.mutation<ModifiedTopic, Partial<ModifiedTopic>>({
@@ -172,7 +174,7 @@ export const topicApi = createAppApi({
         } catch (error) {} //TODO: fix throwing errors here
         /* eslint-enable no-empty */
       },
-      transformResponse: (response) => createEntityInstance<Topic>(Topic, response),
+      transformResponse: (response: object) => createEntityInstance<Topic>(Topic, response),
       transformErrorResponse: transformTopicErrorResponse,
     }),
     delete: builder.mutation<void, number>({

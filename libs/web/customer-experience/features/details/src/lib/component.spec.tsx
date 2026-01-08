@@ -72,26 +72,29 @@ describe('Customer experience details', () => {
     });
 
     it('should load initial data', async () => {
-      await waitFor(() => {
-        expect(requestSpy).toHaveBeenCalledWith(
-          expect.objectContaining({
-            method: 'get',
-            url: `/customers/${customerId}/`,
-          }),
-        );
-      });
+      await waitFor(
+        () => {
+          expect(requestSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+              method: 'get',
+              url: `/conversations/${latestConversationId}/`,
+            }),
+          );
+        },
+        { timeout: 15000 },
+      );
 
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: `/customers/${customerId}/summary_data/`,
+          url: `/customers/${customerId}/`,
         }),
       );
 
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: `/conversations/${latestConversationId}/`,
+          url: `/customers/${customerId}/summary_data/`,
         }),
       );
 

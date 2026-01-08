@@ -10,7 +10,7 @@ import { employeeApi, ErrorResponse } from '@tellme/web/shared/data-access/api';
 import { CookieService } from '@tellme/web/shared/data-access/cookies';
 import { authConfig } from '../config';
 
-export function useLogin(onSuccess: () => void) {
+export function useLogin(onSuccess: () => void): typeof result {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<undefined | ErrorResponse<any>>(undefined);
   const dispatch: ThunkDispatch<any, any, UnknownAction> = useDispatch();
@@ -41,5 +41,7 @@ export function useLogin(onSuccess: () => void) {
     }
   };
 
-  return { isLoading, error, executeLogin };
+  const result = { isLoading, error, executeLogin };
+
+  return result;
 }

@@ -166,7 +166,7 @@ tellme-front
 │       │       ├── layout.tsx # App-wide layout
 │       │       ├── page.tsx # Root index page
 │       │       └── providers.tsx # Global providers (i18n, theme, etc.)
-│       └── ... # Project configs (middleware, tsconfig, etc.)
+│       └── ... # Project configs (proxy, tsconfig, etc.)
 ├── i18n/ # Translation files
 │   ├── landing/shared/en.json # Landing app translations
 │   └── web/ # Web app translations

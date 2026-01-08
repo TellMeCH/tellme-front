@@ -1,10 +1,8 @@
 import clsx from 'clsx';
-import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { Heading } from '@tellme/landing/shared/ui/ui-kit';
-import { Button } from '@tellme/shared/ui/ui-kit';
-import { HomeSectionId } from '../../enums';
+import { ContactButton } from '../contact-button';
 import styles from './component.module.scss';
 
 export function Hero(): ReactElement {
@@ -22,13 +20,7 @@ export function Hero(): ReactElement {
             <Heading className='mb-6 max-lg:mb-4'>{t('TEXT_TITLE')}</Heading>
             <p className='mb-12 max-lg:mb-8'>{t('TEXT_APP_DESCRIPTION')}</p>
           </div>
-          <Button
-            color='secondary'
-            as={Link}
-            href={`#${HomeSectionId.CONTACT_US}`}
-            size='lg'>
-            {t('BUTTON_BOOK_DEMO_CALL')}
-          </Button>
+          <ContactButton />
         </div>
       </div>
     </div>
