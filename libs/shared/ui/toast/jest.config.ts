@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'shared-ui-toast',
   preset: '../../../../jest.preset.js',
   transform: {

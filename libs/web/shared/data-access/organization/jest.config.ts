@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web/shared/data-access/organization',
   preset: '../../../../../jest.preset.js',
   transform: {

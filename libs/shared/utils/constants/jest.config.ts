@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'shared/utils/constants',
   preset: '../../../../jest.preset.js',
   transform: {

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'landing/shared/ui/ui-kit',
   preset: '../../../../../jest.preset.js',
   transform: {

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web/shared/utils/durations',
   preset: '../../../../../jest.preset.js',
   transform: {

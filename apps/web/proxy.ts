@@ -57,7 +57,7 @@ const redirectToPosthog = (request: NextRequest): NextResponse => {
   });
 };
 
-export default async function middleware(request: NextRequest): Promise<NextResponse> {
+export default async function proxy(request: NextRequest): Promise<NextResponse> {
   const pathname = request.nextUrl.pathname;
 
   if (pathname.startsWith(postHogProxyPath)) {

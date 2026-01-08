@@ -4,12 +4,14 @@ import { useLogin } from './use-login';
 
 const googleProvider = new GoogleAuthProvider();
 
-export function useGoogleLogin(onSuccess: () => void) {
+export function useGoogleLogin(onSuccess: () => void): typeof result {
   const { isLoading, error, executeLogin } = useLogin(onSuccess);
 
   const loginByGoogle = async (): Promise<void> => {
     await executeLogin(async () => await signInWithPopup(firebaseAuth, googleProvider));
   };
 
-  return { isLoading, error, loginByGoogle };
+  const result = { isLoading, error, loginByGoogle };
+
+  return result;
 }

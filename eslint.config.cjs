@@ -1,5 +1,4 @@
 const nx = require('@nx/eslint-plugin');
-const js = require('@eslint/js');
 const eslintConfigPrettier = require('eslint-config-prettier');
 
 const ronasitConfig = require('./.eslint.ronasit.cjs');

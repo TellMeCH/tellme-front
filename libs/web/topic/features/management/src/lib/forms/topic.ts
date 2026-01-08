@@ -15,6 +15,12 @@ export class TopicFormSchema implements BaseFormSchema<TopicFormSchema> {
     };
   }
 
+  constructor(schema?: Partial<TopicFormSchema>) {
+    this.isActive = schema?.isActive || false;
+    this.name = schema?.name || '';
+    this.description = schema?.description || '';
+  }
+
   public static validationSchema(
     t: (key: string, values?: TranslationValues) => string | undefined,
   ): Yup.ObjectSchema<FormValues<TopicFormSchema>> {
@@ -25,11 +31,5 @@ export class TopicFormSchema implements BaseFormSchema<TopicFormSchema> {
         .max(100, t('TEXT_TOO_LONG_NAME', { maxLength: 100 })),
       description: Yup.string().required(t('TEXT_REQUIRED_DESCRIPTION')),
     });
-  }
-
-  constructor(schema?: Partial<TopicFormSchema>) {
-    this.isActive = schema?.isActive || false;
-    this.name = schema?.name || '';
-    this.description = schema?.description || '';
   }
 }

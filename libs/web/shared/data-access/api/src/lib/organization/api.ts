@@ -16,7 +16,7 @@ export const organizationApi = createAppApi({
         url: `${organizationApiConfig.baseEndpoint}overview/`,
         params: prepareRequestParams({ perTopic: false }, OverviewRequest),
       }),
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         const [organisationId] = Object.keys(response);
         const durationKeys = Object.keys(response[organisationId].general.avg_duration)
           .filter((key) => key !== 'change')
@@ -41,7 +41,7 @@ export const organizationApi = createAppApi({
         url: `${organizationApiConfig.baseEndpoint}overview/`,
         params: prepareRequestParams({ perTopic: true }, OverviewRequest),
       }),
-      transformResponse: (response) => {
+      transformResponse: (response: any) => {
         const [organisationId] = Object.keys(response);
         const topicsData = response[organisationId];
         const hasAnyTopic = Object.keys(topicsData).length > 0;

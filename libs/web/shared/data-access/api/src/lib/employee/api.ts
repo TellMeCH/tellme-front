@@ -91,7 +91,7 @@ export const employeeApi = createAppApi({
         (params) => `${employeeApiConfig.baseEndpoint}${params.id}/`,
         ModifiedEmployee,
       ),
-      transformResponse: (response) => createEntityInstance<Employee>(Employee, response),
+      transformResponse: (response: object) => createEntityInstance<Employee>(Employee, response),
       async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
         try {
           const updatedEntityData = (await queryFulfilled).data;

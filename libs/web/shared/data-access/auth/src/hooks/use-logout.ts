@@ -7,7 +7,7 @@ import { ErrorResponse } from '@tellme/web/shared/data-access/api';
 import { firebaseAuth } from '../firebase-auth';
 import { useLocalLogout } from './use-local-logout';
 
-export function useLogout(onSuccess: () => void) {
+export function useLogout(onSuccess: () => void): typeof result {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<undefined | ErrorResponse<any>>(undefined);
   const logoutLocally = useLocalLogout();

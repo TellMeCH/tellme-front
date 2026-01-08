@@ -5,7 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Fragment, ReactElement, useEffect } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { Button, FormMessage } from '@tellme/shared/ui/ui-kit';
-import { Topic, topicApi } from '@tellme/web/shared/data-access/api';
+import { ErrorResponse, Topic, topicApi, TopicErrorData } from '@tellme/web/shared/data-access/api';
 import { FormSwitch, FormTextarea, FormTextInput, IconWithTooltip, Modal, Tooltip } from '@tellme/web/shared/ui/ui-kit';
 import { FormValues } from '@tellme/web/shared/utils/form';
 import { TopicFormSchema } from '../../forms';
@@ -63,8 +63,12 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
   useEffect(() => {
     if (hasError) {
       const hasUniqueNameError =
-        updateError?.data.nonFieldErrors?.includes('The fields name, organization must make a unique set.') ||
-        creationError?.data.name?.includes('A topic with this same name already exists in this Organization.');
+        (updateError as ErrorResponse<TopicErrorData>)?.data.nonFieldErrors?.includes(
+          'The fields name, organization must make a unique set.',
+        ) ||
+        (creationError as ErrorResponse<TopicErrorData>)?.data.name?.includes(
+          'A topic with this same name already exists in this Organization.',
+        );
 
       if (hasUniqueNameError) {
         form.setError('name', { message: t('TEXT_UNIQUE_NAME') });
@@ -124,7 +128,7 @@ export function FormModal({ topic, isOpen, onOpenChange }: FormModalProps): Reac
         placeholder={t('TEXT_DESCRIPTION')}
         data-testid='description-input'
       />
-      {creationError?.data.nonFieldErrors?.includes(
+      {(creationError as ErrorResponse<TopicErrorData>)?.data.nonFieldErrors?.includes(
         'Cannot add more topics to this organization; max topic count reached.',
       ) && <FormMessage message={t('TEXT_TOPICS_LIMIT')} />}
     </Modal>

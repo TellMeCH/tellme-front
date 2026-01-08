@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web/customer-experience/features/list',
   preset: '../../../../../jest.preset.js',
   setupFilesAfterEnv: ['<rootDir>/../../../../../jest.setup.js'],

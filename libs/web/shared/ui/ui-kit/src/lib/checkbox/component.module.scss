@@ -1,4 +1,4 @@
-@import '@tellme/shared/ui/variables';
+@use '@tellme/shared/ui/variables' as *;
 
 .checkbox {padding: 0; margin: 0;
   &_wrapper {border-radius: $radius-xs!important; width: 16px; height: 16px; margin-right: 12px;

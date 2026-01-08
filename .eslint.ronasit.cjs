@@ -6,8 +6,6 @@ const reactHooks = require('eslint-plugin-react-hooks');
 const _import = require('eslint-plugin-import');
 const tseslint = require('typescript-eslint');
 
-const { fixupPluginRules } = require('@eslint/compat');
-
 const globals = require('globals');
 const tsParser = require('@typescript-eslint/parser');
 const eslint = require('@eslint/js');
@@ -80,7 +78,7 @@ module.exports = [
         'warn',
         'single',
         {
-          allowTemplateLiterals: true,
+          allowTemplateLiterals: 'always',
         },
       ],
 
@@ -88,10 +86,11 @@ module.exports = [
       '@stylistic/arrow-parens': ['warn', 'always'],
       '@stylistic/arrow-spacing': ['warn', { before: true, after: true }],
       '@stylistic/block-spacing': ['warn', 'always'],
+      '@stylistic/object-curly-spacing': ['warn', 'always'],
       '@stylistic/brace-style': ['warn', '1tbs'],
       '@stylistic/comma-spacing': ['warn', { before: false, after: true }],
       '@stylistic/eol-last': ['warn', 'always'],
-      '@stylistic/func-call-spacing': ['warn', 'never'],
+      '@stylistic/function-call-spacing': ['warn', 'never'],
       '@stylistic/key-spacing': ['warn', { beforeColon: false, afterColon: true }],
       '@stylistic/keyword-spacing': ['warn', { before: true, after: true }],
       '@stylistic/no-whitespace-before-property': 'warn',
@@ -102,7 +101,7 @@ module.exports = [
       '@stylistic/type-annotation-spacing': 'warn',
       '@stylistic/jsx-equals-spacing': ['warn', 'never'],
       '@stylistic/jsx-indent-props': ['warn', 2],
-      '@stylistic/jsx-props-no-multi-spaces': 'warn',
+      '@stylistic/no-multi-spaces': 'warn',
       '@stylistic/type-named-tuple-spacing': 'warn',
       'no-var': 'warn',
       'no-dupe-class-members': 'off',

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web/shared/utils/class-transformer',
   preset: '../../../../../jest.preset.js',
   transform: {

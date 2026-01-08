@@ -11,6 +11,7 @@ const nextConfig = {
     svgr: false,
   },
   output: 'standalone',
+  reactCompiler: true,
 };
 
 module.exports = withNx(withNextIntl(nextConfig));

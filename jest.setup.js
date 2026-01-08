@@ -1,4 +1,11 @@
 import '@testing-library/jest-dom';
+import sharedMessages from 'i18n/shared/en.json';
+import accountMessages from 'i18n/web/account/en.json';
+import administrationMessages from 'i18n/web/administration/en.json';
+import customerExperienceMessages from 'i18n/web/customer-experience/en.json';
+import webSharedMessages from 'i18n/web/shared/en.json';
+import topicMessages from 'i18n/web/topic/en.json';
+import { get, isNil, pick } from 'lodash';
 
 jest.mock('firebase/app', () => ({
   initializeApp: jest.fn(() => ({})),
@@ -28,6 +35,45 @@ jest.mock('firebase/auth', () => {
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
+
+jest.doMock('next-intl', () => {
+  const messages = {
+    account: accountMessages,
+    'web-shared': webSharedMessages,
+    topic: topicMessages,
+    shared: sharedMessages,
+    administration: administrationMessages,
+    'customer-experience': customerExperienceMessages,
+  };
+
+  return {
+    useTranslations: jest.fn().mockImplementation((namespace) => {
+      const t = jest.fn((key, values) => {
+        const template = get(messages, `${namespace}.${key}`) || key;
+
+        if (!values) {
+          return template;
+        }
+
+        return Object.entries(values).reduce((result, [key, value]) => {
+          const regex = new RegExp(`\\{${key}\\}|\\{${key}\\.(\\w+)\\}`, 'g');
+
+          return result.replace(regex, (match, property) => {
+            if (property) {
+              return value?.[property] || match;
+            }
+
+            return !isNil(value) ? value.toString() : match;
+          });
+        }, template);
+      });
+
+      t.rich = t;
+
+      return t;
+    }),
+  };
+});
 
 global.ResizeObserver = class {
   constructor(cb) {

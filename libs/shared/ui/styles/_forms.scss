@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as *;
 
 .form {$self: &;
   &__group {position: relative;
@@ -28,6 +28,7 @@
     }
   }
   &__label {font-size: $text-small; display: block; padding-bottom: 0.25rem;
+    color: $text-primary;
     &_disabled {color: $text-tertiary;}
     &_light {color: $background-secondary !important;}
   }

@@ -70,17 +70,17 @@ export const metadata: Metadata = {
 
 export interface RootLayoutProps {
   children: ReactNode;
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }
 
 const locales = constants.locales;
 
-export const generateStaticParams = (): Array<{ locale: Locale }> => locales.map((locale) => ({ locale }));
+export const generateStaticParams = (): Array<{ locale: string }> => locales.map((locale) => ({ locale }));
 
 export default async function RootLayout({ children, params }: RootLayoutProps): Promise<ReactElement> {
   const { locale } = await params;
 
-  if (!locales.includes(locale)) {
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
 
