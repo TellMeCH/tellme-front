@@ -118,17 +118,10 @@ jobs:
         cd tests_e2e
         poetry run python -m playwright install --with-deps
 
-    - name: Determine Cloud Run URL
-      id: extract_urls
-      run: |
-        PROJECT_NUMBER=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format='value(projectNumber)')
-        CLOUD_RUN_URL="https://${{ vars.SERVICE_NAME }}-${PROJECT_NUMBER}.${{ secrets.GCP_PROJECT_REGION }}.run.app"
-        echo "url=$CLOUD_RUN_URL" >> $GITHUB_OUTPUT
-
     - name: Run End-to-end Testing Routine
       env:
         TELLME_ENV: ${{ env.TELLME_ENV }}
-        CLOUD_RUN_HOST: ${{ steps.extract_urls.outputs.url }}
+        CLOUD_RUN_HOST: ${{ secrets.BACKEND_URL }}
         FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
         TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
         FRONTEND_PATH: ${{ secrets.FRONTEND_PATH }}
