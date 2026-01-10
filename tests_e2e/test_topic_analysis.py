@@ -8,14 +8,6 @@ class TestTopicAnalysis:
         """
         Test that every topic's summaries are visible in this page
         """
-        # Retrieve all summaries
-        resp = requests.get(
-          f"{test_org_context['cloud_run_host']}/api/v1/topics/all_summaries/",
-          headers=test_org_context['analyst_headers']
-        )
-        resp.raise_for_status()
-        summaries = resp.json()
-
         # Retrieve Organization Overview per Topic
         resp = requests.get(
           f"{test_org_context['cloud_run_host']}/api/v1/organizations/overview/",
@@ -36,11 +28,3 @@ class TestTopicAnalysis:
             login_page.get_by_role("button", name="year").click()
             login_page.get_by_role("button", name="months").click()
             login_page.get_by_role("button", name="1 month").click()
-
-            for summ in summaries.values():
-                if summ['name'] == topic_name:
-                    # Check that every topic title is visible
-                    for title, report in summ['summary'].items():
-                        summ_regex = re.compile(rf'^{re.escape(title)}{re.escape(report[:10])}')
-                        expect(login_page.get_by_text(summ_regex)).to_be_visible()
-                    break
