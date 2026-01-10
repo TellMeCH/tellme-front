@@ -93,11 +93,13 @@ def test_org_context(superuser_headers):
         """
         Delete the test analyst, then delete the organization.
         """
-        analyst_response = requests.get(
-            f"{cloud_run_host}/api/v1/employees/",
-            headers=superuser_headers
-        )
-        analyst_list = analyst_response.json()["results"]
+        employee_url = f"{cloud_run_host}/api/v1/employees/"
+        analyst_list = []
+        while employee_url:
+          analyst_response = requests.get(employee_url, headers=superuser_headers)
+          analyst_list.extend(analyst_response.json()["results"])
+          employee_url = analyst_response.json().get('next')
+
         for analyst in analyst_list:
             if analyst.get('user'):
                 if analyst['user']['email'] == analyst_email:
@@ -234,7 +236,6 @@ def login_page(test_org_context, frontend_path):
 
     # The login steps
     page.get_by_test_id("email-input").fill(analyst_email)
-    page.get_by_test_id("email-input").press("Enter")
 
     page.get_by_test_id("password-input").fill(analyst_password)
     page.get_by_test_id("submit-button").click()
@@ -353,8 +354,9 @@ def extended_test_data(test_org_context):
     def random_date_in_range(start_dt, end_dt):
         """Returns a random datetime between start_dt and end_dt."""
         delta = end_dt - start_dt
-        random_days = random.randint(0, delta.days)
-        return start_dt + timedelta(days=random_days)
+        total_seconds = int(delta.total_seconds())
+        random_seconds = random.randint(0, total_seconds)
+        return start_dt + timedelta(seconds=random_seconds)
 
     # Helper to create the conversation via POST
     def create_conversation(date_val, topic_idx):
