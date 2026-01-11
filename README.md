@@ -178,8 +178,8 @@ The project includes end-to-end tests using Playwright located in the `tests_e2e
 2. **Install test dependencies:**
    ```bash
    cd tests_e2e
-   poetry install
-   poetry run python -m playwright install --with-deps
+   uv sync
+   uv run python -m playwright install --with-deps
    ```
 
 #### Creating Tests
@@ -187,7 +187,7 @@ The project includes end-to-end tests using Playwright located in the `tests_e2e
 To generate new tests interactively:
 
 ```bash
-poetry run playwright codegen http://localhost:3000
+uv run playwright codegen http://localhost:3000
 ```
 
 #### Running Tests in Debug Mode
@@ -206,7 +206,7 @@ poetry run playwright codegen http://localhost:3000
 2. **Run tests with debugging enabled:**
    ```bash
    cd tests_e2e
-   PWDEBUG=1 poetry run pytest --headed test_script.py
+   PWDEBUG=1 uv run pytest --headed test_script.py
    ```
 
 #### Quick Testing with PyCharm
