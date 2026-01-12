@@ -93,11 +93,13 @@ def test_org_context(superuser_headers):
         """
         Delete the test analyst, then delete the organization.
         """
-        analyst_response = requests.get(
-            f"{cloud_run_host}/api/v1/employees/",
-            headers=superuser_headers
-        )
-        analyst_list = analyst_response.json()["results"]
+        employee_url = f"{cloud_run_host}/api/v1/employees/"
+        analyst_list = []
+        while employee_url:
+          analyst_response = requests.get(employee_url, headers=superuser_headers)
+          analyst_list.extend(analyst_response.json()["results"])
+          employee_url = analyst_response.json().get('next')
+
         for analyst in analyst_list:
             if analyst.get('user'):
                 if analyst['user']['email'] == analyst_email:
@@ -234,7 +236,6 @@ def login_page(test_org_context, frontend_path):
 
     # The login steps
     page.get_by_test_id("email-input").fill(analyst_email)
-    page.get_by_test_id("email-input").press("Enter")
 
     page.get_by_test_id("password-input").fill(analyst_password)
     page.get_by_test_id("submit-button").click()
@@ -256,8 +257,8 @@ def extended_test_data(test_org_context):
     Creates:
       - 1 agent
       - 3 topics
-      - 1 customer
-      - 15 conversations total:
+      - 2 customers (with names)
+      - 15 conversations total (distributed across customers):
          * 6 in the 'month before the previous month' (M-2)
          * 9 in 'last month' (M-1)
          * Among the 9 'last month' convs: distribution is 4/3/2 across the 3 topics.
@@ -309,18 +310,30 @@ def extended_test_data(test_org_context):
         create_topic_resp.raise_for_status()
         topic_id_mapping[i] = create_topic_resp.json()["id"]
 
-    # Create 1 customer
-    customer_data = {
-        'external_id': hashlib.sha256(f'customer-{int(time.time())}'.encode()).hexdigest(),
-        'organization': org_id
-    }
-    create_customer_resp = requests.post(
-        f"{cloud_run_host}/api/v1/customers/",
-        json=customer_data,
-        headers=superuser_headers,
-    )
-    create_customer_resp.raise_for_status()
-    customer_id = create_customer_resp.json()["id"]
+    # Create 2 customers with names
+    CUSTOMER_DATA = [
+        {
+            'external_id': hashlib.sha256(f'customer-1-{int(time.time())}'.encode()).hexdigest(),
+            'organization': org_id,
+            'first_name': 'Anthony',
+            'last_name': 'Lucas',
+        },
+        {
+            'external_id': hashlib.sha256(f'customer-2-{int(time.time())}'.encode()).hexdigest(),
+            'organization': org_id,
+            'first_name': 'Maria',
+            'last_name': 'Rodriguez',
+        }
+    ]
+    customer_ids = []
+    for customer_data in CUSTOMER_DATA:
+        create_customer_resp = requests.post(
+            f"{cloud_run_host}/api/v1/customers/",
+            json=customer_data,
+            headers=superuser_headers,
+        )
+        create_customer_resp.raise_for_status()
+        customer_ids.append(create_customer_resp.json()["id"])
 
     # Create 15 conversations: 6 = month before the previous month (M-2), 9 = last month (M-1)
     # Among those 9, distribution of topics = 4 / 3 / 2
@@ -353,11 +366,12 @@ def extended_test_data(test_org_context):
     def random_date_in_range(start_dt, end_dt):
         """Returns a random datetime between start_dt and end_dt."""
         delta = end_dt - start_dt
-        random_days = random.randint(0, delta.days)
-        return start_dt + timedelta(days=random_days)
+        total_seconds = int(delta.total_seconds())
+        random_seconds = random.randint(0, total_seconds)
+        return start_dt + timedelta(seconds=random_seconds)
 
     # Helper to create the conversation via POST
-    def create_conversation(date_val, topic_idx):
+    def create_conversation(date_val, topic_idx, customer_id):
         duration = random.randint(30, 1800)
         payload = {
           'path': f'/random/path/{secrets.token_hex(4)}',
@@ -382,18 +396,22 @@ def extended_test_data(test_org_context):
         resp.raise_for_status()
         return resp.json()["id"]
 
-    # Create the 6 conv in M-2
+    # Create the 6 conv in M-2 (distributed across customers)
     for topic_idx, count in m2_distribution.items():
-        for _ in range(count):
+        for i in range(count):
             date_val = random_date_in_range(m2_start, m2_end)
-            cid = create_conversation(date_val, topic_idx)
+            # Alternate customers or randomly assign
+            customer_id = customer_ids[i % len(customer_ids)]
+            cid = create_conversation(date_val, topic_idx, customer_id)
             conversation_ids.append(cid)
 
-    # Create the 9 conv in M-1 (4/3/2 distribution)
+    # Create the 9 conv in M-1 (4/3/2 distribution, distributed across customers)
     for topic_idx, count in m1_distribution.items():
-        for _ in range(count):
+        for i in range(count):
             date_val = random_date_in_range(m1_start, m1_end)
-            cid = create_conversation(date_val, topic_idx)
+            # Alternate customers or randomly assign
+            customer_id = customer_ids[i % len(customer_ids)]
+            cid = create_conversation(date_val, topic_idx, customer_id)
             conversation_ids.append(cid)
 
     # Pre-generate topic summaries
@@ -452,7 +470,8 @@ def extended_test_data(test_org_context):
         "agent_id": agent_id,
         "agent_email": agent_email,
         "topic_ids": topic_id_mapping,
-        "customer_id": customer_id,
+        "customer_ids": customer_ids,
+        "customers": CUSTOMER_DATA,
         "conversation_ids": conversation_ids,
     }
 

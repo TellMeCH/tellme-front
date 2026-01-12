@@ -1,4 +1,4 @@
-@import '@tellme/shared/ui/variables';
+@use '@tellme/shared/ui/variables' as *;
 
 .processstep {position: relative;
   &:nth-child(2n)::before, &:nth-child(2n + 1)::before {content: ''; position: absolute;

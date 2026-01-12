@@ -55,6 +55,7 @@ export function TopicsManagement(): ReactElement {
               'bg-background-secondary rounded-2xl py-6 px-9',
               areSuggestedTopicsOpen && areSuggestedTopicsReady && 'w-[calc(74%-0.75rem)]',
               !areSuggestedTopicsOpen && areSuggestedTopicsReady && 'w-[calc(100%-32px-0.5rem)]',
+              !areSuggestedTopicsOpen && !areSuggestedTopicsReady && 'w-full',
             )}>
             {topicsResponse?.results.map((topic: Topic) => <Item topic={topic} key={topic.idFromUrl} />)}
           </div>

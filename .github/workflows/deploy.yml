@@ -40,7 +40,7 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          wranglerVersion: '4.41.0'
+          wranglerVersion: '4.54.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --env=${{ env.TELLME_ENV }}
@@ -68,7 +68,7 @@ jobs:
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
-          wranglerVersion: '4.41.0'
+          wranglerVersion: '4.54.0'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: deploy --env=${{ env.TELLME_ENV }}
@@ -103,38 +103,31 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Install Poetry
+    - name: Install uv
       run: |
-        curl -sSL https://install.python-poetry.org | python3 -
-        echo 'export PATH="$HOME/.local/bin:$PATH"' >> $GITHUB_ENV
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
     - name: Install Dependencies
       run: |
-        poetry install --directory=tests_e2e
-        poetry sync --directory=tests_e2e
+        cd tests_e2e
+        uv sync
 
     - name: Ensure browsers are installed
       run: |
         cd tests_e2e
-        poetry run python -m playwright install --with-deps
-
-    - name: Determine Cloud Run URL
-      id: extract_urls
-      run: |
-        PROJECT_NUMBER=$(gcloud projects describe $GOOGLE_CLOUD_PROJECT --format='value(projectNumber)')
-        CLOUD_RUN_URL="https://${{ vars.SERVICE_NAME }}-${PROJECT_NUMBER}.${{ secrets.GCP_PROJECT_REGION }}.run.app"
-        echo "url=$CLOUD_RUN_URL" >> $GITHUB_OUTPUT
+        uv run python -m playwright install --with-deps
 
     - name: Run End-to-end Testing Routine
       env:
         TELLME_ENV: ${{ env.TELLME_ENV }}
-        CLOUD_RUN_HOST: ${{ steps.extract_urls.outputs.url }}
+        CLOUD_RUN_HOST: ${{ secrets.BACKEND_URL }}
         FIREBASE_WEB_API_KEY: ${{ secrets.FIREBASE_WEB_API_KEY }}
         TEST_USER_EMAIL: ${{ secrets.TEST_USER_EMAIL }}
         FRONTEND_PATH: ${{ secrets.FRONTEND_PATH }}
       run: |
         cd tests_e2e
-        poetry run pytest --tracing=retain-on-failure --output ./test-results/
+        uv run pytest --tracing=retain-on-failure --output ./test-results/
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:

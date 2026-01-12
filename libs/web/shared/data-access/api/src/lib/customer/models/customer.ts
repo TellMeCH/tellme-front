@@ -34,6 +34,13 @@ export class Customer extends BaseEntity {
   @Expose({ name: 'conversation_count' })
   public conversationsCount: number;
 
+  @Expose({ name: 'ticket_link' })
+  public ticketLink: string | null;
+
+  @Expose({ name: 'ticket_date' })
+  @TransformDate()
+  public ticketDate: DateTime | null;
+
   @Exclude()
   public get fullName(): string {
     return `${this.firstName} ${this.lastName}`;
@@ -42,6 +49,11 @@ export class Customer extends BaseEntity {
   @Exclude()
   public get latestConversationId(): number {
     return getIdFromUrl(this.latestConversationUrl);
+  }
+
+  @Exclude()
+  public get hasTicket(): boolean {
+    return !!this.ticketLink && !!this.ticketDate;
   }
 
   constructor(model: Partial<Customer>) {

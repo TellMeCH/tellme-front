@@ -7,7 +7,7 @@ import { Icon } from '@tellme/shared/ui/ui-kit';
 export function BackButton(): ReactElement {
   const router = useRouter();
 
-  const handleClick = () => {
+  const handleClick = (): void => {
     router.back();
   };
 

@@ -2,9 +2,11 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { apiService } from '@tellme/web/shared/data-access/api-client';
 import {
+  admin,
   conversationsPaginationResponse,
   customer,
   detailedConversation,
+  organization,
   readyCustomerSummaryResponse,
   TestRootComponent,
   transcriptPaginationResponse,
@@ -51,6 +53,14 @@ describe('Customer experience details', () => {
         return Promise.resolve({ data: customer });
       }
 
+      if (url?.includes('/organizations/')) {
+        return Promise.resolve({ data: organization });
+      }
+
+      if (url?.includes('/me/')) {
+        return Promise.resolve({ data: admin });
+      }
+
       return Promise.resolve({});
     });
   });
@@ -62,14 +72,24 @@ describe('Customer experience details', () => {
     });
 
     it('should load initial data', async () => {
-      await waitFor(() => {
-        expect(requestSpy).toHaveBeenCalledWith(
-          expect.objectContaining({
-            method: 'get',
-            url: `/customers/${customerId}/`,
-          }),
-        );
-      });
+      await waitFor(
+        () => {
+          expect(requestSpy).toHaveBeenCalledWith(
+            expect.objectContaining({
+              method: 'get',
+              url: `/conversations/${latestConversationId}/`,
+            }),
+          );
+        },
+        { timeout: 15000 },
+      );
+
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/customers/${customerId}/`,
+        }),
+      );
 
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
@@ -81,14 +101,22 @@ describe('Customer experience details', () => {
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: `/conversations/${latestConversationId}/`,
+          url: `/customers/${customerId}/conversations/`,
         }),
       );
 
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({
           method: 'get',
-          url: `/customers/${customerId}/conversations/`,
+          url: `/employees/me/`,
+        }),
+      );
+
+      const organizationId = getIdFromUrl(organization.url);
+      expect(requestSpy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          method: 'get',
+          url: `/organizations/${organizationId}/`,
         }),
       );
     });
@@ -104,7 +132,7 @@ describe('Customer experience details', () => {
       requestSpy.mockClear();
       renderComponent(customerId);
 
-      await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+      await userEvent.click(await screen.findByTestId('toggle-transcript-button'));
 
       const messagesItems = await screen.findAllByTestId('message');
       expect(messagesItems.length).toBe(transcriptPaginationResponse.results.length);
@@ -138,7 +166,7 @@ describe('Customer experience details', () => {
     });
 
     it('should load transcript of the selected conversation', async () => {
-      await userEvent.click(screen.getByTestId('toggle-transcript-button'));
+      await userEvent.click(await screen.findByTestId('toggle-transcript-button'));
 
       expect(requestSpy).toHaveBeenCalledWith(
         expect.objectContaining({

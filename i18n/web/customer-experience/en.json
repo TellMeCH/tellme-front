@@ -1,6 +1,6 @@
 {
   "LIST": {
-    "TEXT_TITLE": "Customer experiences",
+    "TEXT_TITLE": "Customer Experiences",
     "TEXT_SUBTITLE": "Conversations",
     "TEXT_NO_RESULTS_FOUND": "No results found",
     "SORTING_SELECT": {
@@ -26,6 +26,8 @@
     "TEXT_MINUTES": "min",
     "TEXT_SECONDS": "sec",
     "TEXT_NOT_FOUND": "No customer experience found",
+    "TEXT_TICKET_SUCCESS_TITLE": "Jira ticket has been successfully created",
+    "TEXT_TICKET_SUCCESS_DESCRIPTION": "You can check it via ‘View ticket’ button",
     "CUSTOMER_INFO": {
       "TEXT_TITLE": "About the Customer",
       "TEXT_NAME": "Customer Name",
@@ -38,10 +40,19 @@
       "TEXT_DISLIKED_FEATURES": "Disliked Features",
       "TEXT_GENERATING": "Generating customer summaries..."
     },
-    "SUGGESTED_EMAIL": {
-      "TEXT_TITLE": "Suggested Email Response",
+    "SUGGESTED": {
+      "TEXT_EMAIL": "Email",
+      "TEXT_JIRA": "Jira",
+      "TEXT_EMAIL_TITLE": "Suggested Email Response",
       "BUTTON_SEND_EMAIL": "Send Email",
-      "TEXT_GENERATING": "Generating email..."
+      "TEXT_GENERATING_EMAIL": "Generating email...",
+      "TEXT_GENERATING_SUGGESTED_TICKET": "Generating suggested ticket...",
+      "TEXT_SUGGESTED_TICKET": "Suggested Ticket",
+      "TEXT_TICKET": "Ticket",
+      "BUTTON_CREATE_TICKET": "Create ticket",
+      "BUTTON_CREATING_TICKET": "Creating ticket...",
+      "BUTTON_VIEW_TICKET": "View ticket",
+      "TEXT_SOMETHING_WENT_WRONG": "Something went wrong, please try later"
     },
     "CONVERSATION_INFO": {
       "TEXT_CONVERSATION": "Conversation",

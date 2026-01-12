@@ -1,28 +1,16 @@
 import { User } from 'firebase/auth';
-import { NextIntlClientProvider } from 'next-intl';
 import { PropsWithChildren, ReactElement, ReactNode, useEffect } from 'react';
 import { Provider, useDispatch } from 'react-redux';
-import { employeeApi, organizationApi, topicApi } from '@tellme/web/shared/data-access/api';
+import {
+  conversationApi,
+  customerApi,
+  employeeApi,
+  organizationApi,
+  topicApi,
+} from '@tellme/web/shared/data-access/api';
 import { authActions } from '@tellme/web/shared/data-access/auth';
 import { store } from '@tellme/web/shared/data-access/store';
-/* eslint-disable @nx/enforce-module-boundaries */
-import sharedMessages from '../../../../../../../i18n/shared/en.json';
-import accountMessages from '../../../../../../../i18n/web/account/en.json';
-import administrationMessages from '../../../../../../../i18n/web/administration/en.json';
-import customerExperienceMessages from '../../../../../../../i18n/web/customer-experience/en.json';
-import webSharedMessages from '../../../../../../../i18n/web/shared/en.json';
-import topicMessages from '../../../../../../../i18n/web/topic/en.json';
 import { profile } from '../fixtures';
-/* eslint-enable @nx/enforce-module-boundaries */
-
-const messages = {
-  account: accountMessages,
-  'web-shared': webSharedMessages,
-  topic: topicMessages,
-  shared: sharedMessages,
-  administration: administrationMessages,
-  'customer-experience': customerExperienceMessages,
-};
 
 interface Props extends PropsWithChildren {
   shouldAuthorize?: boolean;
@@ -41,6 +29,8 @@ function TestApp({ children, shouldAuthorize }: Props): ReactNode {
       dispatch(employeeApi.util.resetApiState());
       dispatch(organizationApi.util.resetApiState());
       dispatch(topicApi.util.resetApiState());
+      dispatch(customerApi.util.resetApiState());
+      dispatch(conversationApi.util.resetApiState());
     };
   }, []);
 
@@ -49,10 +39,8 @@ function TestApp({ children, shouldAuthorize }: Props): ReactNode {
 
 export function TestRootComponent({ children, shouldAuthorize }: Props): ReactElement {
   return (
-    <NextIntlClientProvider messages={messages} locale='en'>
-      <Provider store={store}>
-        <TestApp shouldAuthorize={shouldAuthorize}>{children}</TestApp>
-      </Provider>
-    </NextIntlClientProvider>
+    <Provider store={store}>
+      <TestApp shouldAuthorize={shouldAuthorize}>{children}</TestApp>
+    </Provider>
   );
 }

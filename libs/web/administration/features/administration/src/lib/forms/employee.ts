@@ -15,6 +15,17 @@ export class EmployeeFormSchema implements BaseFormSchema<EmployeeFormSchema> {
     };
   }
 
+  constructor() {
+    this.user = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      authType: EmployeeAuthType.PASSWORD,
+    };
+    this.role = EmployeeRole.AGENT;
+    this.isOrganizationAdmin = false;
+  }
+
   public static validationSchema(
     t: (key: string) => string | undefined,
   ): Yup.ObjectSchema<FormValues<EmployeeFormSchema>> {
@@ -28,16 +39,5 @@ export class EmployeeFormSchema implements BaseFormSchema<EmployeeFormSchema> {
       role: Yup.mixed<EmployeeRole>().oneOf(Object.values(EmployeeRole)).required(),
       isOrganizationAdmin: Yup.boolean().required(),
     });
-  }
-
-  constructor() {
-    this.user = {
-      firstName: '',
-      lastName: '',
-      email: '',
-      authType: EmployeeAuthType.PASSWORD,
-    };
-    this.role = EmployeeRole.AGENT;
-    this.isOrganizationAdmin = false;
   }
 }

@@ -1,8 +1,8 @@
 diff --git a/node_modules/@ronas-it/axios-api-client/dist/index.d.mts b/node_modules/@ronas-it/axios-api-client/dist/index.d.mts
-index 31605b6..b50052b 100644
+index 5409336..02a4531 100644
 --- a/node_modules/@ronas-it/axios-api-client/dist/index.d.mts
 +++ b/node_modules/@ronas-it/axios-api-client/dist/index.d.mts
-@@ -62,7 +62,7 @@ declare const onResponseRefreshTokenInterceptor: ({ configuration, getIsAuthenti
+@@ -63,7 +63,7 @@ declare const onResponseRefreshTokenInterceptor: ({ configuration, getIsAuthenti
  }>) => Promise<unknown>;
  
  interface TokenInterceptorOptions {
@@ -12,10 +12,10 @@ index 31605b6..b50052b 100644
  declare const tokenInterceptor: ({ getToken }: TokenInterceptorOptions) => (request: InternalAxiosRequestConfig) => Promise<InternalAxiosRequestConfig>;
  
 diff --git a/node_modules/@ronas-it/axios-api-client/dist/index.d.ts b/node_modules/@ronas-it/axios-api-client/dist/index.d.ts
-index 31605b6..b50052b 100644
+index 5409336..02a4531 100644
 --- a/node_modules/@ronas-it/axios-api-client/dist/index.d.ts
 +++ b/node_modules/@ronas-it/axios-api-client/dist/index.d.ts
-@@ -62,7 +62,7 @@ declare const onResponseRefreshTokenInterceptor: ({ configuration, getIsAuthenti
+@@ -63,7 +63,7 @@ declare const onResponseRefreshTokenInterceptor: ({ configuration, getIsAuthenti
  }>) => Promise<unknown>;
  
  interface TokenInterceptorOptions {
@@ -25,10 +25,10 @@ index 31605b6..b50052b 100644
  declare const tokenInterceptor: ({ getToken }: TokenInterceptorOptions) => (request: InternalAxiosRequestConfig) => Promise<InternalAxiosRequestConfig>;
  
 diff --git a/node_modules/@ronas-it/axios-api-client/dist/index.js b/node_modules/@ronas-it/axios-api-client/dist/index.js
-index ad64b44..1583886 100644
+index 3c77dd9..9daf486 100644
 --- a/node_modules/@ronas-it/axios-api-client/dist/index.js
 +++ b/node_modules/@ronas-it/axios-api-client/dist/index.js
-@@ -221,7 +221,7 @@ var onResponseRefreshTokenInterceptor = ({ configuration, getIsAuthenticated, ru
+@@ -227,7 +227,7 @@ var onResponseRefreshTokenInterceptor = ({ configuration, getIsAuthenticated, ru
  
  // src/interceptors/token-interceptor.ts
  var tokenInterceptor = ({ getToken }) => async (request) => {
@@ -38,10 +38,10 @@ index ad64b44..1583886 100644
      request.headers.Authorization = `Bearer ${token}`;
    }
 diff --git a/node_modules/@ronas-it/axios-api-client/dist/index.mjs b/node_modules/@ronas-it/axios-api-client/dist/index.mjs
-index d73a26a..7da7b69 100644
+index 02a67e7..486e9f8 100644
 --- a/node_modules/@ronas-it/axios-api-client/dist/index.mjs
 +++ b/node_modules/@ronas-it/axios-api-client/dist/index.mjs
-@@ -176,7 +176,7 @@ var onResponseRefreshTokenInterceptor = ({ configuration, getIsAuthenticated, ru
+@@ -182,7 +182,7 @@ var onResponseRefreshTokenInterceptor = ({ configuration, getIsAuthenticated, ru
  
  // src/interceptors/token-interceptor.ts
  var tokenInterceptor = ({ getToken }) => async (request) => {

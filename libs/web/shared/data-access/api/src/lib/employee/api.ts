@@ -91,7 +91,7 @@ export const employeeApi = createAppApi({
         (params) => `${employeeApiConfig.baseEndpoint}${params.id}/`,
         ModifiedEmployee,
       ),
-      transformResponse: (response) => createEntityInstance<Employee>(Employee, response),
+      transformResponse: (response: object) => createEntityInstance<Employee>(Employee, response),
       async onQueryStarted(arg, { queryFulfilled, getState, dispatch }) {
         try {
           const updatedEntityData = (await queryFulfilled).data;
@@ -111,7 +111,6 @@ export const employeeApi = createAppApi({
               employeeApi.util.updateQueryData(endpointName as 'search', originalArgs as any, (endpointData) => {
                 if ('pages' in endpointData && Array.isArray(endpointData.pages)) {
                   const { pageIndex, itemIndex } = findEntityInPages(endpointData.pages, arg.id);
-                  console.log(pageIndex, itemIndex);
 
                   if (pageIndex > -1 && itemIndex > -1) {
                     endpointData.pages[pageIndex].results[itemIndex] = merge(

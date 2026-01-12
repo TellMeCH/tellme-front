@@ -1,4 +1,4 @@
-@import '@tellme/shared/ui/variables';
+@use '@tellme/shared/ui/variables' as *;
 
 .login {
   &__title {font-size: $text-h3;}

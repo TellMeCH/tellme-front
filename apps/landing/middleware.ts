@@ -1,7 +1,7 @@
 import createMiddleware from 'next-intl/middleware';
 import { constants } from '@tellme/shared/utils/constants';
 
-export default createMiddleware({
+export const middleware = createMiddleware({
   locales: constants.locales,
   defaultLocale: constants.defaultLocale,
   localePrefix: 'never',

@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   displayName: 'web/shared/ui/under-construction',
   preset: '../../../../../jest.preset.js',
   transform: {

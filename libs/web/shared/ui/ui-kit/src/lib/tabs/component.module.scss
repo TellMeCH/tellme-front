@@ -1,0 +1,16 @@
+@use '@tellme/shared/ui/variables' as *;
+
+.tabs {
+  &__list {
+    &_solid {gap: 0;}
+    &_default {background: $background-tertiary;}
+    &_radius_sm {border-radius: 8px;}
+  }
+  &__item {
+    &_md {padding: 6px 28px;}
+  }
+  &__cursor {
+    &_radius_sm {border-radius: 6px;}
+    &_solid {box-shadow: none;}
+  }
+}

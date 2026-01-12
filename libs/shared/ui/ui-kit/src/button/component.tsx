@@ -2,7 +2,7 @@
 
 import { Button as HeroUIButton, extendVariants } from '@heroui/react';
 import clsx from 'clsx';
-import { ComponentProps, forwardRef, JSXElementConstructor, ReactElement } from 'react';
+import { ComponentProps, ReactElement } from 'react';
 import styles from './component.module.scss';
 
 const BaseButton = extendVariants(HeroUIButton, {
@@ -113,15 +113,9 @@ const BaseButton = extendVariants(HeroUIButton, {
   ],
 });
 
-export const Button = forwardRef<
-  ReactElement<unknown, string | JSXElementConstructor<any>> | null,
-  ComponentProps<typeof BaseButton>
->((props, ref) => {
-  return <BaseButton
-    disableRipple
-    {...props}
-    ref={ref} />;
-});
+export function Button(props: ComponentProps<typeof BaseButton>): ReactElement {
+  return <BaseButton disableRipple {...props} />;
+}
 
 Button.displayName = 'Button';
 

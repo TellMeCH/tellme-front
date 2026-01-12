@@ -1,6 +1,6 @@
-import { getJestProjectsAsync } from '@nx/jest';
+const { getJestProjectsAsync } = require('@nx/jest');
 
-export default async () => ({
+module.exports = async () => ({
   projects: await getJestProjectsAsync(),
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   transform: {},
