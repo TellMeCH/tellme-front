@@ -1,0 +1,66 @@
+version: 2
+updates:
+  # Monitor npm dependencies in the root workspace
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    # Group dependencies to reduce PR noise
+    groups:
+      # Group all Nx-related packages together
+      nx:
+        patterns:
+          - "@nx/*"
+          - "nx"
+      # Group all Next.js related packages
+      nextjs:
+        patterns:
+          - "next"
+          - "next-*"
+      # Group React core packages
+      react:
+        patterns:
+          - "react"
+          - "react-dom"
+      # Group testing libraries
+      testing:
+        patterns:
+          - "@testing-library/*"
+          - "jest"
+          - "jest-*"
+          - "@types/jest"
+          - "ts-jest"
+      # Group ESLint packages
+      eslint:
+        patterns:
+          - "eslint"
+          - "eslint-*"
+          - "@eslint/*"
+          - "*eslint-plugin*"
+          - "@typescript-eslint/*"
+      # Group TypeScript packages
+      typescript:
+        patterns:
+          - "typescript"
+          - "typescript-*"
+          - "@types/*"
+    # Increase version limit for grouped updates
+    open-pull-requests-limit: 10
+    # Add labels to PRs
+    labels:
+      - "dependencies"
+      - "npm"
+
+  # Monitor GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    open-pull-requests-limit: 5
