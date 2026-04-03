@@ -56,7 +56,9 @@
     },
     "FOOTER": {
       "TEXT_FOOTER_DESCRIPTION": "We bring a meticulous approach to the ever-evolving world of AI.",
-      "TEXT_COPYRIGHT": "© {year} TellMe GmbH. All rights reserved."
+      "TEXT_COPYRIGHT": "© {year} TellMe GmbH. All rights reserved.",
+      "LINK_PRIVACY": "Privacy",
+      "LINK_TERMS": "Terms and Conditions"
     },
     "CONTACT": {
       "TEXT_CONTACT_TITLE": "Would you like to try out our product?",
