@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { useTranslations } from 'next-intl';
 import { ReactElement } from 'react';
 import { Logo } from '@tellme/shared/ui/ui-kit';
@@ -14,7 +15,17 @@ export function Footer(): ReactElement {
             <Logo type='light' className='mb-6' />
             <p>{t('TEXT_FOOTER_DESCRIPTION')}</p>
           </div>
-          <Menu className='gap-20 max-lg:gap-4' />
+          <div className='flex flex-col items-end gap-8 max-lg:items-start'>
+            <Menu className='gap-20 max-lg:gap-4' />
+            <div className='flex gap-6'>
+              <Link href='/privacy' className='text-sm text-text-tertiary'>
+                {t('LINK_PRIVACY')}
+              </Link>
+              <Link href='/terms' className='text-sm text-text-tertiary'>
+                {t('LINK_TERMS')}
+              </Link>
+            </div>
+          </div>
         </div>
         <div className='text-text-secondary text-sm text-right max-sm:text-left'>
           {t('TEXT_COPYRIGHT', { year: new Date().getFullYear() })}
