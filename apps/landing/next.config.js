@@ -11,6 +11,12 @@ const nextConfig = {
     svgr: false,
   },
   output: 'standalone',
+  async redirects() {
+    return [
+      { source: '/privacy', destination: '/privacy.pdf', permanent: false },
+      { source: '/terms', destination: '/terms.pdf', permanent: false },
+    ];
+  },
 };
 
 module.exports = withNx(withNextIntl(nextConfig));
