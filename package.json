@@ -75,8 +75,8 @@
     "@types/jest": "30.0.0",
     "@types/js-cookie": "^3.0.6",
     "@types/lodash": "^4.17.21",
-    "@types/luxon": "^3.7.1",
-    "@types/node": "24.10.4",
+    "@types/luxon": "^3.7.6",
+    "@types/node": "26.6.6",
     "@types/react": "19.2.7",
     "@types/react-dom": "19.2.3",
     "@typescript-eslint/eslint-plugin": "^8.49.0",
@@ -106,7 +106,7 @@
     "tsc-files": "^1.1.4",
     "tslib": "^2.3.0",
     "typescript": "5.9.3",
-    "typescript-eslint": "^8.50.1"
+    "typescript-eslint": "^8.72.1"
   },
   "optionalDependencies": {
     "@ast-grep/napi-darwin-arm64": "0.40.3",
