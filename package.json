@@ -22,7 +22,7 @@
     "@hookform/resolvers": "^5.2.2",
     "@react-hooks-library/core": "^0.6.2",
     "@ronas-it/axios-api-client": "^0.2.0",
-    "@ronas-it/rtkq-entity-api": "1.0.0",
+    "@ronas-it/rtkq-entity-api": "1.1.0",
     "autoprefixer": "^10.4.23",
     "class-transformer": "^0.5.1",
     "clsx": "^2.1.1",
